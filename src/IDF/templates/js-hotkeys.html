@@ -6,6 +6,7 @@
 {hotkey 'Shift+r', 'IDF_Views_Issue::index', array($project.shortname)}
 {if !$user.isAnonymous()}
 {hotkey 'Shift+m', 'IDF_Views_Issue::myIssues', array($project.shortname, 'submit')}
+{hotkey 'Shift+w', 'IDF_Views_Issue::myIssues', array($project.shortname, 'owner')}
 {/if} //-->
 </script>
 
