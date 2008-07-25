@@ -3,14 +3,14 @@
 /*
 # ***** BEGIN LICENSE BLOCK *****
 # This file is part of InDefero, an open source project management application.
-# Copyright (C) 2008 Loic d'Anterroches and contributors.
+# Copyright (C) 2008 Céondo Ltd and contributors.
 #
-# Plume CMS is free software; you can redistribute it and/or modify
+# InDefero is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
 #
-# Plume CMS is distributed in the hope that it will be useful,
+# InDefero is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
@@ -20,7 +20,6 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 # ***** END LICENSE BLOCK ***** */
-
 
 $ctl = array();
 $base = Pluf::f('idf_base');
