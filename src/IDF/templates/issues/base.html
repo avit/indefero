@@ -1,0 +1,9 @@
+{extends "base.html"}
+{block tabissues} class="active"{/block}
+{block subtabs}
+<div id="sub-tabs">
+<a href="{url 'IDF_Views_Issue::index', array($project.shortname)}">{trans 'Recent issues'}</a>
+{if !$user.isAnonymous()} | <a href="{url 'IDF_Views_Issue::create', array($project.shortname)}">{trans 'New Issue'}</a> | <a href="{url 'IDF_Views_Issue::myIssues', array($project.shortname, 'submit')}">{trans 'My Issues'}</a>{/if}
+{superblock}
+</div>
+{/block}

@@ -1,0 +1,49 @@
+{extends "admin/base.html"}
+{block docclass}yui-t1{assign $inIssueTracking = true}{/block}
+{block body}
+<form method="post" action=".">
+<table class="form" summary="">
+<tr>
+<td colspan="2"><strong>{$form.f.labels_issue_open.labelTag}:</strong><br />
+{if $form.f.labels_issue_open.errors}{$form.f.labels_issue_open.fieldErrors}{/if}
+{$form.f.labels_issue_open|unsafe}
+</td>
+</tr>
+<tr>
+<td colspan="2"><strong>{$form.f.labels_issue_closed.labelTag}:</strong><br />
+{if $form.f.labels_issue_closed.errors}{$form.f.labels_issue_closed.fieldErrors}{/if}
+{$form.f.labels_issue_closed|unsafe}
+</td>
+</tr>
+<tr>
+<td colspan="2"><strong>{$form.f.labels_issue_predefined.labelTag}:</strong><br />
+{if $form.f.labels_issue_predefined.errors}{$form.f.labels_issue_predefined.fieldErrors}{/if}
+{$form.f.labels_issue_predefined|unsafe}
+</td>
+</tr>
+<tr>
+<td colspan="2"><strong>{$form.f.labels_issue_one_max.labelTag}:</strong><br />
+{if $form.f.labels_issue_one_max.errors}{$form.f.labels_issue_one_max.fieldErrors}{/if}
+{$form.f.labels_issue_one_max|unsafe}
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<input type="submit" value="{trans 'Save Changes'}" name="submit" /> 
+</td>
+</tr>
+</table>
+</form>
+
+
+{/block}
+
+{block context}
+<div class="issue-submit-info">
+{blocktrans}
+<p><strong>Instructions:</strong></p>
+<p>List one status value per line in desired sort-order.</p>
+<p>Optionally, use an equals-sign to document the meaning of each status value.</p>
+{/blocktrans}
+</div>
+{/block}
