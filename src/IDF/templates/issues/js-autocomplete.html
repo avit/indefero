@@ -1,3 +1,4 @@
+{if $isOwner or $isMember}
 <script type="text/javascript" src="{media '/idf/js/jquery.bgiframe.min.js'}"></script>
 <script type="text/javascript" src="{media '/idf/js/jquery.autocomplete.min.js'}"></script>
 <script type="text/javascript" charset="utf-8">
@@ -5,6 +6,7 @@
   $(document).ready(function(){
     var auto_labels = [{/literal}{$auto_labels|safe}{literal}];
     var auto_status = [{/literal}{$auto_status|safe}{literal}]; 
+    var auto_owner = [{/literal}{$auto_owner|safe}{literal}]; 
     var j=0;
     for (j=1;j<7;j=j+1) {
   $("#id_label"+j).autocomplete(auto_labels, {
@@ -34,7 +36,21 @@
 			return row.to;
 		}
 	});
+  $("#id_owner").autocomplete(auto_owner, {
+		minChars: 0,
+		width: 310,
+		matchContains: true,
+		max: 50,
+		highlightItem: false,
+		formatItem: function(row, i, max, term) {
+			return row.to.replace(new RegExp("(" + term + ")", "gi"), "<strong>$1</strong>") + "  <span style='font-size: 80%;'>" + row.name + "</span>";
+		},
+		formatResult: function(row) {
+			return row.to;
+		}
+	});
 
   });
 {/literal} //-->
 </script>
+{/if}

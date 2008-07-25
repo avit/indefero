@@ -181,7 +181,9 @@ class IDF_Views_Issue
                     $issue = $form->save();
                     $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::index',
                                                     array($prj->shortname));
-                    $request->user->setMessage(sprintf(__('Issue %d has been updated.'), $issue->id));
+                    $urlissue = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view',
+                                                         array($prj->shortname, $issue->id));
+                    $request->user->setMessage(sprintf(__('<a href="%s">Issue %d</a> has been updated.'), $urlissue, $issue->id));
                     return new Pluf_HTTP_Response_Redirect($url);
                 }
             } else {
@@ -334,6 +336,22 @@ class IDF_Views_Issue
             }
             $auto[$key] = substr($auto[$key], 0, -1);
         }
+        // Get the members/owners
+        $m = $project->getMembershipData();
+        $auto['_auto_owner'] = $m['members'];
+        $auto['auto_owner'] = '';
+        foreach ($m['owners'] as $owner) {
+            if (!Pluf_Model_InArray($owner, $auto['_auto_owner'])) {
+                $auto['_auto_owner'][] = $owner;
+            }
+        }
+        foreach ($auto['_auto_owner'] as $owner) {
+            $auto['auto_owner'] .= sprintf('{ name: "%s", to: "%s" }, ',
+                                           Pluf_esc($owner),
+                                           Pluf_esc($owner->login));
+        }
+        $auto['auto_owner'] = substr($auto['auto_owner'], 0, -1);
+        unset($auto['_auto_owner']);
         return $auto;
     }
 }

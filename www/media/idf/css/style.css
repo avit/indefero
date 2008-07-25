@@ -126,6 +126,10 @@ div.issue-comment {
   padding: 0.5em;
 }
 
+.issue-comment-focus { 
+  border-right: 3px solid #8ae234 !important; 
+}
+
 div.issue-comment-first { 
   border-top: 1px solid #d3d7cf;
 }

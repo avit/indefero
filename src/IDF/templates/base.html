@@ -67,5 +67,16 @@
 <script type="text/javascript" src="{media '/idf/js/jquery-1.2.6.min.js'}"></script>
 {include 'js-hotkeys.html'}
 {block javascript}{/block}
+{if $project}
+<script type="text/javascript">{literal}
+<!-- //
+ $(document).ready(function(){
+	var frag = location.hash;
+	if (frag.length > 3 && frag.substring(0, 3) == '#ic') {
+		$(frag).addClass("issue-comment-focus");
+	}
+});
+//  -->{/literal}
+</script>{/if}
 </body>
 </html>
