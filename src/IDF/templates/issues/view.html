@@ -13,7 +13,7 @@
 <p>{blocktrans}Comment <a href="{$url}">{$i}</a> by {$who}, {$c.creation_dtime|date}{/blocktrans}</p>
 {/if}
 
-<p class="issue-comment-text">{if strlen($c.content) > 0}{$c.content|nl2br}{else}<i>{trans '(No comments were given for this change.)'}</i>{/if}</p>
+<pre class="issue-comment-text">{if strlen($c.content) > 0}{$c.content|issuetext}{else}<i>{trans '(No comments were given for this change.)'}</i>{/if}</pre>
 
 {if $i> 0 and $c.changedIssue()}
 <div class="issue-changes">
