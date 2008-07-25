@@ -2,12 +2,11 @@
 {if $project}
 <script type="text/javascript" charset="utf-8">
 // <!--
-var hk_submit_issue = '{url 'IDF_Views_Issue::create', array($project.shortname)}';
-var hk_recent_issues = '{url 'IDF_Views_Issue::index', array($project.shortname)}';
-{literal}
-jQuery.hotkeys.add('Shift+a',function (){window.location.href=hk_submit_issue;});
-jQuery.hotkeys.add('Shift+r',function (){window.location.href=hk_recent_issues;});
-{/literal} //-->
+{hotkey 'Shift+a', 'IDF_Views_Issue::create', array($project.shortname)}
+{hotkey 'Shift+r', 'IDF_Views_Issue::index', array($project.shortname)}
+{if !$user.isAnonymous()}
+{hotkey 'Shift+m', 'IDF_Views_Issue::myIssues', array($project.shortname, 'submit')}
+{/if} //-->
 </script>
 
 {/if}
