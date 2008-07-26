@@ -136,6 +136,8 @@ class IDF_Git
 
     /**
      * Get the branches.
+     *
+     * @return array Branches.
      */
     public function getBranches()
     {
