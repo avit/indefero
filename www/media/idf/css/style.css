@@ -210,6 +210,10 @@ div.container {
   clear: both;
 }
 
+.sep { 
+  margin: 0 0.3em;
+}
+
 /**
  * Tabs
  */
@@ -241,6 +245,31 @@ div.container {
 #sub-tabs a.active { 
   text-decoration: none;
 }
+/**
+ * Tree list
+ */
+table.tree-list { 
+  width: 100%;
+}
+
+table.tree-list th { 
+  background-color: #e4e8E0; 
+  vertical-align: top;
+  border-color: #d3d7cf;
+}
+
+table.tree-list tr { 
+  border-left: 1px solid #d3d7cf;
+  border-right: 1px solid #d3d7cf;
+  border-bottom: 1px solid #d3d7cf;
+}
+
+table.tree-list td { 
+  border: none;
+  vertical-align: top;
+}
+
+
 
 /**
  * Autocomplete.

@@ -51,8 +51,8 @@ $ctl[] = array('regex' => '#^/help/$#',
 $ctl[] = array('regex' => '#^/p/(\w+)/$#',
                'base' => $base,
                'priority' => 4,
-               'model' => 'IDF_Views',
-               'method' => 'projectHome');
+               'model' => 'IDF_Views_Project',
+               'method' => 'home');
 
 $ctl[] = array('regex' => '#^/p/(\w+)/issues/$#',
                'base' => $base,
@@ -89,6 +89,29 @@ $ctl[] = array('regex' => '#^/p/(\w+)/issues/my/(\w+)/$#',
                'priority' => 4,
                'model' => 'IDF_Views_Issue',
                'method' => 'myIssues');
+
+// ---------- GIT ----------------------------------------
+
+$ctl[] = array('regex' => '#^/p/(\w+)/source/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Source',
+               'method' => 'index');
+
+$ctl[] = array('regex' => '#^/p/(\w+)/source/tree/(\w+)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Source',
+               'method' => 'treeBase');
+
+$ctl[] = array('regex' => '#^/p/(\w+)/source/tree/(\w+)/(.*)$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Source',
+               'method' => 'tree');
+
+
+// ---------- ADMIN --------------------------------------
 
 $ctl[] = array('regex' => '#^/p/(\w+)/admin/$#',
                'base' => $base,
