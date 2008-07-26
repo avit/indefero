@@ -45,6 +45,7 @@ class IDF_Views_Source
         return Pluf_Shortcuts_RenderToResponse('source/tree.html',
                                                array(
                                                      'page_title' => $title,
+                                                     'title' => $title,
                                                      'files' => $res,
                                                      'commit' => $commit,
                                                      'branches' => $branches,

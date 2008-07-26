@@ -201,6 +201,10 @@ h1.project-title {
   font-size: 90%;
 }
 
+span.active { 
+  font-weight: bold;
+}
+
 .helptext { 
   font-size: 80%;
   color: #555753;

@@ -38,7 +38,7 @@
 <p><strong>{trans 'Branches:'}</strong><br />
 {foreach $branches as $branch}
 {aurl 'url', 'IDF_Views_Source::treeBase', array($project.shortname, $branch)}
-<span class="label"><a href="{$url}" class="label">{$branch}</a></span><br />
+<span class="label{if $commit == $branch} active{/if}"><a href="{$url}" class="label">{$branch}</a></span><br />
 {/foreach}
 </p>
 {/block}
