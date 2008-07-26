@@ -69,9 +69,11 @@ class IDF_Git
         $cmd = sprintf('GIT_DIR=%s git-ls-tree -t -l %s', $this->repo, $base->hash);
         exec($cmd, &$out);
         $rawlog = array();
-        $cmd = sprintf('GIT_DIR=%s git log --raw --abbrev=40 --pretty=oneline',
-                       $this->repo);
-        exec($cmd, &$rawlog);
+        foreach ($this->getBranches() as $br) {
+            $cmd = sprintf('GIT_DIR=%s git log --raw --abbrev=40 --pretty=oneline %s',
+                           $this->repo, $br);
+            exec($cmd, &$rawlog);
+        }
         $rawlog = implode("\n", array_reverse($rawlog));
         $current_dir = getcwd();
         chdir(substr($this->repo, 0, -5));
@@ -193,6 +195,7 @@ class IDF_Git
                        escapeshellarg($this->repo), $n, $format, $tree);
         $out = array();
         exec($cmd, &$out);
+        //print_r($cmd);
         return self::parseLog($out, 4);
     }
 

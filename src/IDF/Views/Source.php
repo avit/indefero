@@ -58,9 +58,12 @@ class IDF_Views_Source
         $tree = $match[2];
         $cobject = '';
         $tree_in = in_array($tree, $branches);
-        foreach ($git->getChangeLog('', null) as $change) {
-            if ($change->tree == $tree) {
-                $cobject = $change;
+        foreach ($branches as $br) {
+            foreach ($git->getChangeLog($br, null) as $change) {
+                if ($change->tree == $tree) {
+                    $cobject = $change;
+                    break 2;
+                }
             }
         }
         return Pluf_Shortcuts_RenderToResponse('source/tree.html',
@@ -98,9 +101,12 @@ class IDF_Views_Source
         $prev = split('/', $request_file);
         $l = array_pop($prev);
         $previous = substr($request_file, 0, -strlen($l.' '));
-        foreach ($git->getChangeLog('', null) as $change) {
-            if ($change->tree == $tree) {
-                $cobject = $change; //$git->getCommit($tree);
+        foreach ($branches as $br) {
+            foreach ($git->getChangeLog($br, null) as $change) {
+                if ($change->tree == $tree) {
+                    $cobject = $change; 
+                    break 2;
+                }
             }
         }
         return Pluf_Shortcuts_RenderToResponse('source/tree.html',
