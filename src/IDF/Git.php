@@ -41,18 +41,19 @@ class IDF_Git
      *
      * 'perm', 'type', 'size', 'hash', 'file'
      *
-     * @param string Commit/Branch ('HEAD')
+     * @param string Tree ('HEAD')
      * @param string Base folder ('')
      * @return array 
      */
-    public function filesInTree($commit='HEAD', $basefolder='')
+    public function filesInTree($tree='HEAD', $basefolder='')
     {
         if (is_object($basefolder)) {
             $base = $basefolder;
-        } else if ($basefolder != '' 
-            and 
+        } else if (
+                   $basefolder !=  ''
+                   and
             (
-             (false === ($base=$this->getFileInfo($basefolder, $commit)))
+             (false === ($base=$this->getFileInfo($basefolder, $tree)))
              or
              ($base->type != 'tree')
              )) {
@@ -60,25 +61,35 @@ class IDF_Git
         } else {
             // no base
             $base = (object) array('file' => '',
-                                   'hash' => $commit);
+                                   'hash' => $tree);
         }
         
         $res = array();
         $out = array();
         $cmd = sprintf('GIT_DIR=%s git-ls-tree -t -l %s', $this->repo, $base->hash);
         exec($cmd, &$out);
+        $rawlog = array();
+        $cmd = sprintf('GIT_DIR=%s git log --raw --abbrev=40 --pretty=oneline',
+                       $this->repo);
+        exec($cmd, &$rawlog);
+        $rawlog = implode("\n", array_reverse($rawlog));
         $current_dir = getcwd();
         chdir(substr($this->repo, 0, -5));
         foreach ($out as $line) {
             list($perm, $type, $hash, $size, $file) = preg_split('/ |\t/', $line, 5, PREG_SPLIT_NO_EMPTY);
-            $cm = array();
-            $cmd = sprintf('GIT_DIR=%s git log -1 --pretty=format:\'%%H %%at %%s\' %s -- %s', $this->repo, $commit, ($base->file) ? $base->file.'/'.$file : $file);
-            exec($cmd, &$cm);
-            list($h, $time, $log) = explode(' ', $cm[0], 3);
+            $matches = array();
+            $date = '1970-01-01 12:00:00';
+            $log = '';
+            if ($type == 'blob' and preg_match('/^\:\d{6} \d{6} [0-9a-f]{40} '.$hash.' .*^([0-9a-f]{40})/msU',
+                           $rawlog, &$matches)) {
+                $_c = $this->getCommit($matches[1]);
+                $date = $_c->date;
+                $log = $_c->title;
+            }
             $res[] = (object) array('perm' => $perm, 'type' => $type, 
                                     'size' => $size, 'hash' => $hash, 
                                     'fullpath' => ($base->file) ? $base->file.'/'.$file : $file,
-                                    'log' => $log, 'time' => $time,
+                                    'log' => $log, 'date' => $date,
                                     'file' => $file);
         }
         chdir($current_dir);
@@ -88,14 +99,14 @@ class IDF_Git
     /**
      * Get the file info.
      *
-     * @param string Tree to test
-     * @param string Commit/Branch ('HEAD')
-     * @return false or Tree information
+     * @param string File
+     * @param string Tree ('HEAD')
+     * @return false Information
      */
-    public function getFileInfo($totest, $commit='HEAD')
+    public function getFileInfo($totest, $tree='HEAD')
     {
         $cmd_tmpl = 'GIT_DIR=%s git-ls-tree -r -t -l %s';
-        $cmd = sprintf($cmd_tmpl, $this->repo, $commit);
+        $cmd = sprintf($cmd_tmpl, $this->repo, $tree);
         $out = array();
         exec($cmd, &$out);
         foreach ($out as $line) {
@@ -134,4 +145,104 @@ class IDF_Git
         }
         return $res;
     }
+
+    /**
+     * Get commit details.
+     *
+     * @param string Commit ('HEAD').
+     * @return array Changes.
+     */
+    public function getCommit($commit='HEAD')
+    {
+        $cmd = sprintf('GIT_DIR=%s git show --date=iso --pretty=medium %s',
+                       escapeshellarg($this->repo), $commit);
+        $out = array();
+        exec($cmd, &$out);
+        $log = array();
+        $change = array();
+        $inchange = false;
+        foreach ($out as $line) {
+            if (!$inchange and 0 === strpos($line, 'diff --git a')) {
+                $inchange = true;
+            }
+            if ($inchange) {
+                $change[] = $line;
+            } else {
+                $log[] = $line;
+            }
+        }
+        $out = self::parseLog($log);
+        $out[0]->changes = $change;
+        return $out[0];
+    }
+
+
+    /**
+     * Get latest changes.
+     *
+     * @param string Tree ('HEAD').
+     * @param int Number of changes (10).
+     * @return array Changes.
+     */
+    public function getChangeLog($tree='HEAD', $n=10)
+    {
+        $format = 'commit %H%nAuthor: %an <%ae>%nTree: %T%nDate: %ai%n%n%s%n%n%b';
+        if ($n === null) $n = '';
+        else $n = ' -'.$n;
+        $cmd = sprintf('GIT_DIR=%s git log%s --date=iso --pretty=format:\'%s\' %s',
+                       escapeshellarg($this->repo), $n, $format, $tree);
+        $out = array();
+        exec($cmd, &$out);
+        return self::parseLog($out, 4);
+    }
+
+    /**
+     * Parse the log lines of a --pretty=medium log output.
+     *
+     * @param array Lines.
+     * @param int Number of lines in the headers (3)
+     * @return array Change log.
+     */
+    public static function parseLog($lines, $hdrs=3)
+    {
+        $res = array();
+        $c = array();
+        $i = 0;
+        $hdrs += 2;
+        foreach ($lines as $line) {
+            $i++;
+            if (0 === strpos($line, 'commit')) {
+                if (count($c) > 0) {
+                    $c['full_message'] = trim($c['full_message']);
+                    $res[] = (object) $c;
+                }
+                $c = array();
+                $c['commit'] = trim(substr($line, 7));
+                $c['full_message'] = '';
+                $i=1;
+                continue;
+            }
+            if ($i == $hdrs) {
+                $c['title'] = trim($line);
+                continue;
+            }
+            $match = array();
+            if (preg_match('/(\S+)\s*:\s*(.*)/', $line, $match)) {
+                $match[1] = strtolower($match[1]);
+                $c[$match[1]] = trim($match[2]);
+                if ($match[1] == 'date') {
+                    $c['date'] = gmdate('Y-m-d H:i:s', strtotime($match[2]));
+                }
+                continue;
+            }
+            if ($i > ($hdrs+1)) {
+                $c['full_message'] .= trim($line)."\n";
+                continue;
+            }
+        }
+        $c['full_message'] = trim($c['full_message']);
+        $res[] = (object) $c;
+        return $res;
+    }
+
 }

@@ -110,6 +110,12 @@ $ctl[] = array('regex' => '#^/p/(\w+)/source/tree/(\w+)/(.*)$#',
                'model' => 'IDF_Views_Source',
                'method' => 'tree');
 
+$ctl[] = array('regex' => '#^/p/(\w+)/source/changes/(\w+)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Source',
+               'method' => 'changeLog');
+
 
 // ---------- ADMIN --------------------------------------
 

@@ -2,7 +2,8 @@
 {block tabsource} class="active"{/block}
 {block subtabs}
 <div id="sub-tabs">
-{trans 'Source Tree'}
+{trans 'Source Tree'} |
+<a href="{url 'IDF_Views_Source::changeLog', array($project.shortname, 'master')}">{trans 'Change Log'}</a>
 </div>
 {/block}
 {block title}{$title}{/block}

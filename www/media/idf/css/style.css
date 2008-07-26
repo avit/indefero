@@ -273,6 +273,16 @@ table.tree-list td {
   vertical-align: top;
 }
 
+table.tree-list tfoot th { 
+  text-align: right;
+  font-weight: normal;
+}
+
+table.recent-issues tfoot th a { 
+  color: #000;
+  font-weight: normal;
+}
+
 
 
 /**

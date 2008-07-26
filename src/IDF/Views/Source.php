@@ -31,8 +31,22 @@ Pluf::loadFunction('Pluf_Shortcuts_GetFormForModel');
  */
 class IDF_Views_Source
 {
-    public function index($request, $match)
+    public function changeLog($request, $match)
     {
+        $title = sprintf('%s Git Change Log', (string) $request->project);
+        $git = new IDF_Git(Pluf::f('git_repository'));
+        $branches = $git->getBranches();
+        $commit = $match[2];
+        $res = $git->getChangeLog($commit, 50);
+        return Pluf_Shortcuts_RenderToResponse('source/changelog.html',
+                                               array(
+                                                     'page_title' => $title,
+                                                     'title' => $title,
+                                                     'changes' => $res,
+                                                     'commit' => $commit,
+                                                     'branches' => $branches,
+                                                     ),
+                                               $request);
     }
 
     public function treeBase($request, $match)
@@ -41,13 +55,22 @@ class IDF_Views_Source
         $git = new IDF_Git(Pluf::f('git_repository'));
         $branches = $git->getBranches();
         $res = $git->filesInTree($match[2]);
-        $commit = $match[2];
+        $tree = $match[2];
+        $cobject = '';
+        $tree_in = in_array($tree, $branches);
+        foreach ($git->getChangeLog('', null) as $change) {
+            if ($change->tree == $tree) {
+                $cobject = $change;
+            }
+        }
         return Pluf_Shortcuts_RenderToResponse('source/tree.html',
                                                array(
                                                      'page_title' => $title,
                                                      'title' => $title,
                                                      'files' => $res,
-                                                     'commit' => $commit,
+                                                     'cobject' => $cobject,
+                                                     'tree' => $tree,
+                                                     'tree_in' => $tree_in,
                                                      'branches' => $branches,
                                                      ),
                                                $request);
@@ -57,37 +80,46 @@ class IDF_Views_Source
     {
         $title = sprintf('%s Git Source Tree', (string) $request->project);
         $git = new IDF_Git(Pluf::f('git_repository'));
-        $branches = $git->getBranches();
-        $commit = $match[2];
+        $tree = $match[2];
         $request_file = $match[3];
-        $request_file_info = $git->getFileInfo($request_file);
+        $request_file_info = $git->getFileInfo($request_file, $tree);
         if (!$request_file_info) throw new Pluf_HTTP_Error404();
-        $bc = self::makeBreadCrumb($request->project, $commit, $request_file_info->file);
-        $page_title = $bc.' - '.$title;
         if ($request_file_info->type != 'tree') {
             return new Pluf_HTTP_Response($git->getBlob($request_file_info->hash),
                                           'application/octet-stream');
         }
-        $res = $git->filesInTree($commit, $request_file_info);
+        $bc = self::makeBreadCrumb($request->project, $tree, $request_file_info->file);
+        $page_title = $bc.' - '.$title;
+        $branches = $git->getBranches();
+        $cobject = '';
+        $tree_in = in_array($tree, $branches);
+        $res = $git->filesInTree($tree, $request_file_info);
         // try to find the previous level if it exists.
         $prev = split('/', $request_file);
         $l = array_pop($prev);
         $previous = substr($request_file, 0, -strlen($l.' '));
+        foreach ($git->getChangeLog('', null) as $change) {
+            if ($change->tree == $tree) {
+                $cobject = $change; //$git->getCommit($tree);
+            }
+        }
         return Pluf_Shortcuts_RenderToResponse('source/tree.html',
                                                array(
                                                      'page_title' => $page_title,
                                                      'title' => $title,
                                                      'breadcrumb' => $bc,
                                                      'files' => $res,
-                                                     'commit' => $commit,
+                                                     'tree' => $tree,
+                                                     'cobject' => $cobject,
                                                      'base' => $request_file_info->file,
                                                      'prev' => $previous,
+                                                     'tree_in' => $tree_in,
                                                      'branches' => $branches,
                                                      ),
                                                $request);
     }
 
-    public static function makeBreadCrumb($project, $commit, $file, $sep='/')
+    public static function makeBreadCrumb($project, $tree, $file, $sep='/')
     {
         $elts = split('/', $file);
         $out = array();
@@ -97,7 +129,7 @@ class IDF_Views_Source
             $stack .= ($i==0) ? $elt : '/'.$elt;
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::tree',
                                             array($project->shortname,
-                                                  $commit, $stack));
+                                                  $tree, $stack));
             $out[] = '<a href="'.$url.'">'.Pluf_esc($elt).'</a>';
             $i++;
         }

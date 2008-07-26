@@ -1,0 +1,34 @@
+{extends "source/base.html"}
+{block docclass}yui-t1{/block}
+{block body}
+<table summary="" class="tree-list">
+<thead>
+<tr>
+<th>{trans 'Age'}</th>
+<th>{trans 'Message'}</th>
+<th>{trans 'Details'}</th>
+</tr>
+</thead>
+<tbody>
+{foreach $changes as $change}
+{aurl 'url', 'IDF_Views_Source::treeBase', array($project.shortname, $change.tree)}
+<tr>
+<td><a href="{$url}">{$change.date|dateago:"wihtout"}</a></td>
+<td>{$change.title}{if $change.full_message}<br /><span class="smaller">{$change.full_message}</span>{/if}</td>
+<td><span class="smaller">{trans 'Tree:'}&nbsp;<a href="{$url}">{$change.tree}</a><br />
+{trans 'By:'} {$change.author|strip_tags} {* this remove the email address *}
+</span></td>
+</tr>
+{/foreach}
+</tbody>
+</table>
+{/block}
+{block context}
+<p><strong>{trans 'Branches:'}</strong><br />
+{foreach $branches as $branch}
+{aurl 'url', 'IDF_Views_Source::changeLog', array($project.shortname, $branch)}
+<span class="label{if $commit == $branch} active{/if}"><a href="{$url}" class="label">{$branch}</a></span><br />
+{/foreach}
+</p>
+{/block}
+

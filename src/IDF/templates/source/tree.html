@@ -1,7 +1,7 @@
 {extends "source/base.html"}
 {block docclass}yui-t1{/block}
 {block body}
-<h2><a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $commit)}">{trans 'Root'}</a><span class="sep">/</span>{if $breadcrumb}{$breadcrumb|safe}{/if}</h2>
+<h2><a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $tree)}">{trans 'Root'}</a><span class="sep">/</span>{if $breadcrumb}{$breadcrumb|safe}{/if}</h2>
 <table summary="" class="tree-list">
 <thead>
 <tr>
@@ -10,23 +10,27 @@
 <th>{trans 'Message'}</th>
 <th>{trans 'Size'}</th>
 </tr>
-</thead>
-<tbody>
+</thead>{if !$tree_in}
+{aurl 'url', 'IDF_Views_Source::treeBase', array($project.shortname, $tree)} 
+<tfoot>
+<tr><th colspan="5">{blocktrans}In tree <a href="{$url}">{$tree}</a> created {$cobject.date|dateago}.{/blocktrans}</th></tr>
+</tfoot>
+{/if}<tbody>
 {if $base}
 <tr>
 <td>&nbsp;</td>
 <td colspan="4">
-<a href="{url 'IDF_Views_Source::tree', array($project.shortname, $commit, $prev)}">..</a></td>
+<a href="{url 'IDF_Views_Source::tree', array($project.shortname, $tree, $prev)}">..</a></td>
 </tr>
 {/if}
 {foreach $files as $file}
-{aurl 'url', 'IDF_Views_Source::tree', array($project.shortname, $commit, $file.fullpath)}
+{aurl 'url', 'IDF_Views_Source::tree', array($project.shortname, $tree, $file.fullpath)}
 <tr>
 <td><img src="{media '/idf/img/'~$file.type~'.png'}" alt="{$file.type}" /></td>
-<td><a href="{$url}">{$file.file}</a></td>
-<td><span class="smaller">{$file.time|timeago:"wihtout"}</span></td> 
-<td{if $file.type != 'blob'} colspan="2"{/if}><span class="smaller">{$file.log}</span></td>
+<td{if $file.type != 'blob'} colspan="4"{/if}><a href="{$url}">{$file.file}</a></td>
 {if $file.type == 'blob'}
+<td><span class="smaller">{$file.date|dateago:"wihtout"}</span></td> 
+<td><span class="smaller">{$file.log}</span></td>
 <td>{$file.size|size}</td>{/if}
 </tr>
 {/foreach}
@@ -38,7 +42,7 @@
 <p><strong>{trans 'Branches:'}</strong><br />
 {foreach $branches as $branch}
 {aurl 'url', 'IDF_Views_Source::treeBase', array($project.shortname, $branch)}
-<span class="label{if $commit == $branch} active{/if}"><a href="{$url}" class="label">{$branch}</a></span><br />
+<span class="label{if $tree == $branch} active{/if}"><a href="{$url}" class="label">{$branch}</a></span><br />
 {/foreach}
 </p>
 {/block}
