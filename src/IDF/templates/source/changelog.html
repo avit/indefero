@@ -1,23 +1,31 @@
 {extends "source/base.html"}
-{block docclass}yui-t1{/block}
+{block docclass}yui-t1{assign $inChangeLog=true}{/block}
 {block body}
 <table summary="" class="tree-list">
 <thead>
 <tr>
 <th>{trans 'Age'}</th>
 <th>{trans 'Message'}</th>
-<th>{trans 'Details'}</th>
+{* <th>{trans 'Details'}</th> *}
 </tr>
 </thead>
 <tbody>
 {foreach $changes as $change}
-{aurl 'url', 'IDF_Views_Source::treeBase', array($project.shortname, $change.tree)}
-<tr>
+{aurl 'url', 'IDF_Views_Source::treeBase', array($project.shortname, $change.commit)}
+<tr class="log">
 <td><a href="{$url}">{$change.date|dateago:"wihtout"}</a></td>
-<td>{$change.title}{if $change.full_message}<br /><span class="smaller">{$change.full_message}</span>{/if}</td>
-<td><span class="smaller">{trans 'Tree:'}&nbsp;<a href="{$url}">{$change.tree}</a><br />
-{trans 'By:'} {$change.author|strip_tags} {* this remove the email address *}
-</span></td>
+<td>{$change.title}{if $change.full_message}<br /><br />{$change.full_message}{/if}</td>
+</tr>
+<tr class="extra">
+<td colspan="2">
+<div class="helptext right">{trans 'Commit:'}&nbsp;<a href="{$url}" class="mono">{$change.commit}</a>, 
+{trans 'by'} {$change.author|strip_tags} {* this remove the email address *}
+</div>
+
+</td>
+{* <td><span class="smaller">{trans 'Tree:'}&nbsp;<a href="{$url}">{$change.commit}</a><br />
+{trans 'By:'} {$change.author|strip_tags} 
+</span></td> *}
 </tr>
 {/foreach}
 </tbody>

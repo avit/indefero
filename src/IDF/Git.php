@@ -23,92 +23,143 @@
 
 /**
  * Git utils.
+ *
  */
 class IDF_Git
 {
     public $repo = '';
+    public $mediumtree_fmt = 'commit %H%nAuthor: %an <%ae>%nTree: %T%nDate: %ai%n%n%s%n%n%b';
     
     public function __construct($repo)
     {
         $this->repo = $repo;
     }
 
+
     /**
-     * Given a commit hash (or a branch) returns an array of files in
-     * it.
+     * Test a given object hash.
+     *
+     * @param string Object hash.
+     * @return mixed false if not valid or 'blob', 'tree', 'commit'
+     */
+    public function testHash($hash)
+    {
+        $cmd = sprintf('GIT_DIR=%s git cat-file -t %s',
+                       escapeshellarg($this->repo),
+                       escapeshellarg($hash));
+        $ret = 0; $out = array();
+        exec($cmd, &$out, &$ret);
+        if ($ret != 0) return false;
+        return trim($out[0]);
+    }
+
+    /**
+     * Given a commit hash returns an array of files in it.
      *
      * A file is a class with the following properties:
      *
      * 'perm', 'type', 'size', 'hash', 'file'
      *
-     * @param string Tree ('HEAD')
+     * @param string Commit ('HEAD')
      * @param string Base folder ('')
      * @return array 
      */
-    public function filesInTree($tree='HEAD', $basefolder='')
+    public function filesAtCommit($commit='HEAD', $folder='')
     {
-        if (is_object($basefolder)) {
-            $base = $basefolder;
-        } else if (
-                   $basefolder !=  ''
-                   and
-            (
-             (false === ($base=$this->getFileInfo($basefolder, $tree)))
-             or
-             ($base->type != 'tree')
-             )) {
-            throw new Exception(sprintf('Base folder "%s" not found.', $basefolder));
-        } else {
-            // no base
-            $base = (object) array('file' => '',
-                                   'hash' => $tree);
+        if ('commit' != $this->testHash($commit)) {
+            throw new Exception(sprintf(__('Not a valid commit: %s.'), $commit));
         }
-        
-        $res = array();
-        $out = array();
-        $cmd = sprintf('GIT_DIR=%s git-ls-tree -t -l %s', $this->repo, $base->hash);
-        exec($cmd, &$out);
-        $rawlog = array();
-        foreach ($this->getBranches() as $br) {
-            $cmd = sprintf('GIT_DIR=%s git log --raw --abbrev=40 --pretty=oneline %s',
-                           $this->repo, $br);
-            exec($cmd, &$rawlog);
-        }
-        $rawlog = implode("\n", array_reverse($rawlog));
-        $current_dir = getcwd();
-        chdir(substr($this->repo, 0, -5));
-        foreach ($out as $line) {
-            list($perm, $type, $hash, $size, $file) = preg_split('/ |\t/', $line, 5, PREG_SPLIT_NO_EMPTY);
-            $matches = array();
-            $date = '1970-01-01 12:00:00';
-            $log = '';
-            if ($type == 'blob' and preg_match('/^\:\d{6} \d{6} [0-9a-f]{40} '.$hash.' .*^([0-9a-f]{40})/msU',
-                           $rawlog, &$matches)) {
-                $_c = $this->getCommit($matches[1]);
-                $date = $_c->date;
-                $log = $_c->title;
+        // now we grab the info about this commit including its tree.
+        $co = $this->getCommit($commit);
+        if ($folder) {
+            // As we are limiting to a given folder, we need to find
+            // the tree corresponding to this folder.
+            $found = false;
+            foreach ($this->getTreeInfo($co->tree) as $file) {
+                if ($file->type == 'tree' and $file->file == $folder) {
+                    $found = true;
+                    $tree = $file->hash;
+                    break;
+                }
             }
-            $res[] = (object) array('perm' => $perm, 'type' => $type, 
-                                    'size' => $size, 'hash' => $hash, 
-                                    'fullpath' => ($base->file) ? $base->file.'/'.$file : $file,
-                                    'log' => $log, 'date' => $date,
-                                    'file' => $file);
+            if (!$found) {
+                throw new Exception(sprintf(__('Folder %1$s not found in commit %2$s.'), $folder, $commit));
+            }
+        } else {
+            $tree = $co->tree;
         }
-        chdir($current_dir);
+        $res = array();
+        // get the raw log corresponding to this commit to find the
+        // origin of each file.
+        $rawlog = array();
+        $cmd = sprintf('GIT_DIR=%s git log --raw --abbrev=40 --pretty=oneline %s',
+                       escapeshellarg($this->repo), escapeshellarg($commit));
+        exec($cmd, &$rawlog);
+        // We reverse the log to be able to use a fixed efficient
+        // regex without back tracking.
+        $rawlog = implode("\n", array_reverse($rawlog));
+        foreach ($this->getTreeInfo($tree, false) as $file) {
+            // Now we grab the files in the current tree with as much
+            // information as possible.
+            $matches = array();
+            if ($file->type == 'blob' and preg_match('/^\:\d{6} \d{6} [0-9a-f]{40} '.$file->hash.' .*^([0-9a-f]{40})/msU',
+                           $rawlog, &$matches)) {
+                $fc = $this->getCommit($matches[1]);
+                $file->date = $fc->date;
+                $file->log = $fc->title;
+            } else if ($file->type == 'blob') {
+                $file->date = $co->date;
+                $file->log = $co->title;
+            }
+            $file->fullpath = ($folder) ? $folder.'/'.$file->file : $file->file;
+            $res[] = $file;
+        }
         return $res;
     }
+
+    /**
+     * Get the tree info.
+     *
+     * @param string Tree hash 
+     * @param bool Do we recurse in subtrees (true)
+     * @return array Array of file information.
+     */
+    public function getTreeInfo($tree, $recurse=true)
+    {
+        if ('tree' != $this->testHash($tree)) {
+            throw new Exception(sprintf(__('Not a valid tree: %s.'), $tree));
+        }
+        $cmd_tmpl = 'GIT_DIR=%s git-ls-tree%s -t -l %s';
+        $cmd = sprintf($cmd_tmpl, 
+                       escapeshellarg($this->repo), 
+                       ($recurse) ? ' -r' : '',
+                       escapeshellarg($tree));
+        $out = array();
+        $res = array();
+        exec($cmd, &$out);
+        foreach ($out as $line) {
+            list($perm, $type, $hash, $size, $file) = preg_split('/ |\t/', $line, 5, PREG_SPLIT_NO_EMPTY);
+            $res[] = (object) array('perm' => $perm, 'type' => $type, 
+                                    'size' => $size, 'hash' => $hash, 
+                                    'file' => $file);
+        }
+        return $res;
+    }
+
 
     /**
      * Get the file info.
      *
      * @param string File
-     * @param string Tree ('HEAD')
+     * @param string Commit ('HEAD')
      * @return false Information
      */
-    public function getFileInfo($totest, $tree='HEAD')
+    public function getFileInfo($totest, $commit='HEAD')
     {
         $cmd_tmpl = 'GIT_DIR=%s git-ls-tree -r -t -l %s';
-        $cmd = sprintf($cmd_tmpl, $this->repo, $tree);
+        $cmd = sprintf($cmd_tmpl, 
+                       escapeshellarg($this->repo), 
+                       escapeshellarg($commit));
         $out = array();
         exec($cmd, &$out);
         foreach ($out as $line) {
@@ -131,7 +182,8 @@ class IDF_Git
     public function getBlob($hash)
     {
         return shell_exec(sprintf('GIT_DIR=%s git-cat-file blob %s',
-                                  $this->repo, $hash));
+                                  escapeshellarg($this->repo), 
+                                  escapeshellarg($hash)));
     }
 
     /**
@@ -142,7 +194,8 @@ class IDF_Git
     public function getBranches()
     {
         $out = array();
-        exec(sprintf('GIT_DIR=%s git branch', $this->repo), &$out);
+        exec(sprintf('GIT_DIR=%s git branch', 
+                     escapeshellarg($this->repo)), &$out);
         $res = array();
         foreach ($out as $b) {
             $res[] = substr($b, 2);
@@ -158,8 +211,10 @@ class IDF_Git
      */
     public function getCommit($commit='HEAD')
     {
-        $cmd = sprintf('GIT_DIR=%s git show --date=iso --pretty=medium %s',
-                       escapeshellarg($this->repo), $commit);
+        $cmd = sprintf('GIT_DIR=%s git show --date=iso --pretty=format:%s %s',
+                       escapeshellarg($this->repo), 
+                       "'".$this->mediumtree_fmt."'", 
+                       escapeshellarg($commit);
         $out = array();
         exec($cmd, &$out);
         $log = array();
@@ -175,7 +230,7 @@ class IDF_Git
                 $log[] = $line;
             }
         }
-        $out = self::parseLog($log);
+        $out = self::parseLog($log, 4);
         $out[0]->changes = $change;
         return $out[0];
     }
@@ -184,20 +239,19 @@ class IDF_Git
     /**
      * Get latest changes.
      *
-     * @param string Tree ('HEAD').
+     * @param string Commit ('HEAD').
      * @param int Number of changes (10).
      * @return array Changes.
      */
-    public function getChangeLog($tree='HEAD', $n=10)
+    public function getChangeLog($commit='HEAD', $n=10)
     {
-        $format = 'commit %H%nAuthor: %an <%ae>%nTree: %T%nDate: %ai%n%n%s%n%n%b';
         if ($n === null) $n = '';
         else $n = ' -'.$n;
         $cmd = sprintf('GIT_DIR=%s git log%s --date=iso --pretty=format:\'%s\' %s',
-                       escapeshellarg($this->repo), $n, $format, $tree);
+                       escapeshellarg($this->repo), $n, $this->mediumtree_fmt, 
+                       escapeshellarg($commit));
         $out = array();
         exec($cmd, &$out);
-        //print_r($cmd);
         return self::parseLog($out, 4);
     }
 

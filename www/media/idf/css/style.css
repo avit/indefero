@@ -23,6 +23,14 @@
   padding: 0 1em;
 }
 
+.right { 
+  text-align: right;
+}
+
+.mono { 
+  font-family: monospace;
+}
+
 div.context { 
   padding-left: 1em;
 }
@@ -259,7 +267,7 @@ table.tree-list {
 table.tree-list th { 
   background-color: #e4e8E0; 
   vertical-align: top;
-  border-color: #d3d7cf;
+  border-color: #d3d7cf; 
 }
 
 table.tree-list tr { 
@@ -278,12 +286,25 @@ table.tree-list tfoot th {
   font-weight: normal;
 }
 
-table.recent-issues tfoot th a { 
+table.tree-list tfoot th a { 
   color: #000;
   font-weight: normal;
 }
 
+table.tree-list tr.log { 
+  border-bottom: 1px solid #e7ebe3; 
+  /* background-color: #eef2ea !important; */
+}
 
+table.tree-list tr.extra { 
+/*  border-bottom: 1px solid #e7ebe3;  */
+/*  background-color: #eef2ea !important; */
+}
+
+table td.fileicon { 
+  width: 20px;
+
+}
 
 /**
  * Autocomplete.
