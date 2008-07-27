@@ -214,7 +214,7 @@ class IDF_Git
         $cmd = sprintf('GIT_DIR=%s git show --date=iso --pretty=format:%s %s',
                        escapeshellarg($this->repo), 
                        "'".$this->mediumtree_fmt."'", 
-                       escapeshellarg($commit);
+                       escapeshellarg($commit));
         $out = array();
         exec($cmd, &$out);
         $log = array();
