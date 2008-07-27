@@ -55,6 +55,13 @@ class IDF_Views_Source
         $git = new IDF_Git(Pluf::f('git_repository'));
         $commit = $match[2];
         $branches = $git->getBranches();
+        if ('commit' != $git->testHash($commit)) {
+            // Redirect to the first branch
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
+                                            array($request->project->shortname,
+                                                  $branches[0]));
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
         $res = $git->filesAtCommit($commit);
         $cobject = $git->getCommit($commit);
         $tree_in = in_array($commit, $branches);
@@ -75,18 +82,31 @@ class IDF_Views_Source
     {
         $title = sprintf('%s Git Source Tree', (string) $request->project);
         $git = new IDF_Git(Pluf::f('git_repository'));
+        $branches = $git->getBranches();
         $commit = $match[2];
+        if ('commit' != $git->testHash($commit)) {
+            // Redirect to the first branch
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
+                                            array($request->project->shortname,
+                                                  $branches[0]));
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
         $request_file = $match[3];
         $request_file_info = $git->getFileInfo($request_file, $commit);
-        if (!$request_file_info) throw new Pluf_HTTP_Error404();
+        if (!$request_file_info) {
+            // Redirect to the first branch
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
+                                            array($request->project->shortname,
+                                                  $branches[0]));
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
         if ($request_file_info->type != 'tree') {
             return new Pluf_HTTP_Response($git->getBlob($request_file_info->hash),
                                           'application/octet-stream');
         }
         $bc = self::makeBreadCrumb($request->project, $commit, $request_file_info->file);
         $page_title = $bc.' - '.$title;
-        $branches = $git->getBranches();
-        $cobject = $git->getCommit();
+        $cobject = $git->getCommit($commit);
         $tree_in = in_array($commit, $branches);
         $res = $git->filesAtCommit($commit, $request_file);
         // try to find the previous level if it exists.

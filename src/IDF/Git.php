@@ -66,9 +66,6 @@ class IDF_Git
      */
     public function filesAtCommit($commit='HEAD', $folder='')
     {
-        if ('commit' != $this->testHash($commit)) {
-            throw new Exception(sprintf(__('Not a valid commit: %s.'), $commit));
-        }
         // now we grab the info about this commit including its tree.
         $co = $this->getCommit($commit);
         if ($folder) {
