@@ -1,0 +1,32 @@
+{extends "source/base.html"}
+{block docclass}yui-t1{assign $inCommit=true}{/block}
+{block body}
+<table class="commit" summary="">
+<tr>
+<th><strong>{trans 'Date:'}</strong></th><td>{$cobject.date|date:"%Y-%m-%d %H:%M:%S"} ({$cobject.date|dateago})</td>
+</tr>
+<tr>
+<th><strong>{trans 'Author:'}</strong></th><td>{$cobject.author|strip_tags}</td>
+</tr>
+<tr>
+<th><strong>{trans 'Commit:'}</strong></th><td class="mono">{$cobject.commit}</td>
+</tr>
+<tr>
+<th><strong>{trans 'Tree:'}</strong></th><td class="mono"><a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $commit)}">{$cobject.tree}</a><br /><br /></td>
+</tr>
+<tr>
+<th><strong>{trans 'Message:'}</strong></th><td>{issuetext $cobject.title, $project}{if isset($cobject.full_message)}<br /><br />{issuetext $cobject.full_message, $project}{/if}</td>
+</tr>
+</table>
+<h2>{trans 'Change Details'}</h2>
+{$changes|safe}
+{/block}
+{block context}
+<p><strong>{trans 'Branches:'}</strong><br />
+{foreach $branches as $branch}
+{aurl 'url', 'IDF_Views_Source::treeBase', array($project.shortname, $branch)}
+<span class="label{if $commit == $branch} active{/if}"><a href="{$url}" class="label">{$branch}</a></span><br />
+{/foreach}
+</p>
+{/block}
+

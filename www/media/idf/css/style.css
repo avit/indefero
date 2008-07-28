@@ -363,3 +363,43 @@ table td.fileicon {
   background-color: #4e9a06;
   color: white;
 }
+
+/**
+ * Commit
+ */
+table.commit th, table.commit td { 
+  border: none;
+  vertical-align: top;
+}
+table.commit th { 
+  text-align: right;
+  font-weight: normal;
+}
+table.commit td, table.commit th { 
+  padding: 3px;
+}
+
+/**
+ * syntax highlighting of diffs
+ */
+div.hl-main { 
+  font-family: monospace; 
+  white-space: pre;
+  border: 1px solid #d3d7cf;
+  padding: 1em;
+}
+span.hl-string { 
+  background-color: #dfd;
+}
+span.hl-quotes { 
+  background-color: #fdd;
+}
+span.hl-reserved, span.hl-var { 
+  font-weight: bold;
+}
+span.hl-default { 
+  color: #888a85;
+}
+div.hl-main span { 
+  line-height: 1.3;
+}

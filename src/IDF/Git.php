@@ -228,7 +228,7 @@ class IDF_Git
             }
         }
         $out = self::parseLog($log, 4);
-        $out[0]->changes = $change;
+        $out[0]->changes = implode("\n", $change);
         return $out[0];
     }
 

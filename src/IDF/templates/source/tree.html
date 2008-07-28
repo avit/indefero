@@ -11,9 +11,9 @@
 <th>{trans 'Size'}</th>
 </tr>
 </thead>{if !$tree_in}
-{aurl 'url', 'IDF_Views_Source::treeBase', array($project.shortname, $commit)} 
+{aurl 'url', 'IDF_Views_Source::commit', array($project.shortname, $commit)} 
 <tfoot>
-<tr><th colspan="5">{blocktrans}In commit <a class="mono" href="{$url}">{$commit}</a> created {$cobject.date|dateago}.{/blocktrans}<br />
+<tr><th colspan="5">{blocktrans}Source at commit <a class="mono" href="{$url}">{$commit}</a> created {$cobject.date|dateago}.{/blocktrans}<br />
 <span class="smaller">{blocktrans}By {$cobject.author|strip_tags|trim}, {$cobject.title}{/blocktrans}</span>
 </th></tr>
 </tfoot>

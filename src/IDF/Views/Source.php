@@ -145,6 +145,40 @@ class IDF_Views_Source
         }
         return '<span class="breadcrumb">'.implode('<span class="sep">'.$sep.'</span>', $out).'</span>';
     }
+
+    public function commit($request, $match)
+    {
+
+        $git = new IDF_Git(Pluf::f('git_repository'));
+        $commit = $match[2];
+        $branches = $git->getBranches();
+        if ('commit' != $git->testHash($commit)) {
+            // Redirect to the first branch
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
+                                            array($request->project->shortname,
+                                                  $branches[0]));
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
+        $title = sprintf('%s Commit Details', (string) $request->project);
+        $page_title = sprintf('%s Commit Details - %s', (string) $request->project, $commit);
+        $cobject = $git->getCommit($commit);
+        require_once 'Text/Highlighter.php';
+        $th = new Text_Highlighter();
+        $h = $th->factory('DIFF');
+        $changes = $h->highlight($cobject->changes);
+        return Pluf_Shortcuts_RenderToResponse('source/commit.html',
+                                               array(
+                                                     'page_title' => $page_title,
+                                                     'title' => $title,
+                                                     'changes' => $changes,
+                                                     'cobject' => $cobject,
+                                                     'commit' => $commit,
+                                                     'branches' => $branches,
+                                                     ),
+                                               $request);
+    }
+
+
 }
 
 function IDF_Views_Source_PrettySize($size)

@@ -88,7 +88,7 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
             return $m[0];
         }
         $co = $this->git->getCommit($m[2]);
-        return '<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase', array($this->project->shortname, $co->commit)).'">'.$m[1].$m[2].'</a>';
+        return '<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Source::commit', array($this->project->shortname, $co->commit)).'">'.$m[1].$m[2].'</a>';
     }
 
     /**
