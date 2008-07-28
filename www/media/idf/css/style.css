@@ -123,8 +123,13 @@ span.px-header-title {
 /**
  * Issue
  */
-p.issue-comment-text { 
-  font-family: monospace;
+a.issue-c { 
+  text-decoration: line-through;
+}
+
+pre.issue-comment-text { 
+  font-family: monospace; 
+  line-height: 1.2; /* to be nice also with links */
 }
 
 div.issue-comment { 

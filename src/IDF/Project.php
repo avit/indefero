@@ -30,9 +30,11 @@
 class IDF_Project extends Pluf_Model
 {
     public $_model = __CLASS__;
+    public $_extra_cache = array();
 
     function init()
     {
+        $this->_extra_cache = array();
         $this->_a['table'] = 'idf_projects';
         $this->_a['model'] = __CLASS__;
         $this->_a['cols'] = array(
@@ -147,11 +149,18 @@ class IDF_Project extends Pluf_Model
      * Get the open/closed tag ids as they are often used when doing
      * listings.
      *
+     * As this can be often used, the info are cached.
+     *
      * @param string Status ('open') or 'closed'
+     * @param bool Force cache refresh (false)
      * @return array Ids of the open/closed tags
      */
-    public function getTagIdsByStatus($status='open')
+    public function getTagIdsByStatus($status='open', $cache_refresh=false)
     {
+        if (!$cache_refresh 
+            and isset($this->_extra_cache['getTagIdsByStatus-'.$status])) {
+            return $this->_extra_cache['getTagIdsByStatus-'.$status];
+        }
         switch ($status) {
         case 'open':
             $key = 'labels_issue_open';
@@ -167,6 +176,7 @@ class IDF_Project extends Pluf_Model
         foreach ($this->getTagsFromConfig($key, $default, 'Status') as $tag) { 
             $tags[] = (int) $tag->id;
         }
+        $this->_extra_cache['getTagIdsByStatus-'.$status] = $tags;
         return $tags;
     }
 
