@@ -32,6 +32,23 @@ Pluf::loadFunction('Pluf_Shortcuts_GetFormForModel');
 class IDF_Views_Project
 {
     /**
+     * Home page of a project.
+     */
+    public function home($request, $match)
+    {
+        $prj = $request->project;
+        $team = $prj->getMembershipData();
+        $title = (string) $prj;
+        return Pluf_Shortcuts_RenderToResponse('project-home.html',
+                                               array(
+                                                     'page_title' => $title,
+                                                     'team' => $team,
+                                                     ),
+                                               $request);
+    }
+
+
+    /**
      * Administrate the summary of a project.
      */
     public $admin_precond = array('IDF_Precondition::projectOwner');

@@ -1,0 +1,29 @@
+{extends "base.html"}
+{block tabhome} class="active"{/block}
+{block subtabs}
+<div id="sub-tabs">
+{trans 'Welcome'} {superblock}
+</div>
+{/block}
+{block body}
+{$project.description}
+{/block}
+{block context}
+{assign $ko = 'owners'}
+{assign $km = 'members'}
+<p><strong>{trans 'Development Team'}</strong><br />
+{trans 'Admins'}<br />
+{foreach $team[$ko] as $owner}
+<span class="label">{$owner}</span><br />
+{/foreach}
+
+{if count($team[$km]) > 0}
+{trans 'Happy Crew'}<br />
+{foreach $team[$km] as $member}
+<span class="label">{$member}</span><br />
+{/foreach}
+{/if}
+</p>
+{/block}
+
+

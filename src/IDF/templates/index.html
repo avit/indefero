@@ -6,7 +6,7 @@
 {if $user.administrator}<p>{blocktrans}Create a new project.{/blocktrans}</p>{/if}
 {else}
 <ul>{foreach $projects as $p}
-<li><a href="{url 'IDF_Views::projectHome', array($p.shortname)}">{$p}</a> - {$p.description}</li>
+<li><a href="{url 'IDF_Views_Project::home', array($p.shortname)}">{$p}</a></li>
 {/foreach}</ul>
 {/if}
 {/block}
