@@ -64,9 +64,10 @@
 <li><strong>Do not provide any password or confidential information!</strong></li>
 </ul>{/blocktrans}
 </div>
+{/block}
+{block javascript}
 <script type="text/javascript">
 document.getElementById('id_summary').focus()
 </script>
-{/block}
-{block javascript}{include 'issues/js-autocomplete.html'}{/block}
+{include 'issues/js-autocomplete.html'}{/block}
 

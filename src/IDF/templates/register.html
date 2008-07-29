@@ -1,0 +1,57 @@
+{extends "base-simple.html"}
+{block body}
+{if $form.errors}
+<div class="px-message-error">
+<p>{trans 'Oups, please check the provided login and email address to register.'}</p>
+{if $form.get_top_errors}
+{$form.render_top_errors|unsafe}
+{/if}
+</div>
+{/if}
+
+<form method="post" action=".">
+<table class="form" summary="">
+<tr>
+<th><strong>{$form.f.login.labelTag}:</strong></th>
+<td>{if $form.f.login.errors}{$form.f.login.fieldErrors}{/if}
+{$form.f.login|unsafe}<br />
+<span class="helptext">{$form.f.login.help_text}</span>
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.email.labelTag}:</strong></th>
+<td>{if $form.f.email.errors}{$form.f.email.fieldErrors}{/if}
+{$form.f.email|unsafe}<br />
+<span class="helptext">{$form.f.email.help_text}</span>
+</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>
+{if $form.f.terms.errors}{$form.f.terms.fieldErrors}{/if}
+{$form.f.terms|unsafe} <strong>{$form.f.terms.labelTag}</strong><br />
+<span class="helptext">{blocktrans}Read the <a href="#">terms and conditions</a> (basically <em>"Please be nice, we respect you.")</em>{/blocktrans}</span>
+</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td><input type="submit" value="{trans 'Create Your Account'}" name="submit" /> | <a href="{url 'IDF_Views::index'}">{trans 'Cancel'}</a>
+</td>
+</tr>
+</table>
+</form>
+{/block}
+{block context}
+<div class="issue-submit-info">
+<p>{trans 'Be sure to provide a valid email address, as we are sending a validation link by email.'}</p>
+
+<p><strong>{trans 'Did you know?'}</strong><br />
+{aurl 'url', 'IDF_Views::faq'}
+{blocktrans}With your account, you will able to participate in the life of all the projects hosted here. Participating in a software project must be fun, so if you have troubles, you can <a href="{$url}">let us know about your issues at anytime</a>!{/blocktrans}
+</div>
+<script type="text/javascript">
+document.getElementById('id_login').focus()
+</script>
+{/block}
+{block javascript}{include 'issues/js-autocomplete.html'}{/block}
+
