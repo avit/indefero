@@ -7,7 +7,7 @@ To confirm the account please follow this link:
 
 {$url|safe}
 
-Alternatively, go on this page:
+Alternatively, go to this page:
 
 {$urlik|safe}
 
@@ -15,7 +15,7 @@ and provide the following confirmation key:
 
 {$key}
 
-If you are not interested any longer in getting 
+If you are not interested any longer in taking
 part in the life of the software project or if
 you can't remember having requested the creation
 of an accout, please excuse us and simply ignore
