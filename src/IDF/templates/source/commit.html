@@ -17,9 +17,20 @@
 <tr>
 <th><strong>{trans 'Message:'}</strong></th><td>{issuetext $cobject.title, $project}{if isset($cobject.full_message)}<br /><br />{issuetext $cobject.full_message, $project}{/if}</td>
 </tr>
+<tr>
+<th><strong>{trans 'Files:'}</strong></th>
+<td>
+{foreach $diff.files as $filename=>$diffdef}
+{assign $ndiff = count($diffdef['chunks'])}
+<a href="#diff-{$filename|md5}">{$filename}</a> (<a href="#diff-{$filename|md5}">{blocktrans $ndiff}{$ndiff} diff{plural}{$ndiff} diffs{/blocktrans}</a>)<br />
+{/foreach}
+</td>
+</tr>
 </table>
 <h2>{trans 'Change Details'}</h2>
-{$changes|safe}
+
+{$diff.as_html()|safe}
+
 {/block}
 {block context}
 <p><strong>{trans 'Branches:'}</strong><br />

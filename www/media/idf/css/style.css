@@ -386,24 +386,61 @@ table.commit td, table.commit th {
 /**
  * syntax highlighting of diffs
  */
-div.hl-main { 
-  font-family: monospace; 
-  white-space: pre;
-  border: 1px solid #d3d7cf;
-  padding: 1em;
+table.diff { 
+  border-bottom: 1px solid #d3d7cf;
+  width: 100%;
 }
-span.hl-string { 
+
+table.diff th { 
+  background-color: #e4e8E0; 
+  vertical-align: top;
+  border-color: #d3d7cf; 
+}
+
+
+table.diff tr { 
+  border-left: 1px solid #d3d7cf;
+  border-right: 1px solid #d3d7cf;
+  border-bottom: none;
+  border-top: none;
+}
+
+table.diff td { 
+  font-size: 90%;
+  vertical-align: top;
+  padding: 1px;
+  border-color: inherit;
+}
+
+table.diff td.diff-lc { 
+  text-align: right;
+  padding: 1px 5px;
+  border-color: inherit;
+  border-top: 1px solid #d3d7cf;
+  border-bottom: 1px solid #d3d7cf;
+  width: 3em;
+}
+
+td.diff-a { 
   background-color: #dfd;
 }
-span.hl-quotes { 
+
+td.diff-r { 
   background-color: #fdd;
 }
-span.hl-reserved, span.hl-var { 
-  font-weight: bold;
+
+td.diff-a, td.diff-r, td.diff-c  { 
+  border-bottom: none;
+  border-top: none;
 }
-span.hl-default { 
-  color: #888a85;
+
+table.diff tr.diff-next { 
+  background-color: #e4e8E0; 
+  vertical-align: top;
+  text-align: right;
+  border-color: #d3d7cf; 
 }
-div.hl-main span { 
-  line-height: 1.3;
+
+table.diff tr.diff-next td { 
+  padding: 1px 5px;
 }

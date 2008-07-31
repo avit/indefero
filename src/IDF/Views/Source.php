@@ -162,15 +162,13 @@ class IDF_Views_Source
         $title = sprintf('%s Commit Details', (string) $request->project);
         $page_title = sprintf('%s Commit Details - %s', (string) $request->project, $commit);
         $cobject = $git->getCommit($commit);
-        require_once 'Text/Highlighter.php';
-        $th = new Text_Highlighter();
-        $h = $th->factory('DIFF');
-        $changes = $h->highlight($cobject->changes);
+        $diff = new IDF_Diff($cobject->changes);
+        $diff->parse();
         return Pluf_Shortcuts_RenderToResponse('source/commit.html',
                                                array(
                                                      'page_title' => $page_title,
                                                      'title' => $title,
-                                                     'changes' => $changes,
+                                                     'diff' => $diff,
                                                      'cobject' => $cobject,
                                                      'commit' => $commit,
                                                      'branches' => $branches,
