@@ -82,16 +82,84 @@ class IDF_Views
         if ($request->method == 'POST') {
             $form = new IDF_Form_Register($request->POST);
             if ($form->isValid()) {
-                $user = $form->save();
-                $url = Pluf_HTTP_URL_urlForView('IDF_Views::registerConfirmation');
+                $user = $form->save(); // It is sending the confirmation email
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views::registerInputKey');
                 return new Pluf_HTTP_Response_Redirect($url);
             }
         } else {
             $init = (isset($request->GET['login'])) ? array('initial' => array('login' => $request->GET['login'])) : array();
             $form = new IDF_Form_Register(null, $init);
         }
-        return Pluf_Shortcuts_RenderToResponse('register.html', 
+        return Pluf_Shortcuts_RenderToResponse('register/index.html', 
                                                array('page_title' => $title,
+                                                     'form' => $form),
+                                               $request);
+    }
+
+    /**
+     * Input the registration confirmation key.
+     *
+     * Very simple view just to redirect to the register confirmation
+     * views to input the password.
+     */
+    function registerInputKey($request, $match)
+    {
+        $title = __('Confirm Your Account Creation');
+        if ($request->method == 'POST') {
+            $form = new IDF_Form_RegisterInputKey($request->POST);
+            if ($form->isValid()) {
+                $url = $form->save();
+                return new Pluf_HTTP_Response_Redirect($url);
+            }
+        } else {
+            $form = new IDF_Form_RegisterInputKey();
+        }
+        return Pluf_Shortcuts_RenderToResponse('register/inputkey.html', 
+                                               array('page_title' => $title,
+                                                     'form' => $form),
+                                               $request);
+    }
+
+    /**
+     * Registration confirmation.
+     *
+     * Input first/last name, password and sign in the user.
+     *
+     * Maybe in the future send the user to its personal page for
+     * customization.
+     */
+    function registerConfirmation($request, $match)
+    {
+        $title = __('Confirm Your Account Creation');
+        $key = $match[1];
+        // first "check", full check is done in the form.
+        $email_id = IDF_Form_RegisterInputKey::checkKeyHash($key);
+        if (false == $email_id) {
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views::registerInputKey');
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
+        $user = new Pluf_User($email_id[1]);
+        $extra = array('key' => $key,
+                       'user' => $user);
+        if ($request->method == 'POST') {
+            $form = new IDF_Form_RegisterConfirmation($request->POST, $extra);
+            if ($form->isValid()) {
+                $user = $form->save();
+                $request->user = $user;
+                $request->session->clear();
+                $request->session->setData('login_time', gmdate('Y-m-d H:i:s'));
+                $user->last_login = gmdate('Y-m-d H:i:s');
+                $user->update();                
+                $request->user->setMessage(__('Welcome! You can now participate in the life of your project of choice.'));
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views::index');
+                return new Pluf_HTTP_Response_Redirect($url);
+            }
+        } else {
+            $form = new IDF_Form_RegisterConfirmation(null, $extra);
+        }
+        return Pluf_Shortcuts_RenderToResponse('register/confirmation.html', 
+                                               array('page_title' => $title,
+                                                     'new_user' => $user,
                                                      'form' => $form),
                                                $request);
     }

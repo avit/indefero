@@ -107,5 +107,36 @@ class IDF_Form_Register extends Pluf_Form
         if (!$this->isValid()) {
             throw new Exception(__('Cannot save the model from an invalid form.'));
         }
+        $user = new Pluf_User();
+        $user->first_name = '---'; // with both this set and
+                                   // active==false we can find later
+                                   // on, all the unconfirmed accounts
+                                   // that could be purged.
+        $user->last_name = $this->cleaned_data['login'];
+        $user->login = $this->cleaned_data['login'];
+        $user->email = $this->cleaned_data['email'];
+        $user->active = false;
+        $user->create();
+        $from_email = Pluf::f('from_email');
+        Pluf::loadFunction('Pluf_HTTP_URL_urlForView');
+        $cr = new Pluf_Crypt(md5(Pluf::f('secret_key')));
+        $encrypted = trim($cr->encrypt($user->email.':'.$user->id), '~');
+        $key = substr(md5(Pluf::f('secret_key').$encrypted), 0, 2).$encrypted;
+        $url = Pluf::f('url_base').Pluf_HTTP_URL_urlForView('IDF_Views::registerConfirmation', array($key), array(), false);
+        $urlik = Pluf::f('url_base').Pluf_HTTP_URL_urlForView('IDF_Views::registerInputKey', array(), array(), false);
+        $context = new Pluf_Template_Context(
+             array('key' => $key,
+                   'url' => $url,
+                   'urlik' => $urlik,
+                   'user'=> $user,
+                   )
+                                             );
+        $tmpl = new Pluf_Template('register/confirmation-email.txt');
+        $text_email = $tmpl->render($context);
+        $email = new Pluf_Mail($from_email, $user->email,
+                               __('Confirm the creation of your account.'));
+        $email->addTextMessage($text_email);
+        $email->sendMail();
+        return $user;
     }
 }

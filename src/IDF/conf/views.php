@@ -42,6 +42,18 @@ $ctl[] = array('regex' => '#^/register/$#',
                'model' => 'IDF_Views',
                'method' => 'register');
 
+$ctl[] = array('regex' => '#^/register/k/(.*)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views',
+               'method' => 'registerConfirmation');
+
+$ctl[] = array('regex' => '#^/register/ik/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views',
+               'method' => 'registerInputKey');
+
 $ctl[] = array('regex' => '#^/logout/$#',
                'base' => $base,
                'priority' => 4,
