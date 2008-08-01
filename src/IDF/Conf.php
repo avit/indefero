@@ -86,7 +86,7 @@ class IDF_Conf extends Pluf_Model
     function initCache()
     {
         $this->datacache = new ArrayObject();
-        $sql = new Pluf_SQL('project=%s', $this->_project);
+        $sql = new Pluf_SQL('project=%s', $this->_project->id);
         foreach ($this->getList(array('filter' => $sql->gen())) as $val) {
             $this->datacache[$val->vkey] = $val->vdesc;
         }
