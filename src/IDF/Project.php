@@ -240,7 +240,7 @@ class IDF_Project extends Pluf_Model
                 $owners[] = Pluf::factory('Pluf_User', $row->owner_id)->login;
             }
         }
-        $sql = new Pluf_SQL('model_class=%s AND model_id=%s AND owner_class=%s AND permission=%s AND negative=0',
+        $sql = new Pluf_SQL('model_class=%s AND model_id=%s AND owner_class=%s AND permission=%s AND negative='.$false,
                             array('IDF_Project', $this->id, 'Pluf_User', $mperm->id));
         $members = array();
         foreach ($grow->getList(array('filter' => $sql->gen())) as $row) {
