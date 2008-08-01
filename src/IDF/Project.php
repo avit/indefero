@@ -277,7 +277,7 @@ class IDF_Project extends Pluf_Model
         $sql = sprintf('SELECT '.$tag_t.'.id AS id, COUNT(*) AS nb_use FROM '.$tag_t.' '."\n".
                       'LEFT JOIN '.$asso_t.' ON idf_tag_id='.$tag_t.'.id '."\n".
                       'LEFT JOIN '.$issue_t.' ON idf_issue_id='.$issue_t.'.id '."\n".
-                      'WHERE idf_tag_id NOT NULL AND '.$issue_t.'.status IN (%s) AND '.$issue_t.'.project='.$this->id.' GROUP BY '.$tag_t.'.id ORDER BY '.$tag_t.'.class ASC, '.$tag_t.'.name ASC',
+                      'WHERE idf_tag_id IS NOT NULL AND '.$issue_t.'.status IN (%s) AND '.$issue_t.'.project='.$this->id.' GROUP BY '.$tag_t.'.id ORDER BY '.$tag_t.'.class ASC, '.$tag_t.'.name ASC',
                       implode(', ', $ostatus));
         $tags = array();
         foreach ($this->_con->select($sql) as $idc) {
