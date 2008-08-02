@@ -1,4 +1,5 @@
 {extends "base.html"}
+{block docclass}yui-t2{/block}
 {block tabhome} class="active"{/block}
 {block subtabs}
 <div id="sub-tabs">
@@ -6,7 +7,7 @@
 </div>
 {/block}
 {block body}
-{$project.description}
+{$project.description|markdown}
 {/block}
 {block context}
 {assign $ko = 'owners'}

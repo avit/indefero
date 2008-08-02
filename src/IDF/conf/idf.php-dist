@@ -83,6 +83,7 @@ $cfg['template_tags'] = array(
                               );
 $cfg['template_modifiers'] = array(
                                    'size' => 'IDF_Views_Source_PrettySize',
+                                   'markdown' => 'IDF_Template_Markdown_filter',
                                    );
 
 
