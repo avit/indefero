@@ -44,7 +44,11 @@ class IDF_Middleware
     {
         $match = array();
         if (preg_match('#^/p/(\w+)/#', $request->query, $match)) {
-            $request->project = IDF_Project::getOr404($match[1]);
+            try {
+                $request->project = IDF_Project::getOr404($match[1]);
+            } catch (Pluf_HTTP_Error404 $e) {
+                return new Pluf_HTTP_Response_NotFound(sprintf(__('The page <em>%s</em> was not found on the server.'), htmlspecialchars($request->query)));
+            }
         }
         return false;
     }
