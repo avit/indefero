@@ -46,6 +46,7 @@ class IDF_Diff
         $current_chunk = 0;
         $lline = 0;
         $rline = 0;
+        $files = array();
         foreach ($this->lines as $line) {
             if (0 === strpos($line, 'diff --git a')) {
                 $current_file = self::getFile($line);

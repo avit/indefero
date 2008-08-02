@@ -17,6 +17,7 @@
 <tr>
 <th><strong>{trans 'Message:'}</strong></th><td>{issuetext $cobject.title, $project}{if isset($cobject.full_message)}<br /><br />{issuetext $cobject.full_message, $project}{/if}</td>
 </tr>
+{if count($diff.files)}
 <tr>
 <th><strong>{trans 'Files:'}</strong></th>
 <td>
@@ -26,11 +27,13 @@
 {/foreach}
 </td>
 </tr>
+{/if}
 </table>
+{if count($diff.files)}
 <h2>{trans 'Change Details'}</h2>
 
 {$diff.as_html()|safe}
-
+{/if}
 {/block}
 {block context}
 <p><strong>{trans 'Branches:'}</strong><br />
