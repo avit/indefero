@@ -4,7 +4,7 @@
 {$issues.render}
 {if !$user.isAnonymous()}
 {aurl 'url', 'IDF_Views_Issue::create', array($project.shortname)}
-<p><a href="{$url}">{trans 'New Issue'}</a></p>{/if}
+<p><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/add.png'}" alt="+" align="bottom" /></a> <a href="{$url}">{trans 'New Issue'}</a></p>{/if}
 
 {/block}
 {block context}
