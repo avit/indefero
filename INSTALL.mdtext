@@ -1,0 +1,39 @@
+# Quick installation instruction
+
+* Checkout the trunk of [Pluf](http://www.pluf.org).
+* Make a copy of `src/IDF/conf/idf.php-dist` as `src/IDF/conf/idf.php`.
+* Update the idf.php file to match your system.
+* Run `php /path/to/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -i -d -u` to test the installation of the tables.
+* Run `php /path/to/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -i -d` to really install the tables.
+* Create a bootsrap file to create the first project and admin user for example `www/bootstrap.php`:
+
+    <?php
+    set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__).'/../src');
+    set_include_path(get_include_path().PATH_SEPARATOR.'/path/to/pluf/src');
+    require 'Pluf.php';
+    Pluf::start(dirname(__FILE__).'/IDF/conf/idf.php');
+    Pluf_Dispatcher::loadControllers(Pluf::f('idf_views'));
+    
+    $project = new IDF_Project();
+    $project->name = 'Your project';
+    $project->shortname = 'yourproject'; //Only letters digits
+    $project->description = 'This is your project.';
+    $project->create();
+    $user = new Pluf_User();
+    $user->first_name = 'John';
+    $user->last_name = 'Doe';
+    $user->login = 'doe';
+    $user->email = 'doe@example.com';
+    $user->password = 'yourpassword'; // the password is salted/hashed 
+                                      // in the database, so do not worry :)
+    $user->administrator = true;
+    $user->active = true;
+    $user->create();
+    print "Bootstrap ok\n";
+    ?>
+
+* Run `php bootstrap.php`.
+* Remove the `bootstrp.php` file.
+
+Now you can login with this user into the interface.
+
