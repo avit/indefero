@@ -1,0 +1,210 @@
+commit cf9360a1a87f8a98dc506a316055537b95ec245f
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Sat Aug 2 09:48:55 2008 +0200
+
+    Fixed the middleware to correctly return a 404 error if the project is
+    not found.
+
+commit 953d7c4ecd37e2c89058b656ee586ae73bfe1e8f
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Sat Aug 2 09:48:35 2008 +0200
+
+    Added the name of the login view.
+
+commit f4f8f9615ab460b9966509bd60b740c84ec9ecc9
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Sat Aug 2 09:42:05 2008 +0200
+
+    Added the link to commit and issues in the changelog.
+
+commit 4c5bd8d2be673c9d86d8b6b5108d551982491d5c
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Sat Aug 2 09:38:06 2008 +0200
+
+    Fixed bug when looking at a commit which is a merge.
+    
+    When you merge you do not get always a diff of files. This fix correct
+    that for the case of commit 9a2b8e249acad9f844.
+
+commit fd6031d7f50085b2e42bb539a886fc9175f6fe27
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Fri Aug 1 22:18:58 2008 +0200
+
+    Fixed SQL to follow the standards.
+
+commit 83658ac860328568d8570cbbadde565de8348be9
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Fri Aug 1 22:15:49 2008 +0200
+
+    Fixed to have standard SQL.
+
+commit 593afd9b8b18efde2a7817d57e8f101112aaa6fe
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Fri Aug 1 22:13:25 2008 +0200
+
+    Fix for PostgreSQL.
+
+commit a831c749d849f903f84698c36666affd391aa04d
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Fri Aug 1 22:03:56 2008 +0200
+
+    Fixed boolean for PostgreSQL.
+
+commit 7d806325579547facd27a0c44b54872fe9d7fb2d
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Fri Aug 1 00:50:44 2008 +0200
+
+    Added code indentation.
+
+commit 80ce87009e0249b7faf1143075bb4006bd2f8e35
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Fri Aug 1 00:38:29 2008 +0200
+
+    Added a better commit diff.
+
+commit cb15f036fe91edb9c07ff07f13bc592a8877f3c2
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Thu Jul 31 22:54:02 2008 +0200
+
+    Fixed some typos.
+
+commit 1b3a42940d30abb342d9c4b8ff166a586701b784
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Thu Jul 31 22:50:21 2008 +0200
+
+    Added the registration procedure.
+
+commit 416d13e249da7d8717ebb15966b9dbbd5c0188ba
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Tue Jul 29 22:33:13 2008 +0200
+
+    Added the registration form.
+    
+    Still need a lot :)
+
+commit c50e218704dcc81eb346cc757e4c1bdbd0808d8b
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Tue Jul 29 21:18:02 2008 +0200
+
+    Added a project home.
+
+commit ccf24df13120ae1e64225ec27db1ee647c9df4d4
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Tue Jul 29 15:13:40 2008 +0200
+
+    Link to the corresponding tree in the commit view.
+
+commit a6716c77160c9bbb4829eff5c6e11c7b9a4f6d50
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Mon Jul 28 22:09:17 2008 +0200
+
+    Added the visualisation of a commit.
+
+commit 3fb47562ce0453af4481b1b470581f5bcbbc6b3b
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Mon Jul 28 20:31:23 2008 +0200
+
+    Automatically create links in the issue description and comments.
+    
+    Link to issues but also commits.
+
+commit 3dbae6272a9f239499038f069f6472dfceb5e73e
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Sun Jul 27 21:38:49 2008 +0200
+
+    Added smooth handling of bad files and commits.
+    
+    Now simply redirect to the root of the first available branch.
+
+commit 8a0a35726cd82e3003675d8ba432efe68f7c4f74
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Sun Jul 27 17:46:04 2008 +0200
+
+    Fixed typo.
+
+commit b6084cbf070bf9e78101b1088d5d6c0d852ed6dc
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Sun Jul 27 17:43:51 2008 +0200
+
+    Improved the support of the git browser.
+    
+    Now the reference is always a commit as from a commit it is always possible to travel back to the corresponding tree and blobs.
+
+commit 9a2b8e249acad9f84401846cf87bf040ffd585b3
+Merge: 789c7ed... 24e8c80...
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Sun Jul 27 01:51:55 2008 +0200
+
+    Merge branch 'gitbrowser'
+
+commit 789c7ed43d2b551ba9de97dc8af87cb8d6fa208c
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Sun Jul 27 01:51:08 2008 +0200
+
+    Take into account if in one branch but listing another.
+    
+    Need to check how this is working on a bar repository.
+
+commit 24e8c80dfbd358710464cda0e5570655d5f200c6
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Sun Jul 27 01:37:43 2008 +0200
+
+    Updated the docstring.
+
+commit c915f8fccfc20a1a491bb88dd7848005dc1641ff
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Sun Jul 27 01:31:10 2008 +0200
+
+    Added the changelog and fixed the source browser.
+    
+    The source browser is normally a little bit more robust.
+
+commit f57a0ec08bfbaa830f4f7fb39f1f7e39d400ecb3
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Sat Jul 26 20:17:18 2008 +0200
+
+    Cosmetic improvements.
+
+commit 876e206742179ba640667430b5cad6b45c651250
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Sat Jul 26 18:42:41 2008 +0200
+
+    First work on the git browser.
+
+commit 2e711bee8d2b7c6680d6d44cb796f2cc67c9ed68
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Fri Jul 25 14:25:50 2008 +0200
+
+    Added a nice formatting of the issue comments.
+
+commit 4eea3797b26cb3ab34c5b4e1b7ff5098f2284deb
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Fri Jul 25 14:15:58 2008 +0200
+
+    Added the autocompletion of the owner and cosmetic changes.
+
+commit e5d296d8638db9bd59a85360d80e126b901befeb
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Fri Jul 25 11:17:56 2008 +0200
+
+    Added the Shift+w hotkey to get the working list of the user.
+
+commit d19dbb441c86740d6a2df2501cb5875a5fc34e19
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Fri Jul 25 11:16:18 2008 +0200
+
+    Added a hotkey tag to easily add them.
+    
+    Added a new Shift+m hotkey to access the list of submitted issues.
+
+commit cc5ec30e6a06a3c855848b907512e4b796950981
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Fri Jul 25 10:28:35 2008 +0200
+
+    Correctly set the copyrights.
+
+commit efbd82fccb20b0b4c9ac82777b8bdf7d83be0e40
+Author: Loic d'Anterroches <titoo@users.sourceforge.net>
+Date:   Fri Jul 25 10:26:05 2008 +0200
+
+    Initial commit.

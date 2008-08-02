@@ -117,8 +117,3 @@ class IDF_IssueComment extends Pluf_Model
         $q->create();
     }
 }
-
-function IDF_IssueComment_Filter($text)
-{
-    return wordwrap($text, 80, "\n", true);
-}
