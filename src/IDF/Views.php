@@ -163,4 +163,18 @@ class IDF_Views
                                                      'form' => $form),
                                                $request);
     }
+
+    /**
+     * FAQ.
+     */
+    public function faq($request, $match)
+    {
+        $title = __('Here to Help You!');
+        return Pluf_Shortcuts_RenderToResponse('faq.html', 
+                                               array(
+                                                     'page_title' => $title,
+                                                     ),
+                                               $request);
+
+    }
 }
