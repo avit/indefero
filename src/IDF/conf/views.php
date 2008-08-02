@@ -141,6 +141,12 @@ $ctl[] = array('regex' => '#^/p/(\w+)/source/commit/(\w+)/$#',
                'model' => 'IDF_Views_Source',
                'method' => 'commit');
 
+$ctl[] = array('regex' => '#^/p/(\w+)/source/download/(\w+)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Source',
+               'method' => 'download');
+
 
 // ---------- ADMIN --------------------------------------
 

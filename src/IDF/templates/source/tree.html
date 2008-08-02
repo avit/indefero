@@ -2,6 +2,7 @@
 {block docclass}yui-t1{assign $inSourceTree=true}{/block}
 {block body}
 <h2><a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $commit)}">{trans 'Root'}</a><span class="sep">/</span>{if $breadcrumb}{$breadcrumb|safe}{/if}</h2>
+
 <table summary="" class="tree-list">
 <thead>
 <tr>
@@ -41,6 +42,8 @@
 {/foreach}
 </tbody>
 </table>
+{aurl 'url', 'IDF_Views_Source::download', array($project.shortname, $commit)}
+<p class="right"><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/package.png'}" alt="{trans 'Archive'}" align="bottom" /></a> <a href="{$url}">{trans 'Download this version'}</a></p>
 
 {/block}
 {block context}

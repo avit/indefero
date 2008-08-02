@@ -148,7 +148,6 @@ class IDF_Views_Source
 
     public function commit($request, $match)
     {
-
         $git = new IDF_Git(Pluf::f('git_repository'));
         $commit = $match[2];
         $branches = $git->getBranches();
@@ -176,7 +175,29 @@ class IDF_Views_Source
                                                $request);
     }
 
-
+    /**
+     * Get a zip archive of the current commit.
+     *
+     */
+    public function download($request, $match)
+    {
+        $commit = trim($match[2]);
+        $git = new IDF_Git(Pluf::f('git_repository'));
+        $branches = $git->getBranches();
+        if ('commit' != $git->testHash($commit)) {
+            // Redirect to the first branch
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
+                                            array($request->project->shortname,
+                                                  $branches[0]));
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
+        $base = $request->project->shortname.'-'.$commit;
+        $cmd = $git->getArchiveCommand($commit, $base.'/');
+        $rep = new Pluf_HTTP_Response_CommandPassThru($cmd, 'application/x-zip');
+        $rep->headers['Content-Transfer-Encoding'] = 'binary';
+        $rep->headers['Content-Disposition'] = 'attachment; filename="'.$base.'.zip"';
+        return $rep;
+    }
 }
 
 function IDF_Views_Source_PrettySize($size)

@@ -301,4 +301,19 @@ class IDF_Git
         return $res;
     }
 
+    /**
+     * Generate the command to create a zip archive at a given commit.
+     *
+     * @param string Commit
+     * @param string Prefix ('git-repo-dump')
+     * @return string Command
+     */
+    public function getArchiveCommand($commit, $prefix='git-repo-dump/')
+    {
+        return sprintf('GIT_DIR=%s git archive --format=zip --prefix=%s %s',
+                       escapeshellarg($this->repo),
+                       escapeshellarg($prefix),
+                       escapeshellarg($commit));
+    }
+
 }
