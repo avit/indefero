@@ -34,7 +34,8 @@ $ctl[] = array('regex' => '#^/login/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views',
-               'method' => 'login');
+               'method' => 'login',
+               'name' => 'login_view');
 
 $ctl[] = array('regex' => '#^/register/$#',
                'base' => $base,
