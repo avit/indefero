@@ -35,7 +35,7 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
     {
         $this->project = $project;
         $this->git = new IDF_Git(Pluf::f('git_repository'));
-        $text = wordwrap($text, 80, "\n", true);
+        $text = wordwrap($text, 69, "\n", true);
         $text = Pluf_esc($text);
         $text = ereg_replace('[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]', 
                              '<a href="\\0" rel="nofollow">\\0</a>', 
