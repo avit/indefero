@@ -40,4 +40,25 @@ class IDF_Precondition
         }
         return new Pluf_HTTP_Response_Forbidden($request);
     }
+
+    /**
+     * Check if the user is project owner or member.
+     *
+     * @param Pluf_HTTP_Request
+     * @return mixed
+     */
+    static public function projectMemberOrOwner($request)
+    {
+        $res = Pluf_Precondition::loginRequired($request);
+        if (true !== $res) {
+            return $res;
+        }
+        if ($request->user->hasPerm('IDF.project-owner', $request->project)
+            or
+            $request->user->hasPerm('IDF.project-member', $request->project)
+            ) {
+            return true;
+        }
+        return new Pluf_HTTP_Response_Forbidden($request);
+    }
 }

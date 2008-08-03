@@ -82,7 +82,7 @@ class IDF_Views_Project
     /**
      * Administrate the issue tracking of a project.
      */
-    public $adminIssueTracking_precond = array('IDF_Precondition::projectOwner');
+    public $adminIssues_precond = array('IDF_Precondition::projectOwner');
     public function adminIssues($request, $match)
     {
         $prj = $request->project;
@@ -116,6 +116,49 @@ class IDF_Views_Project
             $form = new IDF_Form_IssueTrackingConf($params);
         }
         return Pluf_Shortcuts_RenderToResponse('admin/issue-tracking.html',
+                                               array(
+                                                     'page_title' => $title,
+                                                     'form' => $form,
+                                                     ),
+                                               $request);
+    }
+
+    /**
+     * Administrate the downloads of a project.
+     */
+    public $adminDownloads_precond = array('IDF_Precondition::projectOwner');
+    public function adminDownloads($request, $match)
+    {
+        $prj = $request->project;
+        $title = sprintf(__('%s Downloads Configuration'), (string) $prj);
+        $conf = new IDF_Conf();
+        $conf->setProject($prj);
+        if ($request->method == 'POST') {
+            $form = new IDF_Form_UploadConf($request->POST);
+            if ($form->isValid()) {
+                foreach ($form->cleaned_data as $key=>$val) {
+                    $conf->setVal($key, $val);
+                }
+                $request->user->setMessage(__('The downloads configuration has been saved.'));
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views_Project::adminDownloads',
+                                                array($prj->shortname));
+                return new Pluf_HTTP_Response_Redirect($url);
+            }
+        } else {
+            $params = array();
+            $keys = array('labels_download_predefined', 'labels_download_one_max');
+            foreach ($keys as $key) {
+                $_val = $conf->getVal($key, false);
+                if ($_val !== false) {
+                    $params[$key] = $_val;
+                }
+            }
+            if (count($params) == 0) {
+                $params = null; //Nothing in the db, so new form.
+            }
+            $form = new IDF_Form_UploadConf($params);
+        }
+        return Pluf_Shortcuts_RenderToResponse('admin/downloads.html',
                                                array(
                                                      'page_title' => $title,
                                                      'form' => $form,

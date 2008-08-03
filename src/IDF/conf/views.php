@@ -147,6 +147,24 @@ $ctl[] = array('regex' => '#^/p/(\w+)/source/download/(\w+)/$#',
                'model' => 'IDF_Views_Source',
                'method' => 'download');
 
+$ctl[] = array('regex' => '#^/p/(\w+)/downloads/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Download',
+               'method' => 'index');
+
+$ctl[] = array('regex' => '#^/p/(\w+)/downloads/(\d+)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Download',
+               'method' => 'view');
+
+$ctl[] = array('regex' => '#^/p/(\w+)/downloads/create/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Download',
+               'method' => 'submit');
+
 
 // ---------- ADMIN --------------------------------------
 
@@ -161,6 +179,12 @@ $ctl[] = array('regex' => '#^/p/(\w+)/admin/issues/$#',
                'priority' => 4,
                'model' => 'IDF_Views_Project',
                'method' => 'adminIssues');
+
+$ctl[] = array('regex' => '#^/p/(\w+)/admin/downloads/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Project',
+               'method' => 'adminDownloads');
 
 $ctl[] = array('regex' => '#^/p/(\w+)/admin/members/$#',
                'base' => $base,

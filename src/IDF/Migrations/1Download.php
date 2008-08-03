@@ -22,19 +22,12 @@
 # ***** END LICENSE BLOCK ***** */
 
 /**
- * Setup of a clean InDefero.
- *
- * It creates all the tables for the application.
+ * Add the download of files.
  */
 
-function IDF_Migrations_Install_setup($params=null)
+function IDF_Migrations_1Download_up($params=null)
 {
     $models = array(
-                    'IDF_Project',
-                    'IDF_Tag',
-                    'IDF_Issue',
-                    'IDF_IssueComment',
-                    'IDF_Conf',
                     'IDF_Upload',
                     );
     $db = Pluf::db();
@@ -43,34 +36,12 @@ function IDF_Migrations_Install_setup($params=null)
         $schema->model = new $model();
         $schema->createTables();
     }
-    // Install the permissions
-    $perm = new Pluf_Permission();
-    $perm->name = 'Project membership';
-    $perm->code_name = 'project-member';
-    $perm->description = 'Permission given to project members.';
-    $perm->application = 'IDF';
-    $perm->create();
-    $perm = new Pluf_Permission();
-    $perm->name = 'Project ownership';
-    $perm->code_name = 'project-owner';
-    $perm->description = 'Permission given to project owners.';
-    $perm->application = 'IDF';
-    $perm->create();
 }
 
-function IDF_Migrations_Install_teardown($params=null)
+function IDF_Migrations_1Download_down($params=null)
 {
-    $perm = Pluf_Permission::getFromString('IDF.project-member');
-    if ($perm) $perm->delete();
-    $perm = Pluf_Permission::getFromString('IDF.project-owner');
-    if ($perm) $perm->delete();
     $models = array(
                     'IDF_Upload',
-                    'IDF_Conf',
-                    'IDF_IssueComment',
-                    'IDF_Issue',
-                    'IDF_Tag',
-                    'IDF_Project',
                     );
     $db = Pluf::db();
     $schema = new Pluf_DB_Schema($db);

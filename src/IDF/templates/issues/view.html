@@ -101,7 +101,7 @@
 </p>{assign $tags = $issue.get_tags_list()}{if $tags.count()}
 <p>
 <strong>{trans 'Labels:'}</strong><br />
-{foreach $issue.get_tags_list() as $tag}{aurl 'url', 'IDF_Views_Issue::listLabel', array($project.shortname, $tag.id, 'open')}
+{foreach $tags as $tag}{aurl 'url', 'IDF_Views_Issue::listLabel', array($project.shortname, $tag.id, 'open')}
 <span class="label"><a href="{$url}" class="label"><strong>{$tag.class}:</strong>{$tag.name}</a></span><br />
 {/foreach}
 </p>{/if}

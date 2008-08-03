@@ -1,0 +1,63 @@
+{extends "downloads/base.html"}
+{block docclass}yui-t3{assign $inDownloads=true}{/block}
+{block body}
+
+<div class="download-file">
+<a href="{media}/upload/{$project.shortname}/files/{$file}">{$file}</a> - {$file.filesize|size}
+</div>
+
+
+{if $form}
+{if $form.errors}
+<div class="px-message-error">
+<p>{trans 'The form contains some errors. Please correct them to update the file.'}</p>
+{if $form.get_top_errors}
+{$form.render_top_errors|unsafe}
+{/if}
+</div>
+{/if}
+
+<form method="post" enctype="multipart/form-data" action=".">
+<table class="form" summary="">
+<tr>
+<th><strong>{$form.f.summary.labelTag}:</strong></th>
+<td>{if $form.f.summary.errors}{$form.f.summary.fieldErrors}{/if}
+{$form.f.summary|unsafe}
+</td>
+</tr>
+<tr>
+<th>{$form.f.label1.labelTag}:</th>
+<td>
+{if $form.f.label1.errors}{$form.f.label1.fieldErrors}{/if}{$form.f.label1|unsafe}
+{if $form.f.label2.errors}{$form.f.label2.fieldErrors}{/if}{$form.f.label2|unsafe}
+{if $form.f.label3.errors}{$form.f.label3.fieldErrors}{/if}{$form.f.label3|unsafe}
+</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td><input type="submit" value="{trans 'Update File'}" name="submit" /> | <a href="{url 'IDF_Views_Download::index', array($project.shortname)}">{trans 'Cancel'}</a>
+</td>
+</tr>
+</table>
+</form>
+{/if}
+{/block}
+{block context}
+{assign $submitter = $file.get_submitter()}
+<p><strong>{trans 'Uploaded:'}</strong> <span class="nobrk">{$file.creation_dtime|dateago}</span> <span class="nobrk">{blocktrans}by {$submitter}{/blocktrans}</span></p>
+<p>
+<strong>{trans 'Updated:'}</strong> <span class="nobrk">{$file.modif_dtime|dateago}</span></p>
+{assign $tags = $file.get_tags_list()}{if $tags.count()}
+<p>
+<strong>{trans 'Labels:'}</strong><br />
+{foreach $tags as $tag}
+<span class="label"><strong>{$tag.class}:</strong>{$tag.name}</span><br />
+{/foreach}
+</p>{/if}
+{/block}
+{block javascript}{if $form}
+<script type="text/javascript">
+document.getElementById('id_summary').focus()
+</script>
+{include 'downloads/js-autocomplete.html'}{/if}{/block}
+

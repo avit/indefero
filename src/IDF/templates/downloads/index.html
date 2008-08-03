@@ -1,0 +1,13 @@
+{extends "downloads/base.html"}
+{block docclass}yui-t1{assign $inDownloads=true}{/block}
+{block body}
+{$downloads.render}
+{if $isOwner or $isMember}
+{aurl 'url', 'IDF_Views_Download::submit', array($project.shortname)}
+<p><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/add.png'}" alt="+" align="bottom" /></a> <a href="{$url}">{trans 'New Download'}</a></p>{/if}
+
+{/block}
+{block context}
+<p><strong>{trans 'Number of files:'}</strong> {$downloads.nb_items}</p>
+{/block}
+
