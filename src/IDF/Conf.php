@@ -122,7 +122,7 @@ class IDF_Conf extends Pluf_Model
     function delVal($key, $initcache=true)
     {
         $gconf = new IDF_Conf();
-        $sql = new Pluf_SQL('vkey=%s AND project=%s', array($key, $this->_project));
+        $sql = new Pluf_SQL('vkey=%s AND project=%s', array($key, $this->_project->id));
         foreach ($gconf->getList(array('filter' => $sql->gen())) as $c) {
             $c->delete();
         }
