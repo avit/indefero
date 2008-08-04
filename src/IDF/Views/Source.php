@@ -37,7 +37,7 @@ class IDF_Views_Source
         $git = new IDF_Git($request->project->getGitRepository());
         $branches = $git->getBranches();
         $commit = $match[2];
-        $res = $git->getChangeLog($commit, 50);
+        $res = $git->getChangeLog($commit, 25);
         return Pluf_Shortcuts_RenderToResponse('source/changelog.html',
                                                array(
                                                      'page_title' => $title,
