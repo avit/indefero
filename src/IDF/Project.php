@@ -287,4 +287,36 @@ class IDF_Project extends Pluf_Model
         }
         return $tags;
     }
+
+    /**
+     * Get the path to the git repository.
+     *
+     * @return string Path to the git repository
+     */
+    public function getGitRepository()
+    {
+        $gitrep = Pluf::f('git_repository');
+        if (substr($gitrep, -4) == '.git') {
+            return $gitrep;
+        }
+        // here we consider that the git_repository is a folder
+        // containing a series of git repositories
+        return $gitrep.'/'.$this->shortname.'.git';
+    }
+
+    /**
+     * Get the url to the repository through git daemon.
+     *
+     * @return string Path to the git daemon.
+     */
+    public function getGitDaemonUrl()
+    {
+        $gitrep = Pluf::f('git_daemon_url');
+        if (substr($gitrep, -4) == '.git') {
+            return $gitrep;
+        }
+        // here we consider that the git_repository is a folder
+        // containing a series of git repositories
+        return $gitrep.'/'.$this->shortname.'.git';
+    }
 }

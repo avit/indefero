@@ -44,6 +44,7 @@
 </table>
 {aurl 'url', 'IDF_Views_Source::download', array($project.shortname, $commit)}
 <p class="right"><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/package.png'}" alt="{trans 'Archive'}" align="bottom" /></a> <a href="{$url}">{trans 'Download this version'}</a></p>
+<p class="right"><kbd>git clone {$project.getGitDaemonUrl()}</kbd></p>
 
 {/block}
 {block context}

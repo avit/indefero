@@ -23,31 +23,37 @@
 
 $cfg = array();
 
+// to start with, it can be practical.
 $cfg['debug'] = false;
-$cfg['installed_apps'] = array('Pluf', 'IDF');
-$cfg['pluf_use_rowpermission'] = true;
+
+// if you have a single git repository, just put the full path to it
+// without trailing slash.
+// If within a folder you have a series of git repository, just put
+// the folder without a trailing slash.
+// InDefero will automatically append a slash, the project shortname 
+// and .git to create the name of the repository.
+// $cfg['git_repository'] = '/home/git/repositories';
 $cfg['git_repository'] = '/home/git/repositories/indefero.git';
-$cfg['middleware_classes'] = array(
-         'IDF_Middleware',
-         'Pluf_Middleware_Session',
-         'Pluf_Middleware_Translation',
-         );
 
-$cfg['template_context_processors'] = array('IDF_Middleware_ContextPreProcessor');
+// As for the 'git_repository' case, you can either have it ending
+// with .git in the case of a single repository or let it append
+// '/'.$project_shortname.'.git' to make the path.
+$cfg['git_daemon_url'] = 'git://projects.ceondo.com/indefero.git';
 
+// admins will get an email in case of errors in the system in non
+// debug mode.
 $cfg['admins'] = array(
-                       // admins will get an email in case of errors
-                       // in the system in non debug mode.
                        array('Admin', 'you@example.com'),
                        );
 
+// Email configuration
 $cfg['send_emails'] = true;
 $cfg['mail_backend'] = 'smtp';
 $cfg['mail_host'] = 'localhost';
 $cfg['mail_port'] = 25;
 $cfg['pear_path'] = '/usr/share/php';
 
-
+// Paths/Url configuration
 $cfg['idf_base'] = ''; // put '/whatever/index.php if you are not
                        // using mod_rewrite and installing in a
                        // subfolder.
@@ -59,35 +65,26 @@ $cfg['upload_path'] = '/path/to/media/upload';
 $cfg['login_success_url'] = '/';
 $cfg['after_logout_page'] = '/';
 
-$cfg['secret_key'] = ''; // write here a long random string unique for
-                         // this installation.
+// write here a long random string unique for this installation. This
+// is critical to put a long string.
+$cfg['secret_key'] = ''; 
 
-$cfg['from_email'] = 'sender@example.com'; // the sender of all the emails.
+// the sender of all the emails.
+$cfg['from_email'] = 'sender@example.com'; 
+
 // Email address for the bounced messages.
 $cfg['bounce_email'] = 'no-reply@example.com';
-
-
-$cfg['idf_views'] = dirname(__FILE__).'/views.php';
 
 // Temporary folder where the script is writing the compiled templates,
 // cached data and other temporary resources.
 // It must be writeable by your webserver instance.
 // It is mandatory if you are using the template system.
 $cfg['tmp_folder'] = '/tmp';
+
 // The folder in which the templates of the application are located.
 $cfg['template_folders'] = array(
                                  dirname(__FILE__).'/../templates',
                                  );
-
-$cfg['template_tags'] = array(
-                              'hotkey' => 'IDF_Template_HotKey',
-                              'issuetext' => 'IDF_Template_IssueComment',
-                              );
-$cfg['template_modifiers'] = array(
-                                   'size' => 'IDF_Views_Source_PrettySize',
-                                   'markdown' => 'IDF_Template_Markdown_filter',
-                                   );
-
 
 // Database configuration
 // For testing we are using in memory SQLite database.
@@ -99,5 +96,22 @@ $cfg['db_table_prefix'] = '';
 $cfg['db_engine'] = 'PostgreSQL'; // SQLite is also well tested or MySQL
 $cfg['db_database'] = 'website';
 
+// From this point you should not need to update anything.
+$cfg['installed_apps'] = array('Pluf', 'IDF');
+$cfg['pluf_use_rowpermission'] = true;
+$cfg['middleware_classes'] = array(
+         'IDF_Middleware',
+         'Pluf_Middleware_Session',
+         'Pluf_Middleware_Translation',
+         );
+$cfg['template_context_processors'] = array('IDF_Middleware_ContextPreProcessor');
+$cfg['idf_views'] = dirname(__FILE__).'/views.php';
+$cfg['template_tags'] = array(
+                              'hotkey' => 'IDF_Template_HotKey',
+                              'issuetext' => 'IDF_Template_IssueComment',
+                              );
+$cfg['template_modifiers'] = array(
+                                   'size' => 'IDF_Views_Source_PrettySize',
+                                   'markdown' => 'IDF_Template_Markdown_filter',
+                                   );
 return $cfg;
-

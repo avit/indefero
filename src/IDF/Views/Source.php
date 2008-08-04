@@ -34,7 +34,7 @@ class IDF_Views_Source
     public function changeLog($request, $match)
     {
         $title = sprintf('%s Git Change Log', (string) $request->project);
-        $git = new IDF_Git(Pluf::f('git_repository'));
+        $git = new IDF_Git($request->project->getGitRepository());
         $branches = $git->getBranches();
         $commit = $match[2];
         $res = $git->getChangeLog($commit, 50);
@@ -52,7 +52,7 @@ class IDF_Views_Source
     public function treeBase($request, $match)
     {
         $title = sprintf('%s Git Source Tree', (string) $request->project);
-        $git = new IDF_Git(Pluf::f('git_repository'));
+        $git = new IDF_Git($request->project->getGitRepository());
         $commit = $match[2];
         $branches = $git->getBranches();
         if ('commit' != $git->testHash($commit)) {
@@ -81,7 +81,7 @@ class IDF_Views_Source
     public function tree($request, $match)
     {
         $title = sprintf('%s Git Source Tree', (string) $request->project);
-        $git = new IDF_Git(Pluf::f('git_repository'));
+        $git = new IDF_Git($request->project->getGitRepository());
         $branches = $git->getBranches();
         $commit = $match[2];
         if ('commit' != $git->testHash($commit)) {
@@ -148,7 +148,7 @@ class IDF_Views_Source
 
     public function commit($request, $match)
     {
-        $git = new IDF_Git(Pluf::f('git_repository'));
+        $git = new IDF_Git($request->project->getGitRepository());
         $commit = $match[2];
         $branches = $git->getBranches();
         if ('commit' != $git->testHash($commit)) {
@@ -182,7 +182,7 @@ class IDF_Views_Source
     public function download($request, $match)
     {
         $commit = trim($match[2]);
-        $git = new IDF_Git(Pluf::f('git_repository'));
+        $git = new IDF_Git($request->project->getGitRepository());
         $branches = $git->getBranches();
         if ('commit' != $git->testHash($commit)) {
             // Redirect to the first branch
