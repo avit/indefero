@@ -2,3 +2,4 @@ tmp
 src/IDF/conf/idf.php
 src/IDF/conf/idf.test.php
 www/test.php
+www/media/upload
