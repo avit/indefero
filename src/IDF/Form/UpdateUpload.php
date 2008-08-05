@@ -132,6 +132,7 @@ class IDF_Form_UpdateUpload extends Pluf_Form
         }
         // Create the upload
         $this->upload->summary = trim($this->cleaned_data['summary']);
+        $this->upload->modif_dtime = gmdate('Y-m-d H:i:s');
         $this->upload->update();
         $this->upload->batchAssoc('IDF_Tag', $tags);
         return $this->upload;

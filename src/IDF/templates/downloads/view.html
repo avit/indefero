@@ -3,7 +3,7 @@
 {block body}
 
 <div class="download-file">
-<a href="{media}/upload/{$project.shortname}/files/{$file}">{$file}</a> - {$file.filesize|size}
+<a href="{url 'IDF_Views_Download::download', array($project.shortname, $file.id)}">{$file}</a> - {$file.filesize|size}
 </div>
 
 
@@ -47,6 +47,8 @@
 <p><strong>{trans 'Uploaded:'}</strong> <span class="nobrk">{$file.creation_dtime|dateago}</span> <span class="nobrk">{blocktrans}by {$submitter}{/blocktrans}</span></p>
 <p>
 <strong>{trans 'Updated:'}</strong> <span class="nobrk">{$file.modif_dtime|dateago}</span></p>
+<p>
+<strong>{trans 'Downloads:'}</strong> <span class="nobrk">{$file.downloads}</span></p>
 {assign $tags = $file.get_tags_list()}{if $tags.count()}
 <p>
 <strong>{trans 'Labels:'}</strong><br />

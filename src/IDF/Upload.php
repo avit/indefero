@@ -137,7 +137,12 @@ class IDF_Upload extends Pluf_Model
     {
         if ($this->id == '') {
             $this->creation_dtime = gmdate('Y-m-d H:i:s');
+            $this->modif_dtime = gmdate('Y-m-d H:i:s');
         }
-        $this->modif_dtime = gmdate('Y-m-d H:i:s');
+    }
+
+    function getAbsoluteUrl($project)
+    {
+        return Pluf::f('url_media').'/upload/'.$project->shortname.'/files/'.$this->file;
     }
 }
