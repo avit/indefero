@@ -47,7 +47,7 @@ class IDF_Form_UpdateUpload extends Pluf_Form
                                                                     ),
                                             ));
         $tags = $this->upload->get_tags_list();
-        for ($i=1;$i<4;$i++) {
+        for ($i=1;$i<7;$i++) {
             $initial = '';
             if (isset($tags[$i-1])) {
                 if ($tags[$i-1]->class != 'Other') {
@@ -82,7 +82,7 @@ class IDF_Form_UpdateUpload extends Pluf_Form
             }
         }
         $count = array();
-        for ($i=1;$i<4;$i++) {
+        for ($i=1;$i<7;$i++) {
             $this->cleaned_data['label'.$i] = trim($this->cleaned_data['label'.$i]);
             if (strpos($this->cleaned_data['label'.$i], ':') !== false) {
                 list($class, $name) = explode(':', $this->cleaned_data['label'.$i], 2);
@@ -117,7 +117,7 @@ class IDF_Form_UpdateUpload extends Pluf_Form
         }
         // Add a tag for each label
         $tags = array();
-        for ($i=1;$i<4;$i++) {
+        for ($i=1;$i<7;$i++) {
             if (strlen($this->cleaned_data['label'.$i]) > 0) {
                 if (strpos($this->cleaned_data['label'.$i], ':') !== false) {
                     list($class, $name) = explode(':', $this->cleaned_data['label'.$i], 2);

@@ -52,7 +52,7 @@ class IDF_Form_Upload extends Pluf_Form
                                                                             'upload_path_create' => true),
 
                                             ));
-        for ($i=1;$i<4;$i++) {
+        for ($i=1;$i<7;$i++) {
             $this->fields['label'.$i] = new Pluf_Form_Field_Varchar(
                                array('required' => false,
                                      'label' => __('Labels'),
@@ -87,7 +87,7 @@ class IDF_Form_Upload extends Pluf_Form
             }
         }
         $count = array();
-        for ($i=1;$i<4;$i++) {
+        for ($i=1;$i<7;$i++) {
             $this->cleaned_data['label'.$i] = trim($this->cleaned_data['label'.$i]);
             if (strpos($this->cleaned_data['label'.$i], ':') !== false) {
                 list($class, $name) = explode(':', $this->cleaned_data['label'.$i], 2);
@@ -122,7 +122,7 @@ class IDF_Form_Upload extends Pluf_Form
         }
         // Add a tag for each label
         $tags = array();
-        for ($i=1;$i<4;$i++) {
+        for ($i=1;$i<7;$i++) {
             if (strlen($this->cleaned_data['label'.$i]) > 0) {
                 if (strpos($this->cleaned_data['label'.$i], ':') !== false) {
                     list($class, $name) = explode(':', $this->cleaned_data['label'.$i], 2);
