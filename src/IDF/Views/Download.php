@@ -77,9 +77,7 @@ class IDF_Views_Download
     {
         $prj = $request->project;
         $upload = Pluf_Shortcuts_GetObjectOr404('IDF_Upload', $match[2]);
-        if ($upload->project != $prj->id) {
-            throw new Pluf_HTTP_Error404();
-        }
+        $prj->inOr404($upload);
         $title = sprintf(__('Download %s'), $upload->summary);
         $form = false;
         if ($request->method == 'POST' and
@@ -121,9 +119,7 @@ class IDF_Views_Download
     {
         $prj = $request->project;
         $upload = Pluf_Shortcuts_GetObjectOr404('IDF_Upload', $match[2]);
-        if ($upload->project != $prj->id) {
-            throw new Pluf_HTTP_Error404();
-        }
+        $prj->inOr404($upload);
         $upload->downloads += 1;
         $upload->update();
         return new Pluf_HTTP_Response_Redirect($upload->getAbsoluteUrl($prj));
@@ -199,8 +195,6 @@ class IDF_Views_Download
  */
 function IDF_Views_Download_SummaryAndLabels($field, $down, $extra='')
 {
-    //$edit = Pluf_HTTP_URL_urlForView('IDF_Views_Download::view', 
-    //                                     array($down->shortname, $down->id));
     $tags = array();
     foreach ($down->get_tags_list() as $tag) {
         $tags[] = sprintf('<span class="label">%s</span>', Pluf_esc((string) $tag));

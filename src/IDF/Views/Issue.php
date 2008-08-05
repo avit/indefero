@@ -161,9 +161,7 @@ class IDF_Views_Issue
     {
         $prj = $request->project;
         $issue = Pluf_Shortcuts_GetObjectOr404('IDF_Issue', $match[2]);
-        if ($issue->project != $prj->id) {
-            throw new Pluf_HTTP_Error404();
-        }
+        $prj->inOr404($issue);
         $comments = $issue->get_comments_list(array('order' => 'id ASC'));
         $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view',
                                         array($prj->shortname, $issue->id));

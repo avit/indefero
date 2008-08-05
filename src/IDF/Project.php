@@ -319,4 +319,20 @@ class IDF_Project extends Pluf_Model
         // containing a series of git repositories
         return $gitrep.'/'.$this->shortname.'.git';
     }
+
+    /**
+     * Check that the object belongs to the project or rise a 404
+     * error.
+     *
+     * By convention, all the objects belonging to a project have the
+     * 'project' property set, so this is easy to check.
+     *
+     * @param Pluf_Model 
+     */
+    public function inOr404($obj)
+    {
+        if ($obj->project != $this->id) {
+            throw new Pluf_HTTP_Error404();
+        }
+    }
 }
