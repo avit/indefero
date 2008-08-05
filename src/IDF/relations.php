@@ -26,5 +26,7 @@ $m['IDF_Tag'] = array('relate_to' => array('IDF_Project'));
 $m['IDF_Issue'] = array('relate_to' => array('IDF_Project', 'Pluf_User', 'IDF_Tag'),
                         'relate_to_many' => array('IDF_Tag', 'Pluf_User'));
 $m['IDF_IssueComment'] = array('relate_to' => array('IDF_Issue', 'Pluf_User'));
+$m['IDF_Upload'] = array('relate_to' => array('IDF_Project', 'Pluf_User'),
+                         'relate_to_many' => array('IDF_Tag'));
 
 return $m;

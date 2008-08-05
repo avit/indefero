@@ -39,10 +39,14 @@ class IDF_Views_Project
         $prj = $request->project;
         $team = $prj->getMembershipData();
         $title = (string) $prj;
+        $tags = IDF_Views_Download::getDownloadTags($prj);
+        // the first tag is the featured, the last is the deprecated.
+        $downloads = $tags[0]->get_idf_upload_list(); 
         return Pluf_Shortcuts_RenderToResponse('project-home.html',
                                                array(
                                                      'page_title' => $title,
                                                      'team' => $team,
+                                                     'downloads' => $downloads,
                                                      ),
                                                $request);
     }

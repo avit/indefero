@@ -185,6 +185,19 @@ class IDF_Views_Download
         }
         return substr($auto, 0, -1);
     }
+
+    /**
+     * Get the download tags.
+     *
+     * @param IDF_Project
+     * @return ArrayObject The tags
+     */
+    public static function getDownloadTags($project)
+    {
+        return $project->getTagsFromConfig('labels_downloads_predefined',
+                                           IDF_Form_UploadConf::init_predefined);
+
+    }
 }
 
 /**
