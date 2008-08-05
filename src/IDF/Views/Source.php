@@ -101,8 +101,11 @@ class IDF_Views_Source
             return new Pluf_HTTP_Response_Redirect($url);
         }
         if ($request_file_info->type != 'tree') {
-            return new Pluf_HTTP_Response($git->getBlob($request_file_info->hash),
-                                          'application/octet-stream');
+            $info = self::getMimeType($request_file_info->file);
+            $rep = new Pluf_HTTP_Response($git->getBlob($request_file_info->hash),
+                                          $info[0]);
+            $rep->headers['Content-Disposition'] = 'attachment; filename="'.$info[1].'"';
+            return $rep;
         }
         $bc = self::makeBreadCrumb($request->project, $commit, $request_file_info->file);
         $page_title = $bc.' - '.$title;
@@ -197,6 +200,38 @@ class IDF_Views_Source
         $rep->headers['Content-Transfer-Encoding'] = 'binary';
         $rep->headers['Content-Disposition'] = 'attachment; filename="'.$base.'.zip"';
         return $rep;
+    }
+
+    /**
+     * Find the mime type of a file.
+     *
+     * Use /etc/mime.types to find the type.
+     *
+     * @param string Filename/Filepath
+     * @param string Path to the mime types database ('/etc/mime.types')
+     * @param array  Mime type found or 'application/octet-stream' and basename
+     */
+    public static function getMimeType($file, $src='/etc/mime.types')
+    {
+        $mimes = preg_split("/\015\012|\015|\012/", file_get_contents($src));
+        $info = pathinfo($file);
+        if (isset($info['extension'])) {
+            foreach ($mimes as $mime) {
+                if ('#' != substr($mime, 0, 1)) {
+                    $elts = preg_split('/ |\t/', $mime, -1, PREG_SPLIT_NO_EMPTY);
+                    if (in_array($info['extension'], $elts)) {
+                        return array($elts[0], $info['basename']);
+                    }
+                }
+            }
+        } else {
+            // we consider that if no extension and base name is all
+            // uppercase, then we have a text file.
+            if ($info['basename'] == strtoupper($info['basename'])) {
+                return array('text/plain', $info['basename']);
+            }
+        }
+        return array('application/octet-stream', $info['basename']);
     }
 }
 
