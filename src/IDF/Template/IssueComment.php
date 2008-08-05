@@ -34,7 +34,7 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
     function start($text, $project)
     {
         $this->project = $project;
-        $this->git = new IDF_Git(Pluf::f('git_repository'));
+        $this->git = new IDF_Git($this->project->getGitRepository());
         $text = wordwrap($text, 69, "\n", true);
         $text = Pluf_esc($text);
         $text = ereg_replace('[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]', 
