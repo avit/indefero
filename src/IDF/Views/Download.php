@@ -54,12 +54,12 @@ class IDF_Views_Download
              'file' => __('File'),
              array('summary', 'IDF_Views_Download_SummaryAndLabels', __('Summary')),
              array('filesize', 'IDF_Views_Download_Size', __('Size')),
-             array('modif_dtime', 'Pluf_Paginator_DateYMD', __('Uploaded')),
+             array('creation_dtime', 'Pluf_Paginator_DateYMD', __('Uploaded')),
                               );
-        $pag->configure($list_display, array(), array('file', 'filesize', 'modif_dtime'));
+        $pag->configure($list_display, array(), array('file', 'filesize', 'creation_dtime'));
         $pag->items_per_page = 10;
         $pag->no_results_text = __('No downloads were found.');
-        $pag->sort_order = array('file', 'ASC');
+        $pag->sort_order = array('creation_dtime', 'DESC');
         $pag->setFromRequest($request);
         $tags = $prj->getTagCloud('downloads');
         return Pluf_Shortcuts_RenderToResponse('downloads/index.html',
@@ -218,12 +218,12 @@ class IDF_Views_Download
              'file' => __('File'),
              array('summary', 'IDF_Views_Download_SummaryAndLabels', __('Summary')),
              array('filesize', 'IDF_Views_Download_Size', __('Size')),
-             array('modif_dtime', 'Pluf_Paginator_DateYMD', __('Uploaded')),
+             array('creation_dtime', 'Pluf_Paginator_DateYMD', __('Uploaded')),
                               );
-        $pag->configure($list_display, array(), array('file', 'filesize', 'modif_dtime'));
+        $pag->configure($list_display, array(), array('file', 'filesize', 'creation_dtime'));
         $pag->items_per_page = 10;
         $pag->no_results_text = __('No downloads were found.');
-        $pag->sort_order = array('file', 'ASC');
+        $pag->sort_order = array('creation_dtime', 'DESC');
         $pag->setFromRequest($request);
         $tags = $prj->getTagCloud('downloads');
         return Pluf_Shortcuts_RenderToResponse('downloads/index.html',
