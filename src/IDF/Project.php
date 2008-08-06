@@ -263,22 +263,33 @@ class IDF_Project extends Pluf_Model
      *
      * Return an array of tags sorted class, then name. Each tag get
      * the extra property 'nb_use' for the number of use in the
-     * project. Only open issues are used to generate the cloud.
+     * project. For issues, only open issues are used to generate the
+     * cloud.
      *
+     * @param string ('issues') or 'downloads'
      * @return ArrayObject of IDF_Tag
      */
-    public function getTagCloud()
+    public function getTagCloud($what='issues')
     {
         $tag_t = Pluf::factory('IDF_Tag')->getSqlTable();
-        $issue_t = Pluf::factory('IDF_Issue')->getSqlTable();
-        $asso_t = $this->_con->pfx.'idf_issue_idf_tag_assoc';
-        $ostatus = $this->getTagIdsByStatus('open');
-        if (count($ostatus) == 0) $ostatus[] = 0;
-        $sql = sprintf('SELECT '.$tag_t.'.id AS id, COUNT(*) AS nb_use FROM '.$tag_t.' '."\n".
+        if ($what == 'issues') {
+            $what_t = Pluf::factory('IDF_Issue')->getSqlTable();
+            $asso_t = $this->_con->pfx.'idf_issue_idf_tag_assoc';
+            $ostatus = $this->getTagIdsByStatus('open');
+            if (count($ostatus) == 0) $ostatus[] = 0;
+            $sql = sprintf('SELECT '.$tag_t.'.id AS id, COUNT(*) AS nb_use FROM '.$tag_t.' '."\n".
                       'LEFT JOIN '.$asso_t.' ON idf_tag_id='.$tag_t.'.id '."\n".
-                      'LEFT JOIN '.$issue_t.' ON idf_issue_id='.$issue_t.'.id '."\n".
-                      'WHERE idf_tag_id IS NOT NULL AND '.$issue_t.'.status IN (%s) AND '.$issue_t.'.project='.$this->id.' GROUP BY '.$tag_t.'.id, '.$tag_t.'.class, '.$tag_t.'.name ORDER BY '.$tag_t.'.class ASC, '.$tag_t.'.name ASC',
+                      'LEFT JOIN '.$what_t.' ON idf_issue_id='.$what_t.'.id '."\n".
+                      'WHERE idf_tag_id IS NOT NULL AND '.$what_t.'.status IN (%s) AND '.$what_t.'.project='.$this->id.' GROUP BY '.$tag_t.'.id, '.$tag_t.'.class, '.$tag_t.'.name ORDER BY '.$tag_t.'.class ASC, '.$tag_t.'.name ASC',
                       implode(', ', $ostatus));
+        } else {
+            $what_t = Pluf::factory('IDF_Upload')->getSqlTable();
+            $asso_t = $this->_con->pfx.'idf_tag_idf_upload_assoc';
+            $sql = 'SELECT '.$tag_t.'.id AS id, COUNT(*) AS nb_use FROM '.$tag_t.' '."\n".
+                'LEFT JOIN '.$asso_t.' ON idf_tag_id='.$tag_t.'.id '."\n".
+                'LEFT JOIN '.$what_t.' ON idf_upload_id='.$what_t.'.id '."\n".
+                'WHERE idf_tag_id IS NOT NULL AND '.$what_t.'.project='.$this->id.' GROUP BY '.$tag_t.'.id, '.$tag_t.'.class, '.$tag_t.'.name ORDER BY '.$tag_t.'.class ASC, '.$tag_t.'.name ASC';
+        }
         $tags = array();
         foreach ($this->_con->select($sql) as $idc) {
             $tag = new IDF_Tag($idc['id']);

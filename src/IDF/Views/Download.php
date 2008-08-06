@@ -63,10 +63,12 @@ class IDF_Views_Download
         $pag->no_results_text = __('No downloads were found.');
         $pag->sort_order = array('file', 'ASC');
         $pag->setFromRequest($request);
+        $tags = $prj->getTagCloud('downloads');
         return Pluf_Shortcuts_RenderToResponse('downloads/index.html',
-                                               array('project' => $prj,
+                                               array(
                                                      'page_title' => $title,
                                                      'downloads' => $pag,
+                                                     'tags' => $tags,
                                                      ),
                                                $request);
         
@@ -219,11 +221,13 @@ class IDF_Views_Download
         $pag->no_results_text = __('No downloads were found.');
         $pag->sort_order = array('file', 'ASC');
         $pag->setFromRequest($request);
+        $tags = $prj->getTagCloud('downloads');
         return Pluf_Shortcuts_RenderToResponse('downloads/index.html',
                                                array(
                                                      'page_title' => $title,
                                                      'label' => $tag,
                                                      'downloads' => $pag,
+                                                     'tags' => $tags,
                                                      ),
                                                $request);
     }

@@ -188,6 +188,10 @@ a.label {
   text-decoration: none;
 }
 
+.label { 
+  color: #204a87;
+}
+
 span.nobrk { 
  white-space: nowrap;
 }
