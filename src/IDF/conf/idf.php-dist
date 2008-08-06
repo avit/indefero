@@ -26,6 +26,9 @@ $cfg = array();
 // to start with, it can be practical.
 $cfg['debug'] = false;
 
+// available languages
+$cfg['languages'] = array('en', 'fr'); 
+
 // if you have a single git repository, just put the full path to it
 // without trailing slash.
 // If within a folder you have a series of git repository, just put
