@@ -42,6 +42,8 @@ class IDF_Views_Download
     {
         $prj = $request->project;
         $title = sprintf(__('%s Downloads'), (string) $prj);
+        $tags = self::getDownloadTags($prj);
+        $dtag = array_pop($tags); // The last tag is the deprecated tag.
         // Paginator to paginate the files to download.
         $pag = new Pluf_Paginator(new IDF_Upload());
         $pag->class = 'recent-issues';
@@ -187,6 +189,46 @@ class IDF_Views_Download
     }
 
     /**
+     * View list of downloads with a given label.
+     */
+    public function listLabel($request, $match)
+    {
+        $prj = $request->project;
+        $tag = Pluf_Shortcuts_GetObjectOr404('IDF_Tag', $match[2]);
+        $prj->inOr404($tag);
+        $title = sprintf(__('%1$s Downloads with Label %2$s'), (string) $prj,
+                         (string) $tag);
+        // Paginator to paginate the downloads
+        $pag = new Pluf_Paginator(new IDF_Upload());
+        $pag->model_view = 'join_tags';
+        $pag->class = 'recent-issues';
+        $pag->item_extra_props = array('project_m' => $prj,
+                                       'shortname' => $prj->shortname);
+        $pag->summary = sprintf(__('This table shows the downloads with label %s.'), (string) $tag);
+        $pag->forced_where = new Pluf_SQL('project=%s AND idf_tag_id=%s', array($prj->id, $tag->id));
+        $pag->action = array('IDF_Views_Download::index', array($prj->shortname));
+        $pag->edit_action = array('IDF_Views_Download::view', 'shortname', 'id');
+        $list_display = array(
+             'file' => __('File'),
+             array('summary', 'IDF_Views_Download_SummaryAndLabels', __('Summary')),
+             array('filesize', 'IDF_Views_Download_Size', __('Size')),
+             array('modif_dtime', 'Pluf_Paginator_DateYMD', __('Uploaded')),
+                              );
+        $pag->configure($list_display, array(), array('file', 'filesize', 'modif_dtime'));
+        $pag->items_per_page = 10;
+        $pag->no_results_text = __('No downloads were found.');
+        $pag->sort_order = array('file', 'ASC');
+        $pag->setFromRequest($request);
+        return Pluf_Shortcuts_RenderToResponse('downloads/index.html',
+                                               array(
+                                                     'page_title' => $title,
+                                                     'label' => $tag,
+                                                     'downloads' => $pag,
+                                                     ),
+                                               $request);
+    }
+
+    /**
      * Get the download tags.
      *
      * @param IDF_Project
@@ -210,7 +252,9 @@ function IDF_Views_Download_SummaryAndLabels($field, $down, $extra='')
 {
     $tags = array();
     foreach ($down->get_tags_list() as $tag) {
-        $tags[] = sprintf('<span class="label">%s</span>', Pluf_esc((string) $tag));
+        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Download::listLabel', 
+                                        array($down->shortname, $tag->id));
+        $tags[] = sprintf('<a href="%s" class="label">%s</a>', $url, Pluf_esc((string) $tag));
     }
     $out = '';
     if (count($tags)) {

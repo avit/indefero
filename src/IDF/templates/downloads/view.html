@@ -55,8 +55,8 @@
 {assign $tags = $file.get_tags_list()}{if $tags.count()}
 <p>
 <strong>{trans 'Labels:'}</strong><br />
-{foreach $tags as $tag}
-<span class="label"><strong>{$tag.class}:</strong>{$tag.name}</span><br />
+{foreach $tags as $tag}{aurl 'url', 'IDF_Views_Download::listLabel', array($project.shortname, $tag.id)}
+<span class="label"><a href="{$url}" class="label"><strong>{$tag.class}:</strong>{$tag.name}</a></span><br />
 {/foreach}
 </p>{/if}
 {/block}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-06 14:49+0200\n"
+"POT-Creation-Date: 2008-08-06 21:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -217,50 +217,54 @@ msgstr ""
 msgid "%s Downloads"
 msgstr ""
 
-#: IDF/Views/Download.php:50
+#: IDF/Views/Download.php:50 IDF/Views/Download.php:52
 msgid "This table shows the files to download."
 msgstr ""
 
 #: IDF/Views/Download.php:54 IDF/gettexttemplates/source/tree.html.php:6
-#: IDF/Form/Upload.php:49
+#: IDF/Form/Upload.php:49 IDF/Views/Download.php:56 IDF/Views/Download.php:212
 msgid "File"
 msgstr ""
 
 #: IDF/Views/Download.php:55 IDF/Views/Issue.php:57 IDF/Views/Issue.php:109
 #: IDF/Views/Issue.php:228 IDF/Views/Issue.php:281 IDF/Form/Upload.php:40
 #: IDF/Form/IssueCreate.php:50 IDF/Form/UpdateUpload.php:42
-#: IDF/Form/IssueUpdate.php:45
+#: IDF/Form/IssueUpdate.php:45 IDF/Views/Download.php:57
+#: IDF/Views/Download.php:213
 msgid "Summary"
 msgstr ""
 
 #: IDF/Views/Download.php:56 IDF/gettexttemplates/source/tree.html.php:9
+#: IDF/Views/Download.php:58 IDF/Views/Download.php:214
 msgid "Size"
 msgstr ""
 
-#: IDF/Views/Download.php:57
+#: IDF/Views/Download.php:57 IDF/Views/Download.php:59
+#: IDF/Views/Download.php:215
 msgid "Uploaded"
 msgstr ""
 
-#: IDF/Views/Download.php:61
+#: IDF/Views/Download.php:61 IDF/Views/Download.php:63
+#: IDF/Views/Download.php:219
 msgid "No downloads were found."
 msgstr ""
 
-#: IDF/Views/Download.php:81
+#: IDF/Views/Download.php:81 IDF/Views/Download.php:83
 #, php-format
 msgid "Download %s"
 msgstr ""
 
-#: IDF/Views/Download.php:94
+#: IDF/Views/Download.php:94 IDF/Views/Download.php:96
 #, php-format
 msgid "The file <a href=\"%1$s\">%2$s</a> has been updated."
 msgstr ""
 
 #: IDF/Views/Download.php:135 IDF/gettexttemplates/downloads/base.html.php:4
-#: IDF/gettexttemplates/downloads/index.html.php:3
+#: IDF/gettexttemplates/downloads/index.html.php:3 IDF/Views/Download.php:137
 msgid "New Download"
 msgstr ""
 
-#: IDF/Views/Download.php:144
+#: IDF/Views/Download.php:144 IDF/Views/Download.php:146
 #, php-format
 msgid "The <a href=\"%s\">file</a> has been uploaded."
 msgstr ""
@@ -1152,4 +1156,14 @@ msgstr ""
 #: IDF/Views/Source.php:165
 #, php-format
 msgid "%s Commit Details - %s"
+msgstr ""
+
+#: IDF/Views/Download.php:199
+#, php-format
+msgid "%1$s Downloads with Label %2$s"
+msgstr ""
+
+#: IDF/Views/Download.php:207
+#, php-format
+msgid "This table shows the downloads with label %s."
 msgstr ""

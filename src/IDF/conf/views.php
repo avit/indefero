@@ -147,11 +147,19 @@ $ctl[] = array('regex' => '#^/p/(\w+)/source/download/(\w+)/$#',
                'model' => 'IDF_Views_Source',
                'method' => 'download');
 
+// ---------- Downloads ------------------------------------
+
 $ctl[] = array('regex' => '#^/p/(\w+)/downloads/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Download',
                'method' => 'index');
+
+$ctl[] = array('regex' => '#^/p/(\w+)/downloads/label/(\d+)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Download',
+               'method' => 'listLabel');
 
 $ctl[] = array('regex' => '#^/p/(\w+)/downloads/(\d+)/$#',
                'base' => $base,
