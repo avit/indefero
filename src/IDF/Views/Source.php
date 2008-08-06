@@ -33,7 +33,7 @@ class IDF_Views_Source
 {
     public function changeLog($request, $match)
     {
-        $title = sprintf('%s Git Change Log', (string) $request->project);
+        $title = sprintf(__('%s Git Change Log'), (string) $request->project);
         $git = new IDF_Git($request->project->getGitRepository());
         $branches = $git->getBranches();
         $commit = $match[2];
@@ -51,7 +51,7 @@ class IDF_Views_Source
 
     public function treeBase($request, $match)
     {
-        $title = sprintf('%s Git Source Tree', (string) $request->project);
+        $title = sprintf(__('%s Git Source Tree'), (string) $request->project);
         $git = new IDF_Git($request->project->getGitRepository());
         $commit = $match[2];
         $branches = $git->getBranches();
@@ -80,7 +80,7 @@ class IDF_Views_Source
 
     public function tree($request, $match)
     {
-        $title = sprintf('%s Git Source Tree', (string) $request->project);
+        $title = sprintf(__('%s Git Source Tree'), (string) $request->project);
         $git = new IDF_Git($request->project->getGitRepository());
         $branches = $git->getBranches();
         $commit = $match[2];
@@ -161,8 +161,8 @@ class IDF_Views_Source
                                                   $branches[0]));
             return new Pluf_HTTP_Response_Redirect($url);
         }
-        $title = sprintf('%s Commit Details', (string) $request->project);
-        $page_title = sprintf('%s Commit Details - %s', (string) $request->project, $commit);
+        $title = sprintf(__('%s Commit Details'), (string) $request->project);
+        $page_title = sprintf(__('%s Commit Details - %s'), (string) $request->project, $commit);
         $cobject = $git->getCommit($commit);
         $diff = new IDF_Diff($cobject->changes);
         $diff->parse();
