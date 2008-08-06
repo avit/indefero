@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-06 21:49+0200\n"
+"POT-Creation-Date: 2008-08-06 22:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -223,6 +223,7 @@ msgstr ""
 
 #: IDF/Views/Download.php:54 IDF/gettexttemplates/source/tree.html.php:6
 #: IDF/Form/Upload.php:49 IDF/Views/Download.php:56 IDF/Views/Download.php:212
+#: IDF/Views/Download.php:218
 msgid "File"
 msgstr ""
 
@@ -230,22 +231,23 @@ msgstr ""
 #: IDF/Views/Issue.php:228 IDF/Views/Issue.php:281 IDF/Form/Upload.php:40
 #: IDF/Form/IssueCreate.php:50 IDF/Form/UpdateUpload.php:42
 #: IDF/Form/IssueUpdate.php:45 IDF/Views/Download.php:57
-#: IDF/Views/Download.php:213
+#: IDF/Views/Download.php:213 IDF/Views/Download.php:219
 msgid "Summary"
 msgstr ""
 
 #: IDF/Views/Download.php:56 IDF/gettexttemplates/source/tree.html.php:9
 #: IDF/Views/Download.php:58 IDF/Views/Download.php:214
+#: IDF/Views/Download.php:220
 msgid "Size"
 msgstr ""
 
 #: IDF/Views/Download.php:57 IDF/Views/Download.php:59
-#: IDF/Views/Download.php:215
+#: IDF/Views/Download.php:215 IDF/Views/Download.php:221
 msgid "Uploaded"
 msgstr ""
 
 #: IDF/Views/Download.php:61 IDF/Views/Download.php:63
-#: IDF/Views/Download.php:219
+#: IDF/Views/Download.php:219 IDF/Views/Download.php:225
 msgid "No downloads were found."
 msgstr ""
 
@@ -255,16 +257,19 @@ msgid "Download %s"
 msgstr ""
 
 #: IDF/Views/Download.php:94 IDF/Views/Download.php:96
+#: IDF/Views/Download.php:100
 #, php-format
 msgid "The file <a href=\"%1$s\">%2$s</a> has been updated."
 msgstr ""
 
 #: IDF/Views/Download.php:135 IDF/gettexttemplates/downloads/base.html.php:4
 #: IDF/gettexttemplates/downloads/index.html.php:3 IDF/Views/Download.php:137
+#: IDF/Views/Download.php:143
 msgid "New Download"
 msgstr ""
 
 #: IDF/Views/Download.php:144 IDF/Views/Download.php:146
+#: IDF/Views/Download.php:152
 #, php-format
 msgid "The <a href=\"%s\">file</a> has been uploaded."
 msgstr ""
@@ -404,15 +409,18 @@ msgstr ""
 
 #: IDF/gettexttemplates/downloads/view.html.php:3
 #: IDF/gettexttemplates/issues/view.html.php:6
+#: IDF/gettexttemplates/downloads/view.html.php:4
 #, php-format
 msgid "by %%submitter%%"
 msgstr ""
 
 #: IDF/gettexttemplates/downloads/view.html.php:4
+#: IDF/gettexttemplates/downloads/view.html.php:5
 msgid "The form contains some errors. Please correct them to update the file."
 msgstr ""
 
 #: IDF/gettexttemplates/downloads/view.html.php:5
+#: IDF/gettexttemplates/downloads/view.html.php:6
 msgid "Update File"
 msgstr ""
 
@@ -423,25 +431,30 @@ msgstr ""
 #: IDF/gettexttemplates/register/index.html.php:7
 #: IDF/gettexttemplates/issues/view.html.php:14
 #: IDF/gettexttemplates/issues/create.html.php:12
+#: IDF/gettexttemplates/downloads/view.html.php:7
 msgid "Cancel"
 msgstr ""
 
 #: IDF/gettexttemplates/downloads/view.html.php:7
+#: IDF/gettexttemplates/downloads/view.html.php:8
 msgid "Uploaded:"
 msgstr ""
 
 #: IDF/gettexttemplates/downloads/view.html.php:8
 #: IDF/gettexttemplates/issues/view.html.php:16
+#: IDF/gettexttemplates/downloads/view.html.php:9
 msgid "Updated:"
 msgstr ""
 
 #: IDF/gettexttemplates/downloads/view.html.php:9
+#: IDF/gettexttemplates/downloads/view.html.php:10
 msgid "Downloads:"
 msgstr ""
 
 #: IDF/gettexttemplates/downloads/view.html.php:10
 #: IDF/gettexttemplates/issues/view.html.php:11
 #: IDF/gettexttemplates/issues/view.html.php:20
+#: IDF/gettexttemplates/downloads/view.html.php:11
 msgid "Labels:"
 msgstr ""
 
@@ -1158,12 +1171,18 @@ msgstr ""
 msgid "%s Commit Details - %s"
 msgstr ""
 
-#: IDF/Views/Download.php:199
+#: IDF/Views/Download.php:199 IDF/Views/Download.php:205
 #, php-format
 msgid "%1$s Downloads with Label %2$s"
 msgstr ""
 
-#: IDF/Views/Download.php:207
+#: IDF/Views/Download.php:207 IDF/Views/Download.php:213
 #, php-format
 msgid "This table shows the downloads with label %s."
+msgstr ""
+
+#: IDF/gettexttemplates/downloads/view.html.php:3
+msgid ""
+"<strong>Attention!</strong> This file is marked as deprecated, download it "
+"only if you are sure you need this specific version."
 msgstr ""

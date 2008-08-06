@@ -3,6 +3,7 @@
 {block body}
 
 <div class="download-file">
+{if $deprecated}<p class="smaller">{blocktrans}<strong>Attention!</strong> This file is marked as deprecated, download it only if you are sure you need this specific version.{/blocktrans}</p>{/if}
 <a href="{url 'IDF_Views_Download::download', array($project.shortname, $file.id)}">{$file}</a> - {$file.filesize|size}
 </div>
 
@@ -52,7 +53,7 @@
 <strong>{trans 'Updated:'}</strong> <span class="nobrk">{$file.modif_dtime|dateago}</span></p>
 <p>
 <strong>{trans 'Downloads:'}</strong> <span class="nobrk">{$file.downloads}</span></p>
-{assign $tags = $file.get_tags_list()}{if $tags.count()}
+{if $tags.count()}
 <p>
 <strong>{trans 'Labels:'}</strong><br />
 {foreach $tags as $tag}{aurl 'url', 'IDF_Views_Download::listLabel', array($project.shortname, $tag.id)}

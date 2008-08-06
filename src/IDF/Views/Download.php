@@ -42,8 +42,6 @@ class IDF_Views_Download
     {
         $prj = $request->project;
         $title = sprintf(__('%s Downloads'), (string) $prj);
-        $tags = self::getDownloadTags($prj);
-        $dtag = array_pop($tags); // The last tag is the deprecated tag.
         // Paginator to paginate the files to download.
         $pag = new Pluf_Paginator(new IDF_Upload());
         $pag->class = 'recent-issues';
@@ -84,6 +82,10 @@ class IDF_Views_Download
         $prj->inOr404($upload);
         $title = sprintf(__('Download %s'), $upload->summary);
         $form = false;
+        $ptags = self::getDownloadTags($prj);
+        $dtag = array_pop($ptags); // The last tag is the deprecated tag.
+        $tags = $upload->get_tags_list();
+        $deprecated = Pluf_Model_InArray($dtag, $tags);
         if ($request->method == 'POST' and
             true === IDF_Precondition::projectMemberOrOwner($request)) {
             
@@ -109,6 +111,8 @@ class IDF_Views_Download
         return Pluf_Shortcuts_RenderToResponse('downloads/view.html',
                                                array(
                                                      'file' => $upload,
+                                                     'deprecated' => $deprecated,
+                                                     'tags' => $tags,
                                                      'auto_labels' => self::autoCompleteArrays($prj),
                                                      'page_title' => $title,
                                                      'form' => $form,
