@@ -92,8 +92,8 @@
 <div class="issue-info">
 {assign $submitter = $issue.get_submitter()}
 <p><strong>{trans 'Created:'}</strong> <span class="nobrk">{$issue.creation_dtime|dateago}</span> <span class="nobrk">{blocktrans}by {$submitter}{/blocktrans}</span></p>
-<p>
-<strong>{trans 'Updated:'}</strong> <span class="nobrk">{$issue.modif_dtime|dateago}</span></p>
+{if $issue.modif_dtime != $issue.creation_dtime}<p>
+<strong>{trans 'Updated:'}</strong> <span class="nobrk">{$issue.modif_dtime|dateago}</span></p>{/if}
 <p>
 <strong>{trans 'Status:'}</strong> {$issue.get_status.name}</p>
 <p>
