@@ -31,6 +31,7 @@ Pluf::loadFunction('Pluf_Shortcuts_GetFormForModel');
  */
 class IDF_Views_Source
 {
+    public $changeLog_precond = array('IDF_Precondition::accessSource');
     public function changeLog($request, $match)
     {
         $title = sprintf(__('%s Git Change Log'), (string) $request->project);
@@ -49,6 +50,7 @@ class IDF_Views_Source
                                                $request);
     }
 
+    public $treeBase_precond = array('IDF_Precondition::accessSource');
     public function treeBase($request, $match)
     {
         $title = sprintf(__('%s Git Source Tree'), (string) $request->project);
@@ -78,6 +80,7 @@ class IDF_Views_Source
                                                $request);
     }
 
+    public $tree_precond = array('IDF_Precondition::accessSource');
     public function tree($request, $match)
     {
         $title = sprintf(__('%s Git Source Tree'), (string) $request->project);
@@ -149,6 +152,7 @@ class IDF_Views_Source
         return '<span class="breadcrumb">'.implode('<span class="sep">'.$sep.'</span>', $out).'</span>';
     }
 
+    public $commit_precond = array('IDF_Precondition::accessSource');
     public function commit($request, $match)
     {
         $git = new IDF_Git($request->project->getGitRepository());
@@ -182,6 +186,7 @@ class IDF_Views_Source
      * Get a zip archive of the current commit.
      *
      */
+    public $download_precond = array('IDF_Precondition::accessSource');
     public function download($request, $match)
     {
         $commit = trim($match[2]);

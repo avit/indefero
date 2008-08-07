@@ -14,7 +14,7 @@
 {aurl 'url', 'IDF_Views_Source::commit', array($project.shortname, $change.commit)}
 <tr class="log">
 <td><a href="{$url}">{$change.date|dateago:"wihtout"}</a></td>
-<td>{issuetext $change.title, $project}{if $change.full_message}<br /><br />{issuetext $change.full_message, $project}{/if}</td>
+<td>{issuetext $change.title, $request}{if $change.full_message}<br /><br />{issuetext $change.full_message, $request}{/if}</td>
 </tr>
 <tr class="extra">
 <td colspan="2">

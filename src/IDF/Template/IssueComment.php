@@ -29,21 +29,27 @@ Pluf::loadFunction('Pluf_HTTP_URL_urlForView');
 class IDF_Template_IssueComment extends Pluf_Template_Tag
 {
     private $project = null;
+    private $request = null;
     private $git = null;
 
-    function start($text, $project)
+    function start($text, $request)
     {
-        $this->project = $project;
+        $this->project = $request->project;
+        $this->request = $request;
         $this->git = new IDF_Git($this->project->getGitRepository());
         $text = wordwrap($text, 69, "\n", true);
         $text = Pluf_esc($text);
         $text = ereg_replace('[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]', 
                              '<a href="\\0" rel="nofollow">\\0</a>', 
                              $text); 
-        $text = preg_replace_callback('#(issues?|bugs?|tickets?)\s+(\d+)((\s+and|\s+or|,)\s+(\d+)){0,}#im',
-                                      array($this, 'callbackIssues'), $text);
-        $text = preg_replace_callback('#(commit\s+)([0-9a-f]{5,40})#im',
-                                      array($this, 'callbackCommit'), $text);
+        if ($request->rights['hasIssuesAccess']) {
+            $text = preg_replace_callback('#(issues?|bugs?|tickets?)\s+(\d+)((\s+and|\s+or|,)\s+(\d+)){0,}#im',
+                                          array($this, 'callbackIssues'), $text);
+        }
+        if ($request->rights['hasSourceAccess']) {
+            $text = preg_replace_callback('#(commit\s+)([0-9a-f]{5,40})#im',
+                                          array($this, 'callbackCommit'), $text);
+        }
         echo $text;
     }
 

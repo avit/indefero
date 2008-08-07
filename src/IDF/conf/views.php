@@ -206,4 +206,10 @@ $ctl[] = array('regex' => '#^/p/(\w+)/admin/members/$#',
                'model' => 'IDF_Views_Project',
                'method' => 'adminMembers');
 
+$ctl[] = array('regex' => '#^/p/(\w+)/admin/tabs/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Project',
+               'method' => 'adminTabs');
+
 return $ctl;

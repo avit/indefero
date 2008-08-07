@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-06 22:28+0200\n"
+"POT-Creation-Date: 2008-08-07 15:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,7 +92,7 @@ msgstr ""
 msgid "modification date"
 msgstr ""
 
-#: IDF/Middleware.php:50
+#: IDF/Middleware.php:50 IDF/Middleware.php:51
 #, php-format
 msgid "The page <em>%s</em> was not found on the server."
 msgstr ""
@@ -176,54 +176,56 @@ msgstr ""
 msgid "Here to Help You!"
 msgstr ""
 
-#: IDF/Views/Project.php:62
+#: IDF/Views/Project.php:62 IDF/Views/Project.php:65
 #, php-format
 msgid "%s Project Summary"
 msgstr ""
 
-#: IDF/Views/Project.php:69
+#: IDF/Views/Project.php:69 IDF/Views/Project.php:72
 msgid "The project has been updated."
 msgstr ""
 
-#: IDF/Views/Project.php:93
+#: IDF/Views/Project.php:93 IDF/Views/Project.php:96
 #, php-format
 msgid "%s Issue Tracking Configuration"
 msgstr ""
 
-#: IDF/Views/Project.php:102
+#: IDF/Views/Project.php:102 IDF/Views/Project.php:105
 msgid "The issue tracking configuration has been saved."
 msgstr ""
 
-#: IDF/Views/Project.php:137
+#: IDF/Views/Project.php:137 IDF/Views/Project.php:140
 #, php-format
 msgid "%s Downloads Configuration"
 msgstr ""
 
-#: IDF/Views/Project.php:146
+#: IDF/Views/Project.php:146 IDF/Views/Project.php:149
 msgid "The downloads configuration has been saved."
 msgstr ""
 
-#: IDF/Views/Project.php:180
+#: IDF/Views/Project.php:180 IDF/Views/Project.php:183
 #, php-format
 msgid "%s Project Members"
 msgstr ""
 
-#: IDF/Views/Project.php:189
+#: IDF/Views/Project.php:189 IDF/Views/Project.php:192
 msgid "The project membership has been saved."
 msgstr ""
 
-#: IDF/Views/Download.php:44
+#: IDF/Views/Download.php:44 IDF/Views/Download.php:45
 #, php-format
 msgid "%s Downloads"
 msgstr ""
 
 #: IDF/Views/Download.php:50 IDF/Views/Download.php:52
+#: IDF/Views/Download.php:51
 msgid "This table shows the files to download."
 msgstr ""
 
 #: IDF/Views/Download.php:54 IDF/gettexttemplates/source/tree.html.php:6
 #: IDF/Form/Upload.php:49 IDF/Views/Download.php:56 IDF/Views/Download.php:212
-#: IDF/Views/Download.php:218
+#: IDF/Views/Download.php:218 IDF/Views/Download.php:55
+#: IDF/Views/Download.php:223
 msgid "File"
 msgstr ""
 
@@ -232,127 +234,138 @@ msgstr ""
 #: IDF/Form/IssueCreate.php:50 IDF/Form/UpdateUpload.php:42
 #: IDF/Form/IssueUpdate.php:45 IDF/Views/Download.php:57
 #: IDF/Views/Download.php:213 IDF/Views/Download.php:219
+#: IDF/Views/Download.php:56 IDF/Views/Download.php:224 IDF/Views/Issue.php:58
+#: IDF/Views/Issue.php:111 IDF/Views/Issue.php:233 IDF/Views/Issue.php:287
 msgid "Summary"
 msgstr ""
 
 #: IDF/Views/Download.php:56 IDF/gettexttemplates/source/tree.html.php:9
 #: IDF/Views/Download.php:58 IDF/Views/Download.php:214
-#: IDF/Views/Download.php:220
+#: IDF/Views/Download.php:220 IDF/Views/Download.php:57
+#: IDF/Views/Download.php:225
 msgid "Size"
 msgstr ""
 
 #: IDF/Views/Download.php:57 IDF/Views/Download.php:59
 #: IDF/Views/Download.php:215 IDF/Views/Download.php:221
+#: IDF/Views/Download.php:58 IDF/Views/Download.php:226
 msgid "Uploaded"
 msgstr ""
 
 #: IDF/Views/Download.php:61 IDF/Views/Download.php:63
 #: IDF/Views/Download.php:219 IDF/Views/Download.php:225
+#: IDF/Views/Download.php:62 IDF/Views/Download.php:230
 msgid "No downloads were found."
 msgstr ""
 
 #: IDF/Views/Download.php:81 IDF/Views/Download.php:83
+#: IDF/Views/Download.php:85
 #, php-format
 msgid "Download %s"
 msgstr ""
 
 #: IDF/Views/Download.php:94 IDF/Views/Download.php:96
-#: IDF/Views/Download.php:100
+#: IDF/Views/Download.php:100 IDF/Views/Download.php:102
 #, php-format
 msgid "The file <a href=\"%1$s\">%2$s</a> has been updated."
 msgstr ""
 
 #: IDF/Views/Download.php:135 IDF/gettexttemplates/downloads/base.html.php:4
 #: IDF/gettexttemplates/downloads/index.html.php:3 IDF/Views/Download.php:137
-#: IDF/Views/Download.php:143
+#: IDF/Views/Download.php:143 IDF/Views/Download.php:147
 msgid "New Download"
 msgstr ""
 
 #: IDF/Views/Download.php:144 IDF/Views/Download.php:146
-#: IDF/Views/Download.php:152
+#: IDF/Views/Download.php:152 IDF/Views/Download.php:156
 #, php-format
 msgid "The <a href=\"%s\">file</a> has been uploaded."
 msgstr ""
 
-#: IDF/Views/Issue.php:40
+#: IDF/Views/Issue.php:40 IDF/Views/Issue.php:41
 #, php-format
 msgid "%s Recent Issues"
 msgstr ""
 
-#: IDF/Views/Issue.php:49 IDF/Views/Issue.php:103
+#: IDF/Views/Issue.php:49 IDF/Views/Issue.php:103 IDF/Views/Issue.php:50
+#: IDF/Views/Issue.php:105
 msgid "This table shows the open recent issues."
 msgstr ""
 
 #: IDF/Views/Issue.php:56 IDF/Views/Issue.php:108 IDF/Views/Issue.php:227
-#: IDF/Views/Issue.php:280
+#: IDF/Views/Issue.php:280 IDF/Views/Issue.php:57 IDF/Views/Issue.php:110
+#: IDF/Views/Issue.php:232 IDF/Views/Issue.php:286
 msgid "Id"
 msgstr ""
 
 #: IDF/Views/Issue.php:58 IDF/Views/Issue.php:110 IDF/Views/Issue.php:229
 #: IDF/Views/Issue.php:282 IDF/Form/IssueCreate.php:70
-#: IDF/Form/IssueUpdate.php:66
+#: IDF/Form/IssueUpdate.php:66 IDF/Views/Issue.php:59 IDF/Views/Issue.php:112
+#: IDF/Views/Issue.php:234 IDF/Views/Issue.php:288
 msgid "Status"
 msgstr ""
 
 #: IDF/Views/Issue.php:59 IDF/Views/Issue.php:111 IDF/Views/Issue.php:230
-#: IDF/Views/Issue.php:283
+#: IDF/Views/Issue.php:283 IDF/Views/Issue.php:60 IDF/Views/Issue.php:113
+#: IDF/Views/Issue.php:235 IDF/Views/Issue.php:289
 msgid "Last Updated"
 msgstr ""
 
 #: IDF/Views/Issue.php:63 IDF/Views/Issue.php:115 IDF/Views/Issue.php:234
-#: IDF/Views/Issue.php:287
+#: IDF/Views/Issue.php:287 IDF/Views/Issue.php:64 IDF/Views/Issue.php:117
+#: IDF/Views/Issue.php:239 IDF/Views/Issue.php:293
 msgid "No issues were found."
 msgstr ""
 
-#: IDF/Views/Issue.php:87
+#: IDF/Views/Issue.php:87 IDF/Views/Issue.php:89
 #, php-format
 msgid "My Submitted %s Issues"
 msgstr ""
 
-#: IDF/Views/Issue.php:90
+#: IDF/Views/Issue.php:90 IDF/Views/Issue.php:92
 #, php-format
 msgid "My Working %s Issues"
 msgstr ""
 
-#: IDF/Views/Issue.php:131
+#: IDF/Views/Issue.php:131 IDF/Views/Issue.php:134
 msgid "Submit a new issue"
 msgstr ""
 
-#: IDF/Views/Issue.php:143
+#: IDF/Views/Issue.php:143 IDF/Views/Issue.php:146
 #, php-format
 msgid "<a href=\"%s\">Issue %d</a> has been created."
 msgstr ""
 
-#: IDF/Views/Issue.php:168
+#: IDF/Views/Issue.php:168 IDF/Views/Issue.php:172
 #, php-format
 msgid "Issue <a href=\"%s\">%d</a>: %s"
 msgstr ""
 
-#: IDF/Views/Issue.php:184
+#: IDF/Views/Issue.php:184 IDF/Views/Issue.php:188
 #, php-format
 msgid "<a href=\"%s\">Issue %d</a> has been updated."
 msgstr ""
 
-#: IDF/Views/Issue.php:211
+#: IDF/Views/Issue.php:211 IDF/Views/Issue.php:216
 #, php-format
 msgid "%s Closed Issues"
 msgstr ""
 
-#: IDF/Views/Issue.php:220
+#: IDF/Views/Issue.php:220 IDF/Views/Issue.php:225
 msgid "This table shows the closed issues."
 msgstr ""
 
-#: IDF/Views/Issue.php:258
+#: IDF/Views/Issue.php:258 IDF/Views/Issue.php:264
 #, php-format
 msgid "%1$s Issues with Label %2$s"
 msgstr ""
 
-#: IDF/Views/Issue.php:261
+#: IDF/Views/Issue.php:261 IDF/Views/Issue.php:267
 #, php-format
 msgid "%1$s Closed Issues with Label %2$s"
 msgstr ""
 
-#: IDF/Views/Issue.php:273
+#: IDF/Views/Issue.php:273 IDF/Views/Issue.php:279
 #, php-format
 msgid "This table shows the issues with label %s."
 msgstr ""
@@ -389,17 +402,17 @@ msgstr ""
 msgid "Project Home"
 msgstr ""
 
-#: IDF/gettexttemplates/base.html.php:9
+#: IDF/gettexttemplates/base.html.php:9 IDF/Form/TabsConf.php:36
 msgid "Issues"
 msgstr ""
 
 #: IDF/gettexttemplates/base.html.php:10
 #: IDF/gettexttemplates/downloads/base.html.php:3
-#: IDF/gettexttemplates/admin/base.html.php:6
+#: IDF/gettexttemplates/admin/base.html.php:6 IDF/Form/TabsConf.php:34
 msgid "Downloads"
 msgstr ""
 
-#: IDF/gettexttemplates/base.html.php:11
+#: IDF/gettexttemplates/base.html.php:11 IDF/Form/TabsConf.php:35
 msgid "Source"
 msgstr ""
 
@@ -587,6 +600,7 @@ msgstr ""
 #: IDF/gettexttemplates/admin/issue-tracking.html.php:8
 #: IDF/gettexttemplates/admin/members.html.php:13
 #: IDF/gettexttemplates/admin/summary.html.php:8
+#: IDF/gettexttemplates/admin/tabs.html.php:5
 msgid "Save Changes"
 msgstr ""
 
@@ -1143,40 +1157,43 @@ msgstr ""
 msgid "No changes were entered."
 msgstr ""
 
-#: IDF/Form/MembersConf.php:46
+#: IDF/Form/MembersConf.php:46 IDF/Form/TabsConf.php:47
 msgid "Project owners"
 msgstr ""
 
-#: IDF/Form/MembersConf.php:54
+#: IDF/Form/MembersConf.php:54 IDF/Form/TabsConf.php:46
 msgid "Project members"
 msgstr ""
 
-#: IDF/Views/Source.php:36
+#: IDF/Views/Source.php:36 IDF/Views/Source.php:37
 #, php-format
 msgid "%s Git Change Log"
 msgstr ""
 
-#: IDF/Views/Source.php:54 IDF/Views/Source.php:83
+#: IDF/Views/Source.php:54 IDF/Views/Source.php:83 IDF/Views/Source.php:56
+#: IDF/Views/Source.php:86
 #, php-format
 msgid "%s Git Source Tree"
 msgstr ""
 
-#: IDF/Views/Source.php:164
+#: IDF/Views/Source.php:164 IDF/Views/Source.php:168
 #, php-format
 msgid "%s Commit Details"
 msgstr ""
 
-#: IDF/Views/Source.php:165
+#: IDF/Views/Source.php:165 IDF/Views/Source.php:169
 #, php-format
 msgid "%s Commit Details - %s"
 msgstr ""
 
 #: IDF/Views/Download.php:199 IDF/Views/Download.php:205
+#: IDF/Views/Download.php:210
 #, php-format
 msgid "%1$s Downloads with Label %2$s"
 msgstr ""
 
 #: IDF/Views/Download.php:207 IDF/Views/Download.php:213
+#: IDF/Views/Download.php:218
 #, php-format
 msgid "This table shows the downloads with label %s."
 msgstr ""
@@ -1185,4 +1202,43 @@ msgstr ""
 msgid ""
 "<strong>Attention!</strong> This file is marked as deprecated, download it "
 "only if you are sure you need this specific version."
+msgstr ""
+
+#: IDF/Views/Project.php:215
+#, php-format
+msgid "%s Tabs Access Rights"
+msgstr ""
+
+#: IDF/Views/Project.php:225
+msgid "The project tabs access rights have been saved."
+msgstr ""
+
+#: IDF/gettexttemplates/admin/base.html.php:7
+msgid "Tabs Access"
+msgstr ""
+
+#: IDF/gettexttemplates/admin/tabs.html.php:3
+msgid "You can configure here the project tabs access rights."
+msgstr ""
+
+#: IDF/gettexttemplates/admin/tabs.html.php:4
+msgid ""
+"The form contains some errors. Please correct them to update the access "
+"rights."
+msgstr ""
+
+#: IDF/gettexttemplates/admin/tabs.html.php:6
+msgid "Instructions:"
+msgstr ""
+
+#: IDF/Form/TabsConf.php:44
+msgid "Open to all"
+msgstr ""
+
+#: IDF/Form/TabsConf.php:45
+msgid "Signed in users"
+msgstr ""
+
+#: IDF/Form/TabsConf.php:48
+msgid "Closed"
 msgstr ""

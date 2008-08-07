@@ -34,6 +34,7 @@ class IDF_Views_Issue
     /**
      * View list of issues for a given project.
      */
+    public $index_precond = array('IDF_Precondition::accessIssues');
     public function index($request, $match)
     {
         $prj = $request->project;
@@ -77,7 +78,8 @@ class IDF_Views_Issue
      *
      * Only open issues are shown.
      */
-    public $myIssues_precond = array('Pluf_Precondition::loginRequired');
+    public $myIssues_precond = array('IDF_Precondition::accessIssues',
+                                     'Pluf_Precondition::loginRequired');
     public function myIssues($request, $match)
     {
         $prj = $request->project;
@@ -124,7 +126,8 @@ class IDF_Views_Issue
                                                $request);
     }
 
-    public $create_precond = array('Pluf_Precondition::loginRequired');
+    public $create_precond = array('IDF_Precondition::accessIssues',
+                                   'Pluf_Precondition::loginRequired');
     public function create($request, $match)
     {
         $prj = $request->project;
@@ -157,6 +160,7 @@ class IDF_Views_Issue
                                                $request);
     }
 
+    public $view_precond = array('IDF_Precondition::accessIssues');
     public function view($request, $match)
     {
         $prj = $request->project;
@@ -204,6 +208,7 @@ class IDF_Views_Issue
     /**
      * View list of issues for a given project with a given status.
      */
+    public $listStatus_precond = array('IDF_Precondition::accessIssues');
     public function listStatus($request, $match)
     {
         $prj = $request->project;
@@ -246,6 +251,7 @@ class IDF_Views_Issue
     /**
      * View list of issues for a given project with a given label.
      */
+    public $listLabel_precond = array('IDF_Precondition::accessIssues');
     public function listLabel($request, $match)
     {
         $prj = $request->project;

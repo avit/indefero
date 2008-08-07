@@ -39,9 +39,12 @@ class IDF_Views_Project
         $prj = $request->project;
         $team = $prj->getMembershipData();
         $title = (string) $prj;
-        $tags = IDF_Views_Download::getDownloadTags($prj);
-        // the first tag is the featured, the last is the deprecated.
-        $downloads = $tags[0]->get_idf_upload_list(); 
+        $downloads = array();
+        if ($request->rights['hasDownloadsAccess']) {
+            $tags = IDF_Views_Download::getDownloadTags($prj);
+            // the first tag is the featured, the last is the deprecated.
+            $downloads = $tags[0]->get_idf_upload_list(); 
+        }
         return Pluf_Shortcuts_RenderToResponse('project-home.html',
                                                array(
                                                      'page_title' => $title,
@@ -195,6 +198,51 @@ class IDF_Views_Project
             $form = new IDF_Form_MembersConf($prj->getMembershipData('string'), $params);
         }
         return Pluf_Shortcuts_RenderToResponse('admin/members.html',
+                                               array(
+                                                     'page_title' => $title,
+                                                     'form' => $form,
+                                                     ),
+                                               $request);
+    }
+
+    /**
+     * Administrate the access rights to the tabs.
+     */
+    public $adminTabs_precond = array('IDF_Precondition::projectOwner');
+    public function adminTabs($request, $match)
+    {
+        $prj = $request->project;
+        $title = sprintf(__('%s Tabs Access Rights'), (string) $prj);
+        $extra = array(
+                       'conf' => $request->conf,
+                       );
+        if ($request->method == 'POST') {
+            $form = new IDF_Form_TabsConf($request->POST, $extra);
+            if ($form->isValid()) {
+                foreach ($form->cleaned_data as $key=>$val) {
+                    $request->conf->setVal($key, $val);
+                }
+                $request->user->setMessage(__('The project tabs access rights have been saved.'));
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views_Project::adminTabs',
+                                                array($prj->shortname));
+                return new Pluf_HTTP_Response_Redirect($url);
+            }
+        } else {
+            $params = array();
+            $keys = array('downloads_access_rights', 'source_access_rights',
+                          'issues_access_rights');
+            foreach ($keys as $key) {
+                $_val = $request->conf->getVal($key, false);
+                if ($_val !== false) {
+                    $params[$key] = $_val;
+                }
+            }
+            if (count($params) == 0) {
+                $params = null; //Nothing in the db, so new form.
+            }
+            $form = new IDF_Form_TabsConf($params, $extra);
+        }
+        return Pluf_Shortcuts_RenderToResponse('admin/tabs.html',
                                                array(
                                                      'page_title' => $title,
                                                      'form' => $form,

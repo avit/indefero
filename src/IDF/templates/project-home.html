@@ -10,7 +10,7 @@
 {$project.description|markdown}
 {/block}
 {block context}
-{if $downloads.count() > 0}
+{if count($downloads) > 0}
 <p><strong>{trans 'Featured Downloads'}</strong><br />
 {foreach $downloads as $download}
 <span class="label"><a href="{url 'IDF_Views_Download::view', array($project.shortname, $download.id)}" title="{$download.summary}">{$download}</a></span><br />

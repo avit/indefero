@@ -42,9 +42,9 @@
 <div id="main-tabs">
 {if $project}
   <a href="{url 'IDF_Views_Project::home', array($project.shortname)}"{block tabhome}{/block}>{trans 'Project Home'}</a> 
-  <a href="{url 'IDF_Views_Issue::index', array($project.shortname)}"{block tabissues}{/block}>{trans 'Issues'}</a>
-  <a href="{url 'IDF_Views_Download::index', array($project.shortname)}"{block tabdownloads}{/block}>{trans 'Downloads'}</a> 
-  <a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, 'master')}"{block tabsource}{/block}>{trans 'Source'}</a> 
+{if $hasIssuesAccess} <a href="{url 'IDF_Views_Issue::index', array($project.shortname)}"{block tabissues}{/block}>{trans 'Issues'}</a>{/if}
+{if $hasDownloadsAccess}  <a href="{url 'IDF_Views_Download::index', array($project.shortname)}"{block tabdownloads}{/block}>{trans 'Downloads'}</a>{/if} 
+{if $hasSourceAccess} <a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, 'master')}"{block tabsource}{/block}>{trans 'Source'}</a>{/if}
 {if $isOwner}
   <a href="{url 'IDF_Views_Project::admin', array($project.shortname)}"{block tabadmin}{/block}>{trans 'Administer'}</a>{/if}{/if}
 </div>

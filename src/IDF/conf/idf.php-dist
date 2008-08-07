@@ -103,8 +103,8 @@ $cfg['db_database'] = 'website';
 $cfg['installed_apps'] = array('Pluf', 'IDF');
 $cfg['pluf_use_rowpermission'] = true;
 $cfg['middleware_classes'] = array(
-         'IDF_Middleware',
          'Pluf_Middleware_Session',
+         'IDF_Middleware',
          'Pluf_Middleware_Translation',
          );
 $cfg['template_context_processors'] = array('IDF_Middleware_ContextPreProcessor');

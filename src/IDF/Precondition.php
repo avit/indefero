@@ -61,4 +61,53 @@ class IDF_Precondition
         }
         return new Pluf_HTTP_Response_Forbidden($request);
     }
+
+    /**
+     * Check if the user can access a given element.
+     *
+     * The rights are:
+     *  - 'all' (default)
+     *  - 'none'
+     *  - 'login'
+     *  - 'members'
+     *  - 'owners'
+     *
+     * The order of the rights is such that a 'owner' is also a
+     * 'member' and of course a logged in person.
+     *
+     * @param Pluf_HTTP_Request
+     * @param string Control key
+     * @return mixed
+     */
+    static public function accessTabGeneric($request, $key)
+    {
+        switch ($request->conf->getVal($key, 'all')) {
+        case 'none':
+            return new Pluf_HTTP_Response_Forbidden($request);
+        case 'login':
+            return Pluf_Precondition::loginRequired($request);
+        case 'members':
+            return self::projectMemberOrOwner($request);
+        case 'owners':
+            return self::projectOwner($request);
+        case 'all':
+        default:
+            return true;
+        }
+    }
+
+    static public function accessSource($request)
+    {
+        return self::accessTabGeneric($request, 'source_access_rights');
+    }
+
+    static public function accessIssues($request)
+    {
+        return self::accessTabGeneric($request, 'issues_access_rights');
+    }
+
+    static public function accessDownloads($request)
+    {
+        return self::accessTabGeneric($request, 'downloads_access_rights');
+    }
 }

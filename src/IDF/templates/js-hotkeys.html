@@ -3,11 +3,11 @@
 <script type="text/javascript" charset="utf-8">
 // <!--
 {hotkey 'Shift+h', 'IDF_Views_Project::home', array($project.shortname)}
-{hotkey 'Shift+a', 'IDF_Views_Issue::create', array($project.shortname)}
-{hotkey 'Shift+i', 'IDF_Views_Issue::index', array($project.shortname)}
-{hotkey 'Shift+d', 'IDF_Views_Download::index', array($project.shortname)}
-{hotkey 'Shift+s', 'IDF_Views_Source::treeBase', array($project.shortname, 'master')}
-{if !$user.isAnonymous()}
+{if $hasIssuesAccess}{hotkey 'Shift+a', 'IDF_Views_Issue::create', array($project.shortname)}
+{hotkey 'Shift+i', 'IDF_Views_Issue::index', array($project.shortname)}{/if}
+{if $hasDownloadsAccess}{hotkey 'Shift+d', 'IDF_Views_Download::index', array($project.shortname)}{/if}
+{if $hasSourceAccess}{hotkey 'Shift+s', 'IDF_Views_Source::treeBase', array($project.shortname, 'master')}{/if}
+{if $hasIssuesAccess and !$user.isAnonymous()}
 {hotkey 'Shift+m', 'IDF_Views_Issue::myIssues', array($project.shortname, 'submit')}
 {hotkey 'Shift+w', 'IDF_Views_Issue::myIssues', array($project.shortname, 'owner')}
 {/if} //-->

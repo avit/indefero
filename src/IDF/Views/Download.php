@@ -38,6 +38,7 @@ class IDF_Views_Download
     /**
      * List the files available for download.
      */
+    public $index_precond = array('IDF_Precondition::accessDownloads');
     public function index($request, $match)
     {
         $prj = $request->project;
@@ -75,6 +76,7 @@ class IDF_Views_Download
     /**
      * View details of a file.
      */
+    public $view_precond = array('IDF_Precondition::accessDownloads');
     public function view($request, $match)
     {
         $prj = $request->project;
@@ -123,6 +125,7 @@ class IDF_Views_Download
     /**
      * Download a file.
      */
+    public $download_precond = array('IDF_Precondition::accessDownloads');
     public function download($request, $match)
     {
         $prj = $request->project;
@@ -136,7 +139,8 @@ class IDF_Views_Download
     /**
      * Submit a new file for download.
      */
-    public $submit_precond = array('IDF_Precondition::projectMemberOrOwner');
+    public $submit_precond = array('IDF_Precondition::accessDownloads',
+                                   'IDF_Precondition::projectMemberOrOwner');
     public function submit($request, $match)
     {
         $prj = $request->project;
@@ -197,6 +201,7 @@ class IDF_Views_Download
     /**
      * View list of downloads with a given label.
      */
+    public $listLabel_precond = array('IDF_Precondition::accessDownloads');
     public function listLabel($request, $match)
     {
         $prj = $request->project;
