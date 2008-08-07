@@ -49,8 +49,8 @@
 {block context}
 {assign $submitter = $file.get_submitter()}
 <p><strong>{trans 'Uploaded:'}</strong> <span class="nobrk">{$file.creation_dtime|dateago}</span> <span class="nobrk">{blocktrans}by {$submitter}{/blocktrans}</span></p>
-<p>
-<strong>{trans 'Updated:'}</strong> <span class="nobrk">{$file.modif_dtime|dateago}</span></p>
+{if $file.modif_dtime != $file.creation_dtime}<p>
+<strong>{trans 'Updated:'}</strong> <span class="nobrk">{$file.modif_dtime|dateago}</span></p>{/if}
 <p>
 <strong>{trans 'Downloads:'}</strong> <span class="nobrk">{$file.downloads}</span></p>
 {if $tags.count()}
