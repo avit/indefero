@@ -1,0 +1,18 @@
+{trans 'Hello,'}
+
+{blocktrans}A new issue has been created and assigned
+to you:{/blocktrans}
+
+{$issue.id} - {$issue.summary|safe}
+{trans 'Project:'} {$project.name|safe}
+{trans 'Status:'} {$issue.get_status.name|safe}
+{trans 'Reported by:'} {$issue.get_submitter|safe}
+{assign $tags = $issue.get_tags_list()}{if $tags.count()}{trans 'Labels:'}
+{foreach $tags as $tag} {$tag.class|safe}:{$tag.name|safe}
+{/foreach}{/if}
+{trans 'Description:'}
+
+{$comment.content|safe}
+
+--
+{trans 'Issue:'} {$url_base}{url 'IDF_Views_Issue::view', array($project.shortname, $issue.id)}

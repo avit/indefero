@@ -89,7 +89,7 @@ class IDF_Tag extends Pluf_Model
                                   );
     }
 
-    function preSave()
+    function preSave($create=false)
     {
         $this->lcname = mb_strtolower($this->name);
     }

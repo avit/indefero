@@ -1,0 +1,24 @@
+{trans 'Hello,'}
+
+{blocktrans}The following issue has been updated:{/blocktrans}
+
+{$issue.id} - {$issue.summary|safe}
+{trans 'Project:'} {$project.name|safe}
+{trans 'Status:'} {$issue.get_status.name}
+{trans 'Reported by:'} {$issue.get_submitter|safe}
+{trans 'URL:'} {$url_base}{url 'IDF_Views_Issue::view', array($project.shortname, $issue.id)}
+{assign $tags = $issue.get_tags_list()}{if $tags.count()}{trans 'Labels:'}
+{foreach $tags as $tag} {$tag.class|safe}:{$tag.name|safe}
+{/foreach}
+{/if}{trans 'Comments (last first):'}
+
+{foreach $comments as $c}{assign $who = $c.get_submitter()}# {blocktrans}By {$who|safe}, {$c.creation_dtime|date}:{/blocktrans}
+
+{if strlen($c.content) > 0}{$c.content|safe}{else}{trans '(No comments were given for this change.)'}{/if}{if $c.changedIssue()}
+{foreach $c.changes as $w => $v}
+ {if $w == 'su'}{trans 'Summary:'}{/if}{if $w == 'st'}{trans 'Status:'}{/if}{if $w == 'ow'}{trans 'Owner:'}{/if}{if $w == 'lb'}{trans 'Labels:'}{/if} {if $w == 'lb'}{assign $l = implode(', ', $v)}{$l}{else}{$v}{/if}{/foreach}{/if}
+
+{/foreach}
+
+--
+{trans 'Issue:'} {$url_base}{url 'IDF_Views_Issue::view', array($project.shortname, $issue.id)}

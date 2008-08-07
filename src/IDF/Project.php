@@ -90,7 +90,7 @@ class IDF_Project extends Pluf_Model
     }
 
 
-    function preSave()
+    function preSave($create=false)
     {
         if ($this->id == '') {
             $this->creation_dtime = gmdate('Y-m-d H:i:s');

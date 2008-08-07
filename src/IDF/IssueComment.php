@@ -90,7 +90,7 @@ class IDF_IssueComment extends Pluf_Model
 
     function changedIssue()
     {
-        return count($this->changes) > 0;
+        return (is_array($this->changes) and count($this->changes) > 0);
     }
 
     function _toIndex()
@@ -98,14 +98,14 @@ class IDF_IssueComment extends Pluf_Model
         return $this->content;
     }
 
-    function preSave()
+    function preSave($create=false)
     {
         if ($this->id == '') {
             $this->creation_dtime = gmdate('Y-m-d H:i:s');
         }
     }
 
-    function postSave()
+    function postSave($create=false)
     {
         // This will be used to fire the indexing or send a
         // notification email to the interested people, etc.

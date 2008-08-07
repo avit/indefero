@@ -133,7 +133,7 @@ class IDF_Upload extends Pluf_Model
         return '';
     }
 
-    function preSave()
+    function preSave($create=false)
     {
         if ($this->id == '') {
             $this->creation_dtime = gmdate('Y-m-d H:i:s');

@@ -136,7 +136,7 @@ class IDF_Issue extends Pluf_Model
     }
 
 
-    function preSave()
+    function preSave($create=false)
     {
         if ($this->id == '') {
             $this->creation_dtime = gmdate('Y-m-d H:i:s');
@@ -144,7 +144,7 @@ class IDF_Issue extends Pluf_Model
         $this->modif_dtime = gmdate('Y-m-d H:i:s');
     }
 
-    function postSave()
+    function postSave($create=false)
     {
         // This will be used to fire the indexing or send a
         // notification email to the interested people, etc.
