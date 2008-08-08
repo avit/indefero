@@ -179,6 +179,12 @@ $ctl[] = array('regex' => '#^/p/(\w+)/downloads/create/$#',
                'model' => 'IDF_Views_Download',
                'method' => 'submit');
 
+$ctl[] = array('regex' => '#^/p/(\w+)/downloads/(\d+)/delete/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Download',
+               'method' => 'delete');
+
 
 // ---------- ADMIN --------------------------------------
 

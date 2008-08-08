@@ -123,6 +123,41 @@ class IDF_Views_Download
     }
 
     /**
+     * Delete a file.
+     */
+    public $delete_precond = array('IDF_Precondition::accessDownloads',
+                                   'IDF_Precondition::projectMemberOrOwner');
+    public function delete($request, $match)
+    {
+        $prj = $request->project;
+        $upload = Pluf_Shortcuts_GetObjectOr404('IDF_Upload', $match[2]);
+        $prj->inOr404($upload);
+        $title = sprintf(__('Delete Download %s'), $upload->summary);
+        $form = false;
+        $ptags = self::getDownloadTags($prj);
+        $dtag = array_pop($ptags); // The last tag is the deprecated tag.
+        $tags = $upload->get_tags_list();
+        $deprecated = Pluf_Model_InArray($dtag, $tags);
+        if ($request->method == 'POST') {
+            $fname = $upload->file;
+            @unlink(Pluf::f('upload_path').'/'.$prj->shortname.'/files/'.$fname);
+            $upload->delete();
+            $request->user->setMessage(__('The file has been deleted.'));
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Download::index', 
+                                            array($prj->shortname));
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
+        return Pluf_Shortcuts_RenderToResponse('downloads/delete.html',
+                                               array(
+                                                     'file' => $upload,
+                                                     'deprecated' => $deprecated,
+                                                     'tags' => $tags,
+                                                     'page_title' => $title,
+                                                     ),
+                                               $request);
+    }
+
+    /**
      * Download a file.
      */
     public $download_precond = array('IDF_Precondition::accessDownloads');

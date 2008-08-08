@@ -27,6 +27,16 @@
   text-align: right;
 }
 
+.dellink { 
+  float: right; 
+  position: relative; 
+  margin-top: -1.6em;
+}
+
+.dellink a { 
+  color: #a00;
+}
+
 .mono { 
   font-family: monospace;
 }
