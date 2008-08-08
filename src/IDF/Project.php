@@ -266,16 +266,20 @@ class IDF_Project extends Pluf_Model
      * project. For issues, only open issues are used to generate the
      * cloud.
      *
-     * @param string ('issues') or 'downloads'
+     * @param string ('issues') 'closed_issues' or 'downloads'
      * @return ArrayObject of IDF_Tag
      */
     public function getTagCloud($what='issues')
     {
         $tag_t = Pluf::factory('IDF_Tag')->getSqlTable();
-        if ($what == 'issues') {
+        if ($what == 'issues' or $what == 'closed_issues') {
             $what_t = Pluf::factory('IDF_Issue')->getSqlTable();
             $asso_t = $this->_con->pfx.'idf_issue_idf_tag_assoc';
-            $ostatus = $this->getTagIdsByStatus('open');
+            if ($what == 'issues') {
+                $ostatus = $this->getTagIdsByStatus('open');
+            } else {
+                $ostatus = $this->getTagIdsByStatus('closed');
+            }
             if (count($ostatus) == 0) $ostatus[] = 0;
             $sql = sprintf('SELECT '.$tag_t.'.id AS id, COUNT(*) AS nb_use FROM '.$tag_t.' '."\n".
                       'LEFT JOIN '.$asso_t.' ON idf_tag_id='.$tag_t.'.id '."\n".

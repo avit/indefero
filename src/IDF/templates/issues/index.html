@@ -13,7 +13,7 @@
 {blocktrans}<p><strong>Open issues:</strong> <a href="{$open_url}">{$open}</a></p>
 <p><strong>Closed issues:</strong> <a href="{$closed_url}">{$closed}</a></p>{/blocktrans}
 {assign $class = ''}{assign $i = 0}
-<p class="smaller">{foreach $project.getTagCloud() as $label}
+<p class="smaller">{foreach $project.getTagCloud($cloud) as $label}
 {aurl 'url', 'IDF_Views_Issue::listLabel', array($project.shortname, $label.id, 'open')}
 {if $class != $label.class}{if $i != 0}<br />{/if}<strong class="label">{$label.class}:</strong> {/if}
 <a href="{$url}" class="label">{$label.name}</a>,{assign $class = $label.class}{assign $i = $i + 1}{/foreach}</p>

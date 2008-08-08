@@ -38,7 +38,7 @@ class IDF_Views_Issue
     public function index($request, $match)
     {
         $prj = $request->project;
-        $title = sprintf(__('%s Recent Issues'), (string) $prj);
+        $title = sprintf(__('%s Open Issues'), (string) $prj);
         // Get stats about the issues
         $open = $prj->getIssueCountByStatus('open');
         $closed = $prj->getIssueCountByStatus('closed');
@@ -47,7 +47,7 @@ class IDF_Views_Issue
         $pag->class = 'recent-issues';
         $pag->item_extra_props = array('project_m' => $prj,
                                        'shortname' => $prj->shortname);
-        $pag->summary = __('This table shows the open recent issues.');
+        $pag->summary = __('This table shows the open issues.');
         $otags = $prj->getTagIdsByStatus('open');
         if (count($otags) == 0) $otags[] = 0;
         $pag->forced_where = new Pluf_SQL('project=%s AND status IN ('.implode(', ', $otags).')', array($prj->id));
@@ -69,6 +69,7 @@ class IDF_Views_Issue
                                                      'open' => $open,
                                                      'closed' => $closed,
                                                      'issues' => $pag,
+                                                     'cloud' => 'issues',
                                                      ),
                                                $request);
     }
@@ -102,7 +103,7 @@ class IDF_Views_Issue
         $pag->class = 'recent-issues';
         $pag->item_extra_props = array('project_m' => $prj,
                                        'shortname' => $prj->shortname);
-        $pag->summary = __('This table shows the open recent issues.');
+        $pag->summary = __('This table shows the open issues.');
         $pag->forced_where = $f_sql;
         $pag->action = array('IDF_Views_Issue::myIssues', array($prj->shortname, $match[2]));
         $pag->sort_order = array('modif_dtime', 'DESC');
@@ -294,6 +295,7 @@ class IDF_Views_Issue
                                                      'open' => $open,
                                                      'closed' => $closed,
                                                      'issues' => $pag,
+                                                     'cloud' => 'closed_issues',
                                                      ),
                                                $request);
     }
