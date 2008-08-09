@@ -51,6 +51,7 @@ class IDF_Views_Download
         $pag->summary = __('This table shows the files to download.');
         $pag->action = array('IDF_Views_Download::index', array($prj->shortname));
         $pag->edit_action = array('IDF_Views_Download::view', 'shortname', 'id');
+        $pag->forced_where = new Pluf_SQL('project=%s', array($prj->id));
         $list_display = array(
              'file' => __('File'),
              array('summary', 'IDF_Views_Download_SummaryAndLabels', __('Summary')),
