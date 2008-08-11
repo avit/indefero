@@ -41,6 +41,14 @@
   font-family: monospace;
 }
 
+.soft { 
+  color: #777;
+}
+
+.soft a { 
+  color: #777;
+}
+
 div.context { 
   padding-left: 1em;
 }
