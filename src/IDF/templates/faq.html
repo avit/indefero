@@ -1,5 +1,5 @@
 {extends "base-simple.html"}
-{block docclass}yui-t1{/block}
+{block docclass}yui-t3{/block}
 {block body}
 <ul>
 <li><a href="#q-keyboard">{trans 'What are the keyboard shortcuts?'}</a></li>
@@ -32,4 +32,8 @@
 {/block}
 {block context}
 <p>{trans 'Here we are, just to help you.'}</p>
+<h2>{trans 'Projects'}</h2>
+<ul>{foreach $projects as $p}
+<li><a href="{url 'IDF_Views_Project::home', array($p.shortname)}">{$p}</a></li>
+{/foreach}</ul>
 {/block}

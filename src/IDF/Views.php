@@ -170,9 +170,11 @@ class IDF_Views
     public function faq($request, $match)
     {
         $title = __('Here to Help You!');
+        $projects = Pluf::factory('IDF_Project')->getList(); 
         return Pluf_Shortcuts_RenderToResponse('faq.html', 
                                                array(
                                                      'page_title' => $title,
+                                                     'projects' => $projects,
                                                      ),
                                                $request);
 
