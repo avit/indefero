@@ -53,6 +53,7 @@ class IDF_Views_Issue
         $pag->forced_where = new Pluf_SQL('project=%s AND status IN ('.implode(', ', $otags).')', array($prj->id));
         $pag->action = array('IDF_Views_Issue::index', array($prj->shortname));
         $pag->sort_order = array('modif_dtime', 'DESC');
+        $pag->sort_reverse_order = array('modif_dtime');
         $list_display = array(
              'id' => __('Id'),
              array('summary', 'IDF_Views_Issue_SummaryAndLabels', __('Summary')),
@@ -107,6 +108,7 @@ class IDF_Views_Issue
         $pag->forced_where = $f_sql;
         $pag->action = array('IDF_Views_Issue::myIssues', array($prj->shortname, $match[2]));
         $pag->sort_order = array('modif_dtime', 'DESC');
+        $pag->sort_reverse_order = array('modif_dtime');
         $list_display = array(
              'id' => __('Id'),
              array('summary', 'IDF_Views_Issue_SummaryAndLabels', __('Summary')),
@@ -277,8 +279,9 @@ class IDF_Views_Issue
         $otags = $prj->getTagIdsByStatus('closed');
         if (count($otags) == 0) $otags[] = 0;
         $pag->forced_where = new Pluf_SQL('project=%s AND status IN ('.implode(', ', $otags).')', array($prj->id));
-        $pag->action = array('IDF_Views_Issue::index', array($prj->shortname));
+        $pag->action = array('IDF_Views_Issue::listStatus', array($prj->shortname, $status));
         $pag->sort_order = array('modif_dtime', 'DESC');
+        $pag->sort_reverse_order = array('modif_dtime');
         $list_display = array(
              'id' => __('Id'),
              array('summary', 'IDF_Views_Issue_SummaryAndLabels', __('Summary')),
@@ -334,6 +337,7 @@ class IDF_Views_Issue
         $pag->forced_where = new Pluf_SQL('project=%s AND idf_tag_id=%s AND status IN ('.implode(', ', $otags).')', array($prj->id, $tag->id));
         $pag->action = array('IDF_Views_Issue::listLabel', array($prj->shortname, $tag->id, $status));
         $pag->sort_order = array('modif_dtime', 'DESC');
+        $pag->sort_reverse_order = array('modif_dtime');
         $list_display = array(
              'id' => __('Id'),
              array('summary', 'IDF_Views_Issue_SummaryAndLabels', __('Summary')),
