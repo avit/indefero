@@ -36,12 +36,12 @@ class IDF_Form_Register extends Pluf_Form
         $this->fields['login'] = new Pluf_Form_Field_Varchar(
                                       array('required' => true,
                                             'label' => __('Your login'),
-                                            'max_length' => 8,
+                                            'max_length' => 15,
                                             'min_length' => 3,
                                             'initial' => $login,
-                                            'help_text' => __('The login must be between 3 and 8 characters long and contains only letters and digits.'),
+                                            'help_text' => __('The login must be between 3 and 15 characters long and contains only letters and digits.'),
                                             'widget_attrs' => array(
-                                                       'maxlength' => 8,
+                                                       'maxlength' => 15,
                                                        'size' => 10,
                                                                     ),
                                             ));
