@@ -46,7 +46,8 @@ class IDF_Views_Issue
         $pag = new Pluf_Paginator(new IDF_Issue());
         $pag->class = 'recent-issues';
         $pag->item_extra_props = array('project_m' => $prj,
-                                       'shortname' => $prj->shortname);
+                                       'shortname' => $prj->shortname,
+                                       'current_user' => $request->user);
         $pag->summary = __('This table shows the open issues.');
         $otags = $prj->getTagIdsByStatus('open');
         if (count($otags) == 0) $otags[] = 0;
@@ -103,7 +104,8 @@ class IDF_Views_Issue
         $pag = new Pluf_Paginator(new IDF_Issue());
         $pag->class = 'recent-issues';
         $pag->item_extra_props = array('project_m' => $prj,
-                                       'shortname' => $prj->shortname);
+                                       'shortname' => $prj->shortname,
+                                       'current_user' => $request->user);
         $pag->summary = __('This table shows the open issues.');
         $pag->forced_where = $f_sql;
         $pag->action = array('IDF_Views_Issue::myIssues', array($prj->shortname, $match[2]));
@@ -192,7 +194,9 @@ class IDF_Views_Issue
                                         array($prj->shortname, $issue->id));
         $title = Pluf_Template::markSafe(sprintf(__('Issue <a href="%s">%d</a>: %s'), $url, $issue->id, $issue->summary));
         $form = false; // The form is available only if logged in.
+        $starred = false;
         if (!$request->user->isAnonymous()) {
+            $starred = Pluf_Model_InArray($request->user, $issue->get_interested_list());
             $params = array(
                             'project' => $prj,
                             'user' => $request->user,
@@ -248,10 +252,11 @@ class IDF_Views_Issue
         $arrays = self::autoCompleteArrays($prj);
         return Pluf_Shortcuts_RenderToResponse('issues/view.html',
                                                array_merge(
-                                               array('project' => $prj,
+                                               array(
                                                      'issue' => $issue,
                                                      'comments' => $comments,
                                                      'form' => $form,
+                                                     'starred' => $starred,
                                                      'page_title' => $title,
                                                      ),
                                                $arrays),
@@ -274,7 +279,8 @@ class IDF_Views_Issue
         $pag = new Pluf_Paginator(new IDF_Issue());
         $pag->class = 'recent-issues';
         $pag->item_extra_props = array('project_m' => $prj,
-                                       'shortname' => $prj->shortname);
+                                       'shortname' => $prj->shortname,
+                                       'current_user' => $request->user);
         $pag->summary = __('This table shows the closed issues.');
         $otags = $prj->getTagIdsByStatus('closed');
         if (count($otags) == 0) $otags[] = 0;
@@ -330,7 +336,8 @@ class IDF_Views_Issue
         $pag->model_view = 'join_tags';
         $pag->class = 'recent-issues';
         $pag->item_extra_props = array('project_m' => $prj,
-                                       'shortname' => $prj->shortname);
+                                       'shortname' => $prj->shortname,
+                                       'current_user' => $request->user);
         $pag->summary = sprintf(__('This table shows the issues with label %s.'), (string) $tag);
         $otags = $prj->getTagIdsByStatus($status);
         if (count($otags) == 0) $otags[] = 0;
@@ -363,6 +370,31 @@ class IDF_Views_Issue
                                                      'issues' => $pag,
                                                      ),
                                                $request);
+    }
+
+    /**
+     * Star/Unstar an issue.
+     */
+    public $star_precond = array('IDF_Precondition::accessIssues',
+                                 'Pluf_Precondition::loginRequired');
+    public function star($request, $match)
+    {
+        $prj = $request->project;
+        $issue = Pluf_Shortcuts_GetObjectOr404('IDF_Issue', $match[2]);
+        $prj->inOr404($issue);
+        if ($request->method == 'POST') {
+            $starred = Pluf_Model_InArray($request->user, $issue->get_interested_list());
+            if ($starred) {
+                $issue->delAssoc($request->user);
+                $request->user->setMessage(__('The issue has been removed from your watch list.'));
+            } else {
+                $issue->setAssoc($request->user);
+                $request->user->setMessage(__('The issue has been added to your watch list.'));
+            }
+        }
+        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view',
+                                        array($prj->shortname, $issue->id));
+        return new Pluf_HTTP_Response_Redirect($url);
     }
 
     /**
@@ -432,11 +464,15 @@ function IDF_Views_Issue_SummaryAndLabels($field, $issue, $extra='')
                                         array($issue->shortname, $tag->id, 'open'));
         $tags[] = sprintf('<a class="label" href="%s">%s</a>', $url, Pluf_esc((string) $tag));
     }
+    $s = '';
+    if (Pluf_Model_InArray($issue->current_user, $issue->get_interested_list())) {
+        $s = '<img style="vertical-align: text-bottom;" src="'.Pluf_Template_Tag_MediaUrl::url('/idf/img/star.png').'" title="'.__('On your watch list.').'" /> ';
+    }
     $out = '';
     if (count($tags)) {
         $out = '<br /><span class="note">'.implode(', ', $tags).'</span>';
     }
-    return sprintf('<a href="%s">%s</a>', $edit, Pluf_esc($issue->summary)).$out;
+    return $s.sprintf('<a href="%s">%s</a>', $edit, Pluf_esc($issue->summary)).$out;
 }
 
 /**

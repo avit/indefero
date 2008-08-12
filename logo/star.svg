@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="96"
+   height="48"
+   id="svg0"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="star.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <metadata
+     id="metadata2536">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:cy="15"
+     inkscape:cx="49.903061"
+     inkscape:zoom="4"
+     inkscape:window-height="755"
+     inkscape:window-width="969"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:window-x="220"
+     inkscape:window-y="108"
+     inkscape:current-layer="svg0" />
+  <defs
+     id="defs">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 24 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="48 : 24 : 1"
+       inkscape:persp3d-origin="24 : 16 : 1"
+       id="perspective2538" />
+    <linearGradient
+       id="G0">
+      <stop
+         id="s1"
+         style="stop-color:#e6cf00;stop-opacity:1"
+         offset="0" />
+      <stop
+         id="s2"
+         style="stop-color:#fde94a;stop-opacity:1"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       id="G1">
+      <stop
+         id="s3"
+         style="stop-color:#fcf9fb;stop-opacity:1"
+         offset="0" />
+      <stop
+         id="s4"
+         style="stop-color:#fcf9fb;stop-opacity:0"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       id="G2">
+      <stop
+         id="s5"
+         style="stop-color:#000000;stop-opacity:0.63"
+         offset="0" />
+      <stop
+         id="s6"
+         style="stop-color:#000000;stop-opacity:0"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       x1="14.660452"
+       y1="7.0243196"
+       x2="24.030643"
+       y2="34.826122"
+       id="G3"
+       xlink:href="#G1"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       cx="24"
+       cy="22"
+       r="22"
+       fx="24"
+       fy="22"
+       id="R0"
+       xlink:href="#G0"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,-0.2,0.2,1,-3.8,6.8)" />
+    <radialGradient
+       cx="17.3125"
+       cy="25.53125"
+       r="9.6875"
+       fx="17.3125"
+       fy="25.53125"
+       id="R1"
+       xlink:href="#G2"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(2.4,0,0,0.67,-17.1,22.4)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#G1"
+       id="linearGradient2548"
+       gradientUnits="userSpaceOnUse"
+       x1="14.660452"
+       y1="7.0243196"
+       x2="24.030643"
+       y2="34.826122"
+       gradientTransform="translate(47.948863,0.5)" />
+  </defs>
+  <path
+     d="M 37.310531,41.5 L 24.030644,34.826121 L 10.735101,41.471448 L 13.289408,27.369086 L 2.5511635,17.368344 L 17.409702,15.326301 L 24.068641,2.5 L 30.697416,15.340488 L 45.551111,17.414249 L 34.789382,27.392039 L 37.310531,41.5 z"
+     id="star"
+     style="fill:url(#R0);stroke:#c4a000"
+     inkscape:export-xdpi="36"
+     inkscape:export-ydpi="36" />
+  <path
+     d="M 17.731857,15.79089 L 24.06374,3.5868195 L 30.369452,15.794804 L 44.440148,17.761498 L 40.820395,21.121507 C 24.382895,17.434007 31.36502,28.341981 13.251748,30.364721 L 13.819799,27.184324 L 3.6604518,17.718688 C 3.6604518,17.718688 17.731857,15.79089 17.731857,15.79089 z"
+     id="hl"
+     style="opacity:0.8;fill:url(#G3);stroke:none"
+     inkscape:export-filename="/home/loa/Projects/indefero/www/media/idf/img/star.png"
+     inkscape:export-xdpi="36"
+     inkscape:export-ydpi="36" />
+  <path
+     d="M 35.973752,39.712833 L 24.028333,33.709386 L 12.082531,39.678326 L 14.362768,27.008543 L 4.7776396,18.070249 L 18.056076,16.247921 L 24.062792,4.6783526 L 30.045232,16.255741 L 43.322959,18.11306 L 33.713703,27.034785 L 35.973752,39.712833 z"
+     id="ol"
+     style="opacity:0.68999999;fill:none;stroke:#ffffff"
+     inkscape:export-filename="/home/loa/Projects/indefero/www/media/idf/img/star.png"
+     inkscape:export-xdpi="36"
+     inkscape:export-ydpi="36" />
+  <path
+     d="M 85.259394,42 L 71.979507,35.326121 L 58.683964,41.971448 L 61.238271,27.869086 L 50.500026,17.868344 L 65.358565,15.826301 L 72.017504,3 L 78.646279,15.840488 L 93.499974,17.914249 L 82.738245,27.892039 L 85.259394,42 z"
+     id="path2540"
+     style="fill:#d3d7cf;stroke:#babdb6"
+     inkscape:export-filename="/home/loa/Projects/indefero/www/media/idf/img/star-grey.png"
+     inkscape:export-xdpi="36"
+     inkscape:export-ydpi="36" />
+  <path
+     d="M 65.68072,16.29089 L 72.012603,4.08682 L 78.318315,16.294804 L 92.389011,18.261498 L 88.769258,21.621507 C 72.331758,17.934007 79.313883,28.841981 61.200611,30.864721 L 61.768662,27.684324 L 51.609315,18.218688 C 51.609315,18.218688 65.68072,16.29089 65.68072,16.29089 z"
+     id="path2542"
+     style="opacity:0.8;fill:url(#linearGradient2548);stroke:none"
+     inkscape:export-filename="/home/loa/Projects/indefero/www/media/idf/img/star-grey.png"
+     inkscape:export-xdpi="36"
+     inkscape:export-ydpi="36" />
+  <path
+     d="M 83.922615,40.212833 L 71.977196,34.209386 L 60.031394,40.178326 L 62.311631,27.508543 L 52.726502,18.570249 L 66.004939,16.747921 L 72.011655,5.178353 L 77.994095,16.755741 L 91.271822,18.61306 L 81.662566,27.534785 L 83.922615,40.212833 z"
+     id="path2544"
+     style="opacity:0.68999999;fill:none;stroke:#ffffff"
+     inkscape:export-filename="/home/loa/Projects/indefero/www/media/idf/img/star-grey.png"
+     inkscape:export-xdpi="36"
+     inkscape:export-ydpi="36" />
+</svg>

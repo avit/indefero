@@ -51,7 +51,7 @@
 {block subtabs}{if $user.isAnonymous()} | {aurl 'url', 'IDF_Views::login'}{blocktrans}<a href="{$url}">Sign in or create your account</a> to create issues or add comments{/blocktrans}{/if}{/block}
 </div>
 
-	  <h1 class="title">{block title}{$page_title}{/block}</h1>
+	  <h1 class="title">{block titleicon}{/block}{block title}{$page_title}{/block}</h1>
 
   </div>
   <div id="bd">

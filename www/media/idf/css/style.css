@@ -56,6 +56,10 @@ div.context {
 /**
  * Form
  */
+form.star { 
+  display: inline;
+}
+
 table.form th, table.form td { 
   border: none;
   vertical-align: top;

@@ -85,6 +85,12 @@ $ctl[] = array('regex' => '#^/p/(\w+)/issues/(\d+)/$#',
                'model' => 'IDF_Views_Issue',
                'method' => 'view');
 
+$ctl[] = array('regex' => '#^/p/(\w+)/issues/(\d+)/star/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Issue',
+               'method' => 'star');
+
 $ctl[] = array('regex' => '#^/p/(\w+)/issues/status/(\w+)/$#',
                'base' => $base,
                'priority' => 4,

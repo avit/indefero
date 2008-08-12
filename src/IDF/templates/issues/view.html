@@ -1,4 +1,5 @@
 {extends "issues/base.html"}
+{block titleicon}{if $form}<form class="star" method="post" action="{url 'IDF_Views_Issue::star', array($project.shortname, $issue.id)}"><input type="image" src="{if $starred}{media '/idf/img/star.png'}{else}{media '/idf/img/star-grey.png'}{/if}" name="submit" /></form> {/if}{/block}
 {block body}
 {assign $i = 0} 
 {assign $nc = $comments.count()} 

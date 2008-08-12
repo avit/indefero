@@ -220,9 +220,6 @@ class IDF_Form_IssueCreate extends Pluf_Form
             foreach ($tags as $tag) {
                 $issue->setAssoc($tag);
             }
-            $issue->setAssoc($this->user); // the user is
-                                           // automatically
-                                           // interested.
             // add the first comment
             $comment = new IDF_IssueComment();
             $comment->issue = $issue;
