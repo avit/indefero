@@ -21,13 +21,13 @@
 {assign $km = 'members'}
 <p><strong>{trans 'Development Team'}</strong><br />
 {trans 'Admins'}<br />
-{foreach $team[$ko] as $owner}
-<span class="label">{$owner}</span><br />
+{foreach $team[$ko] as $owner}{aurl 'url', 'IDF_Views_User::view', array($owner.login)}
+<span class="label"><a class="label" href="{$url}">{$owner}</a></span><br />
 {/foreach}
 {if count($team[$km]) > 0}
 {trans 'Happy Crew'}<br />
-{foreach $team[$km] as $member}
-<span class="label">{$member}</span><br />
+{foreach $team[$km] as $member}{aurl 'url', 'IDF_Views_User::view', array($member.login)}
+<span class="label"><a class="label" href="{$url}">{$member}</a></span><br />
 {/foreach}
 {/if}
 </p>

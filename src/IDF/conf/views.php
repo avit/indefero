@@ -37,6 +37,18 @@ $ctl[] = array('regex' => '#^/login/$#',
                'method' => 'login',
                'name' => 'login_view');
 
+$ctl[] = array('regex' => '#^/preferences/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_User',
+               'method' => 'myAccount');
+
+$ctl[] = array('regex' => '#^/u/(.*)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_User',
+               'method' => 'view');
+
 $ctl[] = array('regex' => '#^/register/$#',
                'base' => $base,
                'priority' => 4,

@@ -35,7 +35,7 @@
   <div id="hd">
 {if $project}<h1 class="project-title">{$project}</h1>{/if}
     <p class="top">
-{if !$user.isAnonymous()}{blocktrans}Welcome, <strong>{$user.first_name} {$user.last_name}</strong>.{/blocktrans} <a href="{url 'IDF_Views::logout'}">{trans 'Sign Out'}</a>{else}<a href="{url 'IDF_Views::login'}">{trans 'Sign in or create your account'}</a>{/if}
+{if !$user.isAnonymous()}{aurl 'url', 'IDF_Views_User::myAccount'}{blocktrans}Welcome, <strong><a class="userw" href="{$url}">{$user}</a></strong>.{/blocktrans} <a href="{url 'IDF_Views::logout'}">{trans 'Sign Out'}</a>{else}<a href="{url 'IDF_Views::login'}">{trans 'Sign in or create your account'}</a>{/if}
 | <a href="{url 'IDF_Views::faq'}">{trans 'Help'}</a>
     </p>
 <div id="header">

@@ -37,6 +37,10 @@
   color: #a00;
 }
 
+a.userw { 
+  color: #000;
+}
+
 .mono { 
   font-family: monospace;
 }

@@ -4,14 +4,14 @@
 {assign $i = 0} 
 {assign $nc = $comments.count()} 
 {foreach $comments as $c}
-<div class="issue-comment{if $i == 0} issue-comment-first{/if}{if $i == ($nc-1)} issue-comment-last{/if}" id="ic{$c.id}">
-{if $i == 0}{assign $who = $issue.get_submitter()}
-<p>{blocktrans}Reported by {$who}, {$c.creation_dtime|date}{/blocktrans}</p>
-{else}{assign $who = $c.get_submitter()}
+<div class="issue-comment{if $i == 0} issue-comment-first{/if}{if $i == ($nc-1)} issue-comment-last{/if}" id="ic{$c.id}">{assign $who = $c.get_submitter()}{aurl 'whourl', 'IDF_Views_User::view', array($who.login)}
+{if $i == 0}
+<p>{blocktrans}Reported by <a href="{$whourl}">{$who}</a>, {$c.creation_dtime|date}{/blocktrans}</p>
+{else}
 {aurl 'url', 'IDF_Views_Issue::view', array($project.shortname, $issue.id)}
 {assign $id = $c.id}
 {assign $url = $url~'#ic'~$c.id}
-<p>{blocktrans}Comment <a href="{$url}">{$i}</a> by {$who}, {$c.creation_dtime|date}{/blocktrans}</p>
+<p>{blocktrans}Comment <a href="{$url}">{$i}</a> by <a href="{$whourl}">{$who}</a>, {$c.creation_dtime|date}{/blocktrans}</p>
 {/if}
 
 <pre class="issue-comment-text">{if strlen($c.content) > 0}{issuetext $c.content, $request}{else}<i>{trans '(No comments were given for this change.)'}</i>{/if}</pre>
@@ -91,15 +91,15 @@
 {/block}
 {block context}
 <div class="issue-info">
-{assign $submitter = $issue.get_submitter()}
-<p><strong>{trans 'Created:'}</strong> <span class="nobrk">{$issue.creation_dtime|dateago}</span> <span class="nobrk">{blocktrans}by {$submitter}{/blocktrans}</span></p>
+{assign $submitter = $issue.get_submitter()}{aurl 'url', 'IDF_Views_User::view', array($submitter.login)}
+<p><strong>{trans 'Created:'}</strong> <span class="nobrk">{$issue.creation_dtime|dateago}</span> <span class="nobrk">{blocktrans}by <a href="{$url}">{$submitter}</a>{/blocktrans}</span></p>
 {if $issue.modif_dtime != $issue.creation_dtime}<p>
 <strong>{trans 'Updated:'}</strong> <span class="nobrk">{$issue.modif_dtime|dateago}</span></p>{/if}
 <p>
 <strong>{trans 'Status:'}</strong> {$issue.get_status.name}</p>
-<p>
-<strong>{trans 'Owner:'}</strong> {if $issue.get_owner == null}{trans 'No owner'}{else}{$issue.get_owner}{/if}
-</p>{assign $tags = $issue.get_tags_list()}{if $tags.count()}
+{if $issue.get_owner != null}<p>{aurl 'url', 'IDF_Views_User::view', array($issue.get_owner().login)}
+<strong>{trans 'Owner:'}</strong> <a href="{$url}">{$issue.get_owner}</a>
+</p>{/if}{assign $tags = $issue.get_tags_list()}{if $tags.count()}
 <p>
 <strong>{trans 'Labels:'}</strong><br />
 {foreach $tags as $tag}{aurl 'url', 'IDF_Views_Issue::listLabel', array($project.shortname, $tag.id, 'open')}
