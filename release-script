@@ -1,0 +1,10 @@
+#!/bin/sh
+last="$1"
+new="$2"
+echo "xgettext -o idf.pot -p ./IDF/locale --force-po --from-code=UTF-8 --keyword --keyword=__ --keyword=_n:1,2 -L PHP ./IDF/*.php"
+echo "find ./ -iname \"*.php\" -exec xgettext -o idf.pot -p ./IDF/locale/ --from-code=UTF-8 -j --keyword --keyword=__ --keyword=_n:1,2 -L PHP {} \;"
+echo "# git tag v$new"
+echo "git archive --format=zip --prefix=indefero-$new/ v$new > indefero-$new.zip"
+echo "git log --no-merges v$new ^v$last > ChangeLog-$new"
+echo "git shortlog --no-merges v$new ^v$last > ShortLog"
+echo "git diff --stat --summary -M v$last v$new > diffstat-$new"
