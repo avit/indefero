@@ -467,7 +467,7 @@ function IDF_Views_Issue_SummaryAndLabels($field, $issue, $extra='')
     $s = '';
     if (!$issue->current_user->isAnonymous() and
         Pluf_Model_InArray($issue->current_user, $issue->get_interested_list())) {
-        $s = '<img style="vertical-align: text-bottom;" src="'.Pluf_Template_Tag_MediaUrl::url('/idf/img/star.png').'" title="'.__('On your watch list.').'" /> ';
+        $s = '<img style="vertical-align: text-bottom;" src="'.Pluf_Template_Tag_MediaUrl::url('/idf/img/star.png').'" alt="'.__('On your watch list.').'" /> ';
     }
     $out = '';
     if (count($tags)) {
