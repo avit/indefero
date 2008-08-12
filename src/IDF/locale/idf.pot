@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-08 21:27+0200\n"
+"POT-Creation-Date: 2008-08-12 14:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -156,7 +156,7 @@ msgstr ""
 msgid "number of downloads"
 msgstr ""
 
-#: IDF/Views.php:41
+#: IDF/Views.php:41 IDF/gettexttemplates/faq.html.php:22
 msgid "Projects"
 msgstr ""
 
@@ -250,66 +250,66 @@ msgstr ""
 msgid "This table shows the files to download."
 msgstr ""
 
-#: IDF/Views/Download.php:55 IDF/Views/Download.php:258
+#: IDF/Views/Download.php:56 IDF/Views/Download.php:259
 #: IDF/gettexttemplates/source/tree.html.php:6 IDF/Form/Upload.php:49
 msgid "File"
 msgstr ""
 
-#: IDF/Views/Download.php:56 IDF/Views/Download.php:259 IDF/Views/Issue.php:58
-#: IDF/Views/Issue.php:112 IDF/Views/Issue.php:284 IDF/Views/Issue.php:339
+#: IDF/Views/Download.php:57 IDF/Views/Download.php:260 IDF/Views/Issue.php:60
+#: IDF/Views/Issue.php:116 IDF/Views/Issue.php:293 IDF/Views/Issue.php:350
 #: IDF/Form/Upload.php:40 IDF/Form/IssueCreate.php:50
 #: IDF/Form/UpdateUpload.php:42 IDF/Form/IssueUpdate.php:45
 msgid "Summary"
 msgstr ""
 
-#: IDF/Views/Download.php:57 IDF/Views/Download.php:260
+#: IDF/Views/Download.php:58 IDF/Views/Download.php:261
 #: IDF/gettexttemplates/source/tree.html.php:9
 msgid "Size"
 msgstr ""
 
-#: IDF/Views/Download.php:58 IDF/Views/Download.php:261
+#: IDF/Views/Download.php:59 IDF/Views/Download.php:262
 msgid "Uploaded"
 msgstr ""
 
-#: IDF/Views/Download.php:62 IDF/Views/Download.php:265
+#: IDF/Views/Download.php:63 IDF/Views/Download.php:266
 msgid "No downloads were found."
 msgstr ""
 
-#: IDF/Views/Download.php:85
+#: IDF/Views/Download.php:86
 #, php-format
 msgid "Download %s"
 msgstr ""
 
-#: IDF/Views/Download.php:102
+#: IDF/Views/Download.php:103
 #, php-format
 msgid "The file <a href=\"%1$s\">%2$s</a> has been updated."
 msgstr ""
 
-#: IDF/Views/Download.php:135
+#: IDF/Views/Download.php:136
 #, php-format
 msgid "Delete Download %s"
 msgstr ""
 
-#: IDF/Views/Download.php:145
+#: IDF/Views/Download.php:146
 msgid "The file has been deleted."
 msgstr ""
 
-#: IDF/Views/Download.php:182 IDF/gettexttemplates/downloads/base.html.php:4
+#: IDF/Views/Download.php:183 IDF/gettexttemplates/downloads/base.html.php:4
 #: IDF/gettexttemplates/downloads/index.html.php:3
 msgid "New Download"
 msgstr ""
 
-#: IDF/Views/Download.php:191
+#: IDF/Views/Download.php:192
 #, php-format
 msgid "The <a href=\"%s\">file</a> has been uploaded."
 msgstr ""
 
-#: IDF/Views/Download.php:245
+#: IDF/Views/Download.php:246
 #, php-format
 msgid "%1$s Downloads with Label %2$s"
 msgstr ""
 
-#: IDF/Views/Download.php:253
+#: IDF/Views/Download.php:254
 #, php-format
 msgid "This table shows the downloads with label %s."
 msgstr ""
@@ -319,92 +319,104 @@ msgstr ""
 msgid "%s Open Issues"
 msgstr ""
 
-#: IDF/Views/Issue.php:50 IDF/Views/Issue.php:106
+#: IDF/Views/Issue.php:51 IDF/Views/Issue.php:109
 msgid "This table shows the open issues."
 msgstr ""
 
-#: IDF/Views/Issue.php:57 IDF/Views/Issue.php:111 IDF/Views/Issue.php:283
-#: IDF/Views/Issue.php:338
+#: IDF/Views/Issue.php:59 IDF/Views/Issue.php:115 IDF/Views/Issue.php:292
+#: IDF/Views/Issue.php:349
 msgid "Id"
 msgstr ""
 
-#: IDF/Views/Issue.php:59 IDF/Views/Issue.php:113 IDF/Views/Issue.php:285
-#: IDF/Views/Issue.php:340 IDF/Form/IssueCreate.php:70
+#: IDF/Views/Issue.php:61 IDF/Views/Issue.php:117 IDF/Views/Issue.php:294
+#: IDF/Views/Issue.php:351 IDF/Form/IssueCreate.php:70
 #: IDF/Form/IssueUpdate.php:66
 msgid "Status"
 msgstr ""
 
-#: IDF/Views/Issue.php:60 IDF/Views/Issue.php:114 IDF/Views/Issue.php:286
-#: IDF/Views/Issue.php:341
+#: IDF/Views/Issue.php:62 IDF/Views/Issue.php:118 IDF/Views/Issue.php:295
+#: IDF/Views/Issue.php:352
 msgid "Last Updated"
 msgstr ""
 
-#: IDF/Views/Issue.php:64 IDF/Views/Issue.php:118 IDF/Views/Issue.php:290
-#: IDF/Views/Issue.php:345
+#: IDF/Views/Issue.php:66 IDF/Views/Issue.php:122 IDF/Views/Issue.php:299
+#: IDF/Views/Issue.php:356
 msgid "No issues were found."
 msgstr ""
 
-#: IDF/Views/Issue.php:90
+#: IDF/Views/Issue.php:92
 #, php-format
 msgid "My Submitted %s Issues"
 msgstr ""
 
-#: IDF/Views/Issue.php:93
+#: IDF/Views/Issue.php:95
 #, php-format
 msgid "My Working %s Issues"
 msgstr ""
 
-#: IDF/Views/Issue.php:135
+#: IDF/Views/Issue.php:139
 msgid "Submit a new issue"
 msgstr ""
 
-#: IDF/Views/Issue.php:147
+#: IDF/Views/Issue.php:151
 #, php-format
 msgid "<a href=\"%s\">Issue %d</a> has been created."
 msgstr ""
 
-#: IDF/Views/Issue.php:160
+#: IDF/Views/Issue.php:164
 #, php-format
 msgid "Issue %s - %s (InDefero)"
 msgstr ""
 
-#: IDF/Views/Issue.php:191
+#: IDF/Views/Issue.php:195
 #, php-format
 msgid "Issue <a href=\"%s\">%d</a>: %s"
 msgstr ""
 
-#: IDF/Views/Issue.php:207
+#: IDF/Views/Issue.php:213
 #, php-format
 msgid "<a href=\"%s\">Issue %d</a> has been updated."
 msgstr ""
 
-#: IDF/Views/Issue.php:231
+#: IDF/Views/Issue.php:237
 #, php-format
 msgid "Updated Issue %s - %s (InDefero)"
 msgstr ""
 
-#: IDF/Views/Issue.php:267
+#: IDF/Views/Issue.php:274
 #, php-format
 msgid "%s Closed Issues"
 msgstr ""
 
-#: IDF/Views/Issue.php:276
+#: IDF/Views/Issue.php:284
 msgid "This table shows the closed issues."
 msgstr ""
 
-#: IDF/Views/Issue.php:316
+#: IDF/Views/Issue.php:325
 #, php-format
 msgid "%1$s Issues with Label %2$s"
 msgstr ""
 
-#: IDF/Views/Issue.php:319
+#: IDF/Views/Issue.php:328
 #, php-format
 msgid "%1$s Closed Issues with Label %2$s"
 msgstr ""
 
-#: IDF/Views/Issue.php:331
+#: IDF/Views/Issue.php:341
 #, php-format
 msgid "This table shows the issues with label %s."
+msgstr ""
+
+#: IDF/Views/Issue.php:389
+msgid "The issue has been removed from your watch list."
+msgstr ""
+
+#: IDF/Views/Issue.php:392
+msgid "The issue has been added to your watch list."
+msgstr ""
+
+#: IDF/Views/Issue.php:470
+msgid "On your watch list."
 msgstr ""
 
 #: IDF/gettexttemplates/base-simple.html.php:3
@@ -762,6 +774,10 @@ msgid "Download this version"
 msgstr ""
 
 #: IDF/gettexttemplates/source/tree.html.php:12
+msgid "or"
+msgstr ""
+
+#: IDF/gettexttemplates/source/tree.html.php:13
 #: IDF/gettexttemplates/source/commit.html.php:13
 #: IDF/gettexttemplates/source/changelog.html.php:7
 msgid "Branches:"
@@ -1142,7 +1158,7 @@ msgstr ""
 
 #: IDF/Form/Register.php:42
 msgid ""
-"The login must be between 3 and 8 characters long and contains only letters "
+"The login must be between 3 and 15 characters long and contains only letters "
 "and digits."
 msgstr ""
 
@@ -1176,8 +1192,8 @@ msgid ""
 msgstr ""
 
 #: IDF/Form/Register.php:108 IDF/Form/Upload.php:122
-#: IDF/Form/IssueCreate.php:234 IDF/Form/UpdateUpload.php:116
-#: IDF/Form/IssueUpdate.php:258 IDF/Form/MembersConf.php:64
+#: IDF/Form/IssueCreate.php:231 IDF/Form/UpdateUpload.php:116
+#: IDF/Form/IssueUpdate.php:259 IDF/Form/MembersConf.php:64
 msgid "Cannot save the model from an invalid form."
 msgstr ""
 
