@@ -186,11 +186,12 @@ class IDF_Views_Issue
     public $search_precond = array('IDF_Precondition::accessIssues');
     public function search($request, $match)
     {
+        $prj = $request->project;
         if (!isset($request->REQUEST['q']) or trim($request->REQUEST['q']) == '') {
-            $url =  Pluf_HTTP_URL_urlForView('IDF_Views_Issue::index');
+            $url =  Pluf_HTTP_URL_urlForView('IDF_Views_Issue::index', 
+                                             array($prj->shortname));
             return new Pluf_HTTP_Response_Redirect($url);
         }
-        $prj = $request->project;
         $q = $request->REQUEST['q'];
         $title = sprintf(__('Search Issues - %s'), Pluf_esc($q));
         $issues = new Pluf_Search_ResultSet(IDF_Search::mySearch($q, $prj));
