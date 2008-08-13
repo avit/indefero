@@ -1047,7 +1047,7 @@ msgstr "Projet :"
 #: IDF/gettexttemplates/issues/view.html.php:10
 #: IDF/gettexttemplates/issues/view.html.php:18
 msgid "Status:"
-msgstr "Statut "
+msgstr "Statut :"
 
 #: IDF/gettexttemplates/issues/issue-created-email.txt.php:8
 #: IDF/gettexttemplates/issues/issue-updated-email.txt.php:8
