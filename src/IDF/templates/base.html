@@ -34,14 +34,14 @@
 <div id="{block docid}doc3{/block}" class="{block docclass}yui-t3{/block}">
   <div id="hd">
 {if $project}<h1 class="project-title">{$project}</h1>{/if}
-    <p class="top">
+    <p class="top"><a href="#title" accesskey="2"></a>
 {if !$user.isAnonymous()}{aurl 'url', 'IDF_Views_User::myAccount'}{blocktrans}Welcome, <strong><a class="userw" href="{$url}">{$user}</a></strong>.{/blocktrans} <a href="{url 'IDF_Views::logout'}">{trans 'Sign Out'}</a>{else}<a href="{url 'IDF_Views::login'}">{trans 'Sign in or create your account'}</a>{/if}
 | <a href="{url 'IDF_Views::faq'}">{trans 'Help'}</a>
     </p>
 <div id="header">
 <div id="main-tabs">
 {if $project}
-  <a href="{url 'IDF_Views_Project::home', array($project.shortname)}"{block tabhome}{/block}>{trans 'Project Home'}</a> 
+  <a accesskey="1" href="{url 'IDF_Views_Project::home', array($project.shortname)}"{block tabhome}{/block}>{trans 'Project Home'}</a> 
 {if $hasIssuesAccess} <a href="{url 'IDF_Views_Issue::index', array($project.shortname)}"{block tabissues}{/block}>{trans 'Issues'}</a>{/if}
 {if $hasDownloadsAccess}  <a href="{url 'IDF_Views_Download::index', array($project.shortname)}"{block tabdownloads}{/block}>{trans 'Downloads'}</a>{/if} 
 {if $hasSourceAccess} <a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, 'master')}"{block tabsource}{/block}>{trans 'Source'}</a>{/if}
@@ -51,7 +51,7 @@
 {block subtabs}{if $user.isAnonymous()} | {aurl 'url', 'IDF_Views::login'}{blocktrans}<a href="{$url}">Sign in or create your account</a> to create issues or add comments{/blocktrans}{/if}{/block}
 </div>
 
-	  <h1 class="title">{block titleicon}{/block}{block title}{$page_title}{/block}</h1>
+	  <h1 class="title" id="title">{block titleicon}{/block}{block title}{$page_title}{/block}</h1>
 
   </div>
   <div id="bd">
