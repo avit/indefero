@@ -183,6 +183,47 @@ class IDF_Views_Issue
                                                $request);
     }
 
+    public $search_precond = array('IDF_Precondition::accessIssues');
+    public function search($request, $match)
+    {
+        if (!isset($request->REQUEST['q']) or trim($request->REQUEST['q']) == '') {
+            $url =  Pluf_HTTP_URL_urlForView('IDF_Views_Issue::index');
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
+        $prj = $request->project;
+        $q = $request->REQUEST['q'];
+        $title = sprintf(__('Search Issues - %s'), Pluf_esc($q));
+        $issues = new Pluf_Search_ResultSet(IDF_Search::mySearch($q, $prj));
+        if (count($issues) > 100) {
+            // no more than 100 results as we do not care
+            $issues->results = array_slice($issues->results, 0, 100);
+        }
+        $pag = new Pluf_Paginator();
+        $pag->items = $issues;
+        $pag->class = 'recent-issues';
+        $pag->item_extra_props = array('project_m' => $prj,
+                                       'shortname' => $prj->shortname,
+                                       'current_user' => $request->user);
+        $pag->summary = __('This table shows the found issues.');
+        $pag->action = array('IDF_Views_Issue::search', array($prj->shortname), array('q'=> $q));
+        $list_display = array(
+                              'id' => __('Id'),
+                              array('summary', 'IDF_Views_Issue_SummaryAndLabels', __('Summary')),
+                              array('status', 'IDF_Views_Issue_ShowStatus', __('Status')),
+                              array('modif_dtime', 'Pluf_Paginator_DateAgo', __('Last Updated')),
+                              );
+        $pag->configure($list_display);
+        $pag->items_per_page = 100;
+        $pag->no_results_text = __('No issues were found.');
+        $pag->setFromRequest($request);
+        $params = array('page_title' => $title,
+                        'issues' => $pag,
+                        'q' => $q,
+                        );
+        return Pluf_Shortcuts_RenderToResponse('issues/search.html', $params, $request);
+
+    }
+
     public $view_precond = array('IDF_Precondition::accessIssues');
     public function view($request, $match)
     {

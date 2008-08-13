@@ -3,7 +3,11 @@
 {block subtabs}
 <div id="sub-tabs">
 <a href="{url 'IDF_Views_Issue::index', array($project.shortname)}">{trans 'Open issues'}</a>
-{if !$user.isAnonymous()} | <a href="{url 'IDF_Views_Issue::create', array($project.shortname)}">{trans 'New Issue'}</a> | <a href="{url 'IDF_Views_Issue::myIssues', array($project.shortname, 'submit')}">{trans 'My Issues'}</a>{/if}
+{if !$user.isAnonymous()} | <a href="{url 'IDF_Views_Issue::create', array($project.shortname)}">{trans 'New Issue'}</a> | <a href="{url 'IDF_Views_Issue::myIssues', array($project.shortname, 'submit')}">{trans 'My Issues'}</a>{/if} |
+<form class="star" action="{url 'IDF_Views_Issue::search', array($project.shortname)}" method="get">
+<input type="text" value="{$q}" name="q" size="20" />
+<input type="submit" name="s" value="{trans 'Search'}" />
+</form>
 {superblock}
 </div>
 {/block}

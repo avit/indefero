@@ -91,6 +91,12 @@ $ctl[] = array('regex' => '#^/p/(\w+)/issues/$#',
                'model' => 'IDF_Views_Issue',
                'method' => 'index');
 
+$ctl[] = array('regex' => '#^/p/(\w+)/issues/search/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Issue',
+               'method' => 'search');
+
 $ctl[] = array('regex' => '#^/p/(\w+)/issues/(\d+)/$#',
                'base' => $base,
                'priority' => 4,

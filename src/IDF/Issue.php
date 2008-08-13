@@ -132,7 +132,12 @@ class IDF_Issue extends Pluf_Model
 
     function _toIndex()
     {
-        return '';
+        $r = array();
+        foreach ($this->get_comments_list() as $c) {
+            $r[] = $c->_toIndex();
+        }
+        $str = str_repeat($this->summary.' ', 4).' '.implode(' ', $r);
+        return Pluf_Text::cleanString(html_entity_decode($str, ENT_QUOTES, 'UTF-8'));
     }
 
 
@@ -146,13 +151,6 @@ class IDF_Issue extends Pluf_Model
 
     function postSave($create=false)
     {
-        // This will be used to fire the indexing or send a
-        // notification email to the interested people, etc.
-        $q = new Pluf_Queue();
-        $q->model_class = __CLASS__;
-        $q->model_id = $this->id;
-        $q->action = 'updated';
-        $q->lock = 0;
-        $q->create();
+        print IDF_Search::index($this);
     }
 }

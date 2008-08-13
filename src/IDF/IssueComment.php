@@ -107,13 +107,5 @@ class IDF_IssueComment extends Pluf_Model
 
     function postSave($create=false)
     {
-        // This will be used to fire the indexing or send a
-        // notification email to the interested people, etc.
-        $q = new Pluf_Queue();
-        $q->model_class = __CLASS__;
-        $q->model_id = $this->id;
-        $q->action = 'updated';
-        $q->lock = 0;
-        $q->create();
     }
 }
