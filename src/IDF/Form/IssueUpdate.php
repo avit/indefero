@@ -253,7 +253,10 @@ class IDF_Form_IssueUpdate  extends IDF_Form_IssueCreate
             $comment->changes = $changes;
             $comment->create();
             $this->issue->update();
-            $this->issue->setAssoc($this->user); // interested user.
+            if ($this->issue->owner != $this->user->id and
+                $this->issue->submitter != $this->user->id) {
+                $this->issue->setAssoc($this->user); // interested user.
+            }
             return $this->issue;
         }
         throw new Exception(__('Cannot save the model from an invalid form.'));
