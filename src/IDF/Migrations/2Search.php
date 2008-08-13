@@ -36,6 +36,9 @@ function IDF_Migrations_2Search_up($params=null)
         $schema->model = new $model();
         $schema->createTables();
     }
+    foreach (Pluf::factory('IDF_Issue')->getList() as $i) {
+        IDF_Search::index($i);
+    }
 }
 
 function IDF_Migrations_2Search_down($params=null)
