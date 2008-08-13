@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-13 18:32+0200\n"
+"POT-Creation-Date: 2008-08-13 21:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -158,6 +158,8 @@ msgid "number of downloads"
 msgstr ""
 
 #: IDF/Views.php:41 IDF/gettexttemplates/faq.html.php:22
+#: IDF/gettexttemplates/faq.html.php:26
+#: IDF/gettexttemplates/user/public.html.php:6
 msgid "Projects"
 msgstr ""
 
@@ -257,8 +259,8 @@ msgid "File"
 msgstr ""
 
 #: IDF/Views/Download.php:57 IDF/Views/Download.php:260 IDF/Views/Issue.php:60
-#: IDF/Views/Issue.php:116 IDF/Views/Issue.php:211 IDF/Views/Issue.php:334
-#: IDF/Views/Issue.php:391 IDF/Form/Upload.php:40 IDF/Form/IssueCreate.php:50
+#: IDF/Views/Issue.php:116 IDF/Views/Issue.php:212 IDF/Views/Issue.php:337
+#: IDF/Views/Issue.php:394 IDF/Form/Upload.php:40 IDF/Form/IssueCreate.php:50
 #: IDF/Form/UpdateUpload.php:42 IDF/Form/IssueUpdate.php:45
 msgid "Summary"
 msgstr ""
@@ -324,24 +326,24 @@ msgstr ""
 msgid "This table shows the open issues."
 msgstr ""
 
-#: IDF/Views/Issue.php:59 IDF/Views/Issue.php:115 IDF/Views/Issue.php:210
-#: IDF/Views/Issue.php:333 IDF/Views/Issue.php:390
+#: IDF/Views/Issue.php:59 IDF/Views/Issue.php:115 IDF/Views/Issue.php:211
+#: IDF/Views/Issue.php:336 IDF/Views/Issue.php:393
 msgid "Id"
 msgstr ""
 
-#: IDF/Views/Issue.php:61 IDF/Views/Issue.php:117 IDF/Views/Issue.php:212
-#: IDF/Views/Issue.php:335 IDF/Views/Issue.php:392 IDF/Form/IssueCreate.php:70
+#: IDF/Views/Issue.php:61 IDF/Views/Issue.php:117 IDF/Views/Issue.php:213
+#: IDF/Views/Issue.php:338 IDF/Views/Issue.php:395 IDF/Form/IssueCreate.php:70
 #: IDF/Form/IssueUpdate.php:66
 msgid "Status"
 msgstr ""
 
-#: IDF/Views/Issue.php:62 IDF/Views/Issue.php:118 IDF/Views/Issue.php:213
-#: IDF/Views/Issue.php:336 IDF/Views/Issue.php:393
+#: IDF/Views/Issue.php:62 IDF/Views/Issue.php:118 IDF/Views/Issue.php:214
+#: IDF/Views/Issue.php:339 IDF/Views/Issue.php:396
 msgid "Last Updated"
 msgstr ""
 
-#: IDF/Views/Issue.php:66 IDF/Views/Issue.php:122 IDF/Views/Issue.php:217
-#: IDF/Views/Issue.php:340 IDF/Views/Issue.php:397
+#: IDF/Views/Issue.php:66 IDF/Views/Issue.php:122 IDF/Views/Issue.php:218
+#: IDF/Views/Issue.php:343 IDF/Views/Issue.php:400
 msgid "No issues were found."
 msgstr ""
 
@@ -369,63 +371,63 @@ msgstr ""
 msgid "Issue %s - %s (InDefero)"
 msgstr ""
 
-#: IDF/Views/Issue.php:195
+#: IDF/Views/Issue.php:196
 #, php-format
 msgid "Search Issues - %s"
 msgstr ""
 
-#: IDF/Views/Issue.php:207
+#: IDF/Views/Issue.php:208
 msgid "This table shows the found issues."
 msgstr ""
 
-#: IDF/Views/Issue.php:236
+#: IDF/Views/Issue.php:237
 #, php-format
 msgid "Issue <a href=\"%s\">%d</a>: %s"
 msgstr ""
 
-#: IDF/Views/Issue.php:254
+#: IDF/Views/Issue.php:256
 #, php-format
 msgid "<a href=\"%s\">Issue %d</a> has been updated."
 msgstr ""
 
-#: IDF/Views/Issue.php:278
+#: IDF/Views/Issue.php:280
 #, php-format
 msgid "Updated Issue %s - %s (InDefero)"
 msgstr ""
 
-#: IDF/Views/Issue.php:315
+#: IDF/Views/Issue.php:318
 #, php-format
 msgid "%s Closed Issues"
 msgstr ""
 
-#: IDF/Views/Issue.php:325
+#: IDF/Views/Issue.php:328
 msgid "This table shows the closed issues."
-msgstr ""
-
-#: IDF/Views/Issue.php:366
-#, php-format
-msgid "%1$s Issues with Label %2$s"
 msgstr ""
 
 #: IDF/Views/Issue.php:369
 #, php-format
+msgid "%1$s Issues with Label %2$s"
+msgstr ""
+
+#: IDF/Views/Issue.php:372
+#, php-format
 msgid "%1$s Closed Issues with Label %2$s"
 msgstr ""
 
-#: IDF/Views/Issue.php:382
+#: IDF/Views/Issue.php:385
 #, php-format
 msgid "This table shows the issues with label %s."
 msgstr ""
 
-#: IDF/Views/Issue.php:430
+#: IDF/Views/Issue.php:433
 msgid "The issue has been removed from your watch list."
 msgstr ""
 
-#: IDF/Views/Issue.php:433
+#: IDF/Views/Issue.php:436
 msgid "The issue has been added to your watch list."
 msgstr ""
 
-#: IDF/Views/Issue.php:511
+#: IDF/Views/Issue.php:514
 msgid "On your watch list."
 msgstr ""
 
@@ -520,6 +522,8 @@ msgstr ""
 #: IDF/gettexttemplates/register/index.html.php:7
 #: IDF/gettexttemplates/issues/view.html.php:14
 #: IDF/gettexttemplates/issues/create.html.php:12
+#: IDF/gettexttemplates/user/myaccount.html.php:6
+#: IDF/gettexttemplates/issues/view.html.php:15
 msgid "Cancel"
 msgstr ""
 
@@ -531,6 +535,7 @@ msgstr ""
 #: IDF/gettexttemplates/downloads/delete.html.php:9
 #: IDF/gettexttemplates/downloads/view.html.php:12
 #: IDF/gettexttemplates/issues/view.html.php:16
+#: IDF/gettexttemplates/issues/view.html.php:17
 msgid "Updated:"
 msgstr ""
 
@@ -546,6 +551,7 @@ msgstr ""
 #: IDF/gettexttemplates/issues/issue-updated-email.txt.php:16
 #: IDF/gettexttemplates/issues/view.html.php:11
 #: IDF/gettexttemplates/issues/view.html.php:20
+#: IDF/gettexttemplates/issues/view.html.php:12
 msgid "Labels:"
 msgstr ""
 
@@ -612,6 +618,7 @@ msgid "What are the keyboard shortcuts?"
 msgstr ""
 
 #: IDF/gettexttemplates/faq.html.php:10 IDF/gettexttemplates/faq.html.php:20
+#: IDF/gettexttemplates/faq.html.php:24
 msgid "How to mark an issue as duplicate?"
 msgstr ""
 
@@ -647,7 +654,7 @@ msgstr ""
 msgid "<kbd>Shift+w</kbd>: The issues assigned to you."
 msgstr ""
 
-#: IDF/gettexttemplates/faq.html.php:21
+#: IDF/gettexttemplates/faq.html.php:21 IDF/gettexttemplates/faq.html.php:25
 msgid "Here we are, just to help you."
 msgstr ""
 
@@ -880,10 +887,12 @@ msgid ""
 msgstr ""
 
 #: IDF/gettexttemplates/register/confirmation.html.php:3
+#: IDF/gettexttemplates/user/myaccount.html.php:3
 msgid "Oups, please check the form for errors."
 msgstr ""
 
 #: IDF/gettexttemplates/register/confirmation.html.php:4
+#: IDF/gettexttemplates/user/myaccount.html.php:4
 msgid "Login:"
 msgstr ""
 
@@ -981,6 +990,8 @@ msgstr ""
 #: IDF/gettexttemplates/issues/issue-updated-email.txt.php:14
 #: IDF/gettexttemplates/issues/view.html.php:9
 #: IDF/gettexttemplates/issues/view.html.php:17
+#: IDF/gettexttemplates/issues/view.html.php:10
+#: IDF/gettexttemplates/issues/view.html.php:18
 msgid "Status:"
 msgstr ""
 
@@ -1017,17 +1028,21 @@ msgstr ""
 
 #: IDF/gettexttemplates/issues/issue-updated-email.txt.php:12
 #: IDF/gettexttemplates/issues/view.html.php:7
+#: IDF/gettexttemplates/issues/view.html.php:8
 msgid "(No comments were given for this change.)"
 msgstr ""
 
 #: IDF/gettexttemplates/issues/issue-updated-email.txt.php:13
 #: IDF/gettexttemplates/issues/view.html.php:8
+#: IDF/gettexttemplates/issues/view.html.php:9
 msgid "Summary:"
 msgstr ""
 
 #: IDF/gettexttemplates/issues/issue-updated-email.txt.php:15
 #: IDF/gettexttemplates/issues/view.html.php:10
 #: IDF/gettexttemplates/issues/view.html.php:18
+#: IDF/gettexttemplates/issues/view.html.php:11
+#: IDF/gettexttemplates/issues/view.html.php:19
 msgid "Owner:"
 msgstr ""
 
@@ -1039,6 +1054,7 @@ msgstr ""
 #: IDF/gettexttemplates/issues/by-label.html.php:6
 #: IDF/gettexttemplates/issues/index.html.php:5
 #: IDF/gettexttemplates/issues/my-issues.html.php:3
+#: IDF/gettexttemplates/issues/search.html.php:3
 msgid "New Issue"
 msgstr ""
 
@@ -1062,14 +1078,17 @@ msgid "<a href=\"%%url%%\">Sign in</a> to reply to this comment."
 msgstr ""
 
 #: IDF/gettexttemplates/issues/view.html.php:12
+#: IDF/gettexttemplates/issues/view.html.php:13
 msgid "The form contains some errors. Please correct them to change the issue."
 msgstr ""
 
 #: IDF/gettexttemplates/issues/view.html.php:13
+#: IDF/gettexttemplates/issues/view.html.php:14
 msgid "Submit Changes"
 msgstr ""
 
 #: IDF/gettexttemplates/issues/view.html.php:15
+#: IDF/gettexttemplates/issues/view.html.php:16
 msgid "Created:"
 msgstr ""
 
@@ -1211,7 +1230,7 @@ msgstr ""
 
 #: IDF/Form/Register.php:108 IDF/Form/Upload.php:122
 #: IDF/Form/IssueCreate.php:231 IDF/Form/UpdateUpload.php:116
-#: IDF/Form/UserAccount.php:88 IDF/Form/IssueUpdate.php:259
+#: IDF/Form/UserAccount.php:88 IDF/Form/IssueUpdate.php:262
 #: IDF/Form/MembersConf.php:64
 msgid "Cannot save the model from an invalid form."
 msgstr ""
@@ -1384,4 +1403,81 @@ msgstr ""
 
 #: IDF/Search/Occ.php:81
 msgid "ponderated occurence"
+msgstr ""
+
+#: IDF/gettexttemplates/base-simple.html.php:3
+#: IDF/gettexttemplates/base.html.php:3
+#, php-format
+msgid ""
+"Welcome, <strong><a class=\"userw\" href=\"%%url%%\">%%user%%</a></strong>."
+msgstr ""
+
+#: IDF/gettexttemplates/faq.html.php:20
+msgid "You also have the standard access keys:"
+msgstr ""
+
+#: IDF/gettexttemplates/faq.html.php:21
+msgid "<kbd>Alt+1</kbd>: Home."
+msgstr ""
+
+#: IDF/gettexttemplates/faq.html.php:22
+msgid "<kbd>Alt+2</kbd>: Skip the menus."
+msgstr ""
+
+#: IDF/gettexttemplates/faq.html.php:23
+msgid "<kbd>Alt+4</kbd>: Search (when available)."
+msgstr ""
+
+#: IDF/gettexttemplates/user/myaccount.html.php:5
+msgid "Update Your Account"
+msgstr ""
+
+#: IDF/gettexttemplates/user/myaccount.html.php:7
+msgid ""
+"If possible, use your real name. By using your real name, people will have "
+"more trust in your comments and remarks."
+msgstr ""
+
+#: IDF/gettexttemplates/user/public.html.php:3
+#, php-format
+msgid "You are looking at the public profile of %%member%%."
+msgstr ""
+
+#: IDF/gettexttemplates/user/public.html.php:4
+msgid "Last time seen:"
+msgstr ""
+
+#: IDF/gettexttemplates/user/public.html.php:5
+msgid "Member since:"
+msgstr ""
+
+#: IDF/gettexttemplates/issues/base.html.php:6
+msgid "Search"
+msgstr ""
+
+#: IDF/gettexttemplates/issues/view.html.php:3
+#, php-format
+msgid "Reported by <a href=\"%%whourl%%\">%%who%%</a>, %%c.creation_dtime%%"
+msgstr ""
+
+#: IDF/gettexttemplates/issues/view.html.php:4
+#, php-format
+msgid ""
+"Comment <a href=\"%%url%%\">%%i%%</a> by <a href=\"%%whourl%%\">%%who%%</a>, "
+"%%c.creation_dtime%%"
+msgstr ""
+
+#: IDF/gettexttemplates/issues/view.html.php:6
+msgid ""
+"This issue is marked as closed, add a comment only if you think this issue "
+"is still valid and more work is needed to fully fix it."
+msgstr ""
+
+#: IDF/gettexttemplates/issues/view.html.php:7
+#, php-format
+msgid "by <a href=\"%%url%%\">%%submitter%%</a>"
+msgstr ""
+
+#: IDF/gettexttemplates/issues/search.html.php:4
+msgid "Found issues:"
 msgstr ""
