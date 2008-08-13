@@ -667,31 +667,31 @@ msgstr "Si vous êtes dans un projet, vous disposez des raccourcis suivants :"
 
 #: IDF/gettexttemplates/faq.html.php:13
 msgid "<kbd>Shift+h</kbd>: Project home."
-msgstr "<kbd>Shift+h</kbd>: Page d'accueil du projet."
+msgstr "<kbd>Shift+h</kbd> : Page d'accueil du projet."
 
 #: IDF/gettexttemplates/faq.html.php:14
 msgid "<kbd>Shift+d</kbd>: Downloads."
-msgstr "<kbd>Shift+d</kbd>: Téléchargements."
+msgstr "<kbd>Shift+d</kbd> : Téléchargements."
 
 #: IDF/gettexttemplates/faq.html.php:15
 msgid "<kbd>Shift+s</kbd>: Source."
-msgstr "<kbd>Shift+s</kbd>: Source."
+msgstr "<kbd>Shift+s</kbd> : Source."
 
 #: IDF/gettexttemplates/faq.html.php:16
 msgid "<kbd>Shift+a</kbd>: Create a new issue."
-msgstr "<kbd>Shift+a</kbd>: Créer un nouveau ticket."
+msgstr "<kbd>Shift+a</kbd> : Créer un nouveau ticket."
 
 #: IDF/gettexttemplates/faq.html.php:17
 msgid "<kbd>Shift+i</kbd>: List of open issues."
-msgstr "<kbd>Shift+i</kbd>: Liste des tickets ouverts."
+msgstr "<kbd>Shift+i</kbd> : Liste des tickets ouverts."
 
 #: IDF/gettexttemplates/faq.html.php:18
 msgid "<kbd>Shift+m</kbd>: The issues you submitted."
-msgstr "<kbd>Shift+m</kbd>: Les tickets que vous avez soumis."
+msgstr "<kbd>Shift+m</kbd> : Les tickets que vous avez soumis."
 
 #: IDF/gettexttemplates/faq.html.php:19
 msgid "<kbd>Shift+w</kbd>: The issues assigned to you."
-msgstr "<kbd>Shift+w</kbd>: Les tickets qui vous sont assignés."
+msgstr "<kbd>Shift+w</kbd> : Les tickets qui vous sont assignés."
 
 #: IDF/gettexttemplates/faq.html.php:21
 #: IDF/gettexttemplates/faq.html.php:25
@@ -1110,11 +1110,11 @@ msgstr "Tickets ouverts"
 #: IDF/gettexttemplates/issues/my-issues.html.php:3
 #: IDF/gettexttemplates/issues/search.html.php:3
 msgid "New Issue"
-msgstr "Nouveau Ticket"
+msgstr "Nouveau ticket"
 
 #: IDF/gettexttemplates/issues/base.html.php:5
 msgid "My Issues"
-msgstr "Mes Tickets"
+msgstr "Mes tickets"
 
 #: IDF/gettexttemplates/issues/view.html.php:3
 #, php-format
@@ -1139,7 +1139,7 @@ msgstr "Le formulaire contient des erreurs. Merci de les corriger pour mettre à
 #: IDF/gettexttemplates/issues/view.html.php:13
 #: IDF/gettexttemplates/issues/view.html.php:14
 msgid "Submit Changes"
-msgstr "Soumettre les Changements"
+msgstr "Soumettre les changements"
 
 #: IDF/gettexttemplates/issues/view.html.php:15
 #: IDF/gettexttemplates/issues/view.html.php:16
@@ -1191,7 +1191,7 @@ msgstr "Le formulaire contient des erreurs. Corrigez s'il vous plaît ces erreur
 
 #: IDF/gettexttemplates/issues/create.html.php:11
 msgid "Submit Issue"
-msgstr "Soumettre le Ticket"
+msgstr "Soumettre le ticket"
 
 #: IDF/gettexttemplates/issues/index.html.php:3
 #, php-format
@@ -1486,7 +1486,7 @@ msgstr "Vous avez aussi les touches d'accès standard :"
 
 #: IDF/gettexttemplates/faq.html.php:21
 msgid "<kbd>Alt+1</kbd>: Home."
-msgstr "<kbd>Alt+1</kbd>: Accueil."
+msgstr "<kbd>Alt+1</kbd> : Accueil."
 
 #: IDF/gettexttemplates/faq.html.php:22
 msgid "<kbd>Alt+2</kbd>: Skip the menus."
@@ -1494,7 +1494,7 @@ msgstr "<kbd>Alt+2</kbd> : Allez au contenu."
 
 #: IDF/gettexttemplates/faq.html.php:23
 msgid "<kbd>Alt+4</kbd>: Search (when available)."
-msgstr "<kbd>Alt+4</kbd>: Chercher (si disponible)."
+msgstr "<kbd>Alt+4</kbd> : Chercher (si disponible)."
 
 #: IDF/gettexttemplates/user/myaccount.html.php:5
 msgid "Update Your Account"

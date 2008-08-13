@@ -1,5 +1,5 @@
 {extends "issues/base.html"}
-{block docclass}yui-t2{/block}
+{block docclass}yui-t2{assign $inMyIssues = true}{/block}
 {block body}
 {$issues.render}
 {if !$user.isAnonymous()}
