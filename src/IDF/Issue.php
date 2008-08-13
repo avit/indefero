@@ -151,6 +151,6 @@ class IDF_Issue extends Pluf_Model
 
     function postSave($create=false)
     {
-        print IDF_Search::index($this);
+        IDF_Search::index($this);
     }
 }
