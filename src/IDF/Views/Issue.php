@@ -237,6 +237,7 @@ class IDF_Views_Issue
         $title = Pluf_Template::markSafe(sprintf(__('Issue <a href="%s">%d</a>: %s'), $url, $issue->id, $issue->summary));
         $form = false; // The form is available only if logged in.
         $starred = false;
+        $closed = in_array($issue->status, $prj->getTagIdsByStatus('closed'));
         if (!$request->user->isAnonymous()) {
             $starred = Pluf_Model_InArray($request->user, $issue->get_interested_list());
             $params = array(
@@ -300,6 +301,7 @@ class IDF_Views_Issue
                                                      'form' => $form,
                                                      'starred' => $starred,
                                                      'page_title' => $title,
+                                                     'closed' => $closed,
                                                      ),
                                                $arrays),
                                                $request);

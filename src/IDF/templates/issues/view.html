@@ -42,6 +42,10 @@
 </div>
 {/if}
 
+{if $closed and (!$isOwner and !$isMember)}
+<p><img src="{media '/idf/img/warning.png'}" style="vertical-align: text-bottom;" alt=" " /> {blocktrans}This issue is marked as closed, add a comment only if you think this issue is still valid and more work is needed to fully fix it.{/blocktrans}</p>
+
+{/if}
 <form method="post" enctype="multipart/form-data" action="{url 'IDF_Views_Issue::view', array($project.shortname, $issue.id)}" >
 <table class="form" summary="">
 <tr>
