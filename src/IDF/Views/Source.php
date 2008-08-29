@@ -334,7 +334,8 @@ class IDF_Views_Source
      */
     private function getScmType($request)
     {
-        return ucfirst($scm = $request->conf->getVal('scm', 'git'));
+        return mb_convert_case($request->conf->getVal('scm', 'git'),
+                               MB_CASE_TITLE, 'UTF-8');
     }
 }
 
