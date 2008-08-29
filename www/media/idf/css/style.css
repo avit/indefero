@@ -330,6 +330,11 @@ table.tree-list tfoot th a {
   font-weight: normal;
 }
 
+table.tree-list tfoot th ul { 
+  text-align: left;
+  font-size: 85%;
+}
+
 table.tree-list tr.log { 
   border-bottom: 1px solid #e7ebe3; 
   /* background-color: #eef2ea !important; */

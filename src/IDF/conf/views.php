@@ -133,7 +133,7 @@ $ctl[] = array('regex' => '#^/p/(\w+)/issues/my/(\w+)/$#',
                'model' => 'IDF_Views_Issue',
                'method' => 'myIssues');
 
-// ---------- GIT ----------------------------------------
+// ---------- SCM ----------------------------------------
 
 $ctl[] = array('regex' => '#^/p/(\w+)/source/$#',
                'base' => $base,
@@ -170,6 +170,18 @@ $ctl[] = array('regex' => '#^/p/(\w+)/source/download/(\w+)/$#',
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'download');
+
+$ctl[] = array('regex' => '#^/p/(\w+)/source/treerev/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Source',
+               'method' => 'treeRev');
+
+$ctl[] = array('regex' => '#^/p/(\w+)/source/changesrev/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Source',
+               'method' => 'changelogRev');
 
 // ---------- Downloads ------------------------------------
 

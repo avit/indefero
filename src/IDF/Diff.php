@@ -56,6 +56,14 @@ class IDF_Diff
                 $current_chunk = 0;
                 continue;
             }
+            if (0 === strpos($line, 'Index: ')) {
+                $current_file = self::getSvnFile($line);
+                $files[$current_file] = array();
+                $files[$current_file]['chunks'] = array();
+                $files[$current_file]['chunks_def'] = array();
+                $current_chunk = 0;
+                continue;
+            }
             if (0 === strpos($line, '@@ ')) {
                 $files[$current_file]['chunks_def'][] = self::getChunk($line);
                 $files[$current_file]['chunks'][] = array();
@@ -93,6 +101,11 @@ class IDF_Diff
         $line = substr(trim($line), 10);
         $n = (int) strlen($line)/2;
         return trim(substr($line, 3, $n-3));
+    }
+
+    public static function getSvnFile($line)
+    {
+        return substr(trim($line), 7);
     }
 
     /**

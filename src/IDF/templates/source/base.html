@@ -2,8 +2,8 @@
 {block tabsource} class="active"{/block}
 {block subtabs}
 <div id="sub-tabs">
-<a {if $inSourceTree}class="active" {/if}href="{url 'IDF_Views_Source::treeBase', array($project.shortname, 'master')}">{trans 'Source Tree'}</a> |
-<a {if $inChangeLog}class="active" {/if}href="{url 'IDF_Views_Source::changeLog', array($project.shortname, 'master')}">{trans 'Change Log'}</a>
+<a {if $inSourceTree}class="active" {/if}href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $project.getScmRoot())}">{trans 'Source Tree'}</a> |
+<a {if $inChangeLog}class="active" {/if}href="{url 'IDF_Views_Source::changeLog', array($project.shortname, $project.getScmRoot())}">{trans 'Change Log'}</a>
 {if $inCommit}| {trans 'Commit'}{/if}
 </div>
 {/block}

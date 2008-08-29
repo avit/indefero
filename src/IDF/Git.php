@@ -40,9 +40,10 @@ class IDF_Git
      * Test a given object hash.
      *
      * @param string Object hash.
+     * @param null to be svn client compatible
      * @return mixed false if not valid or 'blob', 'tree', 'commit'
      */
-    public function testHash($hash)
+    public function testHash($hash, $dummy=null)
     {
         $cmd = sprintf('GIT_DIR=%s git cat-file -t %s',
                        escapeshellarg($this->repo),
@@ -297,6 +298,7 @@ class IDF_Git
             }
         }
         $c['full_message'] = trim($c['full_message']);
+        
         $res[] = (object) $c;
         return $res;
     }

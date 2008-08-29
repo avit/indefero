@@ -336,6 +336,34 @@ class IDF_Project extends Pluf_Model
     }
 
     /**
+     * Get the path to the git repository.
+     *
+     * @return string Path to the git repository
+     */
+    public function getSvnDaemonUrl()
+    {
+        $conf = new IDF_Conf();
+        $conf->setProject($this);
+
+        return $conf->getVal('svn_daemon_url');
+    }
+
+
+    /**
+     * Get the root name of the project scm
+     *
+     * @return string SCM root
+     */
+    public function getScmRoot()
+    {
+        $roots = array('git' => 'master', 'svn' => 'HEAD');
+        $conf = new IDF_Conf();
+        $conf->setProject($this);
+        $scm = $conf->getVal('scm', 'git');
+        return $roots[$scm];
+    }
+
+    /**
      * Check that the object belongs to the project or rise a 404
      * error.
      *
