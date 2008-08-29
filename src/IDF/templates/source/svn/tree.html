@@ -56,16 +56,17 @@
     {/foreach}
   </tbody>
 </table>
-<p class="right soft"><img style="vertical-align: text-bottom;" src="{media '/idf/img/package-grey.png'}" alt="{trans 'Archive'}" align="bottom" /></a> <kbd>svn checkout {$project.getSvnDaemonUrl()}@{$commit}</kbd></p>
+<p class="right soft"><img style="vertical-align: text-bottom;" src="{media '/idf/img/package-grey.png'}" alt="{trans 'Archive'}" align="bottom" /> <kbd>svn checkout {$project.getSvnDaemonUrl()}@{$commit}</kbd></p>
 
 
 {/block}
 {block context}
-<p><strong>{trans 'Revison:'} {$commit}</strong><br />
-  <form class="star" action="{url 'IDF_Views_Source::treeRev', array($project.shortname)}" method="get">
-    <input accesskey="4" type="text" value="{$commit}" name="rev" size="20" />
+<form class="star" action="{url 'IDF_Views_Source::treeRev', array($project.shortname)}" method="get">
+<p><strong>{trans 'Revison:'}</strong> {$commit}</p>
+<p>
+    <input accesskey="4" type="text" value="{$commit}" name="rev" size="5" />
     <input type="hidden" name="sourcefile" value="{$base}"/>
-    <input type="submit" name="s" value="{trans 'Go to revision'}" />
+    <input type="submit" name="s" value="{trans 'Go to revision'}" /></p>
   </form>
-</p>
+
 {/block}

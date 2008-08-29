@@ -68,6 +68,7 @@ class IDF_Views_Source
                                                   $branches[0]));
             return new Pluf_HTTP_Response_Redirect($url);
         }
+
         $res = $scm->filesAtCommit($commit);
         $cobject = $scm->getCommit($commit);
         $tree_in = in_array($commit, $branches);

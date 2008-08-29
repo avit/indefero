@@ -101,29 +101,27 @@ class IDF_Svn
                        escapeshellarg($rev));
         $xmlLs = shell_exec($cmd);
         $xml = simplexml_load_string($xmlLs);
-
         $res = array();
         foreach ($xml->list->entry as $entry) {
             $file = array();
-            $file['type'] = $this->assoc[(String) $entry['kind']];
-            $file['file'] = (String) $entry->name;
-            $file['fullpath'] = $folder.'/'.((String) $entry->name);
+            $file['type'] = $this->assoc[(string) $entry['kind']];
+            $file['file'] = (string) $entry->name;
+            $file['fullpath'] = $folder.'/'.((string) $entry->name);
             $file['date'] = gmdate('Y-m-d H:i:s',
-                                   strtotime((String) $entry->commit->date));
-            $file['rev'] = (String) $entry->commit['revision'];
-
+                                   strtotime((string) $entry->commit->date));
+            $file['rev'] = (string) $entry->commit['revision'];
             // Get commit message
             $currentReposFile = $this->repo.'/'.$folder.'/'.$file['file'];
             $file['log'] = $this->getCommitMessage($currentReposFile, $rev);
 
             // Get the size if the type is blob
             if ($file['type'] == 'blob') {
-                $file['size'] = (String) $entry->size;
+                $file['size'] = (string) $entry->size;
             }
 
             $file['perm'] = '';
 
-            $res[] = (Object) $file;
+            $res[] = (object) $file;
         }
 
         return $res;
@@ -147,7 +145,7 @@ class IDF_Svn
                        escapeshellarg($rev));
         $xmlLog = shell_exec($cmd);
         $xml = simplexml_load_string($xmlLog);
-        return (String) $xml->logentry->msg;
+        return (string) $xml->logentry->msg;
     }
 
 
@@ -171,16 +169,16 @@ class IDF_Svn
 
         $file = array();
         $file['fullpath'] = $totest;
-        $file['hash'] = (String) $entry->repository->uuid;
-        $file['type'] = $this->assoc[(String) $entry['kind']];
+        $file['hash'] = (string) $entry->repository->uuid;
+        $file['type'] = $this->assoc[(string) $entry['kind']];
         $file['file'] = $totest;
-        $file['rev'] = (String) $entry->commit['revision'];
-        $file['author'] = (String) $entry->author;
-        $file['date'] = gmdate('Y-m-d H:i:s', strtotime((String) $entry->commit->date));
-        $file['size'] = (String) $entry->size;
+        $file['rev'] = (string) $entry->commit['revision'];
+        $file['author'] = (string) $entry->author;
+        $file['date'] = gmdate('Y-m-d H:i:s', strtotime((string) $entry->commit->date));
+        $file['size'] = (string) $entry->size;
         $file['log'] = '';
 
-        return (Object) $file;
+        return (object) $file;
     }
 
 
@@ -230,15 +228,15 @@ class IDF_Svn
         $xmlRes = shell_exec($cmd);
         $xml = simplexml_load_string($xmlRes);
 
-        $res['author'] = (String) $xml->logentry->author;
-        $res['date'] = gmdate('Y-m-d H:i:s', strtotime((String) $xml->logentry->date));
-        $res['title'] = (String) $xml->logentry->msg;
-        $res['commit'] = (String) $xml->logentry['revision'];
+        $res['author'] = (string) $xml->logentry->author;
+        $res['date'] = gmdate('Y-m-d H:i:s', strtotime((string) $xml->logentry->date));
+        $res['title'] = (string) $xml->logentry->msg;
+        $res['commit'] = (string) $xml->logentry['revision'];
         $res['changes'] = $this->getDiff($rev);
         $res['tree'] = '';
 
 
-        return (Object) $res;
+        return (object) $res;
     }
 
     private function getDiff($rev='HEAD')
@@ -276,13 +274,13 @@ class IDF_Svn
         $res = array();
         foreach ($xml->logentry as $entry) {
             $log = array();
-            $log['author'] = (String) $entry->author;
-            $log['date'] = gmdate('Y-m-d H:i:s', strtotime((String) $entry->date));
-            $log['title'] = (String) $entry->msg;
-            $log['commit'] = (String) $entry['revision'];
+            $log['author'] = (string) $entry->author;
+            $log['date'] = gmdate('Y-m-d H:i:s', strtotime((string) $entry->date));
+            $log['title'] = (string) $entry->msg;
+            $log['commit'] = (string) $entry['revision'];
             $log['full_message'] = '';
 
-            $res[] = (Object) $log;
+            $res[] = (object) $log;
         }
 
         return $res;
@@ -328,7 +326,7 @@ class IDF_Svn
 
         // Get the value of each property
         foreach ($props->target->property as $prop) {
-            $key = (String) $prop['name'];
+            $key = (string) $prop['name'];
             $res[$key] = $this->getProperty($key, $rev, $path);
         }
 
@@ -356,7 +354,7 @@ class IDF_Svn
         $xmlProp = shell_exec($cmd);
         $prop = simplexml_load_string($xmlProp);
 
-        return (String) $prop->target->property;
+        return (string) $prop->target->property;
     }
 
 
@@ -378,7 +376,7 @@ class IDF_Svn
         $xmlInfo = shell_exec($cmd);
 
         $xml = simplexml_load_string($xmlInfo);
-        return (String) $xml->entry->commit['revision'];
+        return (string) $xml->entry->commit['revision'];
     }
 }
 

@@ -6,7 +6,6 @@
 <tr>
 <th>{trans 'Age'}</th>
 <th>{trans 'Message'}</th>
-{* <th>{trans 'Details'}</th> *}
 </tr>
 </thead>
 <tbody>
@@ -38,12 +37,14 @@
 </p>
 {/if}
 {if $scm == 'svn'}
-<p><strong>{trans 'Revison:'} {$commit}</strong><br />
-  <form class="star" action="{url 'IDF_Views_Source::changelogRev', array($project.shortname)}" method="get">
-    <input accesskey="4" type="text" value="{$commit}" name="rev" size="20" />
+<form class="star" action="{url 'IDF_Views_Source::changelogRev', array($project.shortname)}" method="get">
+<p><strong>{trans 'Revison:'}</strong> {$commit}</p>
+<p>
+    <input accesskey="4" type="text" value="{$commit}" name="rev" size="5" />
     <input type="submit" name="s" value="{trans 'Go to revision'}" />
-  </form>
 </p>
+</form>
+
 {/if}
 {/block}
 

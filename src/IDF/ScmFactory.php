@@ -43,6 +43,7 @@ class IDF_ScmFactory
         case 'git':
         default:
             return new IDF_Git($request->project->getGitRepository());
+        }
     }
 }
 
