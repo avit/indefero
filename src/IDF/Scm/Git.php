@@ -25,7 +25,7 @@
  * Git utils.
  *
  */
-class IDF_Git
+class IDF_Scm_Git
 {
     public $repo = '';
     public $mediumtree_fmt = 'commit %H%nAuthor: %an <%ae>%nTree: %T%nDate: %ai%n%n%s%n%n%b';

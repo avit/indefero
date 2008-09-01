@@ -24,7 +24,7 @@
 /**
  * Manage differents SCM systems
  */
-class IDF_ScmFactory
+class IDF_Scm
 {
 
     /**
@@ -32,17 +32,17 @@ class IDF_ScmFactory
      *
      * @return Object
      */
-    public static function getScm($request=null)
+    public static function get($request=null)
     {
         // Get scm type from project conf ; defaults to git
         switch ($request->conf->getVal('scm', 'git')) {
         case 'svn':
-            return new IDF_Svn($request->conf->getVal('svn_repository'),
+            return new IDF_Scm_Svn($request->conf->getVal('svn_repository'),
                                $request->conf->getVal('svn_username'),
                                $request->conf->getVal('svn_password'));
         case 'git':
         default:
-            return new IDF_Git($request->project->getGitRepository());
+            return new IDF_Scm_Git($request->project->getGitRepository());
         }
     }
 }

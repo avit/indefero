@@ -36,7 +36,7 @@ class IDF_Views_Source
     {
         $title = sprintf(__('%s %s Change Log'), (string) $request->project,
                          $this->getScmType($request));
-        $scm = IDF_ScmFactory::getScm($request);
+        $scm = IDF_Scm::get($request);
         $branches = $scm->getBranches();
         $commit = $match[2];
         $res = $scm->getChangeLog($commit, 25);
@@ -58,7 +58,7 @@ class IDF_Views_Source
     {
         $title = sprintf(__('%s %s Source Tree'), (string) $request->project,
                          $this->getScmType($request));
-        $scm = IDF_ScmFactory::getScm($request);
+        $scm = IDF_Scm::get($request);
         $commit = $match[2];
         $branches = $scm->getBranches();
         if ('commit' != $scm->testHash($commit)) {
@@ -96,7 +96,7 @@ class IDF_Views_Source
     {
         $title = sprintf(__('%s %s Source Tree'), (string) $request->project,
                          $this->getScmType($request));
-        $scm = IDF_ScmFactory::getScm($request);
+        $scm = IDF_Scm::get($request);
         $branches = $scm->getBranches();
         $commit = $match[2];
         $request_file = $match[3];
@@ -179,7 +179,7 @@ class IDF_Views_Source
     public $commit_precond = array('IDF_Precondition::accessSource');
     public function commit($request, $match)
     {
-        $scm = IDF_ScmFactory::getScm($request);
+        $scm = IDF_Scm::get($request);
         $commit = $match[2];
         $branches = $scm->getBranches();
         if ('commit' != $scm->testHash($commit)) {
@@ -216,7 +216,7 @@ class IDF_Views_Source
     public function download($request, $match)
     {
         $commit = trim($match[2]);
-        $scm = IDF_ScmFactory::getScm($request);
+        $scm = IDF_Scm::get($request);
         $branches = $scm->getBranches();
         if ('commit' != $scm->testHash($commit)) {
             // Redirect to the first branch

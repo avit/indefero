@@ -30,13 +30,13 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
 {
     private $project = null;
     private $request = null;
-    private $git = null;
+    private $scm = null;
 
     function start($text, $request)
     {
         $this->project = $request->project;
         $this->request = $request;
-        $this->git = new IDF_Git($this->project->getGitRepository());
+        $this->scm = IDF_Scm::get($request);
         $text = wordwrap($text, 69, "\n", true);
         $text = Pluf_esc($text);
         $text = ereg_replace('[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]', 
@@ -47,7 +47,7 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
                                           array($this, 'callbackIssues'), $text);
         }
         if ($request->rights['hasSourceAccess']) {
-            $text = preg_replace_callback('#(commit\s+)([0-9a-f]{5,40})#im',
+            $text = preg_replace_callback('#(commit\s+)([0-9a-f]{1,40})#im',
                                           array($this, 'callbackCommit'), $text);
         }
         echo $text;
@@ -90,10 +90,10 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
 
     function callbackCommit($m)
     {
-        if ($this->git->testHash($m[2]) != 'commit') {
+        if ($this->scm->testHash($m[2]) != 'commit') {
             return $m[0];
         }
-        $co = $this->git->getCommit($m[2]);
+        $co = $this->scm->getCommit($m[2]);
         return '<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Source::commit', array($this->project->shortname, $co->commit)).'">'.$m[1].$m[2].'</a>';
     }
 

@@ -25,7 +25,7 @@
  * SVN utils.
  *
  */
-class IDF_Svn
+class IDF_Scm_Svn
 {
     public $repo = '';
     public $username = '';
