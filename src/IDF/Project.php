@@ -287,13 +287,21 @@ class IDF_Project extends Pluf_Model
                       'LEFT JOIN '.$what_t.' ON idf_issue_id='.$what_t.'.id '."\n".
                       'WHERE idf_tag_id IS NOT NULL AND '.$what_t.'.status IN (%s) AND '.$what_t.'.project='.$this->id.' GROUP BY '.$tag_t.'.id, '.$tag_t.'.class, '.$tag_t.'.name ORDER BY '.$tag_t.'.class ASC, '.$tag_t.'.name ASC',
                       implode(', ', $ostatus));
-        } else {
+        } elseif ($what == 'downloads') {
+            $dep_ids = IDF_Views_Download::getDeprecatedFilesIds($this);
+            $extra = '';
+            if (count($dep_ids) and $what == 'downloads') {
+                $extra = ' AND idf_upload_id NOT IN ('.implode(', ', $dep_ids).') ';
+            }
+            if (count($dep_ids) and $what != 'downloads') {
+                $extra = ' AND idf_upload_id IN ('.implode(', ', $dep_ids).') ';
+            }
             $what_t = Pluf::factory('IDF_Upload')->getSqlTable();
             $asso_t = $this->_con->pfx.'idf_tag_idf_upload_assoc';
             $sql = 'SELECT '.$tag_t.'.id AS id, COUNT(*) AS nb_use FROM '.$tag_t.' '."\n".
                 'LEFT JOIN '.$asso_t.' ON idf_tag_id='.$tag_t.'.id '."\n".
                 'LEFT JOIN '.$what_t.' ON idf_upload_id='.$what_t.'.id '."\n".
-                'WHERE idf_tag_id IS NOT NULL AND '.$what_t.'.project='.$this->id.' GROUP BY '.$tag_t.'.id, '.$tag_t.'.class, '.$tag_t.'.name ORDER BY '.$tag_t.'.class ASC, '.$tag_t.'.name ASC';
+                'WHERE idf_tag_id IS NOT NULL '.$extra.' AND '.$what_t.'.project='.$this->id.' GROUP BY '.$tag_t.'.id, '.$tag_t.'.class, '.$tag_t.'.name ORDER BY '.$tag_t.'.class ASC, '.$tag_t.'.name ASC';
         }
         $tags = array();
         foreach ($this->_con->select($sql) as $idc) {

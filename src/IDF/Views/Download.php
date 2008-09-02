@@ -51,7 +51,15 @@ class IDF_Views_Download
         $pag->summary = __('This table shows the files to download.');
         $pag->action = array('IDF_Views_Download::index', array($prj->shortname));
         $pag->edit_action = array('IDF_Views_Download::view', 'shortname', 'id');
-        $pag->forced_where = new Pluf_SQL('project=%s', array($prj->id));
+        $sql = 'project=%s';
+        $ptags = self::getDownloadTags($prj);
+        $dtag = array_pop($ptags); // The last tag is the deprecated tag.
+        $ids = self::getDeprecatedFilesIds($prj);
+        if (count($ids)) {
+            $sql .= ' AND id NOT IN ('.implode(',', $ids).')';
+        }
+        $pag->forced_where = new Pluf_SQL($sql, array($prj->id));
+            
         $list_display = array(
              'file' => __('File'),
              array('summary', 'IDF_Views_Download_SummaryAndLabels', __('Summary')),
@@ -69,6 +77,8 @@ class IDF_Views_Download
                                                      'page_title' => $title,
                                                      'downloads' => $pag,
                                                      'tags' => $tags,
+                                                     'deprecated' => count($ids),
+                                                     'dlabel' => $dtag,
                                                      ),
                                                $request);
         
@@ -246,6 +256,8 @@ class IDF_Views_Download
         $title = sprintf(__('%1$s Downloads with Label %2$s'), (string) $prj,
                          (string) $tag);
         // Paginator to paginate the downloads
+        $ptags = self::getDownloadTags($prj);
+        $dtag = array_pop($ptags); // The last tag is the deprecated tag.
         $pag = new Pluf_Paginator(new IDF_Upload());
         $pag->model_view = 'join_tags';
         $pag->class = 'recent-issues';
@@ -273,6 +285,7 @@ class IDF_Views_Download
                                                      'label' => $tag,
                                                      'downloads' => $pag,
                                                      'tags' => $tags,
+                                                     'dlabel' => $dtag,
                                                      ),
                                                $request);
     }
@@ -288,6 +301,25 @@ class IDF_Views_Download
         return $project->getTagsFromConfig('labels_downloads_predefined',
                                            IDF_Form_UploadConf::init_predefined);
 
+    }
+
+    /**
+     * Get deprecated file ids.
+     *
+     * @return array Ids of the deprecated files.
+     */
+    public static function getDeprecatedFilesIds($project)
+    {
+        $ptags = self::getDownloadTags($project);
+        $dtag = array_pop($ptags); // The last tag is the deprecated tag.
+        $sql = new Pluf_SQL('project=%s AND idf_tag_id=%s', array($project->id,
+                                                                  $dtag->id));
+        $ids = array();
+        foreach (Pluf::factory('IDF_Upload')->getList(array('filter' => $sql->gen(), 'view' => 'join_tags'))
+                 as $file) {
+            $ids[] = (int) $file->id;
+        }
+        return $ids;
     }
 }
 

@@ -10,10 +10,16 @@
 {block context}
 <p><strong>{trans 'Number of files:'}</strong> {$downloads.nb_items}</p>
 {assign $class = ''}{assign $i = 0}
-<p class="smaller">{foreach $tags as $label}
-{aurl 'url', 'IDF_Views_Download::listLabel', array($project.shortname, $label.id)}
-{if $class != $label.class}{if $i != 0}<br />{/if}<strong class="label">{$label.class}:</strong> {/if}
-<a href="{$url}" class="label">{$label.name}</a>,{assign $i = $i + 1}{assign $class = $label.class}{/foreach}</p>
+{if !$label or $label.id != $dlabel.id}
+<p class="smaller">{foreach $tags as $lab}
+{aurl 'url', 'IDF_Views_Download::listLabel', array($project.shortname, $lab.id)}
+{if $class != $lab.class}{if $i != 0}<br />{/if}<strong class="label">{$lab.class}:</strong> {/if}
+<a href="{$url}" class="label">{$lab.name}</a>,{assign $i = $i + 1}{assign $class = $lab.class}{/foreach}</p>
+{/if}
+{if $deprecated > 0}
+{aurl 'url', 'IDF_Views_Download::listLabel', array($project.shortname, $dlabel.id)}
+<p class="helptext">{blocktrans}See <a href="{$url}">the deprecated files</a>.{/blocktrans}</p>
+{/if}
 
 {/block}
 
