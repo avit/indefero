@@ -31,9 +31,11 @@ class IDF_Project extends Pluf_Model
 {
     public $_model = __CLASS__;
     public $_extra_cache = array();
+    protected $_pconf = null;
 
     function init()
     {
+        $this->_pconf = null;
         $this->_extra_cache = array();
         $this->_a['table'] = 'idf_projects';
         $this->_a['model'] = __CLASS__;
@@ -89,7 +91,7 @@ class IDF_Project extends Pluf_Model
         return '';
     }
 
-
+    
     function preSave($create=false)
     {
         if ($this->id == '') {
@@ -191,8 +193,7 @@ class IDF_Project extends Pluf_Model
      */
     public function getTagsFromConfig($cfg_key, $default, $dclass='Other')
     {
-        $conf = new IDF_Conf();
-        $conf->setProject($this);
+        $conf = $this->getConf();
         $tags = array();
         foreach (preg_split("/\015\012|\015|\012/", $conf->getVal($cfg_key, $default), -1, PREG_SPLIT_NO_EMPTY) as $s) {
             $_s = split('=', $s, 2);
@@ -304,50 +305,17 @@ class IDF_Project extends Pluf_Model
     }
 
     /**
-     * Get the path to the git repository.
+     * Get the remote access url to the repository.
      *
-     * @return string Path to the git repository
      */
-    public function getGitRepository()
+    public function getRemoteAccessUrl()
     {
-        $gitrep = Pluf::f('git_repository');
-        if (substr($gitrep, -4) == '.git') {
-            return $gitrep;
-        }
-        // here we consider that the git_repository is a folder
-        // containing a series of git repositories
-        return $gitrep.'/'.$this->shortname.'.git';
+        $conf = $this->getConf();
+        $scm = $conf->getVal('scm', 'git');
+        $scms = Pluf::f('allowed_scm');
+        return call_user_func(array($scms[$scm], 'getRemoteAccessUrl'),
+                              $this);
     }
-
-    /**
-     * Get the url to the repository through git daemon.
-     *
-     * @return string Path to the git daemon.
-     */
-    public function getGitDaemonUrl()
-    {
-        $gitrep = Pluf::f('git_daemon_url');
-        if (substr($gitrep, -4) == '.git') {
-            return $gitrep;
-        }
-        // here we consider that the git_repository is a folder
-        // containing a series of git repositories
-        return $gitrep.'/'.$this->shortname.'.git';
-    }
-
-    /**
-     * Get the path to the git repository.
-     *
-     * @return string Path to the git repository
-     */
-    public function getSvnDaemonUrl()
-    {
-        $conf = new IDF_Conf();
-        $conf->setProject($this);
-
-        return $conf->getVal('svn_daemon_url');
-    }
-
 
     /**
      * Get the root name of the project scm
@@ -356,9 +324,8 @@ class IDF_Project extends Pluf_Model
      */
     public function getScmRoot()
     {
+        $conf = $this->getConf();
         $roots = array('git' => 'master', 'svn' => 'HEAD');
-        $conf = new IDF_Conf();
-        $conf->setProject($this);
         $scm = $conf->getVal('scm', 'git');
         return $roots[$scm];
     }
@@ -378,4 +345,19 @@ class IDF_Project extends Pluf_Model
             throw new Pluf_HTTP_Error404();
         }
     }
+
+    /**
+     * Utility function to get a configuration object.
+     *
+     * @return IDF_Conf
+     */
+    public function getConf()
+    {
+        if ($this->_pconf == null) {
+            $this->_pconf = new IDF_Conf();
+            $this->_pconf->setProject($this);
+        }
+        return $this->_pconf;
+    }
+            
 }

@@ -41,6 +41,49 @@ class IDF_Scm_Svn
         $this->password = $password;
     }
 
+    /**
+     * Returns the URL of the subversion repository.
+     *
+     * @param IDF_Project
+     * @return string URL
+     */
+    public static function getRemoteAccessUrl($project)
+    {
+        $conf = $project->getConf();
+        if (false !== ($url=$conf->getVal('svn_remote_url', false))) {
+            // Remote repository
+            return $url;
+        }
+        $url = Pluf::f('svn_remote_url');
+        if (Pluf::f('svn_repositories_unique', true)) {
+            return $url;
+        }
+        return $url.'/'.$project->shortname;
+    }
+
+    /**
+     * Returns this object correctly initialized for the project.
+     *
+     * @param IDF_Project
+     * @return IDF_Scm_Svn
+     */
+    public static function factory($project)
+    {
+        $conf = $project->getConf();
+        // Find the repository
+        if (false !== ($rep=$conf->getVal('svn_remote_url', false))) {
+            // Remote repository
+            return new IDF_Scm_Svn($rep,
+                                   $conf->getVal('svn_username'),
+                                   $conf->getVal('svn_password'));
+        } else {
+            $rep = Pluf::f('svn_repositories');
+            if (false == Pluf::f('svn_repositories_unique', false)) {
+               $rep = $rep.'/'.$project->shortname;
+            }
+            return new IDF_Scm_Svn($rep);
+        }
+    }
 
     /**
      * Test a given object hash.

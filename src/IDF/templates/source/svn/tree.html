@@ -56,7 +56,7 @@
     {/foreach}
   </tbody>
 </table>
-<p class="right soft"><img style="vertical-align: text-bottom;" src="{media '/idf/img/package-grey.png'}" alt="{trans 'Archive'}" align="bottom" /> <kbd>svn checkout {$project.getSvnDaemonUrl()}@{$commit}</kbd></p>
+<p class="right soft"><kbd>svn co -r {$commit} {$project.getRemoteAccessUrl()}</kbd></p>
 
 
 {/block}

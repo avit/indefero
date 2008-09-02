@@ -35,6 +35,35 @@ class IDF_Scm_Git
         $this->repo = $repo;
     }
 
+    /**
+     * Returns the URL of the git daemon.
+     *
+     * @param IDF_Project
+     * @return string URL
+     */
+    public static function getRemoteAccessUrl($project)
+    {
+        $url = Pluf::f('git_remote_url');
+        if (Pluf::f('git_repositories_unique', true)) {
+            return $url;
+        }
+        return $url.'/'.$project->shortname.'.git';
+    }
+
+    /**
+     * Returns this object correctly initialized for the project.
+     *
+     * @param IDF_Project
+     * @return IDF_Scm_Git
+     */
+    public static function factory($project)
+    {
+        $rep = Pluf::f('git_repositories');
+        if (false == Pluf::f('git_repositories_unique', false)) {
+            $rep = $rep.'/'.$project->shortname.'.git';
+        }
+        return new IDF_Scm_Git($rep);
+    }
 
     /**
      * Test a given object hash.

@@ -29,19 +29,33 @@ $cfg['debug'] = false;
 // available languages
 $cfg['languages'] = array('en', 'fr'); 
 
+# SCM base configuration
+$cfg['allowed_scm'] = array('git' => 'IDF_Scm_Git',
+                            'svn' => 'IDF_Scm_Svn',
+                            );
+
 // if you have a single git repository, just put the full path to it
 // without trailing slash.
 // If within a folder you have a series of git repository, just put
 // the folder without a trailing slash.
 // InDefero will automatically append a slash, the project shortname 
 // and .git to create the name of the repository.
-// $cfg['git_repository'] = '/home/git/repositories';
-$cfg['git_repository'] = '/home/git/repositories/indefero.git';
+$cfg['git_repositories'] = '/home/git/repositories/indefero.git';
+$cfg['git_repositories_unique'] = true;
+$cfg['git_remote_url'] = 'git://projects.ceondo.com/indefero.git';
 
-// As for the 'git_repository' case, you can either have it ending
-// with .git in the case of a single repository or let it append
-// '/'.$project_shortname.'.git' to make the path.
-$cfg['git_daemon_url'] = 'git://projects.ceondo.com/indefero.git';
+// One git repository per project. "/".$project->shortname.".git"
+// is automatically added to the end of the path/url.
+//$cfg['git_repositories'] = '/home/git/repositories';
+//$cfg['git_repositories_unique'] = false;
+//$cfg['git_remote_url'] = 'git://projects.ceondo.com';
+
+// Same as for git, you can have multiple repositories, one for each
+// project or a single one for all the projects.
+$cfg['svn_repositories'] = 'file:///home/svn/repositories/indefero';
+$cfg['svn_repositories_unique'] = true;
+$cfg['svn_remote_url'] = 'http://projects.ceondo.com/svn/indefero';
+
 
 // admins will get an email in case of errors in the system in non
 // debug mode.
