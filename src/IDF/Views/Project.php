@@ -249,4 +249,49 @@ class IDF_Views_Project
                                                      ),
                                                $request);
     }
+
+    /**
+     * Administrate the source control.
+     */
+    public $adminSource_precond = array('IDF_Precondition::projectOwner');
+    public function adminSource($request, $match)
+    {
+        $prj = $request->project;
+        $title = sprintf(__('%s Source'), (string) $prj);
+        $extra = array(
+                       'conf' => $request->conf,
+                       );
+        if ($request->method == 'POST') {
+            $form = new IDF_Form_SourceConf($request->POST, $extra);
+            if ($form->isValid()) {
+                foreach ($form->cleaned_data as $key=>$val) {
+                    $request->conf->setVal($key, $val);
+                }
+                $request->user->setMessage(__('The project source configuration  has been saved.'));
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views_Project::adminSource',
+                                                array($prj->shortname));
+                return new Pluf_HTTP_Response_Redirect($url);
+            }
+        } else {
+            $params = array();
+            $keys = array('scm', 'svn_remote_url', 
+                          'svn_username', 'svn_password');
+            foreach ($keys as $key) {
+                $_val = $request->conf->getVal($key, false);
+                if ($_val !== false) {
+                    $params[$key] = $_val;
+                }
+            }
+            if (count($params) == 0) {
+                $params = null; //Nothing in the db, so new form.
+            }
+            $form = new IDF_Form_SourceConf($params, $extra);
+        }
+        return Pluf_Shortcuts_RenderToResponse('admin/source.html',
+                                               array(
+                                                     'page_title' => $title,
+                                                     'form' => $form,
+                                                     ),
+                                               $request);
+    }
 }

@@ -242,6 +242,12 @@ $ctl[] = array('regex' => '#^/p/(\w+)/admin/downloads/$#',
                'model' => 'IDF_Views_Project',
                'method' => 'adminDownloads');
 
+$ctl[] = array('regex' => '#^/p/(\w+)/admin/source/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Project',
+               'method' => 'adminSource');
+
 $ctl[] = array('regex' => '#^/p/(\w+)/admin/members/$#',
                'base' => $base,
                'priority' => 4,
