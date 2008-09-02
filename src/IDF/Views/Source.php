@@ -39,6 +39,13 @@ class IDF_Views_Source
         $scm = IDF_Scm::get($request);
         $branches = $scm->getBranches();
         $commit = $match[2];
+        if ('commit' != $scm->testHash($commit)) {
+            // Redirect to the first branch
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::changeLog',
+                                            array($request->project->shortname,
+                                                  $branches[0]));
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
         $res = $scm->getChangeLog($commit, 25);
         $scmConf = $request->conf->getVal('scm', 'git');
         return Pluf_Shortcuts_RenderToResponse('source/changelog.html',
