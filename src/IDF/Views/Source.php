@@ -124,14 +124,8 @@ class IDF_Views_Source
         }
         if ($request_file_info->type != 'tree') {
             $info = self::getMimeType($request_file_info->file);
-            if ($request->conf->getVal('scm', 'git') == 'git') {
-               $rep = new Pluf_HTTP_Response($scm->getBlob($request_file_info->hash),
-               $info[0]);
-            }
-            else {
-               $rep = new Pluf_HTTP_Response($scm->getBlob($request_file_info->fullpath, $commit),
-               $info[0]);
-            }
+            $rep = new Pluf_HTTP_Response($scm->getBlob($request_file_info->hash),
+                                          $info[0]);
             $rep->headers['Content-Disposition'] = 'attachment; filename="'.$info[1].'"';
             return $rep;
         }
