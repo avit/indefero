@@ -72,7 +72,7 @@ class IDF_Form_SourceConf extends Pluf_Form
         // we accept only starting with http(s):// to avoid people
         // trying to access the local filesystem.
         if (!preg_match('#^(http|https)://#', $url)) {
-            throw new Pluf_Form_Invalid(__('Only a remote repository available throught http or https are allowed. For example "http://somewhere.com/sv/trunk.'));
+            throw new Pluf_Form_Invalid(__('Only a remote repository available throught http or https are allowed. For example "http://somewhere.com/svn/trunk".'));
         }
         return $url;
     }

@@ -34,7 +34,7 @@ class IDF_Views_Source
     public $changeLog_precond = array('IDF_Precondition::accessSource');
     public function changeLog($request, $match)
     {
-        $title = sprintf(__('%s %s Change Log'), (string) $request->project,
+        $title = sprintf(__('%1$s %2$s Change Log'), (string) $request->project,
                          $this->getScmType($request));
         $scm = IDF_Scm::get($request);
         $branches = $scm->getBranches();
@@ -63,7 +63,7 @@ class IDF_Views_Source
     public $treeBase_precond = array('IDF_Precondition::accessSource');
     public function treeBase($request, $match)
     {
-        $title = sprintf(__('%s %s Source Tree'), (string) $request->project,
+        $title = sprintf(__('%1$s %2$s Source Tree'), (string) $request->project,
                          $this->getScmType($request));
         $scm = IDF_Scm::get($request);
         $commit = $match[2];
@@ -101,7 +101,7 @@ class IDF_Views_Source
     public $tree_precond = array('IDF_Precondition::accessSource');
     public function tree($request, $match)
     {
-        $title = sprintf(__('%s %s Source Tree'), (string) $request->project,
+        $title = sprintf(__('%1$s %2$s Source Tree'), (string) $request->project,
                          $this->getScmType($request));
         $scm = IDF_Scm::get($request);
         $branches = $scm->getBranches();
