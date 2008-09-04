@@ -1,6 +1,7 @@
 # Quick installation instruction
 
 * Checkout the trunk of [Pluf](http://www.pluf.org).
+* Install the `Mail` and `Mail_mime` classes from [PEAR](http://pear.php.net).
 * Make a copy of `src/IDF/conf/idf.php-dist` as `src/IDF/conf/idf.php`.
 * Update the idf.php file to match your system.
 * Run `php /path/to/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -i -d -u` to test the installation of the tables.
