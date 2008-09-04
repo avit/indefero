@@ -79,55 +79,55 @@ $ctl[] = array('regex' => '#^/help/$#',
                'model' => 'IDF_Views',
                'method' => 'faq');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Project',
                'method' => 'home');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/issues/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/issues/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Issue',
                'method' => 'index');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/issues/search/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/issues/search/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Issue',
                'method' => 'search');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/issues/(\d+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/issues/(\d+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Issue',
                'method' => 'view');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/issues/(\d+)/star/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/issues/(\d+)/star/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Issue',
                'method' => 'star');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/issues/status/(\w+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/issues/status/(\w+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Issue',
                'method' => 'listStatus');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/issues/label/(\d+)/(\w+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/issues/label/(\d+)/(\w+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Issue',
                'method' => 'listLabel');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/issues/create/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/issues/create/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Issue',
                'method' => 'create');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/issues/my/(\w+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/issues/my/(\w+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Issue',
@@ -135,49 +135,49 @@ $ctl[] = array('regex' => '#^/p/(\w+)/issues/my/(\w+)/$#',
 
 // ---------- SCM ----------------------------------------
 
-$ctl[] = array('regex' => '#^/p/(\w+)/source/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'index');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/source/tree/(\w+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/tree/(\w+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'treeBase');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/source/tree/(\w+)/(.*)$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/tree/(\w+)/(.*)$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'tree');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/source/changes/(\w+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/changes/(\w+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'changeLog');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/source/commit/(\w+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/commit/(\w+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'commit');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/source/download/(\w+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/download/(\w+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'download');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/source/treerev/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/treerev/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'treeRev');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/source/changesrev/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/changesrev/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
@@ -185,37 +185,37 @@ $ctl[] = array('regex' => '#^/p/(\w+)/source/changesrev/$#',
 
 // ---------- Downloads ------------------------------------
 
-$ctl[] = array('regex' => '#^/p/(\w+)/downloads/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/downloads/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Download',
                'method' => 'index');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/downloads/label/(\d+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/downloads/label/(\d+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Download',
                'method' => 'listLabel');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/downloads/(\d+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/downloads/(\d+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Download',
                'method' => 'view');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/downloads/(\d+)/get/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/downloads/(\d+)/get/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Download',
                'method' => 'download');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/downloads/create/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/downloads/create/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Download',
                'method' => 'submit');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/downloads/(\d+)/delete/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/downloads/(\d+)/delete/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Download',
@@ -224,37 +224,37 @@ $ctl[] = array('regex' => '#^/p/(\w+)/downloads/(\d+)/delete/$#',
 
 // ---------- ADMIN --------------------------------------
 
-$ctl[] = array('regex' => '#^/p/(\w+)/admin/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/admin/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Project',
                'method' => 'admin');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/admin/issues/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/admin/issues/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Project',
                'method' => 'adminIssues');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/admin/downloads/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/admin/downloads/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Project',
                'method' => 'adminDownloads');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/admin/source/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/admin/source/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Project',
                'method' => 'adminSource');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/admin/members/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/admin/members/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Project',
                'method' => 'adminMembers');
 
-$ctl[] = array('regex' => '#^/p/(\w+)/admin/tabs/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/admin/tabs/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Project',
