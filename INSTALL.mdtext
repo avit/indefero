@@ -11,7 +11,7 @@
     set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__).'/../src');
     set_include_path(get_include_path().PATH_SEPARATOR.'/path/to/pluf/src');
     require 'Pluf.php';
-    Pluf::start(dirname(__FILE__).'/IDF/conf/idf.php');
+    Pluf::start(dirname(__FILE__).'/../src/IDF/conf/idf.php');
     Pluf_Dispatcher::loadControllers(Pluf::f('idf_views'));
     
     $project = new IDF_Project();
