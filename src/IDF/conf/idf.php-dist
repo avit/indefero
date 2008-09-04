@@ -71,6 +71,14 @@ $cfg['mail_port'] = 25;
 $cfg['pear_path'] = '/usr/share/php';
 
 // Paths/Url configuration
+# 
+# if you access the index.php with:
+#  http://www.mydomain.com/myfolder/index.php
+# put the following:
+#
+# $cfg['idf_base'] = '/myfolder/index.php';
+# $cfg['url_base'] = 'http://www.mydomain.com';
+
 $cfg['idf_base'] = ''; // put '/whatever/index.php if you are not
                        // using mod_rewrite and installing in a
                        // subfolder.
@@ -79,8 +87,8 @@ $cfg['url_media'] = 'http://projects.ceondo.com/media';
 $cfg['url_upload'] = 'http://projects/ceondo.com/media/upload';
 $cfg['upload_path'] = '/path/to/media/upload';
 
-$cfg['login_success_url'] = '/';
-$cfg['after_logout_page'] = '/';
+$cfg['login_success_url'] = $cfg['url_base'].$cfg['idf_base'];
+$cfg['after_logout_page'] = $cfg['url_base'].$cfg['idf_base'];
 
 // write here a long random string unique for this installation. This
 // is critical to put a long string.
