@@ -233,7 +233,7 @@ class IDF_Project extends Pluf_Model
         $false = Pluf_DB_BooleanToDb(false, $db);
         $sql = new Pluf_SQL('model_class=%s AND model_id=%s AND owner_class=%s AND permission=%s AND negative='.$false,
                             array('IDF_Project', $this->id, 'Pluf_User', $operm->id));
-        $owners = array();
+        $owners = new Pluf_Template_ContextVars(array());
         foreach ($grow->getList(array('filter' => $sql->gen())) as $row) {
             if ($fmt == 'objects') {
                 $owners[] = Pluf::factory('Pluf_User', $row->owner_id);
@@ -243,7 +243,7 @@ class IDF_Project extends Pluf_Model
         }
         $sql = new Pluf_SQL('model_class=%s AND model_id=%s AND owner_class=%s AND permission=%s AND negative='.$false,
                             array('IDF_Project', $this->id, 'Pluf_User', $mperm->id));
-        $members = array();
+        $members = new Pluf_Template_ContextVars(array());
         foreach ($grow->getList(array('filter' => $sql->gen())) as $row) {
             if ($fmt == 'objects') {
                 $members[] = Pluf::factory('Pluf_User', $row->owner_id);

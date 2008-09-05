@@ -133,7 +133,7 @@ class IDF_Views_Source
         $page_title = $bc.' - '.$title;
         $cobject = $scm->getCommit($commit);
         $tree_in = in_array($commit, $branches);
-        $res = $scm->filesAtCommit($commit, $request_file);
+        $res = new Pluf_Template_ContextVars($scm->filesAtCommit($commit, $request_file));
         // try to find the previous level if it exists.
         $prev = split('/', $request_file);
         $l = array_pop($prev);
