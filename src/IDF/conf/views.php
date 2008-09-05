@@ -135,12 +135,6 @@ $ctl[] = array('regex' => '#^/p/([\-\w]+)/issues/my/(\w+)/$#',
 
 // ---------- SCM ----------------------------------------
 
-$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/$#',
-               'base' => $base,
-               'priority' => 4,
-               'model' => 'IDF_Views_Source',
-               'method' => 'index');
-
 $ctl[] = array('regex' => '#^/p/([\-\w]+)/source/tree/(\w+)/$#',
                'base' => $base,
                'priority' => 4,
