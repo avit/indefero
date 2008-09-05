@@ -309,7 +309,7 @@ class IDF_Project extends Pluf_Model
             $tag->nb_use = $idc['nb_use'];
             $tags[] = $tag;
         }
-        return $tags;
+        return new Pluf_Template_ContextVars($tags);
     }
 
     /**
