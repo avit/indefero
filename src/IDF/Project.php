@@ -252,7 +252,7 @@ class IDF_Project extends Pluf_Model
             }
         }
         if ($fmt == 'objects') {
-            return array('members' => $members, 'owners' => $owners);
+            return new Pluf_Template_ContextVars(array('members' => $members, 'owners' => $owners));
         } else {
             return array('members' => implode("\n", $members), 
                          'owners' => implode("\n", $owners));
