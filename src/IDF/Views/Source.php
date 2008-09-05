@@ -76,7 +76,7 @@ class IDF_Views_Source
             return new Pluf_HTTP_Response_Redirect($url);
         }
 
-        $res = $scm->filesAtCommit($commit);
+        $res = new Pluf_Template_ContextVars($scm->filesAtCommit($commit));
         $cobject = $scm->getCommit($commit);
         $tree_in = in_array($commit, $branches);
         $scmConf = $request->conf->getVal('scm', 'git');
