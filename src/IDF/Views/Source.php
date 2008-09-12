@@ -124,7 +124,7 @@ class IDF_Views_Source
         }
         if ($request_file_info->type != 'tree') {
             $info = self::getMimeType($request_file_info->file);
-            $rep = new Pluf_HTTP_Response($scm->getBlob($request_file_info->hash),
+            $rep = new Pluf_HTTP_Response($scm->getBlob($request_file_info, $commit),
                                           $info[0]);
             $rep->headers['Content-Disposition'] = 'attachment; filename="'.$info[1].'"';
             return $rep;

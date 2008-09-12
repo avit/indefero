@@ -228,15 +228,15 @@ class IDF_Scm_Svn
     /**
      * Get a blob.
      *
-     * @param string Blob hash
+     * @param string request_file_info
      * @return string Raw blob
      */
-    public function getBlob($path, $rev)
+    public function getBlob($request_file_info, $rev)
     {
         $cmd = sprintf('svn cat --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
-                       escapeshellarg($this->repo.'/'.$path),
+                       escapeshellarg($this->repo.'/'.$request_file_info->fullpath),
                        escapeshellarg($rev));
         return shell_exec($cmd);
     }

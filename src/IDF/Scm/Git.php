@@ -203,14 +203,15 @@ class IDF_Scm_Git
     /**
      * Get a blob.
      *
-     * @param string Blob hash
+     * @param string request_file_info
+     * @param null to be svn client compatible
      * @return string Raw blob
      */
-    public function getBlob($hash)
+    public function getBlob($request_file_info, $dummy=null)
     {
         return shell_exec(sprintf('GIT_DIR=%s git-cat-file blob %s',
                                   escapeshellarg($this->repo), 
-                                  escapeshellarg($hash)));
+                                  escapeshellarg($request_file_info->hash)));
     }
 
     /**
