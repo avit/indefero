@@ -37,7 +37,7 @@
 </p>
 {/if}
 {if $scm == 'svn'}
-<form class="star" action="{url 'IDF_Views_Source::changelogRev', array($project.shortname)}" method="get">
+<form class="star" action="{url 'IDF_Views_Source_Svn::changelogRev', array($project.shortname)}" method="get">
 <p><strong>{trans 'Revision:'}</strong> {$commit}</p>
 <p>
     <input accesskey="4" type="text" value="{$commit}" name="rev" size="5" />

@@ -235,69 +235,6 @@ class IDF_Views_Source
     }
 
     /**
-     * Display tree of a specific SVN revision
-     *
-     */
-    public function treeRev($request, $match)
-    {
-        $prj = $request->project;
-
-        // Redirect to tree base if not svn
-        if ($request->conf->getVal('scm', 'git') != 'svn') {
-            $url =  Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
-                                         array($prj->shortname, $prj->getScmRoot()));
-
-            return new Pluf_HTTP_Response_Redirect($url);
-        }
-
-        // Get revision value
-        if (!isset($request->REQUEST['rev']) or trim($request->REQUEST['rev']) == '') {
-            $scmRoot = $prj->getScmRoot();
-        }
-        else {
-            $scmRoot = $request->REQUEST['rev'];
-        }
-
-        // Get source if not /
-        if (isset($request->REQUEST['sourcefile']) and trim($request->REQUEST['sourcefile']) != '') {
-            $scmRoot .= '/'.$request->REQUEST['sourcefile'];
-        }
-
-        // Redirect
-        $url =  Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
-                                         array($prj->shortname, $scmRoot));
-        return new Pluf_HTTP_Response_Redirect($url);
-    }
-
-    /**
-     * Display SVN changelog from specific revision
-     *
-     */
-    public function changelogRev($request, $match)
-    {
-        $prj = $request->project;
-
-        // Redirect to tree base if not svn
-        if ($request->conf->getVal('scm', 'git') != 'svn') {
-            $scmRoot = $prj->getScmRoot();
-        }
-        // Get revision value if svn
-        else {
-            if (!isset($request->REQUEST['rev']) or trim($request->REQUEST['rev']) == '') {
-                $scmRoot = $prj->getScmRoot();
-            }
-            else {
-                $scmRoot = $request->REQUEST['rev'];
-            }
-        }
-
-        // Redirect
-        $url =  Pluf_HTTP_URL_urlForView('IDF_Views_Source::changeLog',
-                                         array($prj->shortname, $scmRoot));
-        return new Pluf_HTTP_Response_Redirect($url);
-    }
-
-    /**
      * Find the mime type of a file.
      *
      * Use /etc/mime.types to find the type.

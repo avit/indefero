@@ -168,13 +168,13 @@ $ctl[] = array('regex' => '#^/p/([\-\w]+)/source/download/(\w+)/$#',
 $ctl[] = array('regex' => '#^/p/([\-\w]+)/source/treerev/$#',
                'base' => $base,
                'priority' => 4,
-               'model' => 'IDF_Views_Source',
+               'model' => 'IDF_Views_Source_Svn',
                'method' => 'treeRev');
 
 $ctl[] = array('regex' => '#^/p/([\-\w]+)/source/changesrev/$#',
                'base' => $base,
                'priority' => 4,
-               'model' => 'IDF_Views_Source',
+               'model' => 'IDF_Views_Source_Svn',
                'method' => 'changelogRev');
 
 // ---------- Downloads ------------------------------------
