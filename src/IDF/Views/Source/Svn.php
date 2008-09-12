@@ -35,29 +35,24 @@ class IDF_Views_Source_Svn
     public function treeRev($request, $match)
     {
         $prj = $request->project;
-
-        // Redirect to tree base if not svn
         if ($request->conf->getVal('scm', 'git') != 'svn') {
+            // Redirect to tree base if not svn
             $url =  Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
-                                         array($prj->shortname, $prj->getScmRoot()));
-
+                                  array($prj->shortname, $prj->getScmRoot()));
             return new Pluf_HTTP_Response_Redirect($url);
         }
-
         // Get revision value
-        if (!isset($request->REQUEST['rev']) or trim($request->REQUEST['rev']) == '') {
+        if (!isset($request->REQUEST['rev']) 
+            or trim($request->REQUEST['rev']) == '') {
             $scmRoot = $prj->getScmRoot();
-        }
-        else {
+        } else {
             $scmRoot = $request->REQUEST['rev'];
         }
-
         // Get source if not /
-        if (isset($request->REQUEST['sourcefile']) and trim($request->REQUEST['sourcefile']) != '') {
+        if (isset($request->REQUEST['sourcefile']) 
+            and trim($request->REQUEST['sourcefile']) != '') {
             $scmRoot .= '/'.$request->REQUEST['sourcefile'];
         }
-
-        // Redirect
         $url =  Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
                                          array($prj->shortname, $scmRoot));
         return new Pluf_HTTP_Response_Redirect($url);
@@ -70,22 +65,18 @@ class IDF_Views_Source_Svn
     public function changelogRev($request, $match)
     {
         $prj = $request->project;
-
-        // Redirect to tree base if not svn
         if ($request->conf->getVal('scm', 'git') != 'svn') {
+            // Redirect to tree base if not svn
             $scmRoot = $prj->getScmRoot();
-        }
-        // Get revision value if svn
-        else {
-            if (!isset($request->REQUEST['rev']) or trim($request->REQUEST['rev']) == '') {
+        } else {
+            // Get revision value if svn
+            if (!isset($request->REQUEST['rev']) 
+                or trim($request->REQUEST['rev']) == '') {
                 $scmRoot = $prj->getScmRoot();
-            }
-            else {
+            } else {
                 $scmRoot = $request->REQUEST['rev'];
             }
         }
-
-        // Redirect
         $url =  Pluf_HTTP_URL_urlForView('IDF_Views_Source::changeLog',
                                          array($prj->shortname, $scmRoot));
         return new Pluf_HTTP_Response_Redirect($url);
