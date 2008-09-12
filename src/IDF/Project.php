@@ -254,8 +254,8 @@ class IDF_Project extends Pluf_Model
         if ($fmt == 'objects') {
             return new Pluf_Template_ContextVars(array('members' => $members, 'owners' => $owners));
         } else {
-            return array('members' => implode("\n", $members), 
-                         'owners' => implode("\n", $owners));
+            return array('members' => implode("\n", (array) $members), 
+                         'owners' => implode("\n", (array) $owners));
         }
     }
 
