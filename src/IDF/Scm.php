@@ -40,5 +40,43 @@ class IDF_Scm
         return call_user_func(array($scms[$scm], 'factory'),
                               $request->project);
     }
+
+    /**
+     * Equivalent to exec but with caching.
+     *
+     * @param string Command
+     * @param &array Output
+     * @param &int Return value
+     * @return string Last line of the output
+     */
+    public static function exec($command, &$output=array(), &$return=0)
+    {
+        $key = md5($command);
+        $cache = Pluf_Cache::factory();
+        if (null === ($res=$cache->get($key))) {
+            $ll = exec($command, $output, $return);
+            $cache->set($key, array($ll, $return, $output));
+        } else {
+            list($ll, $return, $output) = $res;
+        }
+        return $ll;
+    }
+
+    /**
+     * Equivalent to shell_exec but with caching.
+     *
+     * @param string Command
+     * @return string Output of the command
+     */
+    public static function shell_exec($command)
+    {
+        $key = md5($command);
+        $cache = Pluf_Cache::factory();
+        if (null === ($res=$cache->get($key))) {
+            $res = shell_exec($command);
+            $cache->set($key, $res);
+        } 
+        return $res;
+    }
 }
 

@@ -78,7 +78,7 @@ class IDF_Scm_Git
                        escapeshellarg($this->repo),
                        escapeshellarg($hash));
         $ret = 0; $out = array();
-        exec($cmd, &$out, &$ret);
+        IDF_Scm::exec($cmd, &$out, &$ret);
         if ($ret != 0) return false;
         return trim($out[0]);
     }
@@ -121,7 +121,7 @@ class IDF_Scm_Git
         $rawlog = array();
         $cmd = sprintf('GIT_DIR=%s git log --raw --abbrev=40 --pretty=oneline %s',
                        escapeshellarg($this->repo), escapeshellarg($commit));
-        exec($cmd, &$rawlog);
+        IDF_Scm::exec($cmd, &$rawlog);
         // We reverse the log to be able to use a fixed efficient
         // regex without back tracking.
         $rawlog = implode("\n", array_reverse($rawlog));
@@ -165,7 +165,7 @@ class IDF_Scm_Git
                        escapeshellarg($tree));
         $out = array();
         $res = array();
-        exec($cmd, &$out);
+        IDF_Scm::exec($cmd, &$out);
         foreach ($out as $line) {
             list($perm, $type, $hash, $size, $file) = preg_split('/ |\t/', $line, 5, PREG_SPLIT_NO_EMPTY);
             $res[] = (object) array('perm' => $perm, 'type' => $type, 
@@ -190,7 +190,7 @@ class IDF_Scm_Git
                        escapeshellarg($this->repo), 
                        escapeshellarg($commit));
         $out = array();
-        exec($cmd, &$out);
+        IDF_Scm::exec($cmd, &$out);
         foreach ($out as $line) {
             list($perm, $type, $hash, $size, $file) = preg_split('/ |\t/', $line, 5, PREG_SPLIT_NO_EMPTY);
             if ($totest == $file) {
@@ -211,9 +211,9 @@ class IDF_Scm_Git
      */
     public function getBlob($request_file_info, $dummy=null)
     {
-        return shell_exec(sprintf('GIT_DIR=%s git-cat-file blob %s',
-                                  escapeshellarg($this->repo), 
-                                  escapeshellarg($request_file_info->hash)));
+        return IDF_Scm::shell_exec(sprintf('GIT_DIR=%s git-cat-file blob %s',
+                                    escapeshellarg($this->repo), 
+                                    escapeshellarg($request_file_info->hash)));
     }
 
     /**
@@ -224,8 +224,8 @@ class IDF_Scm_Git
     public function getBranches()
     {
         $out = array();
-        exec(sprintf('GIT_DIR=%s git branch', 
-                     escapeshellarg($this->repo)), &$out);
+        IDF_Scm::exec(sprintf('GIT_DIR=%s git branch', 
+                              escapeshellarg($this->repo)), &$out);
         $res = array();
         foreach ($out as $b) {
             $res[] = substr($b, 2);
@@ -246,7 +246,7 @@ class IDF_Scm_Git
                        "'".$this->mediumtree_fmt."'", 
                        escapeshellarg($commit));
         $out = array();
-        exec($cmd, &$out);
+        IDF_Scm::exec($cmd, &$out);
         $log = array();
         $change = array();
         $inchange = false;
@@ -281,7 +281,7 @@ class IDF_Scm_Git
                        escapeshellarg($this->repo), $n, $this->mediumtree_fmt, 
                        escapeshellarg($commit));
         $out = array();
-        exec($cmd, &$out);
+        IDF_Scm::exec($cmd, &$out);
         return self::parseLog($out, 4);
     }
 

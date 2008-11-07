@@ -104,7 +104,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$path),
                        escapeshellarg($rev));
-        $xmlInfo = shell_exec($cmd);
+        $xmlInfo = IDF_Scm::shell_exec($cmd);
 
         // If exception is thrown, return false
         try {
@@ -142,7 +142,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$folder),
                        escapeshellarg($rev));
-        $xmlLs = shell_exec($cmd);
+        $xmlLs = IDF_Scm::shell_exec($cmd);
         $xml = simplexml_load_string($xmlLs);
         $res = array();
         foreach ($xml->list->entry as $entry) {
@@ -185,7 +185,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($file),
                        escapeshellarg($rev));
-        $xmlLog = shell_exec($cmd);
+        $xmlLog = IDF_Scm::shell_exec($cmd);
         $xml = simplexml_load_string($xmlLog);
         return (string) $xml->logentry->msg;
     }
@@ -205,7 +205,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$totest),
                        escapeshellarg($rev));
-        $xmlInfo = shell_exec($cmd);
+        $xmlInfo = IDF_Scm::shell_exec($cmd);
         $xml = simplexml_load_string($xmlInfo);
         $entry = $xml->entry;
 
@@ -237,7 +237,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$request_file_info->fullpath),
                        escapeshellarg($rev));
-        return shell_exec($cmd);
+        return IDF_Scm::shell_exec($cmd);
     }
 
 
@@ -267,7 +267,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo),
                        escapeshellarg($rev));
-        $xmlRes = shell_exec($cmd);
+        $xmlRes = IDF_Scm::shell_exec($cmd);
         $xml = simplexml_load_string($xmlRes);
 
         $res['author'] = (string) $xml->logentry->author;
@@ -289,7 +289,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo));
-        return shell_exec($cmd);
+        return IDF_Scm::shell_exec($cmd);
     }
 
 
@@ -310,7 +310,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo),
                        escapeshellarg($rev));
-        $xmlRes = shell_exec($cmd);
+        $xmlRes = IDF_Scm::shell_exec($cmd);
         $xml = simplexml_load_string($xmlRes);
 
         $res = array();
@@ -358,7 +358,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$path),
                        escapeshellarg($rev));
-        $xmlProps = shell_exec($cmd);
+        $xmlProps = IDF_Scm::shell_exec($cmd);
         $props = simplexml_load_string($xmlProps);
 
         // No properties, returns an empty array
@@ -393,7 +393,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$path),
                        escapeshellarg($rev));
-        $xmlProp = shell_exec($cmd);
+        $xmlProp = IDF_Scm::shell_exec($cmd);
         $prop = simplexml_load_string($xmlProp);
 
         return (string) $prop->target->property;
@@ -415,7 +415,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo),
                        escapeshellarg($rev));
-        $xmlInfo = shell_exec($cmd);
+        $xmlInfo = IDF_Scm::shell_exec($cmd);
 
         $xml = simplexml_load_string($xmlInfo);
         return (string) $xml->entry->commit['revision'];
