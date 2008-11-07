@@ -134,9 +134,11 @@ class IDF_Scm_Git
                 $fc = $this->getCommit($matches[1]);
                 $file->date = $fc->date;
                 $file->log = $fc->title;
+                $file->author = $fc->author;
             } else if ($file->type == 'blob') {
                 $file->date = $co->date;
                 $file->log = $co->title;
+                $file->author = $co->author; // May be wrong in some cases.
             }
             $file->fullpath = ($folder) ? $folder.'/'.$file->file : $file->file;
             $res[] = $file;

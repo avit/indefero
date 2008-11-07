@@ -47,7 +47,7 @@
       <td><a href="{$url}">{$file.file}</a></td>
       <td><span class="smaller">{$file.date|dateago:"wihtout"}</span></td> 
       <td>{$file.rev}</td>
-      <td{if $file.type != 'blob'} colspan="2"{/if}><span class="smaller">{$file.log|nl2br}</span></td>
+      <td{if $file.type != 'blob'} colspan="2"{/if}><span class="smaller">{$file.author|strip_tags|trim}{trans ':'} {$file.log|nl2br}</span></td>
       {if $file.type == 'blob'}
       <td>{$file.size|size}</td>
       {/if}

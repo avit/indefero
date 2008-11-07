@@ -161,9 +161,8 @@ class IDF_Scm_Svn
             if ($file['type'] == 'blob') {
                 $file['size'] = (string) $entry->size;
             }
-
+            $file['author'] = $entry->commit->author;
             $file['perm'] = '';
-
             $res[] = (object) $file;
         }
 
