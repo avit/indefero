@@ -280,6 +280,7 @@ class IDF_Views_Source
 
 function IDF_Views_Source_PrettySize($size)
 {
-    return Pluf_Template::markSafe(Pluf_Utils::prettySize($size));
+    return Pluf_Template::markSafe(str_replace(' ', '&nbsp;',
+                                               Pluf_Utils::prettySize($size)));
 }
 
