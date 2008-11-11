@@ -38,3 +38,17 @@
 
 Now you can login with this user into the interface.
 
+## For the Apache Webserver Users
+
+If you are using [Apache](http://httpd.apache.org/) for your webserver
+and want to have nice URLs like `http://yourdomain.com/p/yourproject/`
+and not `http://yourdomain.com/index.php/p/yourproject/` you can use
+the following `.htaccess` file to be put in the same folder of the
+`www/index.php` file.
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*) /index.php/$1
+
+
