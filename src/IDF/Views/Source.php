@@ -124,9 +124,15 @@ class IDF_Views_Source
         }
         if ($request_file_info->type != 'tree') {
             $info = self::getMimeType($request_file_info->file);
-            $rep = new Pluf_HTTP_Response($scm->getBlob($request_file_info, $commit),
-                                          $info[0]);
-            $rep->headers['Content-Disposition'] = 'attachment; filename="'.$info[1].'"';
+            if (!self::isText($info)) {
+                $rep = new Pluf_HTTP_Response($scm->getBlob($request_file_info, $commit),
+                                              $info[0]);
+                $rep->headers['Content-Disposition'] = 'attachment; filename="'.$info[1].'"';
+            } else {
+                // We want to display the content of the file as text
+                $rep = new Pluf_HTTP_Response($scm->getBlob($request_file_info, $commit),
+                                              'text/plain');
+            }
             return $rep;
         }
         $bc = self::makeBreadCrumb($request->project, $commit, $request_file_info->file);
@@ -241,7 +247,7 @@ class IDF_Views_Source
      *
      * @param string Filename/Filepath
      * @param string Path to the mime types database ('/etc/mime.types')
-     * @param array  Mime type found or 'application/octet-stream' and basename
+     * @param array  Mime type found or 'application/octet-stream', basename, extension
      */
     public static function getMimeType($file, $src='/etc/mime.types')
     {
@@ -252,7 +258,7 @@ class IDF_Views_Source
                 if ('#' != substr($mime, 0, 1)) {
                     $elts = preg_split('/ |\t/', $mime, -1, PREG_SPLIT_NO_EMPTY);
                     if (in_array($info['extension'], $elts)) {
-                        return array($elts[0], $info['basename']);
+                        return array($elts[0], $info['basename'], $info['extension']);
                     }
                 }
             }
@@ -260,10 +266,27 @@ class IDF_Views_Source
             // we consider that if no extension and base name is all
             // uppercase, then we have a text file.
             if ($info['basename'] == strtoupper($info['basename'])) {
-                return array('text/plain', $info['basename']);
+                return array('text/plain', $info['basename'], 'txt');
             }
+            $info['extension'] = 'bin';
         }
-        return array('application/octet-stream', $info['basename']);
+        return array('application/octet-stream', $info['basename'], $info['extension']);
+    }
+
+    /**
+     * Find if a given mime type is a text file.
+     * This uses the output of the self::getMimeType function.
+     *
+     * @param array (Mime type, file name, extension)
+     * @return bool Is text
+     */
+    public static function isText($fileinfo)
+    {
+        if (0 === strpos($fileinfo[0], 'text/')) {
+            return true;
+        }
+        $ext = 'mdtext php js';
+        return (in_array($fileinfo[2], explode(' ', $ext)));
     }
 
     /**
