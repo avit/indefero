@@ -128,12 +128,17 @@ class IDF_Views_Source
                 $rep = new Pluf_HTTP_Response($scm->getBlob($request_file_info, $commit),
                                               $info[0]);
                 $rep->headers['Content-Disposition'] = 'attachment; filename="'.$info[1].'"';
+                return $rep;
             } else {
                 // We want to display the content of the file as text
-                $rep = new Pluf_HTTP_Response($scm->getBlob($request_file_info, $commit),
-                                              'text/plain');
+                $extra = array('branches' => $branches,
+                               'commit' => $commit,
+                               'request_file' => $request_file,
+                               'request_file_info' => $request_file_info,
+                               'mime' => $info,
+                               );
+                return $this->viewFile($request, $match, $extra);
             }
-            return $rep;
         }
         $bc = self::makeBreadCrumb($request->project, $commit, $request_file_info->file);
         $page_title = $bc.' - '.$title;
@@ -216,6 +221,83 @@ class IDF_Views_Source
     }
 
     /**
+     * Should only be called through self::tree
+     */
+    public function viewFile($request, $match, $extra)
+    {
+        $title = sprintf(__('%1$s %2$s Source Tree'), (string) $request->project,
+                         $this->getScmType($request));
+        $scm = IDF_Scm::get($request);
+        $branches = $extra['branches'];
+        $commit = $extra['commit'];
+        $request_file = $extra['request_file'];
+        $request_file_info = $extra['request_file_info'];
+        $bc = self::makeBreadCrumb($request->project, $commit, $request_file_info->file);
+        $page_title = $bc.' - '.$title;
+        $cobject = $scm->getCommit($commit);
+        $tree_in = in_array($commit, $branches);
+        // try to find the previous level if it exists.
+        $prev = split('/', $request_file);
+        $l = array_pop($prev);
+        $previous = substr($request_file, 0, -strlen($l.' '));
+        $scmConf = $request->conf->getVal('scm', 'git');
+        $props = null;
+        if ($scmConf === 'svn') {
+            $props = $scm->getProperties($commit, $request_file);
+        }
+        $content = self::highLight($extra['mime'], $scm->getBlob($request_file_info, $commit));
+        return Pluf_Shortcuts_RenderToResponse('source/'.$scmConf.'/file.html',
+                                               array(
+                                                     'page_title' => $page_title,
+                                                     'title' => $title,
+                                                     'breadcrumb' => $bc,
+                                                     'file' => $content,
+                                                     'commit' => $commit,
+                                                     'cobject' => $cobject,
+                                                     'fullpath' => $request_file,
+                                                     'base' => $request_file_info->file,
+                                                     'prev' => $previous,
+                                                     'tree_in' => $tree_in,
+                                                     'branches' => $branches,
+                                                     'props' => $props,
+                                                     ),
+                                               $request);
+    }
+
+    /**
+     * Get a given file at a given commit.
+     *
+     */
+    public $getFile_precond = array('IDF_Precondition::accessSource');
+    public function getFile($request, $match)
+    {
+        $scm = IDF_Scm::get($request);
+        $branches = $scm->getBranches();
+        $commit = $match[2];
+        $request_file = $match[3];
+        if ('commit' != $scm->testHash($commit, $request_file)) {
+            // Redirect to the first branch
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
+                                            array($request->project->shortname,
+                                                  $branches[0]));
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
+        $request_file_info = $scm->getFileInfo($request_file, $commit);
+        if (!$request_file_info or $request_file_info->type == 'tree') {
+            // Redirect to the first branch
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
+                                            array($request->project->shortname,
+                                                  $branches[0]));
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
+        $info = self::getMimeType($request_file_info->file);
+        $rep = new Pluf_HTTP_Response($scm->getBlob($request_file_info, $commit),
+                                      $info[0]);
+        $rep->headers['Content-Disposition'] = 'attachment; filename="'.$info[1].'"';
+        return $rep;
+    }
+
+    /**
      * Get a zip archive of the current commit.
      *
      */
@@ -287,6 +369,18 @@ class IDF_Views_Source
         }
         $ext = 'mdtext php js';
         return (in_array($fileinfo[2], explode(' ', $ext)));
+    }
+
+    public static function highLight($fileinfo, $content)
+    {
+        $table = array();
+        $i = 1;
+        foreach (preg_split("/\015\012|\015|\012/", $content) as $line) {
+            $table[] = '<tr class="c-line"><td class="code-lc" id="L'.$i.'"><a href="#L'.$i.'">'.$i.'</a></td>'
+                .'<td class="code mono">'.IDF_Diff::padLine(Pluf_esc($line)).'</td></tr>';
+            $i++;
+        }
+        return Pluf_Template::markSafe(implode("\n", $table));
     }
 
     /**

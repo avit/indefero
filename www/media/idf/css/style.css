@@ -19,6 +19,10 @@
 #
 # ***** END LICENSE BLOCK ***** */
 
+h2.top { 
+  margin-top: 0;
+}
+
 .yui-g { 
   padding: 0 1em;
 }
@@ -478,6 +482,57 @@ table.diff tr.diff-next {
 
 table.diff tr.diff-next td { 
   padding: 1px 5px;
+}
+
+/**
+ * view file content
+ */
+table.code { 
+  border-bottom: 1px solid #d3d7cf;
+  border-top: 1px solid #d3d7cf;
+  width: 100%;
+}
+
+table.code tr { 
+  border-left: 1px solid #d3d7cf;
+  border-right: 1px solid #d3d7cf;
+  border-bottom: none;
+  border-top: none;
+}
+
+table.code td { 
+  font-size: 90%;
+  vertical-align: top;
+  padding: 1px;
+  border-color: inherit;
+}
+
+table.code td.code { 
+  border: none;
+  /* Whitespace hacking from: http://ln.hixie.ch/ */
+  white-space: pre; /* CSS2 */
+  white-space: -moz-pre-wrap; /* Mozilla */
+  white-space: -hp-pre-wrap; /* HP printers */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: pre-wrap; /* CSS 2.1 */
+  white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */ 
+  word-wrap: break-word; /* IE */ 
+  padding-left: 5px;
+}
+
+table.code td.code-lc { 
+  text-align: right;
+  padding: 1px 5px;
+  border-color: inherit;
+  border-top: 1px solid #d3d7cf;
+  border-bottom: 1px solid #d3d7cf;
+  width: 3em;
+}
+
+table.code td.code-lc a { 
+  color: #555753;
+  text-decoration: none;
 }
 
 /**

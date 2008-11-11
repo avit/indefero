@@ -165,6 +165,12 @@ $ctl[] = array('regex' => '#^/p/([\-\w]+)/source/download/(\w+)/$#',
                'model' => 'IDF_Views_Source',
                'method' => 'download');
 
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/file/(\w+)/(.*)$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Source',
+               'method' => 'getFile');
+
 $ctl[] = array('regex' => '#^/p/([\-\w]+)/source/treerev/$#',
                'base' => $base,
                'priority' => 4,

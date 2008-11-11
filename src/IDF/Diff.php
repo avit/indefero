@@ -127,7 +127,7 @@ class IDF_Diff
                     } else {
                         $class = 'diff-a';
                     }
-                    $line_content = $this->padLine(Pluf_esc($line[2]));
+                    $line_content = self::padLine(Pluf_esc($line[2]));
                     $out .= sprintf('<tr class="diff-line"><td class="diff-lc">%s</td><td class="diff-lc">%s</td><td class="%s mono">%s</td></tr>'."\n", $line[0], $line[1], $class, $line_content);
                 }
                 if (count($file['chunks']) > $cc)
@@ -136,11 +136,11 @@ class IDF_Diff
             }
             $out .= '</table>';
         }
-        return $out;
+        return Pluf_Template::markSafe($out);
     }
 
 
-    public function padLine($line)
+    public static function padLine($line)
     {
         $n = strlen($line);
         for ($i=0;$i<$n;$i++) {

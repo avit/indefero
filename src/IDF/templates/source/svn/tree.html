@@ -1,7 +1,7 @@
 {extends "source/base.html"}
 {block docclass}yui-t1{assign $inSourceTree=true}{/block}
 {block body}
-<h2><a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $commit)}">{trans 'Root'}</a><span class="sep">/</span>{if $breadcrumb}{$breadcrumb|safe}{/if}</h2>
+<h2 class="top"><a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $commit)}">{trans 'Root'}</a><span class="sep">/</span>{if $breadcrumb}{$breadcrumb|safe}{/if}</h2>
 
 <table summary="" class="tree-list">
   <thead>

@@ -1,0 +1,23 @@
+{extends "source/base.html"}
+{block docclass}yui-t1{assign $inSourceTree=true}{/block}
+{block body}
+<h2 class="top"><a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $commit)}">{trans 'Root'}</a><span class="sep">/</span>{if $breadcrumb}{$breadcrumb|safe}{/if}</h2>
+
+<table class="code" summary=" ">
+{$file}
+</table>
+{aurl 'url', 'IDF_Views_Source::getFile', array($project.shortname, $commit, $fullpath)}
+<p class="right soft"><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/package-grey.png'}" alt="{trans 'Archive'}" align="bottom" /></a> <a href="{$url}">{trans 'Download this file'}</a></p>
+
+
+{/block}
+{block context}
+<form class="star" action="{url 'IDF_Views_Source_Svn::treeRev', array($project.shortname)}" method="get">
+<p><strong>{trans 'Revision:'}</strong> {$commit}</p>
+<p>
+    <input accesskey="4" type="text" value="{$commit}" name="rev" size="5" />
+    <input type="hidden" name="sourcefile" value="{$base}"/>
+    <input type="submit" name="s" value="{trans 'Go to revision'}" /></p>
+  </form>
+
+{/block}
