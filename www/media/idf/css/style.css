@@ -324,17 +324,17 @@ table.tree-list td {
   vertical-align: top;
 }
 
-table.tree-list tfoot th { 
+table.tree-list tfoot th, table.code tfoot th { 
   text-align: right;
   font-weight: normal;
 }
 
-table.tree-list tfoot th a { 
+table.tree-list tfoot th a, table.code tfoot th a { 
   color: #000;
   font-weight: normal;
 }
 
-table.tree-list tfoot th ul { 
+table.tree-list tfoot th ul, table.code tfoot th ul { 
   text-align: left;
   font-size: 85%;
 }
@@ -491,6 +491,12 @@ table.code {
   border-bottom: 1px solid #d3d7cf;
   border-top: 1px solid #d3d7cf;
   width: 100%;
+}
+
+table.code th { 
+  background-color: #e4e8E0; 
+  vertical-align: top;
+  border-color: #d3d7cf; 
 }
 
 table.code tr { 

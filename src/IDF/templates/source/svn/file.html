@@ -4,7 +4,28 @@
 <h2 class="top"><a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $commit)}">{trans 'Root'}</a><span class="sep">/</span>{if $breadcrumb}{$breadcrumb|safe}{/if}</h2>
 
 <table class="code" summary=" ">
+{if !$tree_in || $props}
+  {aurl 'url', 'IDF_Views_Source::commit', array($project.shortname, $commit)} 
+  <tfoot>
+    {if $props}
+    <tr><th colspan="2">
+        <ul>
+          {foreach $props as $prop => $val}
+          <li>{trans 'Property'} <strong>{$prop}</strong> {trans 'set to:'} <em>{$val}</em></li>
+          {/foreach}
+        </ul>
+    </th></tr>
+    {/if}
+    {if !$tree_in}
+    <tr><th colspan="2">{blocktrans}Source at commit <a class="mono" href="{$url}">{$commit}</a> created {$cobject.date|dateago}.{/blocktrans}<br />
+        <span class="smaller">{blocktrans}By {$cobject.author|strip_tags|trim}, {$cobject.title}{/blocktrans}</span>
+    </th></tr>
+    {/if}
+  </tfoot>
+  {/if}
+<tbody>
 {$file}
+</tbody>
 </table>
 {aurl 'url', 'IDF_Views_Source::getFile', array($project.shortname, $commit, $fullpath)}
 <p class="right soft"><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/package-grey.png'}" alt="{trans 'Archive'}" align="bottom" /></a> <a href="{$url}">{trans 'Download this file'}</a></p>
