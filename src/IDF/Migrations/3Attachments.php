@@ -21,14 +21,32 @@
 #
 # ***** END LICENSE BLOCK ***** */
 
-$m = array();
-$m['IDF_Tag'] = array('relate_to' => array('IDF_Project'));
-$m['IDF_Issue'] = array('relate_to' => array('IDF_Project', 'Pluf_User', 'IDF_Tag'),
-                        'relate_to_many' => array('IDF_Tag', 'Pluf_User'));
-$m['IDF_IssueComment'] = array('relate_to' => array('IDF_Issue', 'Pluf_User'));
-$m['IDF_IssueFile'] = array('relate_to' => array('IDF_IssueComment', 'Pluf_User'));
-$m['IDF_Upload'] = array('relate_to' => array('IDF_Project', 'Pluf_User'),
-                         'relate_to_many' => array('IDF_Tag'));
-$m['IDF_Search_Occ'] = array('relate_to' => array('IDF_Project'),);
+/**
+ * Add the download of files.
+ */
 
-return $m;
+function IDF_Migrations_3Attachments_up($params=null)
+{
+    $models = array(
+                    'IDF_IssueFile',
+                    );
+    $db = Pluf::db();
+    $schema = new Pluf_DB_Schema($db);
+    foreach ($models as $model) {
+        $schema->model = new $model();
+        $schema->createTables();
+    }
+}
+
+function IDF_Migrations_3Attachments_down($params=null)
+{
+    $models = array(
+                    'IDF_IssueFile',
+                    );
+    $db = Pluf::db();
+    $schema = new Pluf_DB_Schema($db);
+    foreach ($models as $model) {
+        $schema->model = new $model();
+        $schema->dropTables();
+    }
+}

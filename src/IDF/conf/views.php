@@ -133,6 +133,12 @@ $ctl[] = array('regex' => '#^/p/([\-\w]+)/issues/my/(\w+)/$#',
                'model' => 'IDF_Views_Issue',
                'method' => 'myIssues');
 
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/issues/attachment/(\d+)/(.*)$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Issue',
+               'method' => 'getAttachment');
+
 // ---------- SCM ----------------------------------------
 
 $ctl[] = array('regex' => '#^/p/([\-\w]+)/source/tree/(\w+)/$#',

@@ -228,6 +228,11 @@ span.nobrk {
 
 hr { visibility: hidden; }
 
+div.attach { 
+  border-top: 2px solid #d3d7cf;
+  width: 40%;
+}
+
 textarea { 
   font-family: monospace;
 }

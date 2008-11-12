@@ -64,6 +64,26 @@ class IDF_Form_IssueCreate extends Pluf_Form
                                                        'rows' => 13,
                                                                     ),
                                             ));
+        $upload_path = Pluf::f('upload_issue_path', false);
+        if (false === $upload_path) {
+            throw new Pluf_Exception_SettingError(__('The "upload_issue_path" configuration variable was not set.'));
+        }
+        $md5 = md5(rand().microtime().Pluf_Utils::getRandomString());
+        // We add .dummy to try to mitigate security issues in the
+        // case of someone allowing the upload path to be accessible
+        // to everybody.
+        $filename = substr($md5, 0, 2).'/'.substr($md5, 2, 2).'/'.substr($md5, 4).'/%s.dummy'; 
+        $this->fields['attachment'] = new Pluf_Form_Field_File(
+                array('required' => false,
+                      'label' => __('Attach a file'),
+                      'move_function_params' => 
+                      array('upload_path' => $upload_path,
+                            'upload_path_create' => true,
+                            'file_name' => $filename,
+                            )
+                      )
+                );
+
         if ($this->show_full) {
             $this->fields['status'] = new Pluf_Form_Field_Varchar(
                                       array('required' => true,
@@ -226,6 +246,15 @@ class IDF_Form_IssueCreate extends Pluf_Form
             $comment->content = $this->cleaned_data['content'];
             $comment->submitter = $this->user;
             $comment->create();
+            // If we have a file, create the IDF_IssueFile and attach
+            // it to the comment.
+            if ($this->cleaned_data['attachment']) {
+                $file = new IDF_IssueFile();
+                $file->attachment = $this->cleaned_data['attachment'];
+                $file->submitter = $this->user;
+                $file->comment = $comment;
+                $file->create();
+            }
             return $issue;
         }
         throw new Exception(__('Cannot save the model from an invalid form.'));

@@ -37,6 +37,7 @@ function IDF_Migrations_Install_setup($params=null)
                     'IDF_Conf',
                     'IDF_Upload',
                     'IDF_Search_Occ',
+                    'IDF_IssueFile',
                     );
     $db = Pluf::db();
     $schema = new Pluf_DB_Schema($db);

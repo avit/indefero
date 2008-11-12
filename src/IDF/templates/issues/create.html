@@ -23,6 +23,12 @@
 <td>{if $form.f.content.errors}{$form.f.content.fieldErrors}{/if}
 {$form.f.content|unsafe}
 </td>
+</tr>
+<tr>
+<th>{$form.f.attachment.labelTag}:</th>
+<td>{if $form.f.attachment.errors}{$form.f.attachment.fieldErrors}{/if}
+{$form.f.attachment|unsafe}
+</td>
 </tr>{if $isOwner or $isMember}
 <tr>
 <th><strong>{$form.f.status.labelTag}:</strong></th>

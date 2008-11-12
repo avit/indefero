@@ -87,6 +87,13 @@ $cfg['url_media'] = 'http://projects.ceondo.com/media';
 $cfg['url_upload'] = 'http://projects/ceondo.com/media/upload';
 $cfg['upload_path'] = '/path/to/media/upload';
 
+#
+# The following path *MUST NOT* be accessible through a web browser 
+# as user will be able to upload .html, .php files and this can 
+# create *TERRIBLE* security issues.
+#
+$cfg['upload_issue_path'] = '/path/to/attachments';
+
 $cfg['login_success_url'] = $cfg['url_base'].$cfg['idf_base'];
 $cfg['after_logout_page'] = $cfg['url_base'].$cfg['idf_base'];
 

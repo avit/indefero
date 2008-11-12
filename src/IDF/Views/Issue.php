@@ -141,7 +141,9 @@ class IDF_Views_Issue
                         'project' => $prj,
                         'user' => $request->user);
         if ($request->method == 'POST') {
-            $form = new IDF_Form_IssueCreate($request->POST, $params);
+            $form = new IDF_Form_IssueCreate(array_merge($request->POST,
+                                                         $request->FILES),
+                                             $params);
             if ($form->isValid()) {
                 $issue = $form->save();
                 $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::index',
@@ -246,7 +248,9 @@ class IDF_Views_Issue
                             'issue' => $issue,
                             );
             if ($request->method == 'POST') {
-                $form = new IDF_Form_IssueUpdate($request->POST, $params);
+                $form = new IDF_Form_IssueUpdate(array_merge($request->POST, 
+                                                             $request->FILES),
+                                                 $params);
                 if ($form->isValid()) {
                     $issue = $form->save();
                     $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::index',
@@ -305,6 +309,22 @@ class IDF_Views_Issue
                                                      ),
                                                $arrays),
                                                $request);
+    }
+
+
+    /**
+     * Download a given attachment.
+     */
+    public $getAttachment_precond = array('IDF_Precondition::accessIssues');
+    public function getAttachment($request, $match)
+    {
+        $prj = $request->project;
+        $attach = Pluf_Shortcuts_GetObjectOr404('IDF_IssueFile', $match[2]);
+        $prj->inOr404($attach->get_comment()->get_issue());
+        $res = new Pluf_HTTP_Response_File(Pluf::f('upload_issue_path').'/'.$attach->attachment,
+                                           'application/octet-stream');
+        $res->headers['Content-Disposition'] = 'attachment; filename="'.$attach->filename.'"';
+        return $res;
     }
 
     /**
