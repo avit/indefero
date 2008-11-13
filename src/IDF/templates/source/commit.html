@@ -12,9 +12,6 @@
 <th><strong>{trans 'Commit:'}</strong></th><td class="mono"><a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $commit)}" title="{trans 'View corresponding source tree'}">{$cobject.commit}</a></td>
 </tr>
 <tr>
-<th><strong>{trans 'Tree:'}</strong></th><td class="mono"><a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $commit)}" title="{trans 'View corresponding source tree'}">{$cobject.tree}</a><br /><br /></td>
-</tr>
-<tr>
 <th><strong>{trans 'Message:'}</strong></th><td>{issuetext $cobject.title, $request}{if isset($cobject.full_message)}<br /><br />{issuetext $cobject.full_message, $request}{/if}</td>
 </tr>
 {if count($diff.files)}
@@ -23,7 +20,7 @@
 <td>
 {foreach $diff.files as $filename=>$diffdef}
 {assign $ndiff = count($diffdef['chunks'])}
-<a href="#diff-{$filename|md5}">{$filename}</a> (<a href="#diff-{$filename|md5}">{blocktrans $ndiff}{$ndiff} diff{plural}{$ndiff} diffs{/blocktrans}</a>)<br />
+<a href="{url 'IDF_Views_Source::tree', array($project.shortname, $commit, $filename)}">{$filename}</a> (<a href="#diff-{$filename|md5}">{blocktrans $ndiff}{$ndiff} diff{plural}{$ndiff} diffs{/blocktrans}</a>)<br />
 {/foreach}
 </td>
 </tr>
