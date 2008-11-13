@@ -1,12 +1,38 @@
 # Quick installation instruction
 
+The installation of InDefero is composed of 2 parts, first the
+installation of the [Pluf framework](http://www.pluf.org) and second,
+the installation of InDefero by itself.
+
+## Installation of Pluf
+
 * Checkout the trunk of [Pluf](http://www.pluf.org).
-* Install the `Mail` and `Mail_mime` classes from [PEAR](http://pear.php.net).
+* Install the `Mail` and `Mail_mime` classes from [PEAR](http://pear.php.net). You must use the `--alldeps` flag when installing these modules:
+
+    $ sudo pear install --alldeps Mail
+    $ sudo pear install --alldeps Mail_mime
+
+The Pluf installation folder is the folder containing the file `Pluf.php`.
+
+## Installation of InDefero
+
+The installation is composed of the following steps:
+
+* Get the InDefero archive.
+* Configure it correctly.
+* Installation the database with the `migrate.php` script.
+* Bootstrap the application with a `bootstrap.php` script.
+
+Here is the step-by-step installation procedure:
+
+* Extract the InDefero archive somewhere.
+* The InDefero installation folder is the folder containing this file INSTALL.mdtext.
 * Make a copy of `src/IDF/conf/idf.php-dist` as `src/IDF/conf/idf.php`.
 * Update the idf.php file to match your system.
-* Run `php /path/to/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -i -d -u` to test the installation of the tables.
-* Run `php /path/to/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -i -d` to really install the tables.
-* Create a bootsrap file to create the first project and admin user for example `www/bootstrap.php`:
+* Open a terminal/shell and go into the InDefero installation folder.
+* Run `php /path/to/pluf/src/migrate.php --conf=src/IDF/conf/idf.php -a -i -d -u` to test the installation of the tables.
+* Run `php /path/to/pluf/src/migrate.php --conf=src/IDF/conf/idf.php -a -i -d` to really install the tables.
+* Create a bootstrap file to create the first project and admin user for example `www/bootstrap.php`. Do not forget to update the second line with your path to Pluf:
 
     <?php
     set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__).'/../src');
@@ -33,8 +59,8 @@
     print "Bootstrap ok\n";
     ?>
 
-* Run `php bootstrap.php`.
-* Remove the `bootstrp.php` file.
+* Run `php www/bootstrap.php`.
+* Remove the `www/bootstrap.php` file.
 
 Now you can login with this user into the interface.
 
