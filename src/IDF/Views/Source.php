@@ -46,13 +46,18 @@ class IDF_Views_Source
                                                   $branches[0]));
             return new Pluf_HTTP_Response_Redirect($url);
         }
-        $res = new Pluf_Template_ContextVars($scm->getChangeLog($commit, 25));
+        $changes = $scm->getChangeLog($commit, 25);
+        // Sync with the database
+        foreach ($changes as $change) {
+            IDF_Commit::getOrAdd($change, $request->project);
+        }
+        $changes = new Pluf_Template_ContextVars($changes);
         $scmConf = $request->conf->getVal('scm', 'git');
         return Pluf_Shortcuts_RenderToResponse('source/changelog.html',
                                                array(
                                                      'page_title' => $title,
                                                      'title' => $title,
-                                                     'changes' => $res,
+                                                     'changes' => $changes,
                                                      'commit' => $commit,
                                                      'branches' => $branches,
                                                      'scm' => $scmConf,

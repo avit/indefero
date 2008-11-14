@@ -32,7 +32,7 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
     private $request = null;
     private $scm = null;
 
-    function start($text, $request)
+    function start($text, $request, $echo=true)
     {
         $this->project = $request->project;
         $this->request = $request;
@@ -50,7 +50,11 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
             $text = preg_replace_callback('#(commit\s+)([0-9a-f]{1,40})#im',
                                           array($this, 'callbackCommit'), $text);
         }
-        echo $text;
+        if ($echo) {
+            echo $text;
+        } else {
+            return $text;
+        }
     }
 
     /**

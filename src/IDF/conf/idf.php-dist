@@ -26,18 +26,10 @@ $cfg = array();
 // to start with, it can be practical.
 $cfg['debug'] = false;
 
-// available languages
-$cfg['languages'] = array('en', 'fr'); 
-
-# SCM base configuration
-$cfg['allowed_scm'] = array('git' => 'IDF_Scm_Git',
-                            'svn' => 'IDF_Scm_Svn',
-                            );
-
 // if you have a single git repository, just put the full path to it
 // without trailing slash.
-// If within a folder you have a series of git repository, just put
-// the folder without a trailing slash.
+// If within a folder you have a series of bare git repository, just 
+// put the folder without a trailing slash.
 // InDefero will automatically append a slash, the project shortname 
 // and .git to create the name of the repository.
 $cfg['git_repositories'] = '/home/git/repositories/indefero.git';
@@ -51,11 +43,25 @@ $cfg['git_remote_url'] = 'git://projects.ceondo.com/indefero.git';
 //$cfg['git_remote_url'] = 'git://projects.ceondo.com';
 
 // Same as for git, you can have multiple repositories, one for each
-// project or a single one for all the projects.
+// project or a single one for all the projects. 
+//
+// In the case of subversion, the admin of a project can also select a
+// remote repository from the web interface. From the web interface
+// you can define a local repository, local repositories are defined
+// here. This if for security reasons.
 $cfg['svn_repositories'] = 'file:///home/svn/repositories/indefero';
 $cfg['svn_repositories_unique'] = true;
 $cfg['svn_remote_url'] = 'http://projects.ceondo.com/svn/indefero';
 
+// Example of one *local* subversion repository for each project:
+
+// the path to the repository on disk will automatically created to be
+//   'file:///home/svn/repositories'.'/'.$project->shortname
+// the url will be generated the same way:
+//   'http://projects.ceondo.com/svn'.'/'.$project->shortname
+// $cfg['svn_repositories'] = 'file:///home/svn/repositories';
+// $cfg['svn_repositories_unique'] = false;
+// $cfg['svn_remote_url'] = 'http://projects.ceondo.com/svn';
 
 // admins will get an email in case of errors in the system in non
 // debug mode.
@@ -68,7 +74,6 @@ $cfg['send_emails'] = true;
 $cfg['mail_backend'] = 'smtp';
 $cfg['mail_host'] = 'localhost';
 $cfg['mail_port'] = 25;
-$cfg['pear_path'] = '/usr/share/php';
 
 // Paths/Url configuration
 # 
@@ -94,9 +99,6 @@ $cfg['upload_path'] = '/path/to/media/upload';
 #
 $cfg['upload_issue_path'] = '/path/to/attachments';
 
-$cfg['login_success_url'] = $cfg['url_base'].$cfg['idf_base'];
-$cfg['after_logout_page'] = $cfg['url_base'].$cfg['idf_base'];
-
 // write here a long random string unique for this installation. This
 // is critical to put a long string.
 $cfg['secret_key'] = ''; 
@@ -113,6 +115,23 @@ $cfg['bounce_email'] = 'no-reply@example.com';
 // It is mandatory if you are using the template system.
 $cfg['tmp_folder'] = '/tmp';
 
+// Database configuration
+// For testing we are using in memory SQLite database.
+$cfg['db_login'] = 'www';
+$cfg['db_password'] = '';
+$cfg['db_server'] = '';
+$cfg['db_version'] = '';
+$cfg['db_table_prefix'] = ''; 
+$cfg['db_engine'] = 'PostgreSQL'; // SQLite is also well tested or MySQL
+$cfg['db_database'] = 'website'; // put absolute path to the db if you
+                                 // are using SQLite
+
+// -- From this point you should not need to update anything. --
+$cfg['pear_path'] = '/usr/share/php';
+
+$cfg['login_success_url'] = $cfg['url_base'].$cfg['idf_base'];
+$cfg['after_logout_page'] = $cfg['url_base'].$cfg['idf_base'];
+
 // Caching of the scm commands.
 $cfg['cache_engine'] = 'Pluf_Cache_File';
 $cfg['cache_timeout'] = 300;
@@ -123,17 +142,6 @@ $cfg['template_folders'] = array(
                                  dirname(__FILE__).'/../templates',
                                  );
 
-// Database configuration
-// For testing we are using in memory SQLite database.
-$cfg['db_login'] = 'www';
-$cfg['db_password'] = '';
-$cfg['db_server'] = '';
-$cfg['db_version'] = '';
-$cfg['db_table_prefix'] = ''; 
-$cfg['db_engine'] = 'PostgreSQL'; // SQLite is also well tested or MySQL
-$cfg['db_database'] = 'website';
-
-// From this point you should not need to update anything.
 $cfg['installed_apps'] = array('Pluf', 'IDF');
 $cfg['pluf_use_rowpermission'] = true;
 $cfg['middleware_classes'] = array(
@@ -146,9 +154,20 @@ $cfg['idf_views'] = dirname(__FILE__).'/views.php';
 $cfg['template_tags'] = array(
                               'hotkey' => 'IDF_Template_HotKey',
                               'issuetext' => 'IDF_Template_IssueComment',
+                              'timeline' => 'IDF_Template_TimelineFragment',
                               );
 $cfg['template_modifiers'] = array(
                                    'size' => 'IDF_Views_Source_PrettySize',
                                    'markdown' => 'IDF_Template_Markdown_filter',
                                    );
+
+// available languages
+$cfg['languages'] = array('en', 'fr'); 
+
+# SCM base configuration
+$cfg['allowed_scm'] = array('git' => 'IDF_Scm_Git',
+                            'svn' => 'IDF_Scm_Svn',
+                            );
+
+
 return $cfg;

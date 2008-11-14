@@ -21,6 +21,8 @@
 #
 # ***** END LICENSE BLOCK ***** */
 
+Pluf::loadFunction('Pluf_HTTP_URL_urlForView');
+
 /**
  * Base definition of an issue.
  *
@@ -152,5 +154,30 @@ class IDF_Issue extends Pluf_Model
     function postSave($create=false)
     {
         IDF_Search::index($this);
+        if ($create) {
+            IDF_Timeline::insert($this, $this->get_project(), 
+                                 $this->get_submitter());
+        }
+    }
+
+    /**
+     * Returns an HTML fragment used to display this issue in the
+     * timeline.
+     *
+     * The request object is given to be able to check the rights and
+     * as such create links to other items etc. You can consider that
+     * if displayed, you can create a link to it.
+     *
+     * @param Pluf_HTTP_Request 
+     * @return Pluf_Template_SafeString
+     */
+    public function timelineFragment($request)
+    {
+        $submitter = $this->get_submitter();
+        $ic = (in_array($this->status, $request->project->getTagIdsByStatus('closed'))) ? 'issue-c' : 'issue-o';
+        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view', 
+                                        array($request->project->shortname,
+                                              $this->id));
+        return Pluf_Template::markSafe(sprintf(__('<a href="%1$s" class="%2$s" title="View issue">Issue %3$d</a> <em>%4$s</em> created by %5$s'), $url, $ic, $this->id, Pluf_esc($this->summary), Pluf_esc($submitter)));
     }
 }

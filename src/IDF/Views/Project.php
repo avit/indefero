@@ -45,9 +45,35 @@ class IDF_Views_Project
             // the first tag is the featured, the last is the deprecated.
             $downloads = $tags[0]->get_idf_upload_list(); 
         }
-        return Pluf_Shortcuts_RenderToResponse('project-home.html',
+        return Pluf_Shortcuts_RenderToResponse('project/home.html',
                                                array(
                                                      'page_title' => $title,
+                                                     'team' => $team,
+                                                     'downloads' => $downloads,
+                                                     ),
+                                               $request);
+    }
+
+    /**
+     * Timeline of the project.
+     */
+    public function timeline($request, $match)
+    {
+        $prj = $request->project;
+        $title = sprintf(__('%s Timeline'), (string) $prj);
+        $team = $prj->getMembershipData();
+        $sql = new Pluf_SQL('project=%s', array($prj->id));
+        $timeline = Pluf::factory('IDF_Timeline')->getList(array('filter'=>$sql->gen(), 'order' => 'creation_dtime DESC'));
+        $downloads = array();
+        if ($request->rights['hasDownloadsAccess']) {
+            $tags = IDF_Views_Download::getDownloadTags($prj);
+            // the first tag is the featured, the last is the deprecated.
+            $downloads = $tags[0]->get_idf_upload_list(); 
+        }
+        return Pluf_Shortcuts_RenderToResponse('project/timeline.html',
+                                               array(
+                                                     'page_title' => $title,
+                                                     'timeline' => $timeline,
                                                      'team' => $team,
                                                      'downloads' => $downloads,
                                                      ),

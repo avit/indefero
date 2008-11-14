@@ -85,6 +85,12 @@ $ctl[] = array('regex' => '#^/p/([\-\w]+)/$#',
                'model' => 'IDF_Views_Project',
                'method' => 'home');
 
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/timeline/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Project',
+               'method' => 'timeline');
+
 $ctl[] = array('regex' => '#^/p/([\-\w]+)/issues/$#',
                'base' => $base,
                'priority' => 4,

@@ -107,5 +107,27 @@ class IDF_IssueComment extends Pluf_Model
 
     function postSave($create=false)
     {
+        if ($create) {
+            // Check if more than one comment for this issue. We do
+            // not want to insert the first comment in the timeline as
+            // the issue itself is inserted.
+            $sql = new Pluf_SQL('issue=%s', array($this->issue));
+            $co = Pluf::factory('IDF_IssueComment')->getList(array('filter'=>$sql->gen()));
+            if ($co->count() > 1) {
+                IDF_Timeline::insert($this, $this->get_issue()->get_project(), 
+                                     $this->get_submitter());
+            }
+        }
+    }
+
+    public function timelineFragment($request)
+    {
+        $submitter = $this->get_submitter();
+        $issue = $this->get_issue();
+        $ic = (in_array($issue->status, $request->project->getTagIdsByStatus('closed'))) ? 'issue-c' : 'issue-o';
+        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view', 
+                                        array($request->project->shortname,
+                                              $issue->id));
+        return Pluf_Template::markSafe(sprintf(__('<a href="%1$s" class="%2$s" title="View issue">Issue %3$d</a> <em>%4$s</em> updated by %5$s'), $url, $ic, $issue->id, Pluf_esc($issue->summary), Pluf_esc($submitter)));
     }
 }
