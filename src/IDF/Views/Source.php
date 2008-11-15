@@ -384,17 +384,15 @@ class IDF_Views_Source
 
     public static function highLight($fileinfo, $content)
     {
-        $openPre = '';
-        $closePre = '';
+        $pretty = '';
         if (IDF_Views_Source::isSupportedExtension($fileinfo[2])) {
-            $openPre = '<pre class="prettyprint">';
-            $closePre = '</pre>';
+            $pretty = ' prettyprint';
         }
         $table = array();
         $i = 1;
         foreach (preg_split("/\015\012|\015|\012/", $content) as $line) {
             $table[] = '<tr class="c-line"><td class="code-lc" id="L'.$i.'"><a href="#L'.$i.'">'.$i.'</a></td>'
-                .'<td class="code mono">'.$openPre.IDF_Diff::padLine(Pluf_esc($line)).$closePre.'</td></tr>';
+                .'<td class="code mono'.$pretty.'">'.IDF_Diff::padLine(Pluf_esc($line)).'</td></tr>';
             $i++;
         }
         return Pluf_Template::markSafe(implode("\n", $table));

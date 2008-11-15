@@ -31,7 +31,8 @@
  * 1) include this source file in an html page via
  * <script type="text/javascript" src="/path/to/prettify.js"></script>
  * 2) define style rules.  See the example page for examples.
- * 3) mark the <pre> and <code> tags in your source with class=prettyprint.
+ * 3) mark the <td>, <pre> and <code> tags in your source 
+ *    with class=prettyprint.
  *    You can also use the (html deprecated) <xmp> tag, but the pretty printer
  *    needs to do more substantial DOM manipulations to support that, so some
  *    css styles may not be preserved.
@@ -1273,6 +1274,7 @@ function prettyPrint() {
   var codeSegments = [
       document.getElementsByTagName('pre'),
       document.getElementsByTagName('code'),
+      document.getElementsByTagName('td'),
       document.getElementsByTagName('xmp') ];
   var elements = [];
   for (var i = 0; i < codeSegments.length; ++i) {
