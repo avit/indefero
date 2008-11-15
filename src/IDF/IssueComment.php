@@ -130,7 +130,7 @@ class IDF_IssueComment extends Pluf_Model
         $out = "\n".'<tr class="log"><td><a href="'.$url.'">'.
             Pluf_esc(Pluf_Template_dateAgo($issue->creation_dtime, 'without')).
             '</a></td><td>';
-       $submitter = $issue->get_submitter();
+        $submitter = $issue->get_submitter();
         $ic = (in_array($issue->status, $request->project->getTagIdsByStatus('closed'))) ? 'issue-c' : 'issue-o';
         $out .= sprintf(__('<a href="%1$s" class="%2$s" title="View issue">Issue %3$d</a>, %4$s'), $url, $ic, $issue->id, Pluf_esc($issue->summary));
 
