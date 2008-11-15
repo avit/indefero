@@ -66,8 +66,25 @@ class IDF_Views_Project
         $pag = new IDF_Timeline_Paginator(new IDF_Timeline());
         $pag->class = 'recent-issues';
         $pag->item_extra_props = array('request' => $request);
-        $pag->summary = __('This table shows the project timeline.');
-        $pag->forced_where = new Pluf_SQL('project=%s', array($prj->id));
+        $pag->summary = __('This table shows the project updates.');
+        // Need to check the rights
+        $rights = array();
+        if (true === IDF_Precondition::accessSource($request)) {
+            $rights[] = '\'IDF_Commit\'';
+        }
+        if (true === IDF_Precondition::accessIssues($request)) {
+            $rights[] = '\'IDF_Issue\'';
+            $rights[] = '\'IDF_IssueComment\'';
+        }
+        if (true === IDF_Precondition::accessDownloads($request)) {
+            $rights[] = '\'IDF_Upload\'';
+        }
+        if (count($rights) == 0) {
+            $rights[] = '\'IDF_Dummy\'';
+        }
+        $sql = sprintf('model_class IN (%s)', implode(', ', $rights));
+        $pag->forced_where = new Pluf_SQL('project=%s AND '.$sql, 
+                                          array($prj->id));
         $pag->sort_order = array('creation_dtime', 'ASC');
         $pag->sort_reverse_order = array('creation_dtime');
         $pag->action = array('IDF_Views_Project::timeline', array($prj->shortname));
