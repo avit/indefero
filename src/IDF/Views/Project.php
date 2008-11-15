@@ -60,7 +60,7 @@ class IDF_Views_Project
     public function timeline($request, $match)
     {
         $prj = $request->project;
-        $title = sprintf(__('%s Timeline'), (string) $prj);
+        $title = sprintf(__('%s Updates'), (string) $prj);
         $team = $prj->getMembershipData();
 
         $pag = new IDF_Timeline_Paginator(new IDF_Timeline());
