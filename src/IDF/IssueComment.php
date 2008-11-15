@@ -128,7 +128,7 @@ class IDF_IssueComment extends Pluf_Model
                                               $issue->id));
         $url .= '#ic'.$this->id;
         $out = "\n".'<tr class="log"><td><a href="'.$url.'">'.
-            Pluf_esc(Pluf_Template_dateAgo($issue->creation_dtime, 'without')).
+            Pluf_esc(Pluf_Template_dateAgo($this->creation_dtime, 'without')).
             '</a></td><td>';
         $submitter = $issue->get_submitter();
         $ic = (in_array($issue->status, $request->project->getTagIdsByStatus('closed'))) ? 'issue-c' : 'issue-o';
