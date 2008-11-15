@@ -31,6 +31,12 @@ Pluf::loadFunction('Pluf_Shortcuts_GetFormForModel');
  */
 class IDF_Views_Source
 {
+    public static $supportedExtenstions = array('c', 'cc', 'cpp', 'cs', 'css', 
+                                                'cyc', 'java', 'bsh', 'csh', 
+                                                'sh', 'cv', 'py', 'perl', 'php',
+                                                'pl', 'pm', 'rb', 'js', 'html',
+                                                'html', 'xhtml', 'xml', 'xsl');
+
     public $changeLog_precond = array('IDF_Precondition::accessSource');
     public function changeLog($request, $match)
     {
@@ -378,14 +384,30 @@ class IDF_Views_Source
 
     public static function highLight($fileinfo, $content)
     {
+        $openPre = '';
+        $closePre = '';
+        if (IDF_Views_Source::isSupportedExtension($fileinfo[2])) {
+            $openPre = '<pre class="prettyprint">';
+            $closePre = '</pre>';
+        }
         $table = array();
         $i = 1;
         foreach (preg_split("/\015\012|\015|\012/", $content) as $line) {
             $table[] = '<tr class="c-line"><td class="code-lc" id="L'.$i.'"><a href="#L'.$i.'">'.$i.'</a></td>'
-                .'<td class="code mono">'.IDF_Diff::padLine(Pluf_esc($line)).'</td></tr>';
+                .'<td class="code mono">'.$openPre.IDF_Diff::padLine(Pluf_esc($line)).$closePre.'</td></tr>';
             $i++;
         }
         return Pluf_Template::markSafe(implode("\n", $table));
+    }
+
+    /**
+     * @param string the extension to test
+     * 
+     * @return 
+     */
+    public static function isSupportedExtension($extension)
+    {
+        return in_array($extension, IDF_Views_Source::$supportedExtenstions);
     }
 
     /**

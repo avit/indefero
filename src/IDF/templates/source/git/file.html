@@ -1,4 +1,5 @@
 {extends "source/base.html"}
+{block extraheader}<link rel="stylesheet" type="text/css" href="{media '/idf/css/prettify.css'}" />{/block}
 {block docclass}yui-t1{assign $inSourceTree=true}{/block}
 {block body}
 <h2 class="top"><a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $commit)}">{trans 'Root'}</a><span class="sep">/</span>{if $breadcrumb}{$breadcrumb|safe}{/if}</h2>
@@ -19,7 +20,6 @@
 {aurl 'url', 'IDF_Views_Source::getFile', array($project.shortname, $commit, $fullpath)}
 <p class="right soft"><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/package-grey.png'}" alt="{trans 'Archive'}" align="bottom" /></a> <a href="{$url}">{trans 'Download this file'}</a></p>
 
-
 {/block}
 {block context}
 <p><strong>{trans 'Branches:'}</strong><br />
@@ -28,4 +28,9 @@
 <span class="label{if $commit == $branch} active{/if}"><a href="{$url}" class="label">{$branch}</a></span><br />
 {/foreach}
 </p>
+{/block}
+
+{block javascript}
+<script type="text/javascript" src="{media '/idf/js/prettify.js'}"></script>
+<script type="text/javascript">prettyPrint();</script>
 {/block}
