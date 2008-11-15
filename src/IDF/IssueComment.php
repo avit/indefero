@@ -162,7 +162,7 @@ class IDF_IssueComment extends Pluf_Model
 
 
         $out .= "\n".'<tr class="extra"><td colspan="2">
-<div class="helptext right">'.sprintf(__('Comment on <a href="%s">issue&nbsp;%d</a>'), $url, $issue->id).', '.__('by').' '.Pluf_esc($submitter).'</div></td></tr>'; 
+<div class="helptext right">'.sprintf(__('Comment on <a href="%s" class="%s">issue&nbsp;%d</a>'), $url, $ic, $issue->id).', '.__('by').' '.Pluf_esc($submitter).'</div></td></tr>'; 
 
         return Pluf_Template::markSafe($out);
     }
