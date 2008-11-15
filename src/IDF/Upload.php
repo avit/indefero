@@ -141,8 +141,39 @@ class IDF_Upload extends Pluf_Model
         }
     }
 
+    function postSave($create=false)
+    {
+        if ($create) {
+            IDF_Timeline::insert($this, $this->get_project(), 
+                                 $this->get_submitter(), $this->creation_dtime);
+        }
+    }
+
     function getAbsoluteUrl($project)
     {
         return Pluf::f('url_media').'/upload/'.$project->shortname.'/files/'.$this->file;
+    }
+
+    /**
+     * Returns the timeline fragment for the file.
+     *
+     *
+     * @param Pluf_HTTP_Request 
+     * @return Pluf_Template_SafeString
+     */
+    public function timelineFragment($request)
+    {
+        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Download::view', 
+                                        array($request->project->shortname, 
+                                              $this->id));
+        $out = '<tr class="log"><td><a href="'.$url.'">'.
+            Pluf_esc(Pluf_Template_dateAgo($this->creation_dtime, 'without')).
+            '</a></td><td>';
+        $submitter = $this->get_submitter();
+        $out .= sprintf(__('<a href="%1$s" title="View download">Download %2$d</a>, %3$s'), $url, $this->id, Pluf_esc($this->summary)).'</td>';
+        $out .= '</tr>';
+        $out .= "\n".'<tr class="extra"><td colspan="2">
+<div class="helptext right">'.sprintf(__('Addition of <a href="%s">download&nbsp;%d</a>'), $url, $this->id).', '.__('by').' '.Pluf_esc($submitter).'</div></td></tr>'; 
+        return Pluf_Template::markSafe($out);
     }
 }
