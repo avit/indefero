@@ -122,12 +122,48 @@ class IDF_IssueComment extends Pluf_Model
 
     public function timelineFragment($request)
     {
-        $submitter = $this->get_submitter();
         $issue = $this->get_issue();
-        $ic = (in_array($issue->status, $request->project->getTagIdsByStatus('closed'))) ? 'issue-c' : 'issue-o';
         $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view', 
                                         array($request->project->shortname,
                                               $issue->id));
-        return Pluf_Template::markSafe(sprintf(__('<a href="%1$s" class="%2$s" title="View issue">Issue %3$d</a> <em>%4$s</em> updated by %5$s'), $url, $ic, $issue->id, Pluf_esc($issue->summary), Pluf_esc($submitter)));
+        $url .= '#ic'.$this->id;
+        $out = "\n".'<tr class="log"><td><a href="'.$url.'">'.
+            Pluf_esc(Pluf_Template_dateAgo($issue->creation_dtime, 'without')).
+            '</a></td><td>';
+       $submitter = $issue->get_submitter();
+        $ic = (in_array($issue->status, $request->project->getTagIdsByStatus('closed'))) ? 'issue-c' : 'issue-o';
+        $out .= sprintf(__('<a href="%1$s" class="%2$s" title="View issue">Issue %3$d</a>, %4$s'), $url, $ic, $issue->id, Pluf_esc($issue->summary));
+
+        if ($this->changedIssue()) {
+            $out .= '<div class="issue-changes-timeline">';
+            foreach ($this->changes as $w => $v) {
+                $out .= '<strong>';
+                switch ($w) {
+                case 'su':
+                    $out .= __('Summary:'); break;
+                case 'st':
+                    $out .= __('Status:'); break;
+                case 'ow':
+                    $out .= __('Owner:'); break;
+                case 'lb':
+                    $out .= __('Labels:'); break;
+                }
+                $out .= '</strong>';
+                if ($w == 'lb') {
+                    $out .= Pluf_esc(implode(', ', $v));
+                } else {
+                    $out .= Pluf_esc($v);
+                }
+                $out .= ' ';
+            }
+            $out .= '</div>';
+        }
+        $out .= '</td></tr>';
+
+
+        $out .= "\n".'<tr class="extra"><td colspan="2">
+<div class="helptext right">'.sprintf(__('Comment on <a href="%s">issue&nbsp;%d</a>'), $url, $issue->id).', '.__('by').' '.Pluf_esc($submitter).'</div></td></tr>'; 
+
+        return Pluf_Template::markSafe($out);
     }
 }

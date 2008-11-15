@@ -22,6 +22,7 @@
 # ***** END LICENSE BLOCK ***** */
 
 Pluf::loadFunction('Pluf_HTTP_URL_urlForView');
+Pluf::loadFunction('Pluf_Template_dateAgo');
 
 /**
  * Base definition of a commit.
@@ -158,15 +159,22 @@ class IDF_Commit extends Pluf_Model
      */
     public function timelineFragment($request)
     {
-        $tag = new IDF_Template_IssueComment();
-        $out = $tag->start($this->summary, $request, false);
-        if ($this->fullmessage) {
-            $out .= '<br /><br />'.$tag->start($this->fullmessage, $request, false);
-        }
         $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::commit', 
                                         array($request->project->shortname, 
                                               $this->scm_id));
-        $out .= '<div class="helptext right"><br />'.__('Commit:').'&nbsp;<a href="'.$url.'" class="mono">'.$this->scm_id.'</a>, '.__('by').' '.strip_tags($this->origauthor).'</div>'; 
+        $out = '<tr class="log"><td><a href="'.$url.'">'.
+            Pluf_esc(Pluf_Template_dateAgo($this->creation_dtime, 'without')).
+            '</a></td><td>';
+        $tag = new IDF_Template_IssueComment();
+        $out .= $tag->start($this->summary, $request, false);
+        if (0 && $this->fullmessage) {
+            $out .= '<br /><br />'.$tag->start($this->fullmessage, $request, false);
+        }
+        $out .= '</td>
+</tr>
+<tr class="extra">
+<td colspan="2">
+<div class="helptext right">'.__('Commit').'&nbsp;<a href="'.$url.'" class="mono">'.$this->scm_id.'</a>, '.__('by').' '.strip_tags($this->origauthor).'</div></td></tr>'; 
         return Pluf_Template::markSafe($out);
     }
 }

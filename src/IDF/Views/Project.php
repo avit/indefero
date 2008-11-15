@@ -62,8 +62,23 @@ class IDF_Views_Project
         $prj = $request->project;
         $title = sprintf(__('%s Timeline'), (string) $prj);
         $team = $prj->getMembershipData();
-        $sql = new Pluf_SQL('project=%s', array($prj->id));
-        $timeline = Pluf::factory('IDF_Timeline')->getList(array('filter'=>$sql->gen(), 'order' => 'creation_dtime DESC'));
+
+        $pag = new IDF_Timeline_Paginator(new IDF_Timeline());
+        $pag->class = 'recent-issues';
+        $pag->item_extra_props = array('request' => $request);
+        $pag->summary = __('This table shows the project timeline.');
+        $pag->forced_where = new Pluf_SQL('project=%s', array($prj->id));
+        $pag->sort_order = array('creation_dtime', 'ASC');
+        $pag->sort_reverse_order = array('creation_dtime');
+        $pag->action = array('IDF_Views_Project::timeline', array($prj->shortname));
+        $list_display = array(
+             'creation_dtime' => __('Age'),
+             'id' => __('Change'),
+                              );
+        $pag->configure($list_display, array(), array('creation_dtime'));
+        $pag->items_per_page = 20;
+        $pag->no_results_text = __('No changes were found.');
+        $pag->setFromRequest($request);
         $downloads = array();
         if ($request->rights['hasDownloadsAccess']) {
             $tags = IDF_Views_Download::getDownloadTags($prj);
@@ -73,7 +88,7 @@ class IDF_Views_Project
         return Pluf_Shortcuts_RenderToResponse('project/timeline.html',
                                                array(
                                                      'page_title' => $title,
-                                                     'timeline' => $timeline,
+                                                     'timeline' => $pag,
                                                      'team' => $team,
                                                      'downloads' => $downloads,
                                                      ),

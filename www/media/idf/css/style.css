@@ -108,6 +108,10 @@ table.recent-issues {
   width: 90%;
 }
 
+table.recent-issues tr.log { 
+  border-bottom: 1px solid #e7ebe3; 
+}
+
 table.recent-issues th { 
   background-color: #e4e8E0; 
   vertical-align: top;
@@ -194,6 +198,16 @@ div.issue-changes {
   -webkit-border-radius: 3px;
   padding: 4px;
   width: 60%;
+}
+
+div.issue-changes-timeline { 
+  background-color: #eeeeec;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  margin-top: 4px;
+  padding: 4px;
+  width: 60%;
+  color: #888a85;
 }
 
 div.issue-submit-info { 

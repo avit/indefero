@@ -22,6 +22,7 @@
 # ***** END LICENSE BLOCK ***** */
 
 Pluf::loadFunction('Pluf_HTTP_URL_urlForView');
+Pluf::loadFunction('Pluf_Template_dateAgo');
 
 /**
  * Base definition of an issue.
@@ -173,11 +174,18 @@ class IDF_Issue extends Pluf_Model
      */
     public function timelineFragment($request)
     {
-        $submitter = $this->get_submitter();
-        $ic = (in_array($this->status, $request->project->getTagIdsByStatus('closed'))) ? 'issue-c' : 'issue-o';
         $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view', 
                                         array($request->project->shortname,
                                               $this->id));
-        return Pluf_Template::markSafe(sprintf(__('<a href="%1$s" class="%2$s" title="View issue">Issue %3$d</a> <em>%4$s</em> created by %5$s'), $url, $ic, $this->id, Pluf_esc($this->summary), Pluf_esc($submitter)));
+        $out = '<tr class="log"><td><a href="'.$url.'">'.
+            Pluf_esc(Pluf_Template_dateAgo($this->creation_dtime, 'without')).
+            '</a></td><td>';
+       $submitter = $this->get_submitter();
+        $ic = (in_array($this->status, $request->project->getTagIdsByStatus('closed'))) ? 'issue-c' : 'issue-o';
+        $out .= sprintf(__('<a href="%1$s" class="%2$s" title="View issue">Issue %3$d</a>, %4$s'), $url, $ic, $this->id, Pluf_esc($this->summary)).'</td>';
+
+        $out .= "\n".'<tr class="extra"><td colspan="2">
+<div class="helptext right">'.sprintf(__('Creation of <a href="%s">issue&nbsp;%d</a>'), $url, $this->id).', '.__('by').' '.Pluf_esc($submitter).'</div></td></tr>'; 
+        return Pluf_Template::markSafe($out);
     }
 }

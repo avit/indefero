@@ -7,6 +7,11 @@
 </div>
 {/block}
 {block body}
+
+
+{$timeline.render}
+
+{*
 <table summary="" class="tree-list">
 <thead>
 <tr>
@@ -23,7 +28,12 @@
 {/foreach}
 </tbody>
 </table>
+
+*}
 {/block}
+
+
+
 {block context}
 {if count($downloads) > 0}
 <p><strong>{trans 'Featured Downloads'}</strong><br />
