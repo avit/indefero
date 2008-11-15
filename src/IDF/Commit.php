@@ -87,7 +87,7 @@ class IDF_Commit extends Pluf_Model
                                   ),
                             'fullmessage' =>
                             array(
-                                  'type' => 'Pluf_DB_Field_Compressed',
+                                  'type' => 'Pluf_DB_Field_Text',
                                   'blank' => true,
                                   'verbose' => __('changelog'),
                                   'help_text' => 'This is the full message of the commit.',
