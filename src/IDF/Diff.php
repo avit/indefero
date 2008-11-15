@@ -115,6 +115,13 @@ class IDF_Diff
     {
         $out = '';
         foreach ($this->files as $filename=>$file) {
+            $openPre = '';
+            $closePre = '';
+            $fileinfo = IDF_Views_Source::getMimeType($filename);
+            if (IDF_Views_Source::isSupportedExtension($fileinfo[2])) {
+                $openPre = '<pre class="prettyprint">';
+                $closePre = '</pre>';
+            }
             $out .= "\n".'<table class="diff" summary="">'."\n";
             $out .= '<tr id="diff-'.md5($filename).'"><th colspan="3">'.Pluf_esc($filename).'</th></tr>'."\n";
             $cc = 1;
@@ -128,7 +135,7 @@ class IDF_Diff
                         $class = 'diff-a';
                     }
                     $line_content = self::padLine(Pluf_esc($line[2]));
-                    $out .= sprintf('<tr class="diff-line"><td class="diff-lc">%s</td><td class="diff-lc">%s</td><td class="%s mono">%s</td></tr>'."\n", $line[0], $line[1], $class, $line_content);
+                    $out .= sprintf('<tr class="diff-line"><td class="diff-lc">%s</td><td class="diff-lc">%s</td><td class="%s mono">%s%s%s</td></tr>'."\n", $line[0], $line[1], $class, $openPre, $line_content, $closePre);
                 }
                 if (count($file['chunks']) > $cc)
                 $out .= '<tr class="diff-next"><td>...</td><td>...</td><td>&nbsp;</td></tr>'."\n";

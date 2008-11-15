@@ -1,4 +1,5 @@
 {extends "source/base.html"}
+{block extraheader}<link rel="stylesheet" type="text/css" href="{media '/idf/css/prettify.css'}" />{/block}
 {block docclass}yui-t1{assign $inCommit=true}{/block}
 {block body}
 <table class="commit" summary="">
@@ -43,3 +44,9 @@
 {/if}
 {/block}
 
+{block javascript}
+<script type="text/javascript" src="{media '/idf/js/prettify.js'}"></script>
+<script type="text/javascript">
+prettyPrint();
+</script>
+{/block}
