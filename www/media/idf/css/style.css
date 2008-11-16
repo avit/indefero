@@ -242,8 +242,11 @@ span.nobrk {
 
 hr { visibility: hidden; }
 
-div.attach { 
-  border-top: 2px solid #d3d7cf;
+hr.attach { 
+  visibility: visible; 
+  border: 0;
+  background-color: #d3d7cf;
+  color: #d3d7cf;
   width: 40%;
 }
 

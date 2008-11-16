@@ -17,16 +17,16 @@
 <pre class="issue-comment-text">{if strlen($c.content) > 0}{issuetext $c.content, $request}{else}<i>{trans '(No comments were given for this change.)'}</i>{/if}</pre>
 {assign $attachments = $c.get_attachment_list()}
 {if $attachments.count() > 0}
-<div class="attach">
+<hr align="left" class="attach" />
 <ul>
 {foreach $attachments as $a}<li><a href="{url 'IDF_Views_Issue::getAttachment', array($project.shortname, $a.id, $a.filename)}">{$a.filename}</a> - {$a.filesize|size}</li>{/foreach}
-</ul></div>{/if}
+</ul>{/if}
 {if $i> 0 and $c.changedIssue()}
-<div class="issue-changes">
+<div class="issue-changes"> 
 {foreach $c.changes as $w => $v}
 <strong>{if $w == 'su'}{trans 'Summary:'}{/if}{if $w == 'st'}{trans 'Status:'}{/if}{if $w == 'ow'}{trans 'Owner:'}{/if}{if $w == 'lb'}{trans 'Labels:'}{/if}</strong> {if $w == 'lb'}{assign $l = implode(', ', $v)}{$l}{else}{$v}{/if}<br />
 {/foreach}
-</div>
+</div> 
 {/if}
 </div>{assign $i = $i + 1}{if $i == $nc and false == $form}
 <div class="issue-comment-signin">
