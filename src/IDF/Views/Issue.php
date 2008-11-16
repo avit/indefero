@@ -163,8 +163,8 @@ class IDF_Views_Issue
                                                          );
                     $oemail = $issue->get_owner()->email;
                     $email = new Pluf_Mail(Pluf::f('from_email'), $oemail,
-                                           sprintf(__('Issue %s - %s (InDefero)'),
-                                                   $issue->id, $issue->summary));
+                                           sprintf(__('Issue %s - %s (%s)'),
+                                                   $issue->id, $issue->summary, $prj->shortname));
                     $tmpl = new Pluf_Template('issues/issue-created-email.txt');
                     $email->addTextMessage($tmpl->render($context));
                     $email->sendMail();
@@ -281,8 +281,8 @@ class IDF_Views_Issue
                     $email = new Pluf_Mail_Batch(Pluf::f('from_email'));
                     foreach ($interested as $user) {
                         if ($user->id != $request->user->id) {
-                            $email->setSubject(sprintf(__('Updated Issue %s - %s (InDefero)'),
-                                                       $issue->id, $issue->summary));
+                            $email->setSubject(sprintf(__('Updated Issue %s - %s (%s)'),
+                                                       $issue->id, $issue->summary, $prj->shortname));
                             $email->setTo($user->email);
                             $email->setReturnPath(Pluf::f('from_email'));
                             $email->addTextMessage($text_email);
