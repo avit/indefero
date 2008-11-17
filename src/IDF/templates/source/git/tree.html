@@ -35,7 +35,7 @@
 {if $file.type == 'blob'}
 {if isset($file.date)}
 <td><span class="smaller">{$file.date|dateago:"wihtout"}</span></td> 
-<td><span class="smaller">{$file.author|strip_tags|trim}{trans ':'} {$file.log}</span></td>
+<td><span class="smaller">{$file.author|strip_tags|trim}{trans ':'} {issuetext $file.log, $request, true, false}</span></td>
 {else}<td colspan="2"></td>{/if}
 <td>{$file.size|size}</td>{/if}
 </tr>

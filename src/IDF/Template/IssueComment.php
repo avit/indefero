@@ -32,12 +32,12 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
     private $request = null;
     private $scm = null;
 
-    function start($text, $request, $echo=true)
+    function start($text, $request, $echo=true, $wordwrap=true)
     {
         $this->project = $request->project;
         $this->request = $request;
         $this->scm = IDF_Scm::get($request);
-        $text = wordwrap($text, 69, "\n", true);
+        if ($wordwrap) $text = wordwrap($text, 69, "\n", true);
         $text = Pluf_esc($text);
         $text = ereg_replace('[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]', 
                              '<a href="\\0" rel="nofollow">\\0</a>', 
