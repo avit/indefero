@@ -150,7 +150,7 @@ $cfg['middleware_classes'] = array(
          'Pluf_Middleware_Translation',
          );
 $cfg['template_context_processors'] = array('IDF_Middleware_ContextPreProcessor');
-$cfg['idf_views'] = dirname(__FILE__).'/views.php';
+$cfg['idf_views'] = dirname(__FILE__).'/urls.php';
 $cfg['template_tags'] = array(
                               'hotkey' => 'IDF_Template_HotKey',
                               'issuetext' => 'IDF_Template_IssueComment',
