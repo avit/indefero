@@ -50,7 +50,8 @@ class IDF_Scm_Svn
     public static function getRemoteAccessUrl($project)
     {
         $conf = $project->getConf();
-        if (false !== ($url=$conf->getVal('svn_remote_url', false))) {
+        if (false !== ($url=$conf->getVal('svn_remote_url', false)) 
+            && !empty($url)) {
             // Remote repository
             return $url;
         }
@@ -71,7 +72,8 @@ class IDF_Scm_Svn
     {
         $conf = $project->getConf();
         // Find the repository
-        if (false !== ($rep=$conf->getVal('svn_remote_url', false))) {
+        if (false !== ($rep=$conf->getVal('svn_remote_url', false)) 
+            && !empty($rep)) {
             // Remote repository
             return new IDF_Scm_Svn($rep,
                                    $conf->getVal('svn_username'),
