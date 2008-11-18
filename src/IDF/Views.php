@@ -56,7 +56,8 @@ class IDF_Views
             return new Pluf_HTTP_Response_Redirect($url);
         }
         $v = new Pluf_Views();
-        return $v->login($request, $match, Pluf::f('login_success_url'));
+        return $v->login($request, $match, Pluf::f('login_success_url'),
+                         array(), 'idf/login_form.html');
     }
 
     /**
