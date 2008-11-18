@@ -31,6 +31,6 @@ class IDF_Template_HotKey extends Pluf_Template_Tag
     function start($key, $view, $params=array(), $get_params=array())
     {
         $url = addslashes(Pluf_HTTP_URL_urlForView($view, $params, $get_params));
-        echo "jQuery.hotkeys.add('$key',function (){window.location.href='$url';});";
+        echo "jQuery.hotkeys.add('$key',{disableInInput: true},function (){window.location.href='$url';});";
     }
 }
