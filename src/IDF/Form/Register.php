@@ -131,7 +131,7 @@ class IDF_Form_Register extends Pluf_Form
                    'user'=> $user,
                    )
                                              );
-        $tmpl = new Pluf_Template('register/confirmation-email.txt');
+        $tmpl = new Pluf_Template('idf/register/confirmation-email.txt');
         $text_email = $tmpl->render($context);
         $email = new Pluf_Mail($from_email, $user->email,
                                __('Confirm the creation of your account.'));

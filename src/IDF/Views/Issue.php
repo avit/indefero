@@ -165,7 +165,7 @@ class IDF_Views_Issue
                     $email = new Pluf_Mail(Pluf::f('from_email'), $oemail,
                                            sprintf(__('Issue %s - %s (%s)'),
                                                    $issue->id, $issue->summary, $prj->shortname));
-                    $tmpl = new Pluf_Template('issues/issue-created-email.txt');
+                    $tmpl = new Pluf_Template('idf/issues/issue-created-email.txt');
                     $email->addTextMessage($tmpl->render($context));
                     $email->sendMail();
                 }
@@ -276,7 +276,7 @@ class IDF_Views_Issue
                                   'url_base' => Pluf::f('url_base'),
                                   )
                                                          );
-                    $tmpl = new Pluf_Template('issues/issue-updated-email.txt');
+                    $tmpl = new Pluf_Template('idf/issues/issue-updated-email.txt');
                     $text_email = $tmpl->render($context);
                     $email = new Pluf_Mail_Batch(Pluf::f('from_email'));
                     foreach ($interested as $user) {
