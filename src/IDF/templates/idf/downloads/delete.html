@@ -1,0 +1,40 @@
+{extends "idf/downloads/base.html"}
+{block docclass}yui-t3{assign $inDownloads=true}{/block}
+{block body}
+
+<div class="download-file">
+<a href="{url 'IDF_Views_Download::download', array($project.shortname, $file.id)}">{$file}</a> - {$file.filesize|size}
+</div>
+
+<p>{blocktrans}<strong>Attention!</strong> If you want to delete a specific version of your software, maybe, someone is depending on this specific version to run his systems. Are you sure, you will not affect anybody when removing this file?{/blocktrans}</p>
+
+{if !$deprecated}{aurl 'url', 'IDF_Views_Download::view', array($project.shortname, $file.id)}
+<p>{blocktrans}Instead of deleting the file, you could <a href="{$url}">mark it as deprecated</a>.{/blocktrans}</p>{/if}
+
+<form method="post" action=".">
+<table class="form" summary="">
+<tr>
+<td>&nbsp;</td>
+<td><input type="submit" value="{trans 'Delete File'}" name="submit" /> | <a href="{url 'IDF_Views_Download::index', array($project.shortname)}">{trans 'Cancel'}</a> 
+</td>
+</tr>
+</table>
+</form>
+
+{/block}
+
+{block context}
+{assign $submitter = $file.get_submitter()}
+<p><strong>{trans 'Uploaded:'}</strong> <span class="nobrk">{$file.creation_dtime|dateago}</span> <span class="nobrk">{blocktrans}by {$submitter}{/blocktrans}</span></p>
+{if $file.modif_dtime != $file.creation_dtime}<p>
+<strong>{trans 'Updated:'}</strong> <span class="nobrk">{$file.modif_dtime|dateago}</span></p>{/if}
+<p>
+<strong>{trans 'Downloads:'}</strong> <span class="nobrk">{$file.downloads}</span></p>
+{if $tags.count()}
+<p>
+<strong>{trans 'Labels:'}</strong><br />
+{foreach $tags as $tag}{aurl 'url', 'IDF_Views_Download::listLabel', array($project.shortname, $tag.id)}
+<span class="label"><a href="{$url}" class="label"><strong>{$tag.class}:</strong>{$tag.name}</a></span><br />
+{/foreach}
+</p>{/if}
+{/block}

@@ -50,7 +50,7 @@ class IDF_Views_User
         } else {
             $form = new IDF_Form_UserAccount($request->user->getData(), $params);
         }
-        return Pluf_Shortcuts_RenderToResponse('user/myaccount.html', 
+        return Pluf_Shortcuts_RenderToResponse('idf/user/myaccount.html', 
                                                array('page_title' => __('Your Account'),
                                                      'form' => $form),
                                                $request);
@@ -67,7 +67,7 @@ class IDF_Views_User
         if (count($users) != 1 or !$users[0]->active) {
             throw new Pluf_HTTP_Error404();
         }
-        return Pluf_Shortcuts_RenderToResponse('user/public.html', 
+        return Pluf_Shortcuts_RenderToResponse('idf/user/public.html', 
                                                array('page_title' => (string) $users[0],
                                                      'member' => $users[0],
                                                      'projects' => $projects,

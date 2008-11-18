@@ -1,0 +1,52 @@
+{extends "idf/admin/base.html"}
+{block docclass}yui-t1{assign $inSource = true}{/block}
+{block body}
+{if $form.errors}
+<div class="px-message-error">
+<p>{trans 'The form contains some errors. Please correct them to update the source configuration.'}</p>
+{if $form.get_top_errors}
+{$form.render_top_errors|unsafe}
+{/if}
+</div>
+{/if}
+<form method="post" action=".">
+<table class="form" summary="">
+<tr>
+<th><strong>{$form.f.scm.labelTag}:</strong></th>
+<td>{if $form.f.scm.errors}{$form.f.scm.fieldErrors}{/if}
+{$form.f.scm|unsafe}
+</td>
+</tr>
+<tr>
+<th>{$form.f.svn_remote_url.labelTag}:</th>
+<td>{if $form.f.svn_remote_url.errors}{$form.f.svn_remote_url.fieldErrors}{/if}
+{$form.f.svn_remote_url|unsafe}
+</td>
+</tr>
+<tr>
+<th>{$form.f.svn_username.labelTag}:</th>
+<td>{if $form.f.svn_username.errors}{$form.f.svn_username.fieldErrors}{/if}
+{$form.f.svn_username|unsafe}
+</td>
+</tr>
+<tr>
+<th>{$form.f.svn_password.labelTag}:</th>
+<td>{if $form.f.svn_password.errors}{$form.f.svn_password.fieldErrors}{/if}
+{$form.f.svn_password|unsafe}
+</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>
+<input type="submit" value="{trans 'Save Changes'}" name="submit" /> 
+</td>
+</tr>
+</table>
+</form>
+{/block}
+{block context}
+<div class="issue-submit-info">
+<p><strong>{trans 'Instructions:'}</strong></p>
+<p>{blocktrans}You can select the type of repository you want. In the case of subversion, you can use optionally a remote repository instead of the local one.{/blocktrans}</p>
+</div>
+{/block}

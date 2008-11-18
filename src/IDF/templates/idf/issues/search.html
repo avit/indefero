@@ -1,0 +1,12 @@
+{extends "idf/issues/base.html"}
+{block docclass}yui-t2{/block}
+{block body}
+{$issues.render}
+{if !$user.isAnonymous()}
+{aurl 'url', 'IDF_Views_Issue::create', array($project.shortname)}
+<p><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/add.png'}" alt="+" align="bottom" /></a> <a href="{$url}">{trans 'New Issue'}</a></p>{/if}
+
+{/block}
+{block context}
+<p><strong>{trans 'Found issues:'}</strong> {$issues.nb_items}</p>
+{/block}

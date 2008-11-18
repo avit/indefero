@@ -1,0 +1,125 @@
+{extends "idf/issues/base.html"}
+{block titleicon}{if $form}<form class="star" method="post" action="{url 'IDF_Views_Issue::star', array($project.shortname, $issue.id)}"><input type="image" src="{if $starred}{media '/idf/img/star.png'}{else}{media '/idf/img/star-grey.png'}{/if}" name="submit" /></form> {/if}{/block}
+{block body}
+{assign $i = 0} 
+{assign $nc = $comments.count()} 
+{foreach $comments as $c}
+<div class="issue-comment{if $i == 0} issue-comment-first{/if}{if $i == ($nc-1)} issue-comment-last{/if}" id="ic{$c.id}">{assign $who = $c.get_submitter()}{aurl 'whourl', 'IDF_Views_User::view', array($who.login)}
+{if $i == 0}
+<p>{blocktrans}Reported by <a href="{$whourl}">{$who}</a>, {$c.creation_dtime|date}{/blocktrans}</p>
+{else}
+{aurl 'url', 'IDF_Views_Issue::view', array($project.shortname, $issue.id)}
+{assign $id = $c.id}
+{assign $url = $url~'#ic'~$c.id}
+<p>{blocktrans}Comment <a href="{$url}">{$i}</a> by <a href="{$whourl}">{$who}</a>, {$c.creation_dtime|date}{/blocktrans}</p>
+{/if}
+
+<pre class="issue-comment-text">{if strlen($c.content) > 0}{issuetext $c.content, $request}{else}<i>{trans '(No comments were given for this change.)'}</i>{/if}</pre>
+{assign $attachments = $c.get_attachment_list()}
+{if $attachments.count() > 0}
+<hr align="left" class="attach" />
+<ul>
+{foreach $attachments as $a}<li><a href="{url 'IDF_Views_Issue::getAttachment', array($project.shortname, $a.id, $a.filename)}">{$a.filename}</a> - {$a.filesize|size}</li>{/foreach}
+</ul>{/if}
+{if $i> 0 and $c.changedIssue()}
+<div class="issue-changes"> 
+{foreach $c.changes as $w => $v}
+<strong>{if $w == 'su'}{trans 'Summary:'}{/if}{if $w == 'st'}{trans 'Status:'}{/if}{if $w == 'ow'}{trans 'Owner:'}{/if}{if $w == 'lb'}{trans 'Labels:'}{/if}</strong> {if $w == 'lb'}{assign $l = implode(', ', $v)}{$l}{else}{$v}{/if}<br />
+{/foreach}
+</div> 
+{/if}
+</div>{assign $i = $i + 1}{if $i == $nc and false == $form}
+<div class="issue-comment-signin">
+{aurl 'url', 'IDF_Views::login'}{blocktrans}<a href="{$url}">Sign in</a> to reply to this comment.{/blocktrans}
+</div>
+{/if}
+{/foreach}
+
+{if $form}
+<hr />
+
+{if $form.errors}
+<div class="px-message-error">
+<p>{trans 'The form contains some errors. Please correct them to change the issue.'}</p>
+{if $form.get_top_errors}
+{$form.render_top_errors|unsafe}
+{/if}
+</div>
+{/if}
+
+{if $closed and (!$isOwner and !$isMember)}
+<p><img src="{media '/idf/img/warning.png'}" style="vertical-align: text-bottom;" alt=" " /> {blocktrans}This issue is marked as closed, add a comment only if you think this issue is still valid and more work is needed to fully fix it.{/blocktrans}</p>
+
+{/if}
+<form method="post" enctype="multipart/form-data" action="{url 'IDF_Views_Issue::view', array($project.shortname, $issue.id)}" >
+<table class="form" summary="">
+<tr>
+<th><strong>{$form.f.content.labelTag}:</strong></th>
+<td>{if $form.f.content.errors}{$form.f.content.fieldErrors}{/if}
+{$form.f.content|unsafe}
+</td>
+</tr>
+<tr>
+<th>{$form.f.attachment.labelTag}:</th>
+<td>{if $form.f.attachment.errors}{$form.f.attachment.fieldErrors}{/if}
+{$form.f.attachment|unsafe}
+</td>
+</tr>{if $isOwner or $isMember}
+<tr>
+<th><strong>{$form.f.summary.labelTag}:</strong></th>
+<td>{if $form.f.summary.errors}{$form.f.summary.fieldErrors}{/if}
+{$form.f.summary|unsafe}
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.status.labelTag}:</strong></th>
+<td>{if $form.f.status.errors}{$form.f.status.fieldErrors}{/if}
+{$form.f.status|unsafe}
+</td>
+</tr>
+<tr>
+<th>{$form.f.owner.labelTag}:</th>
+<td>{if $form.f.owner.errors}{$form.f.owner.fieldErrors}{/if}
+{$form.f.owner|unsafe}
+</td>
+</tr>
+<tr>
+<th>{$form.f.label1.labelTag}:</th>
+<td>
+{if $form.f.label1.errors}{$form.f.label1.fieldErrors}{/if}{$form.f.label1|unsafe}
+{if $form.f.label2.errors}{$form.f.label2.fieldErrors}{/if}{$form.f.label2|unsafe}
+{if $form.f.label3.errors}{$form.f.label3.fieldErrors}{/if}{$form.f.label3|unsafe}<br />
+{if $form.f.label4.errors}{$form.f.label4.fieldErrors}{/if}{$form.f.label4|unsafe}
+{if $form.f.label5.errors}{$form.f.label5.fieldErrors}{/if}{$form.f.label5|unsafe}
+{if $form.f.label6.errors}{$form.f.label6.fieldErrors}{/if}{$form.f.label6|unsafe}
+</td>
+</tr>{/if}
+<tr>
+<td>&nbsp;</td>
+<td><input type="submit" value="{trans 'Submit Changes'}" name="submit" /> | <a href="{url 'IDF_Views_Issue::view', array($project.shortname, $issue.id)}">{trans 'Cancel'}</a>
+</td>
+</tr>
+</table>
+</form>
+{/if}
+{/block}
+{block context}
+<div class="issue-info">
+{assign $submitter = $issue.get_submitter()}{aurl 'url', 'IDF_Views_User::view', array($submitter.login)}
+<p><strong>{trans 'Created:'}</strong> <span class="nobrk">{$issue.creation_dtime|dateago}</span> <span class="nobrk">{blocktrans}by <a href="{$url}">{$submitter}</a>{/blocktrans}</span></p>
+{if $issue.modif_dtime != $issue.creation_dtime}<p>
+<strong>{trans 'Updated:'}</strong> <span class="nobrk">{$issue.modif_dtime|dateago}</span></p>{/if}
+<p>
+<strong>{trans 'Status:'}</strong> {$issue.get_status.name}</p>
+{if $issue.get_owner != null}<p>{aurl 'url', 'IDF_Views_User::view', array($issue.get_owner().login)}
+<strong>{trans 'Owner:'}</strong> <a href="{$url}">{$issue.get_owner}</a>
+</p>{/if}{assign $tags = $issue.get_tags_list()}{if $tags.count()}
+<p>
+<strong>{trans 'Labels:'}</strong><br />
+{foreach $tags as $tag}{aurl 'url', 'IDF_Views_Issue::listLabel', array($project.shortname, $tag.id, 'open')}
+<span class="label"><a href="{$url}" class="label"><strong>{$tag.class}:</strong>{$tag.name}</a></span><br />
+{/foreach}
+</p>{/if}
+</div>
+{/block}
+{block javascript}{if $form}{include 'idf/issues/js-autocomplete.html'}{/if}{/block}

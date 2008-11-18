@@ -1,0 +1,23 @@
+{extends "idf/issues/base.html"}
+{block docclass}yui-t1{/block}
+{block body}
+{$issues.render}
+{if !$user.isAnonymous()}
+{aurl 'url', 'IDF_Views_Issue::create', array($project.shortname)}
+<p><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/add.png'}" alt="+" align="bottom" /></a> <a href="{$url}">{trans 'New Issue'}</a></p>{/if}
+
+{/block}
+{block context}
+{aurl 'open_url', 'IDF_Views_Issue::listLabel', array($project.shortname, $label.id, 'open')}
+{aurl 'closed_url', 'IDF_Views_Issue::listLabel', array($project.shortname, $label.id, 'closed')}
+{blocktrans}<p><strong>Open issues:</strong> <a href="{$open_url}">{$open}</a></p>
+<p><strong>Closed issues:</strong> <a href="{$closed_url}">{$closed}</a></p>
+{/blocktrans}{if $completion}
+<p><strong>{trans 'Completion:'}</strong> {$completion}</p>
+{/if}
+<p><strong>{trans 'Label:'}</strong>
+{aurl 'url', 'IDF_Views_Issue::listLabel', array($project.shortname, $label.id, 'open')}
+<a href="{$url}" class="label"><strong>{$label.class}:</strong>{$label.name}</a></p>
+
+
+{/block}

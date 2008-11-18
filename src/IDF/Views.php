@@ -37,7 +37,7 @@ class IDF_Views
     public function index($request, $match)
     {
         $projects = Pluf::factory('IDF_Project')->getList(); 
-        return Pluf_Shortcuts_RenderToResponse('index.html', 
+        return Pluf_Shortcuts_RenderToResponse('idf/index.html', 
                                                array('page_title' => __('Projects'),
                                                      'projects' => $projects),
                                                $request);
@@ -90,7 +90,7 @@ class IDF_Views
             $init = (isset($request->GET['login'])) ? array('initial' => array('login' => $request->GET['login'])) : array();
             $form = new IDF_Form_Register(null, $init);
         }
-        return Pluf_Shortcuts_RenderToResponse('register/index.html', 
+        return Pluf_Shortcuts_RenderToResponse('idf/register/index.html', 
                                                array('page_title' => $title,
                                                      'form' => $form),
                                                $request);
@@ -114,7 +114,7 @@ class IDF_Views
         } else {
             $form = new IDF_Form_RegisterInputKey();
         }
-        return Pluf_Shortcuts_RenderToResponse('register/inputkey.html', 
+        return Pluf_Shortcuts_RenderToResponse('idf/register/inputkey.html', 
                                                array('page_title' => $title,
                                                      'form' => $form),
                                                $request);
@@ -157,7 +157,7 @@ class IDF_Views
         } else {
             $form = new IDF_Form_RegisterConfirmation(null, $extra);
         }
-        return Pluf_Shortcuts_RenderToResponse('register/confirmation.html', 
+        return Pluf_Shortcuts_RenderToResponse('idf/register/confirmation.html', 
                                                array('page_title' => $title,
                                                      'new_user' => $user,
                                                      'form' => $form),
@@ -171,7 +171,7 @@ class IDF_Views
     {
         $title = __('Here to Help You!');
         $projects = Pluf::factory('IDF_Project')->getList(); 
-        return Pluf_Shortcuts_RenderToResponse('faq.html', 
+        return Pluf_Shortcuts_RenderToResponse('idf/faq.html', 
                                                array(
                                                      'page_title' => $title,
                                                      'projects' => $projects,

@@ -1,0 +1,16 @@
+{extends "idf/issues/base.html"}
+{block docclass}yui-t2{assign $inMyIssues = true}{/block}
+{block body}
+{$issues.render}
+{if !$user.isAnonymous()}
+{aurl 'url', 'IDF_Views_Issue::create', array($project.shortname)}
+<p><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/add.png'}" alt="+" align="bottom" /></a> <a href="{$url}">{trans 'New Issue'}</a></p>{/if}
+
+{/block}
+{block context}
+{aurl 'owner_url', 'IDF_Views_Issue::myIssues', array($project.shortname, 'owner')}
+{aurl 'submit_url', 'IDF_Views_Issue::myIssues', array($project.shortname, 'submit')}
+<p><strong>{trans 'Submitted issues:'}</strong> <a href="{$submit_url}">{$nb_submit}</a></p>
+{if $nb_owner > 0}
+<p><strong>{trans 'Working issues:'}</strong> <a href="{$owner_url}">{$nb_owner}</a></p>{/if}
+{/block}

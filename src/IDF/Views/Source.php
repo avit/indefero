@@ -59,7 +59,7 @@ class IDF_Views_Source
         }
         $changes = new Pluf_Template_ContextVars($changes);
         $scmConf = $request->conf->getVal('scm', 'git');
-        return Pluf_Shortcuts_RenderToResponse('source/changelog.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/source/changelog.html',
                                                array(
                                                      'page_title' => $title,
                                                      'title' => $title,
@@ -95,7 +95,7 @@ class IDF_Views_Source
         if ($scmConf === 'svn') {
             $props = $scm->getProperties($commit);
         }
-        return Pluf_Shortcuts_RenderToResponse('source/'.$scmConf.'/tree.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/source/'.$scmConf.'/tree.html',
                                                array(
                                                      'page_title' => $title,
                                                      'title' => $title,
@@ -165,7 +165,7 @@ class IDF_Views_Source
         if ($scmConf === 'svn') {
             $props = $scm->getProperties($commit, $request_file);
         }
-        return Pluf_Shortcuts_RenderToResponse('source/'.$scmConf.'/tree.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/source/'.$scmConf.'/tree.html',
                                                array(
                                                      'page_title' => $page_title,
                                                      'title' => $title,
@@ -218,7 +218,7 @@ class IDF_Views_Source
         $diff = new IDF_Diff($cobject->changes);
         $diff->parse();
         $scmConf = $request->conf->getVal('scm', 'git');
-        return Pluf_Shortcuts_RenderToResponse('source/commit.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/source/commit.html',
                                                array(
                                                      'page_title' => $page_title,
                                                      'title' => $title,
@@ -257,7 +257,7 @@ class IDF_Views_Source
             $props = $scm->getProperties($commit, $request_file);
         }
         $content = self::highLight($extra['mime'], $scm->getBlob($request_file_info, $commit));
-        return Pluf_Shortcuts_RenderToResponse('source/'.$scmConf.'/file.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/source/'.$scmConf.'/file.html',
                                                array(
                                                      'page_title' => $page_title,
                                                      'title' => $title,

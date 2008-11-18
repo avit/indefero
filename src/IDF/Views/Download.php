@@ -72,7 +72,7 @@ class IDF_Views_Download
         $pag->sort_order = array('creation_dtime', 'DESC');
         $pag->setFromRequest($request);
         $tags = $prj->getTagCloud('downloads');
-        return Pluf_Shortcuts_RenderToResponse('downloads/index.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/downloads/index.html',
                                                array(
                                                      'page_title' => $title,
                                                      'downloads' => $pag,
@@ -121,7 +121,7 @@ class IDF_Views_Download
                                                     'project' => $prj,
                                                     'user' => $request->user));
         }
-        return Pluf_Shortcuts_RenderToResponse('downloads/view.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/downloads/view.html',
                                                array(
                                                      'file' => $upload,
                                                      'deprecated' => $deprecated,
@@ -158,7 +158,7 @@ class IDF_Views_Download
                                             array($prj->shortname));
             return new Pluf_HTTP_Response_Redirect($url);
         }
-        return Pluf_Shortcuts_RenderToResponse('downloads/delete.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/downloads/delete.html',
                                                array(
                                                      'file' => $upload,
                                                      'deprecated' => $deprecated,
@@ -209,7 +209,7 @@ class IDF_Views_Download
                                         array('project' => $prj,
                                               'user' => $request->user));
         }
-        return Pluf_Shortcuts_RenderToResponse('downloads/submit.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/downloads/submit.html',
                                                array(
                                                      'auto_labels' => self::autoCompleteArrays($prj),
                                                      'page_title' => $title,
@@ -279,7 +279,7 @@ class IDF_Views_Download
         $pag->sort_order = array('creation_dtime', 'DESC');
         $pag->setFromRequest($request);
         $tags = $prj->getTagCloud('downloads');
-        return Pluf_Shortcuts_RenderToResponse('downloads/index.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/downloads/index.html',
                                                array(
                                                      'page_title' => $title,
                                                      'label' => $tag,

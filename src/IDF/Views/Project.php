@@ -45,7 +45,7 @@ class IDF_Views_Project
             // the first tag is the featured, the last is the deprecated.
             $downloads = $tags[0]->get_idf_upload_list(); 
         }
-        return Pluf_Shortcuts_RenderToResponse('project/home.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/project/home.html',
                                                array(
                                                      'page_title' => $title,
                                                      'team' => $team,
@@ -102,7 +102,7 @@ class IDF_Views_Project
             // the first tag is the featured, the last is the deprecated.
             $downloads = $tags[0]->get_idf_upload_list(); 
         }
-        return Pluf_Shortcuts_RenderToResponse('project/timeline.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/project/timeline.html',
                                                array(
                                                      'page_title' => $title,
                                                      'timeline' => $pag,
@@ -136,7 +136,7 @@ class IDF_Views_Project
             $form = Pluf_Shortcuts_GetFormForModel($prj, $prj->getData(),
                                                    $form_fields);
         }
-        return Pluf_Shortcuts_RenderToResponse('admin/summary.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/admin/summary.html',
                                                array(
                                                      'page_title' => $title,
                                                      'form' => $form,
@@ -180,7 +180,7 @@ class IDF_Views_Project
             }
             $form = new IDF_Form_IssueTrackingConf($params);
         }
-        return Pluf_Shortcuts_RenderToResponse('admin/issue-tracking.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/admin/issue-tracking.html',
                                                array(
                                                      'page_title' => $title,
                                                      'form' => $form,
@@ -223,7 +223,7 @@ class IDF_Views_Project
             }
             $form = new IDF_Form_UploadConf($params);
         }
-        return Pluf_Shortcuts_RenderToResponse('admin/downloads.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/admin/downloads.html',
                                                array(
                                                      'page_title' => $title,
                                                      'form' => $form,
@@ -255,7 +255,7 @@ class IDF_Views_Project
         } else {
             $form = new IDF_Form_MembersConf($prj->getMembershipData('string'), $params);
         }
-        return Pluf_Shortcuts_RenderToResponse('admin/members.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/admin/members.html',
                                                array(
                                                      'page_title' => $title,
                                                      'form' => $form,
@@ -300,7 +300,7 @@ class IDF_Views_Project
             }
             $form = new IDF_Form_TabsConf($params, $extra);
         }
-        return Pluf_Shortcuts_RenderToResponse('admin/tabs.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/admin/tabs.html',
                                                array(
                                                      'page_title' => $title,
                                                      'form' => $form,
@@ -345,7 +345,7 @@ class IDF_Views_Project
             }
             $form = new IDF_Form_SourceConf($params, $extra);
         }
-        return Pluf_Shortcuts_RenderToResponse('admin/source.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/admin/source.html',
                                                array(
                                                      'page_title' => $title,
                                                      'form' => $form,

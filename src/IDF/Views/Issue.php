@@ -65,7 +65,7 @@ class IDF_Views_Issue
         $pag->items_per_page = 10;
         $pag->no_results_text = __('No issues were found.');
         $pag->setFromRequest($request);
-        return Pluf_Shortcuts_RenderToResponse('issues/index.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/issues/index.html',
                                                array('project' => $prj,
                                                      'page_title' => $title,
                                                      'open' => $open,
@@ -121,7 +121,7 @@ class IDF_Views_Issue
         $pag->items_per_page = 10;
         $pag->no_results_text = __('No issues were found.');
         $pag->setFromRequest($request);
-        return Pluf_Shortcuts_RenderToResponse('issues/my-issues.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/issues/my-issues.html',
                                                array('project' => $prj,
                                                      'page_title' => $title,
                                                      'nb_submit' => $nb_submit,
@@ -175,7 +175,7 @@ class IDF_Views_Issue
             $form = new IDF_Form_IssueCreate(null, $params);
         }
         $arrays = self::autoCompleteArrays($prj);
-        return Pluf_Shortcuts_RenderToResponse('issues/create.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/issues/create.html',
                                                array_merge(
                                                array('project' => $prj,
                                                      'form' => $form,
@@ -223,7 +223,7 @@ class IDF_Views_Issue
                         'issues' => $pag,
                         'q' => $q,
                         );
-        return Pluf_Shortcuts_RenderToResponse('issues/search.html', $params, $request);
+        return Pluf_Shortcuts_RenderToResponse('idf/issues/search.html', $params, $request);
 
     }
 
@@ -297,7 +297,7 @@ class IDF_Views_Issue
             }
         }
         $arrays = self::autoCompleteArrays($prj);
-        return Pluf_Shortcuts_RenderToResponse('issues/view.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/issues/view.html',
                                                array_merge(
                                                array(
                                                      'issue' => $issue,
@@ -362,7 +362,7 @@ class IDF_Views_Issue
         $pag->items_per_page = 10;
         $pag->no_results_text = __('No issues were found.');
         $pag->setFromRequest($request);
-        return Pluf_Shortcuts_RenderToResponse('issues/index.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/issues/index.html',
                                                array('project' => $prj,
                                                      'page_title' => $title,
                                                      'open' => $open,
@@ -424,7 +424,7 @@ class IDF_Views_Issue
         } else {
             $completion = false;
         }
-        return Pluf_Shortcuts_RenderToResponse('issues/by-label.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/issues/by-label.html',
                                                array('project' => $prj,
                                                      'completion' => $completion,
                                                      'page_title' => $title,

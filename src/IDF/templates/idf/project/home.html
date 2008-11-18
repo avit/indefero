@@ -1,0 +1,36 @@
+{extends "idf/base.html"}
+{block docclass}yui-t2{/block}
+{block tabhome} class="active"{/block}
+{block subtabs}
+<div id="sub-tabs">
+{trans 'Welcome'} | <a href="{url 'IDF_Views_Project::timeline', array($project.shortname)}">{trans 'Updates'}</a>{superblock}
+</div>
+{/block}
+{block body}
+{$project.description|markdown}
+{/block}
+{block context}
+{if count($downloads) > 0}
+<p><strong>{trans 'Featured Downloads'}</strong><br />
+{foreach $downloads as $download}
+<span class="label"><a href="{url 'IDF_Views_Download::view', array($project.shortname, $download.id)}" title="{$download.summary}">{$download}</a></span><br />
+{/foreach}
+<span class="label"> </span><span class="note"><a href="{url 'IDF_Views_Download::index', array($project.shortname)}">{trans 'show more...'}</a></span>
+{/if}
+{assign $ko = 'owners'}
+{assign $km = 'members'}
+<p><strong>{trans 'Development Team'}</strong><br />
+{trans 'Admins'}<br />
+{foreach $team[$ko] as $owner}{aurl 'url', 'IDF_Views_User::view', array($owner.login)}
+<span class="label"><a class="label" href="{$url}">{$owner}</a></span><br />
+{/foreach}
+{if count($team[$km]) > 0}
+{trans 'Happy Crew'}<br />
+{foreach $team[$km] as $member}{aurl 'url', 'IDF_Views_User::view', array($member.login)}
+<span class="label"><a class="label" href="{$url}">{$member}</a></span><br />
+{/foreach}
+{/if}
+</p>
+{/block}
+
+

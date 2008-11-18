@@ -1,0 +1,59 @@
+{extends "idf/base-simple.html"}
+{block body}
+{if $form.errors}
+<div class="px-message-error">
+<p>{trans 'Oups, please check the form for errors.'}</p>
+{if $form.get_top_errors}
+{$form.render_top_errors|unsafe}
+{/if}
+</div>
+{/if}
+
+<form method="post" action=".">
+<table class="form" summary="">
+<tr>
+<th>{trans 'Login:'}</th>{aurl 'url', 'IDF_Views_User::view', array($user.login)}
+<td><a href="{$url}">{$user.login}</a></td>
+</tr>
+<tr>
+<th>{$form.f.first_name.labelTag}:</th>
+<td>{if $form.f.first_name.errors}{$form.f.first_name.fieldErrors}{/if}
+{$form.f.first_name|unsafe}
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.last_name.labelTag}:</strong></th>
+<td>{if $form.f.last_name.errors}{$form.f.last_name.fieldErrors}{/if}
+{$form.f.last_name|unsafe}
+</td>
+</tr>
+<tr>
+<th>{$form.f.password.labelTag}:</th>
+<td>{if $form.f.password.errors}{$form.f.password.fieldErrors}{/if}
+{$form.f.password|unsafe}<br />
+<span class="helptext">{$form.f.password.help_text}</span>
+</td>
+</tr>
+<tr>
+<th>{$form.f.password2.labelTag}:</th>
+<td>{if $form.f.password2.errors}{$form.f.password2.fieldErrors}{/if}
+{$form.f.password2|unsafe}
+</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td><input type="submit" value="{trans 'Update Your Account'}" name="submit" /> | <a href="{url 'IDF_Views::index'}">{trans 'Cancel'}</a>
+</td>
+</tr>
+</table>
+</form>
+{/block}
+{block context}
+<div class="issue-submit-info">
+<p>{trans 'If possible, use your real name. By using your real name, people will have more trust in your comments and remarks.'}</p>
+</div>{/block}
+{block javascript}<script type="text/javascript">
+document.getElementById('id_first_name').focus()
+</script>
+{/block}
+

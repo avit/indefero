@@ -1,0 +1,44 @@
+{extends "idf/admin/base.html"}
+{block docclass}yui-t3{assign $inMembers = true}{/block}
+{block body}
+<form method="post" action=".">
+<table class="form" summary="">
+<tr>
+<td colspan="2">{$form.f.owners.labelTag}:<br />
+{if $form.f.owners.errors}{$form.f.owners.fieldErrors}{/if}
+{$form.f.owners|unsafe}
+</td>
+</tr>
+<tr>
+<td colspan="2">{$form.f.members.labelTag}:<br />
+{if $form.f.members.errors}{$form.f.members.fieldErrors}{/if}
+{$form.f.members|unsafe}
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<input type="submit" value="{trans 'Save Changes'}" name="submit" /> 
+</td>
+</tr>
+</table>
+</form>
+
+
+{/block}
+
+{block context}
+<div class="issue-submit-info">
+{blocktrans}
+<p><strong>Instructions:</strong></p>
+<p>Specify each person by its login. Each person must have already registered with the given login.</p>
+<p>Separate the logins with commas and/or new lines.</p>
+{/blocktrans}
+</div>
+<div class="issue-submit-info">
+{blocktrans}
+<p><strong>Notes:</strong></p>
+<p>A project owner may make any change to this project, including removing other project owners. You need to be carefull when you give owner rights.</p>
+<p>A project member will not have access to the administration area but will have more options available in the use of the project.</p>
+{/blocktrans}
+</div>
+{/block}

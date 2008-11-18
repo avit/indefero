@@ -1,0 +1,25 @@
+{extends "idf/downloads/base.html"}
+{block docclass}yui-t1{assign $inDownloads=true}{/block}
+{block body}
+{$downloads.render}
+{if $isOwner or $isMember}
+{aurl 'url', 'IDF_Views_Download::submit', array($project.shortname)}
+<p><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/add.png'}" alt="+" align="bottom" /></a> <a href="{$url}">{trans 'New Download'}</a></p>{/if}
+
+{/block}
+{block context}
+<p><strong>{trans 'Number of files:'}</strong> {$downloads.nb_items}</p>
+{assign $class = ''}{assign $i = 0}
+{if !$label or $label.id != $dlabel.id}
+<p class="smaller">{foreach $tags as $lab}
+{aurl 'url', 'IDF_Views_Download::listLabel', array($project.shortname, $lab.id)}
+{if $class != $lab.class}{if $i != 0}<br />{/if}<strong class="label">{$lab.class}:</strong> {/if}
+<a href="{$url}" class="label">{$lab.name}</a>,{assign $i = $i + 1}{assign $class = $lab.class}{/foreach}</p>
+{/if}
+{if $deprecated > 0}
+{aurl 'url', 'IDF_Views_Download::listLabel', array($project.shortname, $dlabel.id)}
+<p class="helptext">{blocktrans}See <a href="{$url}">the deprecated files</a>.{/blocktrans}</p>
+{/if}
+
+{/block}
+

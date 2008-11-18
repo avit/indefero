@@ -1,0 +1,42 @@
+{extends "idf/admin/base.html"}
+{block docclass}yui-t1{assign $inSummary = true}{/block}
+{block body}
+{if $form.errors}
+<div class="px-message-error">
+<p>{trans 'The form contains some errors. Please correct them to update the summary.'}</p>
+{if $form.get_top_errors}
+{$form.render_top_errors|unsafe}
+{/if}
+</div>
+{/if}
+<form method="post" action=".">
+<table class="form" summary="">
+<tr>
+<th><strong>{$form.f.name.labelTag}:</strong></th>
+<td>{if $form.f.name.errors}{$form.f.name.fieldErrors}{/if}
+{$form.f.name|unsafe}
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.description.labelTag}:</strong></th>
+<td>{if $form.f.description.errors}{$form.f.description.fieldErrors}{/if}
+{$form.f.description|unsafe}
+</td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>
+<input type="submit" name="submit" value="{trans 'Save Changes'}" />
+</td>
+</table>
+</form>
+{/block}
+
+{block context}
+<div class="issue-submit-info">
+{assign $url = 'http://daringfireball.net/projects/markdown/syntax'}
+{blocktrans}
+<p><strong>Instructions:</strong></p>
+<p>The description of the project can be improved using the <a href="{$url}">Markdown syntax</a>.</p>
+{/blocktrans}
+</div>
+{/block}
