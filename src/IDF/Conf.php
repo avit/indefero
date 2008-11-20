@@ -62,9 +62,8 @@ class IDF_Conf extends Pluf_Model
                                   ),
                             'vdesc' =>
                             array(
-                                  'type' => 'Pluf_DB_Field_Varchar',
+                                  'type' => 'Pluf_DB_Field_Text',
                                   'blank' => false,
-                                  'size' => 250,
                                   'verbose' => __('value'),
                                   ),
                             );
