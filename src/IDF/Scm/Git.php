@@ -211,9 +211,9 @@ class IDF_Scm_Git
      */
     public function getBlob($request_file_info, $dummy=null)
     {
-        return IDF_Scm::shell_exec(sprintf('GIT_DIR=%s git-cat-file blob %s',
-                                    escapeshellarg($this->repo), 
-                                    escapeshellarg($request_file_info->hash)));
+        return shell_exec(sprintf('GIT_DIR=%s git-cat-file blob %s',
+                                  escapeshellarg($this->repo), 
+                                  escapeshellarg($request_file_info->hash)));
     }
 
     /**
