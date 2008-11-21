@@ -1,5 +1,5 @@
 {extends "idf/admin/base.html"}
-{block docclass}yui-t1{assign $inTabs = true}{/block}
+{block docclass}yui-t3{assign $inTabs = true}{/block}
 {block body}
 {if $form.errors}
 <div class="px-message-error">
@@ -30,7 +30,21 @@
 </td>
 </tr>
 <tr>
-<td colspan="2">
+<th>{if $form.f.private_project.errors}{$form.f.private_project.fieldErrors}{/if}
+{$form.f.private_project|unsafe}
+</th>
+<td>{$form.f.private_project.labelTag}</td>
+</tr>
+<tr id="authorized-users-row">
+<td>&nbsp;</td>
+<td>{$form.f.authorized_users.labelTag}:<br />
+{if $form.f.authorized_users.errors}{$form.f.authorized_users.fieldErrors}{/if}
+{$form.f.authorized_users|unsafe}
+</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>
 <input type="submit" value="{trans 'Save Changes'}" name="submit" /> 
 </td>
 </tr>
@@ -41,5 +55,24 @@
 <div class="issue-submit-info">
 <p><strong>{trans 'Instructions:'}</strong></p>
 <p>{blocktrans}You can configure here the project tabs access rights.{/blocktrans}</p>
+<p>{blocktrans}If you mark a project as private, only the project members and administrators, together with the extra authorized users you provide will have access to the project. You will still be able to define further access rights for the different tabs but the "Open to all" and "Signed in users" will default to authorized users only.{/blocktrans}</p>
+<p>{blocktrans}Specify each person by its login. Each person must have already registered with the given login. Separate the logins with commas and/or new lines.{/blocktrans}</p>
 </div>
 {/block}
+
+{block javascript}{literal}
+<script type="text/javascript">
+$(document).ready(function(){
+    // If not checked, hide
+    if (!$("#id_private_project").is(":checked"))
+        $("#authorized-users-row").hide();
+        $("#id_private_project").click(function(){
+            if ($("#id_private_project").is(":checked")) {
+                $("#authorized-users-row").show();
+            } else {     
+                $("#authorized-users-row").hide();
+            }
+        });
+    });
+</script>
+{/literal}{/block}

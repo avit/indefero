@@ -122,9 +122,15 @@ $cfg['db_password'] = '';
 $cfg['db_server'] = '';
 $cfg['db_version'] = '';
 $cfg['db_table_prefix'] = ''; 
+
+// ** DO NOT USE SQLITE IN PRODUCTION ** 
+// This is not because of problems with the quality of the SQLite
+// driver or with SQLite itself, this is due to the lack of migration
+// support in Pluf for SQLite, this means we cannot modify the DB
+// easily once it is loaded with data.
 $cfg['db_engine'] = 'PostgreSQL'; // SQLite is also well tested or MySQL
 $cfg['db_database'] = 'website'; // put absolute path to the db if you
-                                 // are using SQLite
+                                 // are using SQLite. 
 
 // -- From this point you should not need to update anything. --
 $cfg['pear_path'] = '/usr/share/php';

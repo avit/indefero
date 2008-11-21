@@ -28,9 +28,13 @@
 class IDF_Form_TabsConf extends Pluf_Form
 {
     public $conf = null;
+    public $project = null;
+
     public function initFields($extra=array())
     {
         $this->conf = $extra['conf'];
+        $this->project = $extra['project'];
+
         $ak = array('downloads_access_rights' => __('Downloads'),
                     'source_access_rights' => __('Source'),
                     'issues_access_rights' => __('Issues'),);
@@ -51,7 +55,58 @@ class IDF_Form_TabsConf extends Pluf_Form
                                             'widget' => 'Pluf_Form_Widget_SelectInput',
                                             ));
         }
+        $this->fields['private_project'] = new Pluf_Form_Field_Boolean(
+                    array('required' => false,
+                          'label' => __('Private project'),
+                          'initial' => $this->project->private,
+                          'widget' => 'Pluf_Form_Widget_CheckboxInput',
+                          ));
+        $this->fields['authorized_users'] = new Pluf_Form_Field_Varchar(
+                          array('required' => false,
+                                'label' => __('Extra authorized users'),
+                                'widget_attrs' => array('rows' => 7,
+                                                        'cols' => 40),
+                                'widget' => 'Pluf_Form_Widget_TextareaInput',
+                                            ));
+    }
+
+    public function save($commit=true)
+    {
+        if (!$this->isValid()) {
+            throw new Exception(__('Cannot save the model from an invalid form.'));
+        }
+        // remove all the permissions
+        $perm = Pluf_Permission::getFromString('IDF.project-authorized-user');
+        if ($perm == false) {
+            // We do not have this perm for the moment in the system,
+            // so create it.
+            $perm = new Pluf_Permission();
+            $perm->name = 'Project authorized users';
+            $perm->code_name = 'project-authorized-user';
+            $perm->description = 'Permission given to users allowed to access a project.';
+            $perm->application = 'IDF';
+            $perm->create();
+        }
+        $cm = $this->project->getMembershipData();
+        $guser = new Pluf_User();
+        foreach ($cm['authorized'] as $user) {
+                Pluf_RowPermission::remove($user, $this->project, $perm);
+        }
+        if ($this->cleaned_data['private_project']) {
+            foreach (preg_split("/\015\012|\015|\012|\,/", $this->cleaned_data['authorized_users'], -1, PREG_SPLIT_NO_EMPTY) as $login) {
+                $sql = new Pluf_SQL('login=%s', array(trim($login)));
+                $users = $guser->getList(array('filter'=>$sql->gen()));
+                if ($users->count() == 1) {
+                    Pluf_RowPermission::add($users[0], $this->project, $perm);
+                }
+            }
+            $this->project->private = 1;
+        } else {
+            $this->project->private = 0;
+        }
+        $this->project->update();
     }
 }
+
 
 

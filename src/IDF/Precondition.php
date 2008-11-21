@@ -24,6 +24,26 @@
 class IDF_Precondition
 {
     /**
+     * Check if the user has a base authorization to access a given
+     * tab. This used in the case of private project. You need to
+     * further control with the accessSource, accessIssues,
+     * etc. preconditions.
+     *
+     * @param Pluf_HTTP_Request
+     * @return mixed
+     */
+    static public function baseAccess($request)
+    {
+        if (!$request->project->private) {
+            return true;
+        }
+        if ($request->user->hasPerm('IDF.project-authorized-user', $request->project)) {
+            return true;
+        }
+        return self::projectMemberOrOwner($request);
+    }
+
+    /**
      * Check if the user is project owner.
      *
      * @param Pluf_HTTP_Request
@@ -98,16 +118,28 @@ class IDF_Precondition
 
     static public function accessSource($request)
     {
+        $res = self::baseAccess($request);
+        if (true !== $res) {
+            return $res;
+        }
         return self::accessTabGeneric($request, 'source_access_rights');
     }
 
     static public function accessIssues($request)
     {
+        $res = self::baseAccess($request);
+        if (true !== $res) {
+            return $res;
+        }
         return self::accessTabGeneric($request, 'issues_access_rights');
     }
 
     static public function accessDownloads($request)
     {
+        $res = self::baseAccess($request);
+        if (true !== $res) {
+            return $res;
+        }
         return self::accessTabGeneric($request, 'downloads_access_rights');
     }
 }

@@ -38,6 +38,7 @@ function IDF_Migrations_Install_setup($params=null)
                     'IDF_Upload',
                     'IDF_Search_Occ',
                     'IDF_IssueFile',
+                    'IDF_Timeline',
                     );
     $db = Pluf::db();
     $schema = new Pluf_DB_Schema($db);
@@ -67,6 +68,8 @@ function IDF_Migrations_Install_teardown($params=null)
     $perm = Pluf_Permission::getFromString('IDF.project-owner');
     if ($perm) $perm->delete();
     $models = array(
+                    'IDF_Timeline',
+                    'IDF_IssueFile',
                     'IDF_Search_Occ',
                     'IDF_Upload',
                     'IDF_Conf',

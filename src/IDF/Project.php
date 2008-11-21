@@ -70,8 +70,14 @@ class IDF_Project extends Pluf_Model
                                   'verbose' => __('description'),
                                   'help_text' => __('The description can be extended using the markdown syntax.'),
                                   ),
+                            'private' =>
+                            array(
+                                  'type' => 'Pluf_DB_Field_Integer',
+                                  'blank' => false,
+                                  'verbose' => __('private'),
+                                  'default' => 0,
+                                  ),
                                   );
-        $this->_a['idx'] = array( );
     }
 
 
@@ -214,7 +220,7 @@ class IDF_Project extends Pluf_Model
     /**
      * Return membership data.
      *
-     * The array has 2 keys: 'members' and 'owners'.
+     * The array has 3 keys: 'members', 'owners' and 'authorized'.
      *
      * The list of users is only taken using the row level permission
      * table. That is, if you set a user as administrator, he will
@@ -228,6 +234,7 @@ class IDF_Project extends Pluf_Model
     {
         $mperm = Pluf_Permission::getFromString('IDF.project-member');
         $operm = Pluf_Permission::getFromString('IDF.project-owner');
+        $aperm = Pluf_Permission::getFromString('IDF.project-authorized-user');
         $grow = new Pluf_RowPermission();
         $db =& Pluf::db();
         $false = Pluf_DB_BooleanToDb(false, $db);
@@ -251,11 +258,25 @@ class IDF_Project extends Pluf_Model
                 $members[] = Pluf::factory('Pluf_User', $row->owner_id)->login;
             }
         }
+        $authorized = new Pluf_Template_ContextVars(array());
+        if ($aperm != false) {
+            $sql = new Pluf_SQL('model_class=%s AND model_id=%s AND owner_class=%s AND permission=%s AND negative='.$false,
+                                array('IDF_Project', $this->id, 'Pluf_User', $aperm->id));
+            foreach ($grow->getList(array('filter' => $sql->gen())) as $row) {
+                if ($fmt == 'objects') {
+                    $authorized[] = Pluf::factory('Pluf_User', $row->owner_id);
+                } else {
+                    $authorized[] = Pluf::factory('Pluf_User', $row->owner_id)->login;
+                }
+            }
+        }
         if ($fmt == 'objects') {
-            return new Pluf_Template_ContextVars(array('members' => $members, 'owners' => $owners));
+            return new Pluf_Template_ContextVars(array('members' => $members, 'owners' => $owners, 'authorized' => $authorized));
         } else {
             return array('members' => implode("\n", (array) $members), 
-                         'owners' => implode("\n", (array) $owners));
+                         'owners' => implode("\n", (array) $owners),
+                         'authorized' => implode("\n", (array) $authorized), 
+                         );
         }
     }
 

@@ -34,6 +34,7 @@ class IDF_Views_Project
     /**
      * Home page of a project.
      */
+    public $home_precond = array('IDF_Precondition::baseAccess');
     public function home($request, $match)
     {
         $prj = $request->project;
@@ -57,6 +58,7 @@ class IDF_Views_Project
     /**
      * Timeline of the project.
      */
+    public $timeline_precond = array('IDF_Precondition::baseAccess');
     public function timeline($request, $match)
     {
         $prj = $request->project;
@@ -272,6 +274,7 @@ class IDF_Views_Project
         $prj = $request->project;
         $title = sprintf(__('%s Tabs Access Rights'), (string) $prj);
         $extra = array(
+                       'project' => $prj,
                        'conf' => $request->conf,
                        );
         if ($request->method == 'POST') {
@@ -280,6 +283,7 @@ class IDF_Views_Project
                 foreach ($form->cleaned_data as $key=>$val) {
                     $request->conf->setVal($key, $val);
                 }
+                $form->save(); // Save the authorized users.
                 $request->user->setMessage(__('The project tabs access rights have been saved.'));
                 $url = Pluf_HTTP_URL_urlForView('IDF_Views_Project::adminTabs',
                                                 array($prj->shortname));
@@ -288,13 +292,16 @@ class IDF_Views_Project
         } else {
             $params = array();
             $keys = array('downloads_access_rights', 'source_access_rights',
-                          'issues_access_rights');
+                          'issues_access_rights', 'private_project');
             foreach ($keys as $key) {
                 $_val = $request->conf->getVal($key, false);
                 if ($_val !== false) {
                     $params[$key] = $_val;
                 }
             }
+            // Add the authorized users.
+            $md = $prj->getMembershipData('string');
+            $params['authorized_users'] = $md['authorized'];
             if (count($params) == 0) {
                 $params = null; //Nothing in the db, so new form.
             }
