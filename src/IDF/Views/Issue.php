@@ -35,7 +35,7 @@ class IDF_Views_Issue
      * View list of issues for a given project.
      */
     public $index_precond = array('IDF_Precondition::accessIssues');
-    public function index($request, $match)
+    public function index($request, $match, $api=false)
     {
         $prj = $request->project;
         $title = sprintf(__('%s Open Issues'), (string) $prj);
@@ -65,15 +65,15 @@ class IDF_Views_Issue
         $pag->items_per_page = 10;
         $pag->no_results_text = __('No issues were found.');
         $pag->setFromRequest($request);
+        $params = array('project' => $prj,
+                        'page_title' => $title,
+                        'open' => $open,
+                        'closed' => $closed,
+                        'issues' => $pag,
+                        'cloud' => 'issues');
+        if ($api) return $params;
         return Pluf_Shortcuts_RenderToResponse('idf/issues/index.html',
-                                               array('project' => $prj,
-                                                     'page_title' => $title,
-                                                     'open' => $open,
-                                                     'closed' => $closed,
-                                                     'issues' => $pag,
-                                                     'cloud' => 'issues',
-                                                     ),
-                                               $request);
+                                               $params, $request);
     }
 
     /**
@@ -133,7 +133,7 @@ class IDF_Views_Issue
 
     public $create_precond = array('IDF_Precondition::accessIssues',
                                    'Pluf_Precondition::loginRequired');
-    public function create($request, $match)
+    public function create($request, $match, $api=false)
     {
         $prj = $request->project;
         $title = __('Submit a new issue');
@@ -169,20 +169,22 @@ class IDF_Views_Issue
                     $email->addTextMessage($tmpl->render($context));
                     $email->sendMail();
                 }
+                if ($api) return $issue;
                 return new Pluf_HTTP_Response_Redirect($url);
             }
         } else {
             $form = new IDF_Form_IssueCreate(null, $params);
         }
-        $arrays = self::autoCompleteArrays($prj);
+        $params = array_merge(
+                              array('project' => $prj,
+                                    'form' => $form,
+                                    'page_title' => $title,
+                                    ),
+                              self::autoCompleteArrays($prj)
+                              );
+        if ($api == true) return $params;
         return Pluf_Shortcuts_RenderToResponse('idf/issues/create.html',
-                                               array_merge(
-                                               array('project' => $prj,
-                                                     'form' => $form,
-                                                     'page_title' => $title,
-                                                     ),
-                                               $arrays),
-                                               $request);
+                                               $params, $request);
     }
 
     public $search_precond = array('IDF_Precondition::accessIssues');

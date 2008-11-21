@@ -185,6 +185,22 @@ class IDF_Views
     }
 
     /**
+     * API FAQ.
+     */
+    public function faqApi($request, $match)
+    {
+        $title = __('InDefero API (Application Programming Interface)');
+        $projects = self::getProjects($request->user);
+        return Pluf_Shortcuts_RenderToResponse('idf/faq-api.html', 
+                                               array(
+                                                     'page_title' => $title,
+                                                     'projects' => $projects,
+                                                     ),
+                                               $request);
+
+    }
+
+    /**
      * Returns a list of projects accessible for the user.
      *
      * @param Pluf_User

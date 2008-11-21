@@ -38,6 +38,9 @@ class IDF_Views_User
     public $myAccount_precond = array('Pluf_Precondition::loginRequired');
     public function myAccount($request, $match)
     {
+        // As the password is salted, we can directly take the sha1 of
+        // the salted password.
+        $api_key = sha1($request->user->password);
         $params = array('user' => $request->user);
         if ($request->method == 'POST') {
             $form = new IDF_Form_UserAccount($request->POST, $params);
@@ -52,6 +55,7 @@ class IDF_Views_User
         }
         return Pluf_Shortcuts_RenderToResponse('idf/user/myaccount.html', 
                                                array('page_title' => __('Your Account'),
+                                                     'api_key' => $api_key,
                                                      'form' => $form),
                                                $request);
     }

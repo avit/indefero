@@ -41,6 +41,12 @@
 </td>
 </tr>
 <tr>
+<th>{trans 'API key'}:</th>
+<td><span class="mono">{$api_key}</span><br />
+<span class="helptext">{trans 'Your API key will automatically be regenerated if you change your password.'}</span>
+</td>
+</tr>
+<tr>
 <td>&nbsp;</td>
 <td><input type="submit" value="{trans 'Update Your Account'}" name="submit" /> | <a href="{url 'IDF_Views::index'}">{trans 'Cancel'}</a>
 </td>
@@ -51,7 +57,9 @@
 {block context}
 <div class="issue-submit-info">
 <p>{trans 'If possible, use your real name. By using your real name, people will have more trust in your comments and remarks.'}</p>
+<p>{trans 'The API key is used to interact with this website using a program.'}</p>
 </div>{/block}
+
 {block javascript}<script type="text/javascript">
 document.getElementById('id_first_name').focus()
 </script>

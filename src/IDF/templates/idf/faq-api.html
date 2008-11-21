@@ -1,0 +1,83 @@
+{extends "idf/base-simple.html"}
+{block docclass}yui-t3{/block}
+{block body}
+<p>At the moment, this documentation is only available in English.</p>
+
+<ul>
+<li><a href="#q-overview">How to access the API?</a></li>
+<li><a href="#q-authentication">How to authenticate the queries?</a></li>
+</ul>
+
+<h2 id="q-overview">How to access the API?</h2>
+
+<p>
+The API is a REST API and you can access it by using the same URL you
+are using for the web interface but with the <code>/api/</code>
+prefix.
+</p>
+<p>
+For example, if you access a project with the
+URL <code>http://www.example.com/p/myproject/</code>, you have the
+following API URLs available:
+</p>
+<ul>
+<li><code>http://www.example.com/api/p/myproject/issues/</code>: list the open issues.</li>
+<li><code>http://www.example.com/api/p/myproject/issues/create/</code>: create a new issue.</li>
+</ul>
+<p>
+The answer you get is JSON and UTF-8 encoded. 
+</p>
+
+
+<h2 id="q-authentication">How to authenticate the queries?</h2>
+
+<p>
+Authentication is really simple and is optional. If you do not
+authenticate your queries, you will have the same rights as an
+anonymous user visiting the normal web interface.
+</p>
+<p>
+To authenticate your query, you need to provide 3 parameters to your
+requests, the parameters are the followings:
+</p>
+<ul>
+<li><code>_login</code>: your login.</li>
+<li><code>_salt</code>: a random salt string.</li>
+<li><code>_hash</code>: the sha1 hash created from the concatenation of the random salt string and the API key.</li>
+</ul>
+<p>
+Please note that the 3 parameters are all starting with the underscore
+"_" character. 
+</p> 
+<p>
+An example of PHP code to generate the <code>_hash</code> value is:
+</p>
+<pre>
+&lt;?php 
+$api_key = '1234567890abcdefghijklmnopqrstuvwxyz';
+$_salt = rand(10000, 999999);
+$_hash = sha1($_salt.$api_key);
+echo sprintf("_salt: %s\n", $_salt);
+echo sprintf("_hash: %s\n", $_hash);
+?&gt;
+</pre>
+<p>
+If you replace the string '123...xyz' with your own API key and
+execute this script, you will have as output something like that:
+</p>
+<pre>
+_salt: 123456
+_hash: 1357924680acegikmoqsuwybdfhjlnprtvxz
+</pre>
+<p>
+Together with your login, you will be able to use those values to
+authenticate a query.
+</p>
+
+{/block} {block context}
+<p>{trans 'Here we are, just to help you.'}</p>
+<h2>{trans 'Projects'}</h2>
+<ul>{foreach $projects as $p}
+<li><a href="{url 'IDF_Views_Project::home', array($p.shortname)}">{$p}</a></li>
+{/foreach}</ul>
+{/block}

@@ -272,4 +272,24 @@ $ctl[] = array('regex' => '#^/p/([\-\w]+)/admin/tabs/$#',
                'model' => 'IDF_Views_Project',
                'method' => 'adminTabs');
 
+// ---------- API ----------------------------------------
+
+$ctl[] = array('regex' => '#^/help/api/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views',
+               'method' => 'faqApi');
+
+$ctl[] = array('regex' => '#^/api/p/([\-\w]+)/issues/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Api',
+               'method' => 'issuesIndex');
+
+$ctl[] = array('regex' => '#^/api/p/([\-\w]+)/issues/create/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Api',
+               'method' => 'issueCreate');
+
 return $ctl;

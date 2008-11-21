@@ -34,9 +34,9 @@ class IDF_Middleware
      * When processing the request, check if matching a project. If
      * so, directly set $request->project to the project.
      *
-     * The url to match a project is in the format
-     * /p/(\w+)/whatever. This means that it will not try to match on
-     * /login/ or /logout/.
+     * The url to match a project is in the format /p/(\w+)/whatever
+     * or /api/p/(\w+)/whatever. This means that it will not try to
+     * match on /login/ or /logout/.
      *
      * @param Pluf_HTTP_Request The request
      * @return bool false or redirect.
@@ -44,7 +44,7 @@ class IDF_Middleware
     function process_request(&$request)
     {
         $match = array();
-        if (preg_match('#^/p/([\-\w]+)/#', $request->query, $match)) {
+        if (preg_match('#^/(?:api/p|p)/([\-\w]+)/#', $request->query, $match)) {
             try {
                 $request->project = IDF_Project::getOr404($match[1]);
             } catch (Pluf_HTTP_Error404 $e) {

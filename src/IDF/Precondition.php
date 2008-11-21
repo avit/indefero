@@ -142,4 +142,36 @@ class IDF_Precondition
         }
         return self::accessTabGeneric($request, 'downloads_access_rights');
     }
+
+    /**
+     * Based on the request, it is automatically setting the user.
+     *
+     * API calls are not translated.
+     */
+    static public function apiSetUser($request)
+    {
+        // REQUEST is used to be used both for POST and GET requests.
+        if (!isset($request->REQUEST['_hash'])
+            or !isset($request->REQUEST['_login'])
+            or !isset($request->REQUEST['_salt'])) {
+            // equivalent to anonymous access.
+            return true;
+        }
+        $db =& Pluf::db();
+        $true = Pluf_DB_BooleanToDb(true, $db);
+        $sql = new Pluf_SQL('login=%s AND active='.$true,
+                            $request->REQUEST['_login']);
+        $users = Pluf::factory('Pluf_User')->getList(array('filter'=>$sql->gen()));
+        if ($users->count() != 1) {
+            // Should return a special authentication error like user
+            // not found.
+            return true;
+        }
+        $hash = sha1($request->REQUEST['_salt'].sha1($users[0]->password));
+        if ($hash != $request->REQUEST['_hash']) {
+            return true; // Again need authentication error
+        }
+        $request->user = $users[0];
+        return true;
+    }
 }
