@@ -148,7 +148,7 @@ class IDF_IssueComment extends Pluf_Model
                 case 'lb':
                     $out .= __('Labels:'); break;
                 }
-                $out .= '</strong>';
+                $out .= '</strong>&nbsp;';
                 if ($w == 'lb') {
                     $out .= Pluf_esc(implode(', ', $v));
                 } else {
