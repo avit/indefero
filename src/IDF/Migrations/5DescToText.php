@@ -30,7 +30,7 @@ function IDF_Migrations_5DescToText_up($params=null)
     $table = Pluf::factory('IDF_Conf')->getSqlTable();
     $sql = array();
     $sql['PostgreSQL'] = 'ALTER TABLE '.$table.' ALTER vdesc TYPE text';
-    $sql['MySQL'] = 'ALTER TABLE '.$table.' MODIFY vdesc TYPE text';
+    $sql['MySQL'] = 'ALTER TABLE '.$table.' CHANGE vdesc TYPE text';
     $db = Pluf::db();
     $engine = Pluf::f('db_engine');
     if (!isset($sql[$engine])) {
