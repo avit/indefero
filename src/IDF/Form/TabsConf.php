@@ -36,6 +36,7 @@ class IDF_Form_TabsConf extends Pluf_Form
         $this->project = $extra['project'];
 
         $ak = array('downloads_access_rights' => __('Downloads'),
+                    'wiki_access_rights' => __('Documentation'),
                     'source_access_rights' => __('Source'),
                     'issues_access_rights' => __('Issues'),);
         foreach ($ak as $key=>$label) {

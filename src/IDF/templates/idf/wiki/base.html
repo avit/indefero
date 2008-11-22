@@ -1,0 +1,10 @@
+{extends "idf/base.html"}
+{block tabwiki} class="active"{/block}
+{block subtabs}
+<div id="sub-tabs">
+<a {if $inWiki}class="active" {/if}href="{url 'IDF_Views_Wiki::index', array($project.shortname)}">{trans 'List Pages'}</a>
+{if !$user.isAnonymous()} | <a {if $inCreate}class="active" {/if}href="{url 'IDF_Views_Wiki::create', array($project.shortname)}">{trans 'New Page'}</a> {/if} 
+{if !$user.isAnonymous() and $inView} | <a href="{url 'IDF_Views_Wiki::update', array($project.shortname, $page.title)}">{trans 'Update This Page'}</a> {/if} 
+{superblock}
+</div>
+{/block}

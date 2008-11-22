@@ -283,10 +283,9 @@ class IDF_Project extends Pluf_Model
     /**
      * Generate the tag clouds.
      *
-     * Return an array of tags sorted class, then name. Each tag get
-     * the extra property 'nb_use' for the number of use in the
-     * project. For issues, only open issues are used to generate the
-     * cloud.
+     * Return an array of tags sorted by class, then name. Each tag
+     * get the extra property 'nb_use' for the number of use in the
+     * project.
      *
      * @param string ('issues') 'closed_issues' or 'downloads'
      * @return ArrayObject of IDF_Tag

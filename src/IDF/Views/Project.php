@@ -81,6 +81,10 @@ class IDF_Views_Project
         if (true === IDF_Precondition::accessDownloads($request)) {
             $rights[] = '\'IDF_Upload\'';
         }
+        if (true === IDF_Precondition::accessWiki($request)) {
+            $rights[] = '\'IDF_WikiPage\'';
+            $rights[] = '\'IDF_WikiRevision\'';
+        }
         if (count($rights) == 0) {
             $rights[] = '\'IDF_Dummy\'';
         }
@@ -234,6 +238,49 @@ class IDF_Views_Project
     }
 
     /**
+     * Administrate the information pages of a project.
+     */
+    public $adminWiki_precond = array('IDF_Precondition::projectOwner');
+    public function adminWiki($request, $match)
+    {
+        $prj = $request->project;
+        $title = sprintf(__('%s Documentation Configuration'), (string) $prj);
+        $conf = new IDF_Conf();
+        $conf->setProject($prj);
+        if ($request->method == 'POST') {
+            $form = new IDF_Form_WikiConf($request->POST);
+            if ($form->isValid()) {
+                foreach ($form->cleaned_data as $key=>$val) {
+                    $conf->setVal($key, $val);
+                }
+                $request->user->setMessage(__('The documentation configuration has been saved.'));
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views_Project::adminDownloads',
+                                                array($prj->shortname));
+                return new Pluf_HTTP_Response_Redirect($url);
+            }
+        } else {
+            $params = array();
+            $keys = array('labels_wiki_predefined', 'labels_wiki_one_max');
+            foreach ($keys as $key) {
+                $_val = $conf->getVal($key, false);
+                if ($_val !== false) {
+                    $params[$key] = $_val;
+                }
+            }
+            if (count($params) == 0) {
+                $params = null; //Nothing in the db, so new form.
+            }
+            $form = new IDF_Form_WikiConf($params);
+        }
+        return Pluf_Shortcuts_RenderToResponse('idf/admin/wiki.html',
+                                               array(
+                                                     'page_title' => $title,
+                                                     'form' => $form,
+                                                     ),
+                                               $request);
+    }
+
+    /**
      * Administrate the members of a project.
      */
     public $adminMembers_precond = array('IDF_Precondition::projectOwner');
@@ -292,7 +339,8 @@ class IDF_Views_Project
         } else {
             $params = array();
             $keys = array('downloads_access_rights', 'source_access_rights',
-                          'issues_access_rights', 'private_project');
+                          'issues_access_rights', 'private_project',
+                          'wiki_access_rights');
             foreach ($keys as $key) {
                 $_val = $request->conf->getVal($key, false);
                 if ($_val !== false) {

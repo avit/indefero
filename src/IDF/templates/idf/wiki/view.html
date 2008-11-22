@@ -1,0 +1,22 @@
+{extends "idf/wiki/base.html"}
+{block docclass}yui-t3{assign $inView=true}{/block}
+{block body}
+
+<p class="desc">{$page.summary}</p>
+
+{markdown $rev.content, $request}
+
+{/block}
+{block context}
+{assign $submitter = $page.get_submitter()}
+<p><strong>{trans 'Created:'}</strong> <span class="nobrk">{$page.creation_dtime|dateago}</span><br /><span class="nobrk">{blocktrans}by {$submitter}{/blocktrans}</span></p>
+{if $rev.creation_dtime != $page.creation_dtime}<p>{assign $submitter = $rev.get_submitter()}
+<strong>{trans 'Updated:'}</strong> <span class="nobrk">{$rev.creation_dtime|dateago}</span><br /><span class="nobrk">{blocktrans}by {$submitter}{/blocktrans}</span></p>{/if}
+{if $tags.count()}
+<p>
+<strong>{trans 'Labels:'}</strong><br />
+{foreach $tags as $tag}
+<span class="label"><strong>{$tag.class}:</strong>{$tag.name}</span><br />
+{/foreach}
+</p>{/if}
+{/block}

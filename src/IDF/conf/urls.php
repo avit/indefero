@@ -147,37 +147,37 @@ $ctl[] = array('regex' => '#^/p/([\-\w]+)/issues/attachment/(\d+)/(.*)$#',
 
 // ---------- SCM ----------------------------------------
 
-$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/tree/(\w+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/tree/([\S^/]+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'treeBase');
 
-$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/tree/(\w+)/(.*)$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/tree/([\S^/]+)/(.*)$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'tree');
 
-$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/changes/(\w+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/changes/([\S^/]+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'changeLog');
 
-$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/commit/(\w+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/commit/([\S^/]+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'commit');
 
-$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/download/(\w+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/download/([\S^/]+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'download');
 
-$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/file/(\w+)/(.*)$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/file/([\S^/]+)/(.*)$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
@@ -194,6 +194,32 @@ $ctl[] = array('regex' => '#^/p/([\-\w]+)/source/changesrev/$#',
                'priority' => 4,
                'model' => 'IDF_Views_Source_Svn',
                'method' => 'changelogRev');
+
+// ---------- WIKI -----------------------------------------
+
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/doc/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Wiki',
+               'method' => 'index');
+
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/doc/create/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Wiki',
+               'method' => 'create');
+
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/doc/update/(.*)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Wiki',
+               'method' => 'update');
+
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/page/(.*)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Wiki',
+               'method' => 'view');
 
 // ---------- Downloads ------------------------------------
 
@@ -253,6 +279,12 @@ $ctl[] = array('regex' => '#^/p/([\-\w]+)/admin/downloads/$#',
                'priority' => 4,
                'model' => 'IDF_Views_Project',
                'method' => 'adminDownloads');
+
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/admin/wiki/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Project',
+               'method' => 'adminWiki');
 
 $ctl[] = array('regex' => '#^/p/([\-\w]+)/admin/source/$#',
                'base' => $base,

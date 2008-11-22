@@ -53,6 +53,7 @@ class IDF_Middleware
             $request->conf = new IDF_Conf();
             $request->conf->setProject($request->project);
             $ak = array('downloads_access_rights' => 'hasDownloadsAccess',
+                        'wiki_access_rights' => 'hasWikiAccess',
                         'source_access_rights' => 'hasSourceAccess',
                         'issues_access_rights' => 'hasIssuesAccess');
             $request->rights = array();

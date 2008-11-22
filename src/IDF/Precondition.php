@@ -143,6 +143,15 @@ class IDF_Precondition
         return self::accessTabGeneric($request, 'downloads_access_rights');
     }
 
+    static public function accessWiki($request)
+    {
+        $res = self::baseAccess($request);
+        if (true !== $res) {
+            return $res;
+        }
+        return self::accessTabGeneric($request, 'wiki_access_rights');
+    }
+
     /**
      * Based on the request, it is automatically setting the user.
      *

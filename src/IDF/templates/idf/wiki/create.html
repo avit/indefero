@@ -1,0 +1,68 @@
+{extends "idf/wiki/base.html"}
+{block docclass}yui-t1{assign $inCreate = true}{/block}
+{block body}
+
+{if $preview}
+<h2 class="top">{trans 'Preview of the Page'}</h2>
+
+{markdown $preview, $request}
+{/if}
+
+{if $form.errors}
+<div class="px-message-error">
+<p>{trans 'The form contains some errors. Please correct them to create the page.'}</p>
+{if $form.get_top_errors}
+{$form.render_top_errors|unsafe}
+{/if}
+</div>
+{/if}
+
+<form method="post" enctype="multipart/form-data" action="." >
+<table class="form" summary="">
+<tr>
+<th><strong>{$form.f.title.labelTag}:</strong></th>
+<td>{if $form.f.title.errors}{$form.f.title.fieldErrors}{/if}
+{$form.f.title|unsafe}<br />
+<span class="helptext">{$form.f.title.help_text}</span>
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.summary.labelTag}:</strong></th>
+<td>{if $form.f.summary.errors}{$form.f.summary.fieldErrors}{/if}
+{$form.f.summary|unsafe}<br />
+<span class="helptext">{$form.f.summary.help_text}</span>
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.content.labelTag}:</strong></th>
+<td>{if $form.f.content.errors}{$form.f.content.fieldErrors}{/if}
+{$form.f.content|unsafe}
+</td>
+</tr>{if $isOwner or $isMember}
+<tr>
+<th>{$form.f.label1.labelTag}:</th>
+<td>
+{if $form.f.label1.errors}{$form.f.label1.fieldErrors}{/if}{$form.f.label1|unsafe}
+{if $form.f.label2.errors}{$form.f.label2.fieldErrors}{/if}{$form.f.label2|unsafe}
+{if $form.f.label3.errors}{$form.f.label3.fieldErrors}{/if}{$form.f.label3|unsafe}
+</td>
+</tr>{/if}
+<tr>
+<td>&nbsp;</td>
+<td><input type="submit" value="{trans 'Preview'}" name="preview" /> &nbsp; <input type="submit" value="{trans 'Create Page'}" name="submit" /> | <a href="{url 'IDF_Views_Wiki::index', array($project.shortname)}">{trans 'Cancel'}</a>
+</td>
+</tr>
+</table>
+</form>
+{/block}
+{block context}
+<div class="issue-submit-info">
+{include 'idf/wiki/edit-info.html'}
+</div>
+{/block}
+{block javascript}
+<script type="text/javascript">
+document.getElementById('id_title').focus()
+</script>
+{include 'idf/wiki/js-autocomplete.html'}{/block}
+

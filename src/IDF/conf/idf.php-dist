@@ -161,10 +161,10 @@ $cfg['template_tags'] = array(
                               'hotkey' => 'IDF_Template_HotKey',
                               'issuetext' => 'IDF_Template_IssueComment',
                               'timeline' => 'IDF_Template_TimelineFragment',
+                              'markdown' => 'IDF_Template_Markdown',
                               );
 $cfg['template_modifiers'] = array(
                                    'size' => 'IDF_Views_Source_PrettySize',
-                                   'markdown' => 'IDF_Template_Markdown_filter',
                                    );
 
 // available languages

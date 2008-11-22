@@ -23,80 +23,55 @@
 
 Pluf::loadFunction('Pluf_Text_MarkDown_parse');
 
-function IDF_Template_Markdown_filter($mdtext)
+/**
+ * Make the links to issues and commits.
+ */
+class IDF_Template_Markdown extends Pluf_Template_Tag
 {
-    $filter = new IDF_Template_Markdown();
-    return Pluf_Template::markSafe(Pluf_Text_MarkDown_parse($filter->go($mdtext)));
+    private $project = null;
+    private $request = null;
+    private $scm = null;
+
+    function start($text, $request)
+    {
+        $this->project = $request->project;
+        $this->request = $request;
+        $filter = new IDF_Template_MarkdownPrefilter();
+        $text = $filter->go($text);
+        // The filter has replace < and > also in the code blocks so
+        // we need to revert them
+        $tmp = array();
+        foreach (preg_split("/\015\012|\015|\012/", $text, -1) as $s) {
+            if (0 === strpos($s, '    ')) {
+                $s = str_replace(array('&lt;', '&gt;'),
+                                 array('<', '>'), $s);
+            }
+            $tmp[] = $s;
+        }
+        $text = implode("\n", $tmp);
+        // Replace like in the issue text
+        $tag = new IDF_Template_IssueComment();
+        $text = $tag->start($text, $request, false, false, false);
+        // Replace [[PageName]] with corresponding link to the page.
+        // if not the right to see the
+        $text = preg_replace_callback('#\[\[([A-Za-z0-9\-]+)\]\]#im',
+                                      array($this, 'callbackWikiPage'), 
+                                      $text);
+        echo Pluf_Text_MarkDown_parse($text);
+    }
+
+    function callbackWikiPage($m)
+    {
+        $sql = new Pluf_SQL('project=%s AND title=%s', 
+                            array($this->project->id, $m[1]));
+        $pages = Pluf::factory('IDF_WikiPage')->getList(array('filter'=>$sql->gen()));
+        if ($pages->count() != 1) {
+            return $m[0];
+        }
+        if (!$this->request->rights['hasWikiAccess']) {
+            return $m[1];
+        }
+        return '<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Wiki::view', array($this->project->shortname, $pages[0]->title)).'" title="'.Pluf_esc($pages[0]->summary).'">'.$m[1].'</a>';
+    }
 }
 
-/**
- * Strict class to only allow entities.
- */
-class IDF_Template_Markdown extends Pluf_Text_HTML_Filter
-{
-    public $allowed = array();
-    public $always_close = array();
-    public $remove_blanks = array();
-    public $allowed_entities = array(
-                                     'amp',
-                                     'gt',
-                                     'lt',
-                                     'quot',
-                                     'nbsp',
-                                     'ndash',
-                                     'rdquo',
-                                     'ldquo',
-                                     'Alpha',
-                                     'Beta', 
-                                     'Gamma', 
-                                     'Delta', 
-                                     'Epsilon', 
-                                     'Zeta', 
-                                     'Eta', 
-                                     'Theta', 
-                                     'Iota', 
-                                     'Kappa', 
-                                     'Lambda', 
-                                     'Mu', 
-                                     'Nu', 
-                                     'Xi', 
-                                     'Omicron', 
-                                     'Pi', 
-                                     'Rho', 
-                                     'Sigma', 
-                                     'Tau', 
-                                     'Upsilon', 
-                                     'Phi', 
-                                     'Chi', 
-                                     'Psi', 
-                                     'Omega', 
-                                     'alpha', 
-                                     'beta', 
-                                     'gamma', 
-                                     'delta', 
-                                     'epsilon', 
-                                     'zeta', 
-                                     'eta', 
-                                     'theta', 
-                                     'iota', 
-                                     'kappa', 
-                                     'lambda', 
-                                     'mu', 
-                                     'nu', 
-                                     'xi', 
-                                     'omicron', 
-                                     'pi', 
-                                     'rho', 
-                                     'sigmaf', 
-                                     'sigma', 
-                                     'tau', 
-                                     'upsilon', 
-                                     'phi', 
-                                     'chi', 
-                                     'psi', 
-                                     'omega', 
-                                     'thetasym', 
-                                     'upsih', 
-                                     'piv',
-                                     );
-}

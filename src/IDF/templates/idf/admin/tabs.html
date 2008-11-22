@@ -18,6 +18,12 @@
 </td>
 </tr>
 <tr>
+<th><strong>{$form.f.wiki_access_rights.labelTag}:</strong></th>
+<td>{if $form.f.wiki_access_rights.errors}{$form.f.wiki_access_rights.fieldErrors}{/if}
+{$form.f.wiki_access_rights|unsafe}
+</td>
+</tr>
+<tr>
 <th><strong>{$form.f.issues_access_rights.labelTag}:</strong></th>
 <td>{if $form.f.issues_access_rights.errors}{$form.f.issues_access_rights.fieldErrors}{/if}
 {$form.f.issues_access_rights|unsafe}

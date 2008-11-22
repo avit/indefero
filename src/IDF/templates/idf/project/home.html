@@ -7,7 +7,7 @@
 </div>
 {/block}
 {block body}
-{$project.description|markdown}
+{markdown $project.description, $request}
 {/block}
 {block context}
 {if count($downloads) > 0}

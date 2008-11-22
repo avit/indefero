@@ -3,8 +3,9 @@
 {block subtabs}
 <div id="sub-tabs">
 <a {if $inSummary}class="active" {/if}href="{url 'IDF_Views_Project::admin', array($project.shortname)}">{trans 'Project Summary'}</a> |
-<a {if $inIssueTracking}class="active" {/if}href="{url 'IDF_Views_Project::adminIssues', array($project.shortname)}">{trans 'Issue Tracking'}</a> |
 <a {if $inDownloads}class="active" {/if}href="{url 'IDF_Views_Project::adminDownloads', array($project.shortname)}">{trans 'Downloads'}</a> |
+<a {if $inWiki}class="active" {/if}href="{url 'IDF_Views_Project::adminWiki', array($project.shortname)}">{trans 'Documentation'}</a> |
+<a {if $inIssueTracking}class="active" {/if}href="{url 'IDF_Views_Project::adminIssues', array($project.shortname)}">{trans 'Issue Tracking'}</a> |
 <a {if $inSource}class="active" {/if}href="{url 'IDF_Views_Project::adminSource', array($project.shortname)}">{trans 'Source'}</a> |
 <a {if $inMembers}class="active" {/if}href="{url 'IDF_Views_Project::adminMembers', array($project.shortname)}">{trans 'Project Members'}</a> |
 <a {if $inTabs}class="active" {/if}href="{url 'IDF_Views_Project::adminTabs', array($project.shortname)}">{trans 'Tabs Access'}</a>
