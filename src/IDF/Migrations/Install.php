@@ -38,6 +38,7 @@ function IDF_Migrations_Install_setup($params=null)
                     'IDF_Upload',
                     'IDF_Search_Occ',
                     'IDF_IssueFile',
+                    'IDF_Commit',
                     'IDF_Timeline',
                     );
     $db = Pluf::db();
@@ -76,6 +77,7 @@ function IDF_Migrations_Install_teardown($params=null)
                     'IDF_IssueComment',
                     'IDF_Issue',
                     'IDF_Tag',
+                    'IDF_Commit',
                     'IDF_Project',
                     );
     $db = Pluf::db();
