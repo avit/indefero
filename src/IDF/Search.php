@@ -43,10 +43,11 @@ class IDF_Search extends Pluf_Search
      *
      * @param string Query string.
      * @param int Project id to limit the results (null)
-     * @param string Stemmer class.
-     * @return array Results.
+     * @param string Model class (null)
+     * @param string Stemmer class ('Pluf_Text_Stemmer_Porter')
+     * @return array Results
      */
-    public static function mySearch($query, $project=null, $stemmer='Pluf_Text_Stemmer_Porter')
+    public static function mySearch($query, $project=null, $model=null, $stemmer='Pluf_Text_Stemmer_Porter')
     {
         $query = Pluf_Text::cleanString(html_entity_decode($query, ENT_QUOTES, 'UTF-8'));
         $words = Pluf_Text::tokenize($query);
@@ -61,7 +62,7 @@ class IDF_Search extends Pluf_Search
         if (in_array(null, $word_ids)) {
             return array();
         }
-        return self::mySearchDocuments($word_ids, $project);
+        return self::mySearchDocuments($word_ids, $project, $model);
     }
 
     /**
@@ -72,9 +73,10 @@ class IDF_Search extends Pluf_Search
      *
      * @param array Ids.
      * @param IDF_Project Project to limit the search.
+     * @param string Model class to limit the search.
      * @return array Sorted by score, returns model_class, model_id and score.
      */
-    public static function mySearchDocuments($wids, $project)
+    public static function mySearchDocuments($wids, $project, $model)
     {
         $db =& Pluf::db();
         $gocc = new IDF_Search_Occ();
@@ -83,7 +85,8 @@ class IDF_Search extends Pluf_Search
             $where[] = $db->qn('word').'='.(int)$id;
         }
         $prj = (is_null($project)) ? '' : ' AND project='.(int)$project->id;
-        $select = 'SELECT model_class, model_id, SUM(pondocc) AS score FROM '.$gocc->getSqlTable().' WHERE '.implode(' OR ', $where).$prj.' GROUP BY model_class, model_id HAVING COUNT(*)='.count($wids).' ORDER BY score DESC';
+        $md = (is_null($model)) ? '' : ' AND model_class='.$db->esc($model);
+        $select = 'SELECT model_class, model_id, SUM(pondocc) AS score FROM '.$gocc->getSqlTable().' WHERE '.implode(' OR ', $where).$prj.$md.' GROUP BY model_class, model_id HAVING COUNT(*)='.count($wids).' ORDER BY score DESC';
         return $db->select($select);
     }
 
