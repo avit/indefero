@@ -35,7 +35,7 @@ class IDF_Tests_TestGit extends UnitTestCase
     public function testParseLog()
     {
         $log_lines = preg_split("/\015\012|\015|\012/", file_get_contents(dirname(__FILE__).'/test-log.txt'));
-        $log = IDF_Git::parseLog($log_lines, 3);
+        $log = IDF_Scm_Git::parseLog($log_lines, 3);
         $this->assertEqual('Fixed the middleware to correctly return a 404 error if the project is', $log[0]->title);
 
     }
