@@ -155,6 +155,14 @@ class IDF_Upload extends Pluf_Model
     }
 
     /**
+     * We drop the information from the timeline.
+     */
+    function preDelete()
+    {
+        IDF_Timeline::remove($this);
+    }
+
+    /**
      * Returns the timeline fragment for the file.
      *
      *

@@ -130,4 +130,30 @@ class IDF_Timeline extends Pluf_Model
         $t->create();
         return true;
     }
+
+    /**
+     * Remove an item from the timeline.
+     *
+     * You must call this function when you delete items wich are
+     * tracked in the timeline. Just add the call:
+     *
+     * IDF_Timeline::remove($this);
+     *
+     * in the preDelete() method of your object.
+     *
+     * @param mixed Item to be removed
+     * @return bool Success
+     */
+    public static function insert($item)
+    {
+        if ($item->id > 0) {
+            $sql = new Pluf_SQL('model_id=%s AND model_class=%s',
+                                array($item->id, $item->_model));
+            $items = Pluf::factory('IDF_Timeline')->getList(array('filter'=>$sql->gen()));
+            foreach ($items as $tl) {
+                $tl->delete();
+            }
+        }
+        return true;
+    }
 }
