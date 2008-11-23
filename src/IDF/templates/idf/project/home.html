@@ -17,6 +17,13 @@
 {/foreach}
 <span class="label"> </span><span class="note"><a href="{url 'IDF_Views_Download::index', array($project.shortname)}">{trans 'show more...'}</a></span>
 {/if}
+{if count($pages) > 0}
+<p><strong>{trans 'Featured Documentation'}</strong><br />
+{foreach $pages as $page}
+<span class="label"><a href="{url 'IDF_Views_Wiki::view', array($project.shortname, $page.title)}" title="{$page.summary}">{$page.title}</a></span><br />
+{/foreach}
+<span class="label"> </span><span class="note"><a href="{url 'IDF_Views_Wiki::index', array($project.shortname)}">{trans 'show more...'}</a></span>
+{/if}
 {assign $ko = 'owners'}
 {assign $km = 'members'}
 <p><strong>{trans 'Development Team'}</strong><br />

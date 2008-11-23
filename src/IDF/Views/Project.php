@@ -46,11 +46,17 @@ class IDF_Views_Project
             // the first tag is the featured, the last is the deprecated.
             $downloads = $tags[0]->get_idf_upload_list(); 
         }
+        $pages = array();
+        if ($request->rights['hasWikiAccess']) {
+            $tags = IDF_Views_Wiki::getWikiTags($prj);
+            $pages = $tags[0]->get_idf_wikipage_list(); 
+        }
         return Pluf_Shortcuts_RenderToResponse('idf/project/home.html',
                                                array(
                                                      'page_title' => $title,
                                                      'team' => $team,
                                                      'downloads' => $downloads,
+                                                     'pages' => $pages,
                                                      ),
                                                $request);
     }
