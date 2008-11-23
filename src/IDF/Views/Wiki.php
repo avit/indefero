@@ -134,13 +134,28 @@ class IDF_Views_Wiki
             throw new Pluf_HTTP_Error404($request);
         }
         $page = $pages[0];
+        $oldrev = false;
+        // We grab the old revision if requested.
+        if (isset($request->GET['rev']) and preg_match('/^[0-9]+$/', $request->GET['rev'])) {
+            $oldrev = Pluf_Shortcuts_GetObjectOr404('IDF_WikiRevision',
+                                                    $request->GET['rev']);
+            if ($oldrev->wikipage != $page->id) {
+                throw new Pluf_HTTP_Error404($request);
+            }
+        }
         $title = $page->title;
         $revision = $page->get_current_revision();
+        $db = $page->getDbConnection();
+        $false = Pluf_DB_BooleanToDb(false, $db);
+        $revs = $page->get_revisions_list(array('order' => 'creation_dtime DESC',
+                                                'filter' => 'is_head='.$false));
         return Pluf_Shortcuts_RenderToResponse('idf/wiki/view.html',
                                                array(
                                                      'page_title' => $title,
                                                      'page' => $page,
+                                                     'oldrev' => $oldrev,
                                                      'rev' => $revision,
+                                                     'revs' => $revs,
                                                      'tags' => $page->get_tags_list(),
                                                      ),
                                                $request);

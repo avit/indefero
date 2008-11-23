@@ -589,3 +589,12 @@ p.desc {
   padding: 4px;
   width: 60%;
 }
+
+div.old-rev { 
+  padding: 1em 1em 0.1em 1em;
+  margin-bottom: 1em;
+  background-color: #bbe394;
+  width: 40%;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}

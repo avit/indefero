@@ -56,7 +56,7 @@
 </tr>{/if}
 <tr>
 <td>&nbsp;</td>
-<td><input type="submit" value="{trans 'Preview'}" name="preview" /> &nbsp; <input type="submit" value="{trans 'Update Page'}" name="submit" /> | <a href="{url 'IDF_Views_Wiki::index', array($project.shortname)}">{trans 'Cancel'}</a>
+<td><input type="submit" value="{trans 'Preview'}" name="preview" /> &nbsp; <input type="submit" value="{trans 'Update Page'}" name="submit" /> | <a href="{url 'IDF_Views_Wiki::view', array($project.shortname, $page.title)}">{trans 'Cancel'}</a>
 </td>
 </tr>
 </table>
