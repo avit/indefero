@@ -3,5 +3,6 @@ by Loïc d'Anterroches with the support of Céondo Ltd.
 
 Much appreciated contributors:
 
-    Nicolas Lassalle <http://www.beroot.org/> 
+    Nicolas Lassalle <http://www.beroot.org/> - Subversion support
     bohwaz <http://bohwaz.net/>
+    Benjamin Jorand <benjamin.jorand@gmail.com> - Mercurial support
