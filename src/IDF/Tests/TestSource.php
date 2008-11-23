@@ -44,4 +44,21 @@ class IDF_Tests_TestSource extends UnitTestCase
             $this->assertEqual($mime, $m[0]);
         }
     }
+
+    public function testRegexCommit()
+    {
+        $regex = '#^/p/([\-\w]+)/source/tree/([^\/]+)/(.*)$#';
+        $tests = array('/p/test_project/source/tree/default/current/sources' =>
+                       array('test_project', 'default', 'current/sources'),
+                       '/p/test_project/source/tree/3.6/current/sources' =>
+                       array('test_project', '3.6', 'current/sources'),
+                       );
+        foreach ($tests as $test => $res) {
+            $m = array();
+            $t = preg_match($regex, $test, $m);
+            $this->assertEqual($res[0], $m[1]);
+            $this->assertEqual($res[1], $m[2]);
+            $this->assertEqual($res[2], $m[3]);
+        }
+    }
 }

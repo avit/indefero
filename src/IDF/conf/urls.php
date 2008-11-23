@@ -147,37 +147,37 @@ $ctl[] = array('regex' => '#^/p/([\-\w]+)/issues/attachment/(\d+)/(.*)$#',
 
 // ---------- SCM ----------------------------------------
 
-$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/tree/([\S^/]+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/tree/([^/]+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'treeBase');
 
-$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/tree/([\S^/]+)/(.*)$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/tree/([^/]+)/(.*)$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'tree');
 
-$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/changes/([\S^/]+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/changes/([^/]+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'changeLog');
 
-$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/commit/([\S^/]+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/commit/([^/]+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'commit');
 
-$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/download/([\S^/]+)/$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/download/([^/]+)/$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
                'method' => 'download');
 
-$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/file/([\S^/]+)/(.*)$#',
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/file/([^/]+)/(.*)$#',
                'base' => $base,
                'priority' => 4,
                'model' => 'IDF_Views_Source',
