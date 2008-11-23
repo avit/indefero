@@ -212,10 +212,11 @@ class IDF_Views
         $false = Pluf_DB_BooleanToDb(false, $db);
         if ($user->isAnonymous()) {
             $sql = sprintf('%s=%s', $db->qn('private'), $false);
-            return Pluf::factory('IDF_Project')->getList(array('filter'=> $sql));
+            return Pluf::factory('IDF_Project')->getList(array('filter'=> $sql,
+                                                               'order' => 'shortname ASC'));
         }
         if ($user->administrator) {
-            return Pluf::factory('IDF_Project')->getList();
+            return Pluf::factory('IDF_Project')->getList(array('order' => 'shortname ASC'));
         }
         // grab the list of projects where the user is admin, member
         // or authorized
@@ -235,6 +236,7 @@ class IDF_Views
             }
             $sql .= sprintf(' OR id IN (%s)', implode(', ', $ids));
         }
-        return Pluf::factory('IDF_Project')->getList(array('filter' => $sql));        
+        return Pluf::factory('IDF_Project')->getList(array('filter' => $sql,
+                                                           'order' => 'shortname ASC'));
     }
 }
