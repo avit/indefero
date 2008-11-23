@@ -141,6 +141,7 @@ class IDF_WikiPage extends Pluf_Model
     function preDelete()
     {
         IDF_Timeline::remove($this);
+        IDF_Search::remove($this);
     }
 
     function get_current_revision() 

@@ -160,4 +160,31 @@ class IDF_Search extends Pluf_Search
         }
         return array('total' => $total, 'new' => $new_words, 'unique'=>$n);
     }
+
+    /**
+     * Remove an item from the index.
+     *
+     * You must call this function when you delete items wich are
+     * indexed. Just add the call:
+     *
+     * IDF_Search::remove($this);
+     *
+     * in the preDelete() method of your object.
+     *
+     * @param mixed Item to be removed
+     * @return bool Success
+     */
+    public static function remove($item)
+    {
+        if ($item->id > 0) {
+            $sql = new Pluf_SQL('model_id=%s AND model_class=%s',
+                                array($item->id, $item->_model));
+            $items = Pluf::factory('IDF_Search_Occ')->getList(array('filter'=>$sql->gen()));
+            foreach ($items as $tl) {
+                $tl->delete();
+            }
+        }
+        return true;
+    }
+
 }
