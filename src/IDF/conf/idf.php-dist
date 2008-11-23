@@ -53,6 +53,11 @@ $cfg['svn_repositories'] = 'file:///home/svn/repositories/indefero';
 $cfg['svn_repositories_unique'] = true;
 $cfg['svn_remote_url'] = 'http://projects.ceondo.com/svn/indefero';
 
+// Mercurial repositories path
+//$cfg['mercurial_repositories'] = '/home/mercurial/repositories';
+//$cfg['mercurial_repositories_unique'] = false;
+//$cfg['mercurial_remote_url'] = 'http://projects.ceondo.com/hg';
+
 // Example of one *local* subversion repository for each project:
 
 // the path to the repository on disk will automatically created to be

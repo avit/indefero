@@ -39,6 +39,7 @@ class IDF_Form_SourceConf extends Pluf_Form
                                   array(
                                         __('git') => 'git',
                                         __('Subversion') => 'svn',
+                                        __('mercurial') => 'mercurial',
                                         )
                                                   ),
                           'widget' => 'Pluf_Form_Widget_SelectInput',

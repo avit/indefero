@@ -353,7 +353,11 @@ class IDF_Project extends Pluf_Model
     public function getScmRoot()
     {
         $conf = $this->getConf();
-        $roots = array('git' => 'master', 'svn' => 'HEAD');
+        $roots = array(
+                       'git' => 'master', 
+                       'svn' => 'HEAD', 
+                       'mercurial' => 'tip'
+                       );
         $scm = $conf->getVal('scm', 'git');
         return $roots[$scm];
     }
