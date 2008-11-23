@@ -118,20 +118,17 @@ class IDF_Views_Source
         $branches = $scm->getBranches();
         $commit = $match[2];
         $request_file = $match[3];
+        $fburl = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
+                                          array($request->project->shortname,
+                                                $branches[0]));
         if ('commit' != $scm->testHash($commit, $request_file)) {
             // Redirect to the first branch
-            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
-                                            array($request->project->shortname,
-                                                  $branches[0]));
-            return new Pluf_HTTP_Response_Redirect($url);
+            return new Pluf_HTTP_Response_Redirect($fburl);
         }
         $request_file_info = $scm->getFileInfo($request_file, $commit);
         if (!$request_file_info) {
             // Redirect to the first branch
-            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
-                                            array($request->project->shortname,
-                                                  $branches[0]));
-            return new Pluf_HTTP_Response_Redirect($url);
+            return new Pluf_HTTP_Response_Redirect($fburl);
         }
         if ($request_file_info->type != 'tree') {
             $info = self::getMimeType($request_file_info->file);
@@ -155,7 +152,11 @@ class IDF_Views_Source
         $page_title = $bc.' - '.$title;
         $cobject = $scm->getCommit($commit);
         $tree_in = in_array($commit, $branches);
-        $res = new Pluf_Template_ContextVars($scm->filesAtCommit($commit, $request_file));
+        try {
+            $res = new Pluf_Template_ContextVars($scm->filesAtCommit($commit, $request_file));
+        } catch (Exception $e) {
+            return new Pluf_HTTP_Response_Redirect($fburl);
+        }
         // try to find the previous level if it exists.
         $prev = split('/', $request_file);
         $l = array_pop($prev);
