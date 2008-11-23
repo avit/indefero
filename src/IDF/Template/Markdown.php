@@ -51,7 +51,7 @@ class IDF_Template_Markdown extends Pluf_Template_Tag
         $text = implode("\n", $tmp);
         // Replace like in the issue text
         $tag = new IDF_Template_IssueComment();
-        $text = $tag->start($text, $request, false, false, false);
+        $text = $tag->start($text, $request, false, false, false, false);
         // Replace [[PageName]] with corresponding link to the page.
         // if not the right to see the
         $text = preg_replace_callback('#\[\[([A-Za-z0-9\-]+)\]\]#im',
