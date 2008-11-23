@@ -296,7 +296,7 @@ class IDF_Views_Wiki
         $conf = new IDF_Conf();
         $conf->setProject($project);
         $st = preg_split("/\015\012|\015|\012/", 
-                         $conf->getVal('labels_wiki_predefined', IDF_Form_UploadConf::init_predefined), -1, PREG_SPLIT_NO_EMPTY);
+                         $conf->getVal('labels_wiki_predefined', IDF_Form_WikiConf::init_predefined), -1, PREG_SPLIT_NO_EMPTY);
         $auto = '';
         foreach ($st as $s) {
             $v = '';
