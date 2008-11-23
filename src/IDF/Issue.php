@@ -143,6 +143,11 @@ class IDF_Issue extends Pluf_Model
         return Pluf_Text::cleanString(html_entity_decode($str, ENT_QUOTES, 'UTF-8'));
     }
 
+    function preDelete()
+    {
+        IDF_Timeline::remove($this);
+        IDF_Search::remove($this);
+    }
 
     function preSave($create=false)
     {

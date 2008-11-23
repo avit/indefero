@@ -98,6 +98,11 @@ class IDF_IssueComment extends Pluf_Model
         return $this->content;
     }
 
+    function preDelete()
+    {
+        IDF_Timeline::remove($this);
+    }
+
     function preSave($create=false)
     {
         if ($this->id == '') {

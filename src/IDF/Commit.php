@@ -123,6 +123,12 @@ class IDF_Commit extends Pluf_Model
         }
     }
 
+    function preDelete()
+    {
+        IDF_Timeline::remove($this);
+        IDF_Search::remove($this);
+    }
+
     /**
      * Create a commit from a simple class commit info of a changelog.
      *
