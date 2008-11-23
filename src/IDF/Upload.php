@@ -47,7 +47,7 @@ class IDF_Upload extends Pluf_Model
                                   'model' => 'IDF_Project',
                                   'blank' => false,
                                   'verbose' => __('project'),
-                                  'relate_name' => 'issues',
+                                  'relate_name' => 'downloads',
                                   ),
                             'summary' =>
                             array(
@@ -77,7 +77,7 @@ class IDF_Upload extends Pluf_Model
                                   'model' => 'Pluf_User',
                                   'blank' => false,
                                   'verbose' => __('submitter'),
-                                  'relate_name' => 'submitted_issue',
+                                  'relate_name' => 'submitted_downloads',
                                   ),
                             'tags' =>
                             array(
