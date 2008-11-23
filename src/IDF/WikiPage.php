@@ -135,6 +135,14 @@ class IDF_WikiPage extends Pluf_Model
         return Pluf_Text::cleanString(html_entity_decode($str, ENT_QUOTES, 'UTF-8'));
     }
 
+    /**
+     * We drop the information from the timeline.
+     */
+    function preDelete()
+    {
+        IDF_Timeline::remove($this);
+    }
+
     function get_current_revision() 
     {
         $db = $this->getDbConnection();

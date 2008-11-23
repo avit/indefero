@@ -111,6 +111,14 @@ class IDF_WikiRevision extends Pluf_Model
         return $this->content;
     }
 
+    /**
+     * We drop the information from the timeline.
+     */
+    function preDelete()
+    {
+        IDF_Timeline::remove($this);
+    }
+
     function preSave($create=false)
     {
         if ($this->id == '') {

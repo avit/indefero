@@ -144,7 +144,7 @@ class IDF_Timeline extends Pluf_Model
      * @param mixed Item to be removed
      * @return bool Success
      */
-    public static function insert($item)
+    public static function remove($item)
     {
         if ($item->id > 0) {
             $sql = new Pluf_SQL('model_id=%s AND model_class=%s',
