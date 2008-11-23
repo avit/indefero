@@ -598,3 +598,12 @@ div.old-rev {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
 }
+
+.delp { 
+  float: right; 
+  position: relative; 
+}
+
+.delp a { 
+  color: #a00;
+}

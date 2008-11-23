@@ -139,7 +139,7 @@ class IDF_Views_Wiki
         if (isset($request->GET['rev']) and preg_match('/^[0-9]+$/', $request->GET['rev'])) {
             $oldrev = Pluf_Shortcuts_GetObjectOr404('IDF_WikiRevision',
                                                     $request->GET['rev']);
-            if ($oldrev->wikipage != $page->id) {
+            if ($oldrev->wikipage != $page->id or $oldrev->is_head == true) {
                 throw new Pluf_HTTP_Error404($request);
             }
         }
@@ -150,6 +150,46 @@ class IDF_Views_Wiki
         $revs = $page->get_revisions_list(array('order' => 'creation_dtime DESC',
                                                 'filter' => 'is_head='.$false));
         return Pluf_Shortcuts_RenderToResponse('idf/wiki/view.html',
+                                               array(
+                                                     'page_title' => $title,
+                                                     'page' => $page,
+                                                     'oldrev' => $oldrev,
+                                                     'rev' => $revision,
+                                                     'revs' => $revs,
+                                                     'tags' => $page->get_tags_list(),
+                                                     ),
+                                               $request);
+    }
+
+    /**
+     * Remove a revision of a page.
+     */
+    public $deleteRev_precond = array('IDF_Precondition::accessWiki',
+                                      'IDF_Precondition::projectMemberOrOwner');
+    public function deleteRev($request, $match)
+    {
+        $prj = $request->project;
+        $oldrev = Pluf_Shortcuts_GetObjectOr404('IDF_WikiRevision', $match[2]);
+        $page = $oldrev->get_wikipage();
+        $prj->inOr404($page);
+        if ($oldrev->is_head == true) {
+            throw new Pluf_HTTP_Error404($request);
+        }
+        if ($request->method == 'POST') {
+            $oldrev->delete();
+            $request->user->setMessage(__('The old revision has been deleted.'));
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Wiki::view', 
+                                            array($prj->shortname, $page->title));
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
+
+        $title = sprintf(__('Delete Old Revision of %s'), $page->title);
+        $revision = $page->get_current_revision();
+        $db = $page->getDbConnection();
+        $false = Pluf_DB_BooleanToDb(false, $db);
+        $revs = $page->get_revisions_list(array('order' => 'creation_dtime DESC',
+                                                'filter' => 'is_head='.$false));
+        return Pluf_Shortcuts_RenderToResponse('idf/wiki/delete.html',
                                                array(
                                                      'page_title' => $title,
                                                      'page' => $page,
