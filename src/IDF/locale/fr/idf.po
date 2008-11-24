@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: InDefero\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-23 18:08+0100\n"
-"PO-Revision-Date: 2008-11-23 18:51+0100\n"
+"POT-Creation-Date: 2008-11-24 21:48+0100\n"
+"PO-Revision-Date: 2008-11-24 21:52+0100\n"
 "Last-Translator: Loïc d'Anterroches <titoo@users.sourceforge.net>\n"
 "Language-Team: Translation team <titoo@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -571,17 +571,17 @@ msgstr "Changements %2$s de %1$s"
 
 #: IDF/Views/Source.php:77
 #: IDF/Views/Source.php:115
-#: IDF/Views/Source.php:239
+#: IDF/Views/Source.php:240
 #, php-format
 msgid "%1$s %2$s Source Tree"
 msgstr "Arbre des sources %2$s de %1$s"
 
-#: IDF/Views/Source.php:215
+#: IDF/Views/Source.php:216
 #, php-format
 msgid "%s Commit Details"
 msgstr "Détails d'un commit de %s"
 
-#: IDF/Views/Source.php:216
+#: IDF/Views/Source.php:217
 #, php-format
 msgid "%s Commit Details - %s"
 msgstr "Détails d'un commit de %s - %s"
@@ -1172,14 +1172,14 @@ msgstr "Mot de passe du dépôt"
 msgid "Only a remote repository available throught http or https are allowed. For example \"http://somewhere.com/svn/trunk\"."
 msgstr "Only a remote repository available throught http or https are allowed. For example \"http://somewhere.com/svn/trunk\"."
 
-#: IDF/Scm/Mercurial.php:111
-#: IDF/Scm/Git.php:113
+#: IDF/Scm/Mercurial.php:104
+#: IDF/Scm/Git.php:106
 #, php-format
 msgid "Folder %1$s not found in commit %2$s."
 msgstr "Répertoire %1$s non trouvé dans le commit %2$s."
 
-#: IDF/Scm/Mercurial.php:128
-#: IDF/Scm/Git.php:159
+#: IDF/Scm/Mercurial.php:121
+#: IDF/Scm/Git.php:152
 #, php-format
 msgid "Not a valid tree: %s."
 msgstr "Arbre non valide : %s."
@@ -2233,8 +2233,7 @@ msgid "Submit Changes"
 msgstr "Soumettre les changements"
 
 #: IDF/gettexttemplates/idf/issues/base.html.php:3
-#: IDF/gettexttemplates/issues/base.html.php:3
-msgid "Open issues"
+msgid "Open Issues"
 msgstr "Tickets ouverts"
 
 #: IDF/gettexttemplates/idf/issues/base.html.php:5
@@ -2407,4 +2406,8 @@ msgstr "Le formulaire contient des erreurs. Merci de les corriger pour mettre en
 #: IDF/gettexttemplates/downloads/submit.html.php:7
 msgid "Submit File"
 msgstr "Mettre en ligne"
+
+#: IDF/gettexttemplates/issues/base.html.php:3
+msgid "Open issues"
+msgstr "Tickets ouverts"
 

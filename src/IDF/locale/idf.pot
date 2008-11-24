@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-23 18:08+0100\n"
+"POT-Creation-Date: 2008-11-24 21:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -532,17 +532,17 @@ msgstr ""
 msgid "%1$s %2$s Change Log"
 msgstr ""
 
-#: IDF/Views/Source.php:77 IDF/Views/Source.php:115 IDF/Views/Source.php:239
+#: IDF/Views/Source.php:77 IDF/Views/Source.php:115 IDF/Views/Source.php:240
 #, php-format
 msgid "%1$s %2$s Source Tree"
 msgstr ""
 
-#: IDF/Views/Source.php:215
+#: IDF/Views/Source.php:216
 #, php-format
 msgid "%s Commit Details"
 msgstr ""
 
-#: IDF/Views/Source.php:216
+#: IDF/Views/Source.php:217
 #, php-format
 msgid "%s Commit Details - %s"
 msgstr ""
@@ -1079,12 +1079,12 @@ msgid ""
 "example \"http://somewhere.com/svn/trunk\"."
 msgstr ""
 
-#: IDF/Scm/Mercurial.php:111 IDF/Scm/Git.php:113
+#: IDF/Scm/Mercurial.php:104 IDF/Scm/Git.php:106
 #, php-format
 msgid "Folder %1$s not found in commit %2$s."
 msgstr ""
 
-#: IDF/Scm/Mercurial.php:128 IDF/Scm/Git.php:159
+#: IDF/Scm/Mercurial.php:121 IDF/Scm/Git.php:152
 #, php-format
 msgid "Not a valid tree: %s."
 msgstr ""
@@ -2136,8 +2136,7 @@ msgid "Submit Changes"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/issues/base.html.php:3
-#: IDF/gettexttemplates/issues/base.html.php:3
-msgid "Open issues"
+msgid "Open Issues"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/issues/base.html.php:5
@@ -2309,4 +2308,8 @@ msgstr ""
 #: IDF/gettexttemplates/idf/downloads/submit.html.php:7
 #: IDF/gettexttemplates/downloads/submit.html.php:7
 msgid "Submit File"
+msgstr ""
+
+#: IDF/gettexttemplates/issues/base.html.php:3
+msgid "Open issues"
 msgstr ""
