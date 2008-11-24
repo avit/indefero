@@ -8,6 +8,9 @@
 
 {/block}
 {block context}
+<p><strong>{trans 'Label:'}</strong>
+{aurl 'url', 'IDF_Views_Issue::listLabel', array($project.shortname, $label.id, 'open')}
+<a href="{$url}" class="label"><strong>{$label.class}:</strong>{$label.name}</a></p>
 {aurl 'open_url', 'IDF_Views_Issue::listLabel', array($project.shortname, $label.id, 'open')}
 {aurl 'closed_url', 'IDF_Views_Issue::listLabel', array($project.shortname, $label.id, 'closed')}
 {blocktrans}<p><strong>Open issues:</strong> <a href="{$open_url}">{$open}</a></p>
@@ -15,9 +18,6 @@
 {/blocktrans}{if $completion}
 <p><strong>{trans 'Completion:'}</strong> {$completion}</p>
 {/if}
-<p><strong>{trans 'Label:'}</strong>
-{aurl 'url', 'IDF_Views_Issue::listLabel', array($project.shortname, $label.id, 'open')}
-<a href="{$url}" class="label"><strong>{$label.class}:</strong>{$label.name}</a></p>
 
 
 {/block}
