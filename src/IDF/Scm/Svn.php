@@ -55,11 +55,7 @@ class IDF_Scm_Svn
             // Remote repository
             return $url;
         }
-        $url = Pluf::f('svn_remote_url');
-        if (Pluf::f('svn_repositories_unique', true)) {
-            return $url;
-        }
-        return $url.'/'.$project->shortname;
+        return sprintf(Pluf::f('svn_remote_url'), $project->shortname);
     }
 
     /**
@@ -79,10 +75,7 @@ class IDF_Scm_Svn
                                    $conf->getVal('svn_username'),
                                    $conf->getVal('svn_password'));
         } else {
-            $rep = Pluf::f('svn_repositories');
-            if (false == Pluf::f('svn_repositories_unique', false)) {
-               $rep = $rep.'/'.$project->shortname;
-            }
+            $rep = sprintf(Pluf::f('svn_repositories'), $project->shortname);
             return new IDF_Scm_Svn($rep);
         }
     }

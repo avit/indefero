@@ -42,11 +42,7 @@ class IDF_Scm_Mercurial
      */
     public static function getRemoteAccessUrl($project)
     {
-        $url = Pluf::f('mercurial_remote_url');
-        if (Pluf::f('mercurial_repositories_unique', true)) {
-            return $url;
-        }
-        return $url.'/'.$project->shortname;
+        return sprintf(Pluf::f('mercurial_remote_url'), $project->shortname);
     }
 
     /**
@@ -57,10 +53,7 @@ class IDF_Scm_Mercurial
      */
     public static function factory($project)
     {
-        $rep = Pluf::f('mercurial_repositories');
-        if (false == Pluf::f('mercurial_repositories_unique', false)) {
-            $rep = $rep.'/'.$project->shortname;
-        }
+        $rep = sprintf(Pluf::f('mercurial_repositories'), $project->shortname);
         return new IDF_Scm_Mercurial($rep);
     }
 

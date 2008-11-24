@@ -26,21 +26,27 @@ $cfg = array();
 // to start with, it can be practical.
 $cfg['debug'] = false;
 
-// if you have a single git repository, just put the full path to it
-// without trailing slash.
-// If within a folder you have a series of bare git repository, just 
-// put the folder without a trailing slash.
-// InDefero will automatically append a slash, the project shortname 
-// and .git to create the name of the repository.
-$cfg['git_repositories'] = '/home/git/repositories/indefero.git';
-$cfg['git_repositories_unique'] = true;
-$cfg['git_remote_url'] = 'git://projects.ceondo.com/indefero.git';
-
-// One git repository per project. "/".$project->shortname.".git"
-// is automatically added to the end of the path/url.
-//$cfg['git_repositories'] = '/home/git/repositories';
-//$cfg['git_repositories_unique'] = false;
-//$cfg['git_remote_url'] = 'git://projects.ceondo.com';
+// If you have a single git repository, just put the full path to it
+// without trailing slash. The path is the path to the git database,
+// so you need to include the /.git folder.
+// For example: '/path/to/my/project/.git'
+//
+// If you have multiple repositories, you need to put %s where you
+// want the shortname of the project to be replaced. 
+// For example:
+// - You have many projects on your local computer and want to use 
+//   InDefero to see them. Put: '/home/yourlogin/Projects/%s/.git'
+// - You have many projects on a remote server with only "bare" git
+//   repositories. Put: '/home/git/repositories/%s.git'
+//
+$cfg['git_repositories'] = '/home/git/repositories/%s.git';
+//
+// Like for the git_repositories definition, the path can contains %s
+// and it will be automatically replaced. You can ignore this
+// configuration variable as it is only for information use in the
+// tree view.
+//
+$cfg['git_remote_url'] = 'git://projects.ceondo.com/%s.git';
 
 // Same as for git, you can have multiple repositories, one for each
 // project or a single one for all the projects. 
@@ -49,24 +55,12 @@ $cfg['git_remote_url'] = 'git://projects.ceondo.com/indefero.git';
 // remote repository from the web interface. From the web interface
 // you can define a local repository, local repositories are defined
 // here. This if for security reasons.
-$cfg['svn_repositories'] = 'file:///home/svn/repositories/indefero';
-$cfg['svn_repositories_unique'] = true;
-$cfg['svn_remote_url'] = 'http://projects.ceondo.com/svn/indefero';
+$cfg['svn_repositories'] = 'file:///home/svn/repositories/%s';
+$cfg['svn_remote_url'] = 'http://projects.ceondo.com/svn/%s';
 
 // Mercurial repositories path
-//$cfg['mercurial_repositories'] = '/home/mercurial/repositories';
-//$cfg['mercurial_repositories_unique'] = false;
-//$cfg['mercurial_remote_url'] = 'http://projects.ceondo.com/hg';
-
-// Example of one *local* subversion repository for each project:
-
-// the path to the repository on disk will automatically created to be
-//   'file:///home/svn/repositories'.'/'.$project->shortname
-// the url will be generated the same way:
-//   'http://projects.ceondo.com/svn'.'/'.$project->shortname
-// $cfg['svn_repositories'] = 'file:///home/svn/repositories';
-// $cfg['svn_repositories_unique'] = false;
-// $cfg['svn_remote_url'] = 'http://projects.ceondo.com/svn';
+//$cfg['mercurial_repositories'] = '/home/mercurial/repositories/%s';
+//$cfg['mercurial_remote_url'] = 'http://projects.ceondo.com/hg/%s';
 
 // admins will get an email in case of errors in the system in non
 // debug mode.
@@ -178,6 +172,7 @@ $cfg['languages'] = array('en', 'fr');
 # SCM base configuration
 $cfg['allowed_scm'] = array('git' => 'IDF_Scm_Git',
                             'svn' => 'IDF_Scm_Svn',
+                            'mercurial' => 'IDF_Scm_Mercurial',
                             );
 
 

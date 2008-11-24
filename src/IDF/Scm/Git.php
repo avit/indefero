@@ -43,11 +43,7 @@ class IDF_Scm_Git
      */
     public static function getRemoteAccessUrl($project)
     {
-        $url = Pluf::f('git_remote_url');
-        if (Pluf::f('git_repositories_unique', true)) {
-            return $url;
-        }
-        return $url.'/'.$project->shortname.'.git';
+        return sprintf(Pluf::f('git_remote_url'), $project->shortname);
     }
 
     /**
@@ -58,10 +54,7 @@ class IDF_Scm_Git
      */
     public static function factory($project)
     {
-        $rep = Pluf::f('git_repositories');
-        if (false == Pluf::f('git_repositories_unique', false)) {
-            $rep = $rep.'/'.$project->shortname.'.git';
-        }
+        $rep = sprintf(Pluf::f('git_repositories'), $project->shortname);
         return new IDF_Scm_Git($rep);
     }
 
