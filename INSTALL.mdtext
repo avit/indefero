@@ -29,9 +29,9 @@ Here is the step-by-step installation procedure:
 * The InDefero installation folder is the folder containing this file INSTALL.mdtext.
 * Make a copy of `src/IDF/conf/idf.php-dist` as `src/IDF/conf/idf.php`.
 * Update the idf.php file to match your system.
-* Open a terminal/shell and go into the InDefero installation folder.
-* Run `php /path/to/pluf/src/migrate.php --conf=src/IDF/conf/idf.php -a -i -d -u` to test the installation of the tables.
-* Run `php /path/to/pluf/src/migrate.php --conf=src/IDF/conf/idf.php -a -i -d` to really install the tables.
+* Open a terminal/shell and go into the `src` folder in the InDefero installation folder.
+* Run `php /path/to/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -i -d -u` to test the installation of the tables.
+* Run `php /path/to/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -i -d` to really install the tables.
 * Create a bootstrap file to create the first project and admin user for example `www/bootstrap.php`. Do not forget to update the second line with your path to Pluf:
 
     <?php
