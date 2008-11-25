@@ -71,7 +71,7 @@ class IDF_Scm_Git
                        escapeshellarg($this->repo),
                        escapeshellarg($hash));
         $ret = 0; $out = array();
-        IDF_Scm::exec($cmd, &$out, &$ret);
+        IDF_Scm::exec($cmd, $out, $ret);
         if ($ret != 0) return false;
         return trim($out[0]);
     }
@@ -114,7 +114,7 @@ class IDF_Scm_Git
         $rawlog = array();
         $cmd = sprintf('GIT_DIR=%s git log --raw --abbrev=40 --pretty=oneline %s',
                        escapeshellarg($this->repo), escapeshellarg($commit));
-        IDF_Scm::exec($cmd, &$rawlog);
+        IDF_Scm::exec($cmd, $rawlog);
         // We reverse the log to be able to use a fixed efficient
         // regex without back tracking.
         $rawlog = implode("\n", array_reverse($rawlog));
@@ -123,7 +123,7 @@ class IDF_Scm_Git
             // information as possible.
             $matches = array();
             if ($file->type == 'blob' and preg_match('/^\:\d{6} \d{6} [0-9a-f]{40} '.$file->hash.' .*^([0-9a-f]{40})/msU',
-                           $rawlog, &$matches)) {
+                           $rawlog, $matches)) {
                 $fc = $this->getCommit($matches[1]);
                 $file->date = $fc->date;
                 $file->log = $fc->title;
@@ -158,7 +158,7 @@ class IDF_Scm_Git
                        escapeshellarg($tree));
         $out = array();
         $res = array();
-        IDF_Scm::exec($cmd, &$out);
+        IDF_Scm::exec($cmd, $out);
         foreach ($out as $line) {
             list($perm, $type, $hash, $size, $file) = preg_split('/ |\t/', $line, 5, PREG_SPLIT_NO_EMPTY);
             $res[] = (object) array('perm' => $perm, 'type' => $type, 
@@ -183,7 +183,7 @@ class IDF_Scm_Git
                        escapeshellarg($this->repo), 
                        escapeshellarg($commit));
         $out = array();
-        IDF_Scm::exec($cmd, &$out);
+        IDF_Scm::exec($cmd, $out);
         foreach ($out as $line) {
             list($perm, $type, $hash, $size, $file) = preg_split('/ |\t/', $line, 5, PREG_SPLIT_NO_EMPTY);
             if ($totest == $file) {
@@ -218,7 +218,7 @@ class IDF_Scm_Git
     {
         $out = array();
         IDF_Scm::exec(sprintf('GIT_DIR=%s git branch', 
-                              escapeshellarg($this->repo)), &$out);
+                              escapeshellarg($this->repo)), $out);
         $res = array();
         foreach ($out as $b) {
             $res[] = substr($b, 2);
@@ -239,7 +239,7 @@ class IDF_Scm_Git
                        "'".$this->mediumtree_fmt."'", 
                        escapeshellarg($commit));
         $out = array();
-        IDF_Scm::exec($cmd, &$out);
+        IDF_Scm::exec($cmd, $out);
         $log = array();
         $change = array();
         $inchange = false;
@@ -274,7 +274,7 @@ class IDF_Scm_Git
                        escapeshellarg($this->repo), $n, $this->mediumtree_fmt, 
                        escapeshellarg($commit));
         $out = array();
-        IDF_Scm::exec($cmd, &$out);
+        IDF_Scm::exec($cmd, $out);
         return self::parseLog($out, 4);
     }
 

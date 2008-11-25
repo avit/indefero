@@ -71,7 +71,7 @@ class IDF_Scm_Mercurial
                        escapeshellarg($hash));
         $ret = 0; 
         $out = array();
-        IDF_Scm::exec($cmd, &$out, &$ret);
+        IDF_Scm::exec($cmd, $out, $ret);
         return ($ret != 0) ? false : 'commit'; 
     }
 
@@ -124,7 +124,7 @@ class IDF_Scm_Mercurial
         $cmd = sprintf($cmd_tmpl, escapeshellarg($this->repo), $tree, ($recurse) ? '' : ''); 
         $out = array();
         $res = array();
-        IDF_Scm::exec($cmd, &$out);
+        IDF_Scm::exec($cmd, $out);
         $out_hack = array();
         foreach ($out as $line) {
             list($hash, $perm, $exec, $file) = preg_split('/ |\t/', $line, 4);
@@ -181,7 +181,7 @@ class IDF_Scm_Mercurial
         $cmd = sprintf($cmd_tmpl, escapeshellarg($this->repo), $commit); 
         $out = array();
         $res = array();
-        IDF_Scm::exec($cmd, &$out);
+        IDF_Scm::exec($cmd, $out);
         $out_hack = array();
         foreach ($out as $line) {
             list($hash, $perm, $exec, $file) = preg_split('/ |\t/', $line, 4);
@@ -246,7 +246,7 @@ class IDF_Scm_Mercurial
     {
         $out = array();
         IDF_Scm::exec(sprintf('hg branches -R %s', 
-                              escapeshellarg($this->repo)), &$out);
+                              escapeshellarg($this->repo)), $out);
         $res = array();
         foreach ($out as $b) {
             preg_match('/(\S+).*\S+:(\S+)/', $b, $match);
@@ -266,7 +266,7 @@ class IDF_Scm_Mercurial
 
         $cmd = sprintf('hg log -p -r %s -R %s', escapeshellarg($commit), escapeshellarg($this->repo));
         $out = array();
-        IDF_Scm::exec($cmd, &$out);
+        IDF_Scm::exec($cmd, $out);
         $log = array();
         $change = array();
         $inchange = false;
@@ -297,7 +297,7 @@ class IDF_Scm_Mercurial
     {
         $cmd = sprintf('hg log -R %s -l%s ', escapeshellarg($this->repo), $n, $commit);
         $out = array();
-        IDF_Scm::exec($cmd, &$out);
+        IDF_Scm::exec($cmd, $out);
         return self::parseLog($out, 6);
     }
 
