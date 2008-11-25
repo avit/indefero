@@ -171,6 +171,12 @@ $ctl[] = array('regex' => '#^/p/([\-\w]+)/source/commit/([^/]+)/$#',
                'model' => 'IDF_Views_Source',
                'method' => 'commit');
 
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/source/ddiff/([^/]+)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Source',
+               'method' => 'downloadDiff');
+
 $ctl[] = array('regex' => '#^/p/([\-\w]+)/source/download/([^/]+)/$#',
                'base' => $base,
                'priority' => 4,

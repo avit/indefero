@@ -232,6 +232,25 @@ class IDF_Views_Source
                                                $request);
     }
 
+    public $downloadDiff_precond = array('IDF_Precondition::accessSource');
+    public function downloadDiff($request, $match)
+    {
+        $scm = IDF_Scm::get($request);
+        $commit = $match[2];
+        $branches = $scm->getBranches();
+        if ('commit' != $scm->testHash($commit)) {
+            // Redirect to the first branch
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
+                                            array($request->project->shortname,
+                                                  $branches[0]));
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
+        $cobject = $scm->getCommit($commit);
+        $rep = new Pluf_HTTP_Response($cobject->changes, 'text/plain');
+        $rep->headers['Content-Disposition'] = 'attachment; filename="'.$commit.'.diff"';
+        return $rep;
+    }
+
     /**
      * Should only be called through self::tree
      */

@@ -31,6 +31,9 @@
 <h2>{trans 'Change Details'}</h2>
 
 {$diff.as_html()}
+{aurl 'url', 'IDF_Views_Source::downloadDiff', array($project.shortname, $commit)}
+<p class="right soft"><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/package-grey.png'}" alt="{trans 'Archive'}" align="bottom" /></a> <a href="{$url}">{trans 'Download the diff file'}</a></p>
+
 {/if}
 {/block}
 {block context}
