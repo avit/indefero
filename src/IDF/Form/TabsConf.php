@@ -78,16 +78,6 @@ class IDF_Form_TabsConf extends Pluf_Form
         }
         // remove all the permissions
         $perm = Pluf_Permission::getFromString('IDF.project-authorized-user');
-        if ($perm == false) {
-            // We do not have this perm for the moment in the system,
-            // so create it.
-            $perm = new Pluf_Permission();
-            $perm->name = 'Project authorized users';
-            $perm->code_name = 'project-authorized-user';
-            $perm->description = 'Permission given to users allowed to access a project.';
-            $perm->application = 'IDF';
-            $perm->create();
-        }
         $cm = $this->project->getMembershipData();
         $guser = new Pluf_User();
         foreach ($cm['authorized'] as $user) {

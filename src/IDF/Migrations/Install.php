@@ -62,6 +62,12 @@ function IDF_Migrations_Install_setup($params=null)
     $perm->description = 'Permission given to project owners.';
     $perm->application = 'IDF';
     $perm->create();
+    $perm = new Pluf_Permission();
+    $perm->name = 'Project authorized users';
+    $perm->code_name = 'project-authorized-user';
+    $perm->description = 'Permission given to users allowed to access a project.';
+    $perm->application = 'IDF';
+    $perm->create();
 }
 
 function IDF_Migrations_Install_teardown($params=null)
@@ -69,6 +75,8 @@ function IDF_Migrations_Install_teardown($params=null)
     $perm = Pluf_Permission::getFromString('IDF.project-member');
     if ($perm) $perm->delete();
     $perm = Pluf_Permission::getFromString('IDF.project-owner');
+    if ($perm) $perm->delete();
+    $perm = Pluf_Permission::getFromString('IDF.project-authorized-user');
     if ($perm) $perm->delete();
     $models = array(
                     'IDF_WikiRevision',

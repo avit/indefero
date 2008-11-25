@@ -37,10 +37,18 @@ function IDF_Migrations_6PrivateProject_up($params=null)
         throw new Exception('SQLite complex migration not supported.');
     }
     $db->execute($sql[$engine]);
+    $perm = new Pluf_Permission();
+    $perm->name = 'Project authorized users';
+    $perm->code_name = 'project-authorized-user';
+    $perm->description = 'Permission given to users allowed to access a project.';
+    $perm->application = 'IDF';
+    $perm->create();
 }
 
 function IDF_Migrations_6PrivateProject_down($params=null)
 {
+    $perm = Pluf_Permission::getFromString('IDF.project-authorized-user');
+    if ($perm) $perm->delete();
     $table = Pluf::factory('IDF_Project')->getSqlTable();
     $sql = array();
     $sql['PostgreSQL'] = 'ALTER TABLE '.$table.' DROP COLUMN "private"';
@@ -51,4 +59,5 @@ function IDF_Migrations_6PrivateProject_down($params=null)
         throw new Exception('SQLite complex migration not supported.');
     }
     $db->execute($sql[$engine]);
+
 }
