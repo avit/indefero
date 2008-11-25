@@ -265,7 +265,7 @@ class IDF_Views_Download
                                        'shortname' => $prj->shortname);
         $pag->summary = sprintf(__('This table shows the downloads with label %s.'), (string) $tag);
         $pag->forced_where = new Pluf_SQL('project=%s AND idf_tag_id=%s', array($prj->id, $tag->id));
-        $pag->action = array('IDF_Views_Download::index', array($prj->shortname));
+        $pag->action = array('IDF_Views_Download::listLabel', array($prj->shortname, $tag->id));
         $pag->edit_action = array('IDF_Views_Download::view', 'shortname', 'id');
         $list_display = array(
              'file' => __('File'),
