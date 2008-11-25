@@ -78,6 +78,48 @@ class IDF_Views_Wiki
                                                $request);
     }
 
+    public $search_precond = array('IDF_Precondition::accessWiki',);
+    public function search($request, $match)
+    {
+        $prj = $request->project;
+        if (!isset($request->REQUEST['q']) or trim($request->REQUEST['q']) == '') {
+            $url =  Pluf_HTTP_URL_urlForView('IDF_Views_Wiki::index', 
+                                             array($prj->shortname));
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
+        $q = $request->REQUEST['q'];
+        $title = sprintf(__('Documentation Search - %s'), $q);
+        $pages = new Pluf_Search_ResultSet(IDF_Search::mySearch($q, $prj, 'IDF_WikiPage'));
+        if (count($pages) > 100) {
+            $pages->results = array_slice($pages->results, 0, 100);
+        }
+        $pag = new Pluf_Paginator();
+        $pag->items = $pages;
+        $pag->class = 'recent-issues';
+        $pag->item_extra_props = array('project_m' => $prj,
+                                       'shortname' => $prj->shortname,
+                                       'current_user' => $request->user);
+        $pag->summary = __('This table shows the pages found.');
+        $pag->action = array('IDF_Views_Wiki::search', array($prj->shortname), array('q'=> $q));
+        $pag->edit_action = array('IDF_Views_Wiki::view', 'shortname', 'title');
+        $list_display = array(
+             'title' => __('Page Title'),
+             array('summary', 'IDF_Views_Wiki_SummaryAndLabels', __('Summary')),
+             array('modif_dtime', 'Pluf_Paginator_DateYMD', __('Updated')),
+                              );
+        $pag->configure($list_display);
+        $pag->items_per_page = 100;
+        $pag->no_results_text = __('No pages were found.');
+        $pag->setFromRequest($request);
+        $params = array('page_title' => $title,
+                        'pages' => $pag,
+                        'q' => $q,
+                        );
+        return Pluf_Shortcuts_RenderToResponse('idf/wiki/search.html', $params, $request);
+
+    }
+
+
     /**
      * Create a new documentation page.
      */

@@ -131,7 +131,7 @@ class IDF_WikiPage extends Pluf_Model
     function _toIndex()
     {
         $rev = $this->get_current_revision()->_toIndex();
-        $str = str_repeat($this->summary.' ', 4).' '.$rev;
+        $str = str_repeat($this->title.' '.$this->summary.' ', 4).' '.$rev;
         return Pluf_Text::cleanString(html_entity_decode($str, ENT_QUOTES, 'UTF-8'));
     }
 

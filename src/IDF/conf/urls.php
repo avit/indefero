@@ -215,6 +215,12 @@ $ctl[] = array('regex' => '#^/p/([\-\w]+)/doc/create/$#',
                'model' => 'IDF_Views_Wiki',
                'method' => 'create');
 
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/doc/search/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Wiki',
+               'method' => 'search');
+
 $ctl[] = array('regex' => '#^/p/([\-\w]+)/doc/update/(.*)/$#',
                'base' => $base,
                'priority' => 4,

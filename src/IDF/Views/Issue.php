@@ -197,7 +197,7 @@ class IDF_Views_Issue
             return new Pluf_HTTP_Response_Redirect($url);
         }
         $q = $request->REQUEST['q'];
-        $title = sprintf(__('Search Issues - %s'), Pluf_esc($q));
+        $title = sprintf(__('Search Issues - %s'), $q);
         $issues = new Pluf_Search_ResultSet(IDF_Search::mySearch($q, $prj, 'IDF_Issue'));
         if (count($issues) > 100) {
             // no more than 100 results as we do not care
