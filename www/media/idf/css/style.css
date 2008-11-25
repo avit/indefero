@@ -599,6 +599,20 @@ div.old-rev {
   -webkit-border-radius: 5px;
 }
 
+div.deprecated-page { 
+  padding: 1em 1em 0.1em 3em;
+  margin-bottom: 1em;
+  background: url("../img/warning-large.png");
+  background-repeat: no-repeat;
+  background-position: 1em 1em;
+  font-size: 120%;
+  background-color: #bbe394;
+  width: 40%;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+
+
 .delp { 
   float: right; 
   position: relative; 

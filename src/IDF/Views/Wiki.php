@@ -228,6 +228,10 @@ class IDF_Views_Wiki
                 throw new Pluf_HTTP_Error404($request);
             }
         }
+        $ptags = self::getWikiTags($prj);
+        $dtag = array_pop($ptags); // The last tag is the deprecated tag.
+        $tags = $page->get_tags_list();
+        $dep = Pluf_Model_InArray($dtag, $tags);
         $title = $page->title;
         $revision = $page->get_current_revision();
         $db = $page->getDbConnection();
@@ -241,7 +245,8 @@ class IDF_Views_Wiki
                                                      'oldrev' => $oldrev,
                                                      'rev' => $revision,
                                                      'revs' => $revs,
-                                                     'tags' => $page->get_tags_list(),
+                                                     'tags' => $tags,
+                                                     'deprecated' => $dep,
                                                      ),
                                                $request);
     }

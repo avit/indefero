@@ -1,8 +1,14 @@
 {extends "idf/wiki/base.html"}
 {block extraheader}{if $oldrev}<meta name="ROBOTS" content="NOINDEX" />{/if}{/block}
 {block docclass}yui-t3{assign $inView=true}{/block}
-{block body}
 
+{block body}
+{if $deprecated}{* deprecated page *}
+<div class="deprecated-page">
+<p>{blocktrans}<strong>Attention!</strong> This page is marked as deprecated, 
+use it as reference only if you are sure you need these specific information.{/blocktrans}</p>
+</div>
+{/if}
 {if $oldrev}
 {assign $submitter = $oldrev.get_submitter()}{aurl 'url', 'IDF_Views_Wiki::view', array($project.shortname, $page.title)}
 <div class="old-rev">
