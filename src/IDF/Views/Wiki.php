@@ -66,12 +66,12 @@ class IDF_Views_Wiki
         $pag->no_results_text = __('No documentation pages were found.');
         $pag->sort_order = array('title', 'ASC');
         $pag->setFromRequest($request);
-        //$tags = $prj->getTagCloud('downloads');
+        $tags = $prj->getTagCloud('wiki');
         return Pluf_Shortcuts_RenderToResponse('idf/wiki/index.html',
                                                array(
                                                      'page_title' => $title,
                                                      'pages' => $pag,
-                                                     //'tags' => $tags,
+                                                     'tags' => $tags,
                                                      'deprecated' => count($ids),
                                                      'dlabel' => $dtag,
                                                      ),
@@ -119,6 +119,49 @@ class IDF_Views_Wiki
 
     }
 
+    /**
+     * View list of pages with a given label.
+     */
+    public $listLabel_precond = array('IDF_Precondition::accessWiki');
+    public function listLabel($request, $match)
+    {
+        $prj = $request->project;
+        $tag = Pluf_Shortcuts_GetObjectOr404('IDF_Tag', $match[2]);
+        $prj->inOr404($tag);
+        $title = sprintf(__('%1$s Documentation Pages with Label %2$s'), (string) $prj,
+                         (string) $tag);
+        // Paginator to paginate the pages
+        $ptags = self::getWikiTags($prj);
+        $dtag = array_pop($ptags); // The last tag is the deprecated tag.
+        $pag = new Pluf_Paginator(new IDF_WikiPage());
+        $pag->model_view = 'join_tags';
+        $pag->class = 'recent-issues';
+        $pag->item_extra_props = array('project_m' => $prj,
+                                       'shortname' => $prj->shortname);
+        $pag->summary = sprintf(__('This table shows the documentation pages with label %s.'), (string) $tag);
+        $pag->forced_where = new Pluf_SQL('project=%s AND idf_tag_id=%s', array($prj->id, $tag->id));
+        $pag->action = array('IDF_Views_Wiki::listLabel', array($prj->shortname, $tag->id));
+        $pag->edit_action = array('IDF_Views_Wiki::view', 'shortname', 'title');
+        $list_display = array(
+             'title' => __('Page Title'),
+             array('summary', 'IDF_Views_Wiki_SummaryAndLabels', __('Summary')),
+             array('modif_dtime', 'Pluf_Paginator_DateYMD', __('Updated')),
+                              );
+        $pag->configure($list_display, array(), array('title', 'modif_dtime'));
+        $pag->items_per_page = 25;
+        $pag->no_results_text = __('No documentation pages were found.');
+        $pag->setFromRequest($request);
+        $tags = $prj->getTagCloud('wiki');
+        return Pluf_Shortcuts_RenderToResponse('idf/wiki/index.html',
+                                               array(
+                                                     'page_title' => $title,
+                                                     'label' => $tag,
+                                                     'pages' => $pag,
+                                                     'tags' => $tags,
+                                                     'dlabel' => $dtag,
+                                                     ),
+                                               $request);
+    }
 
     /**
      * Create a new documentation page.
@@ -317,7 +360,7 @@ class IDF_Views_Wiki
     public static function getDeprecatedPagesIds($project, $dtag=null)
     {
         if (is_null($dtag)) {
-            $ptags = self::getDownloadTags($project);
+            $ptags = self::getWikiTags($project);
             $dtag = array_pop($ptags); // The last tag is the deprecated tag
         }
         $sql = new Pluf_SQL('project=%s AND idf_tag_id=%s', array($project->id,
@@ -355,7 +398,6 @@ class IDF_Views_Wiki
         }
         return substr($auto, 0, -1);
     }
-
 }
 
 /**

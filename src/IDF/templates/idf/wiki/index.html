@@ -9,5 +9,16 @@
 {/block}
 {block context}
 <p><strong>{trans 'Number of pages:'}</strong> {$pages.nb_items}</p>
+{assign $class = ''}{assign $i = 0}
+{if !$label or $label.id != $dlabel.id}
+<p class="smaller">{foreach $tags as $lab}
+{aurl 'url', 'IDF_Views_Wiki::listLabel', array($project.shortname, $lab.id)}
+{if $class != $lab.class}{if $i != 0}<br />{/if}<strong class="label">{$lab.class}:</strong> {/if}
+<a href="{$url}" class="label">{$lab.name}</a>,{assign $i = $i + 1}{assign $class = $lab.class}{/foreach}</p>
+{/if}
+{if $deprecated > 0}
+{aurl 'url', 'IDF_Views_Wiki::listLabel', array($project.shortname, $dlabel.id)}
+<p class="helptext">{blocktrans}See <a href="{$url}">the deprecated pages</a>.{/blocktrans}</p>
+{/if}
 {/block}
 

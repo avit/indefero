@@ -287,7 +287,7 @@ class IDF_Project extends Pluf_Model
      * get the extra property 'nb_use' for the number of use in the
      * project.
      *
-     * @param string ('issues') 'closed_issues' or 'downloads'
+     * @param string ('issues') 'closed_issues', 'wiki' or 'downloads'
      * @return ArrayObject of IDF_Tag
      */
     public function getTagCloud($what='issues')
@@ -307,14 +307,23 @@ class IDF_Project extends Pluf_Model
                       'LEFT JOIN '.$what_t.' ON idf_issue_id='.$what_t.'.id '."\n".
                       'WHERE idf_tag_id IS NOT NULL AND '.$what_t.'.status IN (%s) AND '.$what_t.'.project='.$this->id.' GROUP BY '.$tag_t.'.id, '.$tag_t.'.class, '.$tag_t.'.name ORDER BY '.$tag_t.'.class ASC, '.$tag_t.'.name ASC',
                       implode(', ', $ostatus));
+        } elseif ($what == 'wiki') {
+            $dep_ids = IDF_Views_Wiki::getDeprecatedPagesIds($this);
+            $extra = '';
+            if (count($dep_ids)) {
+                $extra = ' AND idf_wikipage_id NOT IN ('.implode(', ', $dep_ids).') ';
+            }
+            $what_t = Pluf::factory('IDF_WikiPage')->getSqlTable();
+            $asso_t = $this->_con->pfx.'idf_tag_idf_wikipage_assoc';
+            $sql = 'SELECT '.$tag_t.'.id AS id, COUNT(*) AS nb_use FROM '.$tag_t.' '."\n".
+                'LEFT JOIN '.$asso_t.' ON idf_tag_id='.$tag_t.'.id '."\n".
+                'LEFT JOIN '.$what_t.' ON idf_wikipage_id='.$what_t.'.id '."\n".
+                'WHERE idf_tag_id IS NOT NULL '.$extra.' AND '.$what_t.'.project='.$this->id.' GROUP BY '.$tag_t.'.id, '.$tag_t.'.class, '.$tag_t.'.name ORDER BY '.$tag_t.'.class ASC, '.$tag_t.'.name ASC';
         } elseif ($what == 'downloads') {
             $dep_ids = IDF_Views_Download::getDeprecatedFilesIds($this);
             $extra = '';
-            if (count($dep_ids) and $what == 'downloads') {
+            if (count($dep_ids)) {
                 $extra = ' AND idf_upload_id NOT IN ('.implode(', ', $dep_ids).') ';
-            }
-            if (count($dep_ids) and $what != 'downloads') {
-                $extra = ' AND idf_upload_id IN ('.implode(', ', $dep_ids).') ';
             }
             $what_t = Pluf::factory('IDF_Upload')->getSqlTable();
             $asso_t = $this->_con->pfx.'idf_tag_idf_upload_assoc';
