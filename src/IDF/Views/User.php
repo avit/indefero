@@ -65,7 +65,7 @@ class IDF_Views_User
      */
     public function view($request, $match)
     {
-        $projects = Pluf::factory('IDF_Project')->getList(); 
+        $projects = IDF_Views::getProjects($request->user);
         $sql = new Pluf_SQL('login=%s', array($match[1]));
         $users = Pluf::factory('Pluf_User')->getList(array('filter'=>$sql->gen())); 
         if (count($users) != 1 or !$users[0]->active) {
