@@ -114,3 +114,16 @@ If you get the error:
 
 you need to compile PHP with the "tokenizer" flag.
 
+## For People with open_basedir restriction error
+
+If you get an error like:
+
+    file_get_contents(): open_basedir restriction in effect. 
+    File(/etc/mime.types) is not within the 
+    allowed path(s): (/srv/http/:/home/:/tmp/:/usr/share/pear/)
+
+Just copy the file `/etc/mime.types` into the folder `/home` and put
+this in your configuration file:
+
+    $cfg['idf_mimetypes_db'] = '/home/mime.types';
+
