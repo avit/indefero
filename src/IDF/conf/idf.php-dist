@@ -175,5 +175,5 @@ $cfg['allowed_scm'] = array('git' => 'IDF_Scm_Git',
                             'mercurial' => 'IDF_Scm_Mercurial',
                             );
 
-
+$cfg['idf_mimetypes_db'] = '/etc/mime.types';
 return $cfg;

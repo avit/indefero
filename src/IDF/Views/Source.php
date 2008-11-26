@@ -359,11 +359,11 @@ class IDF_Views_Source
      * Use /etc/mime.types to find the type.
      *
      * @param string Filename/Filepath
-     * @param string Path to the mime types database ('/etc/mime.types')
      * @param array  Mime type found or 'application/octet-stream', basename, extension
      */
-    public static function getMimeType($file, $src='/etc/mime.types')
+    public static function getMimeType($file)
     {
+        $src= Pluf::f('idf_mimetypes_db', '/etc/mime.types');
         $mimes = preg_split("/\015\012|\015|\012/", file_get_contents($src));
         $info = pathinfo($file);
         if (isset($info['extension'])) {
