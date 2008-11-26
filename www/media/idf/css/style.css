@@ -23,6 +23,18 @@ h2.top {
   margin-top: 0;
 }
 
+a:link { 
+  color: #00f; 
+}
+
+a:visited { 
+  color: #800080; 
+} 
+
+a:active{ 
+  color: #f00; 
+}
+
 .yui-g { 
   padding: 0 1em;
 }
