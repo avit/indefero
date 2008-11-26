@@ -177,7 +177,7 @@ class IDF_Scm_Mercurial
      */
     public function getFileInfo($totest, $commit='tip')
     {
-        $cmd_tmpl = 'hg manifest -R %s --debug -r %s | sed \'s/*/ /\' | sort -k 3| uniq -f2';
+        $cmd_tmpl = 'hg manifest -R %s --debug -r %s';
         $cmd = sprintf($cmd_tmpl, escapeshellarg($this->repo), $commit); 
         $out = array();
         $res = array();
