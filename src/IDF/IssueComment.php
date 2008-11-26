@@ -123,6 +123,7 @@ class IDF_IssueComment extends Pluf_Model
                                      $this->get_submitter());
             }
         }
+        IDF_Search::index($this->get_issue());
     }
 
     public function timelineFragment($request)

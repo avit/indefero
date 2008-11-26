@@ -159,7 +159,10 @@ class IDF_Issue extends Pluf_Model
 
     function postSave($create=false)
     {
-        IDF_Search::index($this);
+        // Note: No indexing is performed here. The indexing is
+        // triggered in the postSave step of the comment to ensure
+        // that the issue as at least one comment in the database when
+        // doing the indexing.
         if ($create) {
             IDF_Timeline::insert($this, $this->get_project(), 
                                  $this->get_submitter());
