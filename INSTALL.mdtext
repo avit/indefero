@@ -4,6 +4,29 @@ The installation of InDefero is composed of 2 parts, first the
 installation of the [Pluf framework](http://www.pluf.org) and second,
 the installation of InDefero by itself.
 
+## Recommended Layout of the Files
+
+If your server document root is in `/var/www` a good thing is to keep
+the number of files under the `/var/www` folder to its minimum. So,
+you should create a `/home/www` folder in which we are going to
+install all but the files which need to be available under the
+document root.
+
+    /home/www/pluf/src/
+    /home/www/pluf/src/Pluf.php
+    /home/www/pluf/src/migrate.php
+    /home/www/indefero/src
+    /home/www/indefero/www
+    /home/www/indefero/www/index.php
+    /home/www/indefero/www/media
+
+The you need to link the `media` and `index.php` files into your
+docroot.
+
+    $ cd /var/www
+    $ ln -s /home/www/indefero/www/index.php
+    $ ln -s /home/www/indefero/www/media
+
 ## Installation of Pluf
 
 * Checkout the trunk of [Pluf](http://www.pluf.org).
@@ -12,7 +35,7 @@ the installation of InDefero by itself.
     $ sudo pear install --alldeps Mail
     $ sudo pear install --alldeps Mail_mime
 
-The Pluf installation folder is the folder containing the file `Pluf.php`.
+The Pluf installation folder is the folder containing the file `Pluf.php`. 
 
 ## Installation of InDefero
 
@@ -30,15 +53,18 @@ Here is the step-by-step installation procedure:
 * Make a copy of `src/IDF/conf/idf.php-dist` as `src/IDF/conf/idf.php`.
 * Update the idf.php file to match your system.
 * Open a terminal/shell and go into the `src` folder in the InDefero installation folder.
-* Run `php /path/to/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -i -d -u` to test the installation of the tables.
-* Run `php /path/to/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -i -d` to really install the tables.
+
+    $ cd /home/www/indefero/src
+
+* Run `php /home/www/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -i -d -u` to test the installation of the tables.
+* Run `php /home/www/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -i -d` to really install the tables.
 * Create a bootstrap file to create the first project and admin user for example `www/bootstrap.php`. Do not forget to update the second line with your path to Pluf:
 
     <?php
-    set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__).'/../src');
-    set_include_path(get_include_path().PATH_SEPARATOR.'/path/to/pluf/src');
+    set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__).'/home/www/indefero/src');
+    set_include_path(get_include_path().PATH_SEPARATOR.'/home/www/pluf/src');
     require 'Pluf.php';
-    Pluf::start(dirname(__FILE__).'/../src/IDF/conf/idf.php');
+    Pluf::start(dirname(__FILE__).'/home/www/indefero/src/IDF/conf/idf.php');
     Pluf_Dispatcher::loadControllers(Pluf::f('idf_views'));
     
     $project = new IDF_Project();
@@ -48,7 +74,7 @@ Here is the step-by-step installation procedure:
     $project->create();
     $user = new Pluf_User();
     $user->first_name = 'John';
-    $user->last_name = 'Doe';
+    $user->last_name = 'Doe'; // Required!
     $user->login = 'doe';
     $user->email = 'doe@example.com';
     $user->password = 'yourpassword'; // the password is salted/hashed 
@@ -61,6 +87,8 @@ Here is the step-by-step installation procedure:
 
 * Run `php www/bootstrap.php`.
 * Remove the `www/bootstrap.php` file.
+* Open the `www/index.php` file and ensure that the path to Pluf and
+  Indefero are correctly set for your configuration.
 
 Now you can login with this user into the interface.
 
@@ -77,4 +105,12 @@ the following `.htaccess` file to be put in the same folder of the
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*) /index.php/$1
 
+
+## For the Gentoo users
+
+If you get the error:
+
+    T_CHARACTER Use of undefined constant T_CHARACTER - assumed 'T_CHARACTER'"
+
+you need to compile PHP with the "tokenizer" flag.
 

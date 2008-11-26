@@ -23,126 +23,146 @@
 
 $cfg = array();
 
-// to start with, it can be practical.
-$cfg['debug'] = false;
+#
+# You must set it to false once everything is running ok.
+#
+$cfg['debug'] = true;
 
-// If you have a single git repository, just put the full path to it
-// without trailing slash. The path is the path to the git database,
-// so you need to include the /.git folder.
-// For example: '/path/to/my/project/.git'
-//
-// If you have multiple repositories, you need to put %s where you
-// want the shortname of the project to be replaced. 
-// For example:
-// - You have many projects on your local computer and want to use 
-//   InDefero to see them. Put: '/home/yourlogin/Projects/%s/.git'
-// - You have many projects on a remote server with only "bare" git
-//   repositories. Put: '/home/git/repositories/%s.git'
-//
+# If you have a single git repository, just put the full path to it
+# without trailing slash. The path is the path to the git database,
+# so you need to include the /.git folder.
+# For example: '/path/to/my/project/.git'
+#
+# If you have multiple repositories, you need to put %s where you
+# want the shortname of the project to be replaced. 
+# For example:
+# - You have many projects on your local computer and want to use 
+#   InDefero to see them. Put: '/home/yourlogin/Projects/%s/.git'
+# - You have many projects on a remote server with only "bare" git
+#   repositories. Put: '/home/git/repositories/%s.git'
+#
+# ** Do not forget to give read access to these folders to your www
+# ** user. For example, adding www to the git group.
 $cfg['git_repositories'] = '/home/git/repositories/%s.git';
-//
-// Like for the git_repositories definition, the path can contains %s
-// and it will be automatically replaced. You can ignore this
-// configuration variable as it is only for information use in the
-// tree view.
-//
+#
+# Like for the git_repositories definition, the path can contains %s
+# and it will be automatically replaced. You can ignore this
+# configuration variable as it is only for information use in the
+# tree view.
+#
 $cfg['git_remote_url'] = 'git://projects.ceondo.com/%s.git';
 
-// Same as for git, you can have multiple repositories, one for each
-// project or a single one for all the projects. 
-//
-// In the case of subversion, the admin of a project can also select a
-// remote repository from the web interface. From the web interface
-// you can define a local repository, local repositories are defined
-// here. This if for security reasons.
+# Same as for git, you can have multiple repositories, one for each
+# project or a single one for all the projects. 
+#
+# In the case of subversion, the admin of a project can also select a
+# remote repository from the web interface. From the web interface
+# you can define a local repository, local repositories are defined
+# here. This if for security reasons.
 $cfg['svn_repositories'] = 'file:///home/svn/repositories/%s';
 $cfg['svn_remote_url'] = 'http://projects.ceondo.com/svn/%s';
 
-// Mercurial repositories path
-//$cfg['mercurial_repositories'] = '/home/mercurial/repositories/%s';
-//$cfg['mercurial_remote_url'] = 'http://projects.ceondo.com/hg/%s';
+# Mercurial repositories path
+#$cfg['mercurial_repositories'] = '/home/mercurial/repositories/%s';
+#$cfg['mercurial_remote_url'] = 'http://projects.ceondo.com/hg/%s';
 
-// admins will get an email in case of errors in the system in non
-// debug mode.
+# admins will get an email in case of errors in the system in non
+# debug mode.
 $cfg['admins'] = array(
                        array('Admin', 'you@example.com'),
                        );
 
-// Email configuration
+# Email configuration
 $cfg['send_emails'] = true;
 $cfg['mail_backend'] = 'smtp';
 $cfg['mail_host'] = 'localhost';
 $cfg['mail_port'] = 25;
 
-// Paths/Url configuration
+# Paths/Url configuration.
 # 
-# if you access the index.php with:
-#  http://www.mydomain.com/myfolder/index.php
-# put the following:
+# Examples:
+# You have: 
+#   http://www.mydomain.com/myfolder/index.php
+# Put:
+#   $cfg['idf_base'] = '/myfolder/index.php';
+#   $cfg['url_base'] = 'http://www.mydomain.com';
 #
-# $cfg['idf_base'] = '/myfolder/index.php';
-# $cfg['url_base'] = 'http://www.mydomain.com';
-
-$cfg['idf_base'] = ''; // put '/whatever/index.php if you are not
-                       // using mod_rewrite and installing in a
-                       // subfolder.
+# You have: 
+#   http://www.mydomain.com/
+# Put:
+#   $cfg['idf_base'] = '';
+#   $cfg['url_base'] = 'http://www.mydomain.com';
+#
+#
+#
+$cfg['idf_base'] = '';
 $cfg['url_base'] = 'http://projects.ceondo.com';
+
+# Url to access the media folder which is in the www folder 
+# of the archive
 $cfg['url_media'] = 'http://projects.ceondo.com/media';
+
+# Url to access a folder in which the files you upload through
+# the downloads tab will be stored.
 $cfg['url_upload'] = 'http://projects/ceondo.com/media/upload';
+# Path to the upload folder
 $cfg['upload_path'] = '/path/to/media/upload';
 
 #
 # The following path *MUST NOT* be accessible through a web browser 
 # as user will be able to upload .html, .php files and this can 
-# create *TERRIBLE* security issues.
+# create *TERRIBLE* security issues. In this folder, the attachments 
+# to the issues will be uploaded and we do not restrict the content type.
 #
 $cfg['upload_issue_path'] = '/path/to/attachments';
 
-// write here a long random string unique for this installation. This
-// is critical to put a long string.
+#
+# write here a long random string unique for this installation. This
+# is critical to put a long string, with at least 40 characters.
 $cfg['secret_key'] = ''; 
 
-// the sender of all the emails.
+# the sender of all the emails.
 $cfg['from_email'] = 'sender@example.com'; 
 
-// Email address for the bounced messages.
+# Email address for the bounced messages.
 $cfg['bounce_email'] = 'no-reply@example.com';
 
-// Temporary folder where the script is writing the compiled templates,
-// cached data and other temporary resources.
-// It must be writeable by your webserver instance.
-// It is mandatory if you are using the template system.
+# Temporary folder where the script is writing the compiled templates,
+# cached data and other temporary resources.
+# It must be writeable by your webserver instance.
+# It is mandatory if you are using the template system.
 $cfg['tmp_folder'] = '/tmp';
 
-// Database configuration
-// For testing we are using in memory SQLite database.
+# Database configuration
+# For testing we are using in memory SQLite database.
 $cfg['db_login'] = 'www';
 $cfg['db_password'] = '';
 $cfg['db_server'] = '';
-$cfg['db_version'] = '';
-$cfg['db_table_prefix'] = ''; 
+# Only needed for MySQL
+$cfg['db_version'] = '5.1';
+# If you want to have different installations with the same DB
+$cfg['db_table_prefix'] = 'indefero_'; 
+# ** DO NOT USE SQLITE IN PRODUCTION ** 
+# This is not because of problems with the quality of the SQLite
+# driver or with SQLite itself, this is due to the lack of migration
+# support in Pluf for SQLite, this means we cannot modify the DB
+# easily once it is loaded with data.
+$cfg['db_engine'] = 'PostgreSQL'; # SQLite is also well tested or MySQL
+$cfg['db_database'] = 'website'; # put absolute path to the db if you
+                                 # are using SQLite. 
 
-// ** DO NOT USE SQLITE IN PRODUCTION ** 
-// This is not because of problems with the quality of the SQLite
-// driver or with SQLite itself, this is due to the lack of migration
-// support in Pluf for SQLite, this means we cannot modify the DB
-// easily once it is loaded with data.
-$cfg['db_engine'] = 'PostgreSQL'; // SQLite is also well tested or MySQL
-$cfg['db_database'] = 'website'; // put absolute path to the db if you
-                                 // are using SQLite. 
-
-// -- From this point you should not need to update anything. --
+# -- From this point you should not need to update anything. --
 $cfg['pear_path'] = '/usr/share/php';
 
 $cfg['login_success_url'] = $cfg['url_base'].$cfg['idf_base'];
 $cfg['after_logout_page'] = $cfg['url_base'].$cfg['idf_base'];
 
-// Caching of the scm commands.
+# Caching of the scm commands.
 $cfg['cache_engine'] = 'Pluf_Cache_File';
 $cfg['cache_timeout'] = 300;
 $cfg['cache_file_folder'] = $cfg['tmp_folder'].'/cache';
 
-// The folder in which the templates of the application are located.
+# The folder in which the templates of the application are located.
 $cfg['template_folders'] = array(
                                  dirname(__FILE__).'/../templates',
                                  );
@@ -166,7 +186,7 @@ $cfg['template_modifiers'] = array(
                                    'size' => 'IDF_Views_Source_PrettySize',
                                    );
 
-// available languages
+# available languages
 $cfg['languages'] = array('en', 'fr'); 
 
 # SCM base configuration
