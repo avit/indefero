@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: InDefero\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-24 21:48+0100\n"
-"PO-Revision-Date: 2008-11-24 22:10+0100\n"
+"POT-Creation-Date: 2008-11-26 22:12+0100\n"
+"PO-Revision-Date: 2008-11-26 22:14+0100\n"
 "Last-Translator: Loïc d'Anterroches <titoo@users.sourceforge.net>\n"
 "Language-Team: Translation team <titoo@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -66,8 +66,8 @@ msgid "Commit"
 msgstr "Commit"
 
 #: IDF/Commit.php:183
-#: IDF/IssueComment.php:170
-#: IDF/Issue.php:192
+#: IDF/IssueComment.php:171
+#: IDF/Issue.php:195
 #: IDF/Upload.php:184
 #: IDF/WikiPage.php:198
 #: IDF/WikiRevision.php:188
@@ -102,13 +102,13 @@ msgstr "changements"
 msgid "Serialized array of the changes in the issue."
 msgstr "Tableau sérialisé des changements du ticket."
 
-#: IDF/IssueComment.php:140
-#: IDF/Issue.php:190
+#: IDF/IssueComment.php:141
+#: IDF/Issue.php:193
 #, php-format
 msgid "<a href=\"%1$s\" class=\"%2$s\" title=\"View issue\">Issue %3$d</a>, %4$s"
 msgstr "<a href=\"%1$s\" class=\"%2$s\" title=\"Voir le ticket\">Ticket %3$d</a>, %4$s"
 
-#: IDF/IssueComment.php:148
+#: IDF/IssueComment.php:149
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:13
 #: IDF/gettexttemplates/idf/issues/view.html.php:9
 #: IDF/gettexttemplates/issues/issue-updated-email.txt.php:13
@@ -116,7 +116,7 @@ msgstr "<a href=\"%1$s\" class=\"%2$s\" title=\"Voir le ticket\">Ticket %3$d</a>
 msgid "Summary:"
 msgstr "Résumé :"
 
-#: IDF/IssueComment.php:150
+#: IDF/IssueComment.php:151
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:7
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:14
 #: IDF/gettexttemplates/idf/issues/view.html.php:10
@@ -130,7 +130,7 @@ msgstr "Résumé :"
 msgid "Status:"
 msgstr "Statut :"
 
-#: IDF/IssueComment.php:152
+#: IDF/IssueComment.php:153
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:15
 #: IDF/gettexttemplates/idf/issues/view.html.php:11
 #: IDF/gettexttemplates/idf/issues/view.html.php:19
@@ -140,9 +140,9 @@ msgstr "Statut :"
 msgid "Owner:"
 msgstr "Propriétaire :"
 
-#: IDF/IssueComment.php:154
+#: IDF/IssueComment.php:155
 #: IDF/WikiRevision.php:174
-#: IDF/gettexttemplates/idf/wiki/view.html.php:13
+#: IDF/gettexttemplates/idf/wiki/view.html.php:15
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:13
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:10
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:16
@@ -161,7 +161,7 @@ msgstr "Propriétaire :"
 msgid "Labels:"
 msgstr "Étiquettes :"
 
-#: IDF/IssueComment.php:170
+#: IDF/IssueComment.php:171
 #, php-format
 msgid "Comment on <a href=\"%s\" class=\"%s\">issue&nbsp;%d</a>"
 msgstr "Commentaire sur le <a href=\"%s\" class=\"%s\">ticket&nbsp;%d</a>"
@@ -220,7 +220,7 @@ msgstr "étiquettes"
 msgid "status"
 msgstr "statut"
 
-#: IDF/Issue.php:192
+#: IDF/Issue.php:195
 #, php-format
 msgid "Creation of <a href=\"%s\" class=\"%s\">issue&nbsp;%d</a>"
 msgstr "Création du <a href=\"%s\" class=\"%s\">ticket&nbsp;%d</a>"
@@ -408,10 +408,14 @@ msgid "This table shows the documentation pages."
 msgstr "Ce tableau liste les pages de documentation."
 
 #: IDF/Views/Wiki.php:60
+#: IDF/Views/Wiki.php:106
+#: IDF/Views/Wiki.php:146
 msgid "Page Title"
 msgstr "Titre"
 
 #: IDF/Views/Wiki.php:61
+#: IDF/Views/Wiki.php:107
+#: IDF/Views/Wiki.php:147
 #: IDF/Views/Issue.php:60
 #: IDF/Views/Issue.php:116
 #: IDF/Views/Issue.php:216
@@ -427,39 +431,66 @@ msgid "Summary"
 msgstr "Résumé"
 
 #: IDF/Views/Wiki.php:62
+#: IDF/Views/Wiki.php:108
+#: IDF/Views/Wiki.php:148
 msgid "Updated"
 msgstr "Mise à jour"
 
 #: IDF/Views/Wiki.php:66
+#: IDF/Views/Wiki.php:152
 msgid "No documentation pages were found."
 msgstr "Aucune page de documentation n'a été trouvée."
 
-#: IDF/Views/Wiki.php:89
+#: IDF/Views/Wiki.php:91
+#, php-format
+msgid "Documentation Search - %s"
+msgstr "Recherche dans la documentation - %s"
+
+#: IDF/Views/Wiki.php:102
+msgid "This table shows the pages found."
+msgstr "Ce tableau montre les pages trouvées."
+
+#: IDF/Views/Wiki.php:112
+msgid "No pages were found."
+msgstr "Aucune page trouvée."
+
+#: IDF/Views/Wiki.php:131
+#, php-format
+msgid "%1$s Documentation Pages with Label %2$s"
+msgstr "Documentation de %1$s avec l'étiquette %2$s"
+
+#: IDF/Views/Wiki.php:141
+#, php-format
+msgid "This table shows the documentation pages with label %s."
+msgstr "Ce tableau liste les pages de documentation avec le label %s."
+
+#: IDF/Views/Wiki.php:174
 #: IDF/gettexttemplates/idf/wiki/base.html.php:4
-#: IDF/gettexttemplates/idf/wiki/index.html.php:3
+#: IDF/gettexttemplates/idf/wiki/index.html.php:4
+#: IDF/gettexttemplates/idf/wiki/search.html.php:3
 msgid "New Page"
 msgstr "Nouvelle page"
 
-#: IDF/Views/Wiki.php:100
+#: IDF/Views/Wiki.php:185
 #, php-format
 msgid "The page <a href=\"%s\">%s</a> has been created."
 msgstr "La page <a href=\"%s\">%s</a> a été créée."
 
-#: IDF/Views/Wiki.php:180
+#: IDF/Views/Wiki.php:270
 msgid "The old revision has been deleted."
 msgstr "La vieille version a été supprimée."
 
-#: IDF/Views/Wiki.php:186
+#: IDF/Views/Wiki.php:276
 #, php-format
 msgid "Delete Old Revision of %s"
 msgstr "Suppression de la vieille version de %s"
 
-#: IDF/Views/Wiki.php:220
+#: IDF/Views/Wiki.php:310
 #, php-format
 msgid "Update %s"
 msgstr "Mise à jour de %s"
 
-#: IDF/Views/Wiki.php:232
+#: IDF/Views/Wiki.php:322
 #, php-format
 msgid "The page <a href=\"%s\">%s</a> has been updated."
 msgstr "La page <a href=\"%s\">%s</a> a été mise à jour."
@@ -571,7 +602,7 @@ msgstr "Changements %2$s de %1$s"
 
 #: IDF/Views/Source.php:77
 #: IDF/Views/Source.php:115
-#: IDF/Views/Source.php:240
+#: IDF/Views/Source.php:259
 #, php-format
 msgid "%1$s %2$s Source Tree"
 msgstr "Arbre des sources %2$s de %1$s"
@@ -1356,6 +1387,7 @@ msgstr "mise à :"
 #: IDF/gettexttemplates/idf/source/mercurial/file.html.php:6
 #: IDF/gettexttemplates/idf/source/mercurial/tree.html.php:11
 #: IDF/gettexttemplates/idf/source/svn/file.html.php:8
+#: IDF/gettexttemplates/idf/source/commit.html.php:11
 #: IDF/gettexttemplates/idf/source/git/file.html.php:6
 #: IDF/gettexttemplates/idf/source/git/tree.html.php:11
 msgid "Archive"
@@ -1432,7 +1464,7 @@ msgstr "ou"
 #: IDF/gettexttemplates/source/changelog.html.php:7
 #: IDF/gettexttemplates/idf/source/mercurial/file.html.php:8
 #: IDF/gettexttemplates/idf/source/mercurial/tree.html.php:14
-#: IDF/gettexttemplates/idf/source/commit.html.php:11
+#: IDF/gettexttemplates/idf/source/commit.html.php:13
 #: IDF/gettexttemplates/idf/source/git/file.html.php:8
 #: IDF/gettexttemplates/idf/source/git/tree.html.php:14
 #: IDF/gettexttemplates/idf/source/changelog.html.php:7
@@ -1757,6 +1789,10 @@ msgstr "Qu'est-ce que l'API et comment l'utiliser ?"
 msgid "<kbd>Shift+u</kbd>: Project updates."
 msgstr "<kbd>Shift+u</kbd> : Mises à jour du projet."
 
+#: IDF/gettexttemplates/idf/source/commit.html.php:12
+msgid "Download the corresponding diff file"
+msgstr "Télécharger le fichier diff correspondant"
+
 #: IDF/gettexttemplates/idf/admin/tabs.html.php:4
 msgid "If you mark a project as private, only the project members and administrators, together with the extra authorized users you provide will have access to the project. You will still be able to define further access rights for the different tabs but the \"Open to all\" and \"Signed in users\" will default to authorized users only."
 msgstr "Si vous marquez un projet comme privé, seuls les membres du projet et les administrateurs, associés aux utilisateurs supplémentaires autorisés, pourront accéder au projet. Vous pourrez toujours définir un niveau supplémentaire de droits d'accès aux onglets mais les options \"Ouvert à tous\" et \"Utilisateurs authentifiés\" correspondront aux utilisateurs supplémentaires."
@@ -1771,6 +1807,12 @@ msgid "Help and accessibility features"
 msgstr "Aide et accessibilité"
 
 #: IDF/gettexttemplates/idf/wiki/view.html.php:3
+msgid ""
+"<strong>Attention!</strong> This page is marked as deprecated, \n"
+"use it as reference only if you are sure you need these specific information."
+msgstr "<strong>Attention !</strong> Cette pages est marquée comme obsolète, utilisez ces informations comme référence uniquement si vous avez besoin de cette version particulière."
+
+#: IDF/gettexttemplates/idf/wiki/view.html.php:5
 #, php-format
 msgid ""
 "You are looking at an old revision of the page \n"
@@ -1781,8 +1823,8 @@ msgstr ""
 "<a href=\"%%url%%\">%%page.title%%</a>. Cette version a été créée par\n"
 " %%submitter%%."
 
-#: IDF/gettexttemplates/idf/wiki/view.html.php:6
-#: IDF/gettexttemplates/idf/wiki/view.html.php:7
+#: IDF/gettexttemplates/idf/wiki/view.html.php:8
+#: IDF/gettexttemplates/idf/wiki/view.html.php:9
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:7
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:8
 #: IDF/gettexttemplates/idf/downloads/view.html.php:4
@@ -1793,25 +1835,25 @@ msgstr ""
 msgid "by %%submitter%%"
 msgstr "par %%submitter%%"
 
-#: IDF/gettexttemplates/idf/wiki/view.html.php:8
 #: IDF/gettexttemplates/idf/wiki/view.html.php:10
+#: IDF/gettexttemplates/idf/wiki/view.html.php:12
 msgid "Delete this revision"
 msgstr "Supprimer cette version"
 
-#: IDF/gettexttemplates/idf/wiki/view.html.php:9
+#: IDF/gettexttemplates/idf/wiki/view.html.php:11
 #: IDF/gettexttemplates/idf/downloads/view.html.php:9
 #: IDF/gettexttemplates/downloads/view.html.php:9
 msgid "Trash"
 msgstr "Poubelle"
 
-#: IDF/gettexttemplates/idf/wiki/view.html.php:11
+#: IDF/gettexttemplates/idf/wiki/view.html.php:13
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:11
 #: IDF/gettexttemplates/idf/issues/view.html.php:16
 #: IDF/gettexttemplates/issues/view.html.php:16
 msgid "Created:"
 msgstr "Créé :"
 
-#: IDF/gettexttemplates/idf/wiki/view.html.php:12
+#: IDF/gettexttemplates/idf/wiki/view.html.php:14
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:12
 #: IDF/gettexttemplates/idf/issues/view.html.php:17
 #: IDF/gettexttemplates/idf/downloads/view.html.php:13
@@ -1822,7 +1864,7 @@ msgstr "Créé :"
 msgid "Updated:"
 msgstr "Mis à jour :"
 
-#: IDF/gettexttemplates/idf/wiki/view.html.php:14
+#: IDF/gettexttemplates/idf/wiki/view.html.php:16
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:14
 msgid "Old Revisions"
 msgstr "Anciennes versions"
@@ -1872,9 +1914,24 @@ msgstr "Liste des pages"
 msgid "Update This Page"
 msgstr "Éditer cette page"
 
-#: IDF/gettexttemplates/idf/wiki/index.html.php:4
+#: IDF/gettexttemplates/idf/wiki/base.html.php:6
+#: IDF/gettexttemplates/idf/issues/base.html.php:6
+#: IDF/gettexttemplates/issues/base.html.php:6
+msgid "Search"
+msgstr "Chercher"
+
+#: IDF/gettexttemplates/idf/wiki/index.html.php:3
+#, php-format
+msgid "See <a href=\"%%url%%\">the deprecated pages</a>."
+msgstr "Voir <a href=\"%%url%%\">les pages obsolètes</a>."
+
+#: IDF/gettexttemplates/idf/wiki/index.html.php:5
 msgid "Number of pages:"
 msgstr "Nombre de pages :"
+
+#: IDF/gettexttemplates/idf/wiki/search.html.php:4
+msgid "Pages found:"
+msgstr "Pages trouvées :"
 
 #: IDF/gettexttemplates/idf/wiki/edit-info.html.php:3
 #, php-format
@@ -2241,11 +2298,6 @@ msgstr "Tickets ouverts"
 msgid "My Issues"
 msgstr "Mes tickets"
 
-#: IDF/gettexttemplates/idf/issues/base.html.php:6
-#: IDF/gettexttemplates/issues/base.html.php:6
-msgid "Search"
-msgstr "Chercher"
-
 #: IDF/gettexttemplates/idf/issues/index.html.php:3
 #: IDF/gettexttemplates/issues/index.html.php:3
 #, php-format
@@ -2284,14 +2336,14 @@ msgstr ""
 "<p><strong>Tickets fermés :</strong> <a href=\"%%closed_url%%\">%%closed%%</a></p>"
 
 #: IDF/gettexttemplates/idf/issues/by-label.html.php:7
-#: IDF/gettexttemplates/issues/by-label.html.php:7
-msgid "Completion:"
-msgstr "Accomplissement :"
-
-#: IDF/gettexttemplates/idf/issues/by-label.html.php:8
 #: IDF/gettexttemplates/issues/by-label.html.php:8
 msgid "Label:"
 msgstr "Étiquette :"
+
+#: IDF/gettexttemplates/idf/issues/by-label.html.php:8
+#: IDF/gettexttemplates/issues/by-label.html.php:7
+msgid "Completion:"
+msgstr "Accomplissement :"
 
 #: IDF/gettexttemplates/idf/issues/create.html.php:3
 #: IDF/gettexttemplates/issues/create.html.php:3
@@ -2382,7 +2434,7 @@ msgstr "Supprimer le fichier"
 #: IDF/gettexttemplates/downloads/index.html.php:3
 #, php-format
 msgid "See <a href=\"%%url%%\">the deprecated files</a>."
-msgstr "Voir <a href=\"%%url%%\">les fichiers obsolète</a>."
+msgstr "Voir <a href=\"%%url%%\">les fichiers obsolètes</a>."
 
 #: IDF/gettexttemplates/idf/downloads/index.html.php:5
 #: IDF/gettexttemplates/downloads/index.html.php:5
