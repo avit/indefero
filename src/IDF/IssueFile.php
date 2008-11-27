@@ -114,6 +114,7 @@ class IDF_IssueFile extends Pluf_Model
             $this->filename = substr(basename($file), 0, -6); 
             $img_extensions = array('jpeg', 'jpg', 'png', 'gif');
             $info = pathinfo($this->filename);
+            if (!isset($info['extension'])) $info['extension'] = '';
             if (in_array(strtolower($info['extension']), $img_extensions)) {
                 $this->type = 'img';
             } else {

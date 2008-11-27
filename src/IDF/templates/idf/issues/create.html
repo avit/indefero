@@ -24,10 +24,22 @@
 {$form.f.content|unsafe}
 </td>
 </tr>
-<tr>
-<th>{$form.f.attachment.labelTag}:</th>
-<td>{if $form.f.attachment.errors}{$form.f.attachment.fieldErrors}{/if}
-{$form.f.attachment|unsafe}
+<tr id="form-attachment-1">
+<th>{$form.f.attachment1.labelTag}:</th>
+<td>{if $form.f.attachment1.errors}{$form.f.attachment1.fieldErrors}{/if}
+{$form.f.attachment1|unsafe}
+</td>
+</tr>
+<tr id="form-attachment-2">
+<th>{$form.f.attachment2.labelTag}:</th>
+<td>{if $form.f.attachment2.errors}{$form.f.attachment2.fieldErrors}{/if}
+{$form.f.attachment2|unsafe}
+</td>
+</tr>
+<tr id="form-attachment-3">
+<th>{$form.f.attachment3.labelTag}:</th>
+<td>{if $form.f.attachment3.errors}{$form.f.attachment3.fieldErrors}{/if}
+{$form.f.attachment3|unsafe}
 </td>
 </tr>{if $isOwner or $isMember}
 <tr>
@@ -74,7 +86,34 @@
 {/block}
 {block javascript}
 <script type="text/javascript">
-document.getElementById('id_summary').focus()
+document.getElementById('id_summary').focus();{literal}
+$(document).ready(function(){
+
+    // Hide the upload forms, we insert before the first attach file
+    // row an "Attach File" little link.
+    // We hide all the rows.
+    $("#form-attachment-1").before("{/literal}<tr id=\"form-block-0\"><td>&nbsp;</td><td><img style=\"vertical-align: text-bottom;\" src=\"{media '/idf/img/attachment.png'}\" alt=\" \" align=\"bottom\" /><a id=\"form-show-0\" href=\"#\">{trans 'Attach file'}{literal}</a></td></tr>");
+    $("#form-show-0").click(function(){
+        $("#form-attachment-1").show();
+        $("#form-block-0").hide();
+    });
+    $("#form-attachment-1 td").append("<span id=\"form-block-1\"><a id=\"form-show-1\" href=\"#\">{/literal}{trans 'Attach another file'}{literal}</a></span>");
+    $("#form-show-1").click(function(){
+            $("#form-attachment-2").show();
+            $("#form-block-1").hide();
+        });
+    $("#form-attachment-2 td").append("<span id=\"form-block-2\"><a id=\"form-show-2\" href=\"#\">{/literal}{trans 'Attach another file'}{literal}</a></span>");
+    $("#form-show-2").click(function(){
+            $("#form-attachment-3").show();
+            $("#form-block-2").hide();
+        });
+    var j=0;
+    for (j=1;j<4;j=j+1) {
+        $("#form-attachment-"+j).hide();
+    }
+    });
 </script>
+{/literal}{/block}
+
 {include 'idf/issues/js-autocomplete.html'}{/block}
 
