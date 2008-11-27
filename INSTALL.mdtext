@@ -92,6 +92,19 @@ Here is the step-by-step installation procedure:
 
 Now you can login with this user into the interface.
 
+## Upgrade InDefero
+
+To upgrade:
+
+* Make a backup of your data, including the database.
+* Extract the new archive on top of the current one.
+* Update your version of Pluf.
+* Check that the path in the `index.php` are still good.
+* Upgrade the database with:
+
+    $ php /home/www/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -d -u
+    $ php /home/www/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -d 
+
 ## For the Apache Webserver Users
 
 If you are using [Apache](http://httpd.apache.org/) for your webserver
