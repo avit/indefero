@@ -110,6 +110,18 @@ class IDF_Form_Upload extends Pluf_Form
     }
 
     /**
+     * If we have uploaded a file, but the form failed remove it.
+     *
+     */
+    function failed()
+    {
+        if (!empty($this->cleaned_data['file']) 
+            and file_exists(Pluf::f('upload_path').'/'.$this->project->shortname.'/files/'.$this->cleaned_data['file'])) {
+            @unlink(Pluf::f('upload_path').'/'.$this->project->shortname.'/files/'.$this->cleaned_data['file']);
+        }
+    }
+
+    /**
      * Save the model in the database.
      *
      * @param bool Commit in the database or not. If not, the object
