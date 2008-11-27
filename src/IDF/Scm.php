@@ -81,5 +81,25 @@ class IDF_Scm
         } 
         return $res;
     }
+
+    /**
+     * Sync the changes in the repository with the timeline.
+     *
+     */
+    public static function syncTimeline($request)
+    {
+        $cache = Pluf_Cache::factory();
+        $key = 'IDF_Scm:'.$request->project->shortname.':lastsync'; 
+        if (null === ($res=$cache->get($key))) {
+            $scm = IDF_Scm::get($request);
+            foreach ($scm->getBranches() as $branche) {
+                foreach ($scm->getChangeLog($branche, 25) as $change) {
+                    IDF_Commit::getOrAdd($change, $request->project);
+                }
+            }
+            $cache->set($key, true, (int)(Pluf::f('cache_timeout', 300)/2));
+        }
+    }
+
 }
 
