@@ -26,7 +26,7 @@
  * {$conf.f.fieldname} in a template.
  */
 
-class IDF_Conf_DataProxy
+class IDF_Config_DataProxy
 {
     protected $obj = null;
 

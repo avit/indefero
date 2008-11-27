@@ -73,7 +73,7 @@ class IDF_Conf extends Pluf_Model
                                        'type' => 'unique',
                                        ),
                                  );
-        $this->f = new IDF_Conf_DataProxy($this);
+        $this->f = new IDF_Config_DataProxy($this);
     }
 
     function setProject($project)
