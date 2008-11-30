@@ -1,0 +1,116 @@
+{extends "idf/review/base-full.html"}
+{block extraheader}<link rel="stylesheet" type="text/css" href="{media '/idf/css/prettify.css'}" />{/block}
+{block docclass}yui-t1{assign $inCreate = true}{/block}
+{block body}
+{if $form.errors}
+<div class="px-message-error">
+<p>{trans 'The form contains some errors. Please correct them to submit your review.'}</p>
+{if $form.get_top_errors}
+{$form.render_top_errors|unsafe}
+{/if}
+</div>
+{/if}
+<table class="commit" summary="">
+<tr>
+<th><strong>{trans 'Created:'}</strong></th><td>{$patch.creation_dtime|date:"%Y-%m-%d %H:%M:%S"} ({$patch.creation_dtime|dateago})</td>
+</tr>
+<tr>
+<th><strong>{trans 'Updated:'}</strong></th><td>{$review.modif_dtime|dateago}</td>
+</tr>
+<tr>
+<th><strong>{trans 'Author:'}</strong></th><td>{$review.get_submitter()}</td>
+</tr>
+<tr>
+<th><strong>{trans 'Commit:'}</strong></th><td class="mono"><a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $patch.get_commit().scm_id)}" title="{trans 'View corresponding source tree'}">{$patch.get_commit().scm_id}</a></td>
+</tr>
+<tr>
+<th><strong>{trans 'Description:'}</strong></th><td>{issuetext $review.summary, $request}<br /><br />{issuetext $patch.summary, $request}</td>
+</tr>
+<tr>
+<th><strong>{trans 'Reviewers:'}</strong></th><td>{if count($reviewers)}{foreach $reviewers as $r}{$r}, {/foreach}{else}{trans 'No reviewers at the moment.'}{/if}</td>
+</tr>{if count($diff.files)}
+<tr>
+<th><strong>{trans 'Files:'}</strong></th>
+<td>
+{foreach $diff.files as $filename=>$diffdef}
+{assign $ndiff = count($diffdef['chunks'])}
+{assign $nc = $files[$filename][2]->count()}
+<a href="{url 'IDF_Views_Source::tree', array($project.shortname, $patch.get_commit().scm_id, $filename)}">{$filename}</a> (<a href="#diff-{$filename|md5}">{blocktrans $ndiff}{$ndiff} diff{plural}{$ndiff} diffs{/blocktrans}</a>{if $nc}, <a href="#ct-{$filename|md5}">{blocktrans $nc}{$nc} comment{plural}{$nc} comments{/blocktrans}</a>{/if})<br />
+{/foreach}
+</td>
+</tr>{/if}
+<tr>{aurl 'url', 'IDF_Views_Review::getPatch', array($project.shortname, $patch.id)}
+<th>&nbsp;</th><td><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/package-grey.png'}" alt="{trans 'Archive'}" align="bottom" /></a> <a href="{$url}" class="soft">{trans 'Download the corresponding diff file'}</a></td>
+</tr>
+</table>
+
+{if !$user.isAnonymous()}
+<div class="issue-submit-info" style="width: 50%">
+<p><strong>{trans 'How to Participate in a Code Review'}</strong></p>
+
+<p>{blocktrans}Code review is a process in which
+after or before changes are commited into the code repository,
+different people discuss the code changes. The goal is
+to <strong>improve the quality of the code and the
+contributions</strong>, as such, you must be pragmatic when writing
+your review. Correctly mention the line numbers (in the old or in the
+new file) and try to keep a good balance between seriousness and fun.
+{/blocktrans}</p>
+<p>{blocktrans}
+<strong>Proposing code for review is intimidating</strong>, you know
+you will receive critics, so please, as a reviewer, <strong>keep this
+process fun</strong>, use it to help your contributor learn your
+coding standards and the structure of the code and <strong>make them want
+to propose more contributions</strong>.
+{/blocktrans}</p></div>
+{/if}
+
+
+<form method="post" action=".">
+{foreach $files as $file=>$def}
+<table class="diff" summary=" ">
+<tbody>
+<tr id="diff-{$file|md5}"><th colspan="4">{$file}</th></tr>
+<tr><th colspan="2">{trans 'Old'}</th><th colspan="2">{trans 'New'}</th></tr>
+{$def[0]}
+</tbody>
+</table>
+{assign $comments = $def[2]}
+{assign $nc = $comments.count()} 
+{assign $i = 1}
+{foreach $comments as $c}  
+<div class="issue-comment{if $i == 1} issue-comment-first{/if}{if $i == $nc} issue-comment-last{/if}" id="ic{$c.id}">{assign $who = $c.get_submitter()}{aurl 'whourl', 'IDF_Views_User::view', array($who.login)}
+{aurl 'url', 'IDF_Views_Review::view', array($project.shortname, $review.id)}
+{assign $id = $c.id}
+{assign $url = $url~'#ic'~$c.id}
+<p{if $i == 1} id="ct-{$file|md5}"{/if}>{blocktrans}Comment <a href="{$url}">{$i}</a> by <a href="{$whourl}">{$who}</a>, {$c.creation_dtime|date}{/blocktrans}</p>
+
+<pre class="issue-comment-text">{issuetext $c.content, $request}</pre>
+</div> {assign $i = $i + 1}
+{/foreach}
+{if !$user.isAnonymous()}
+<table class="form" summary=" ">
+<tr>
+<td>&nbsp;</td>
+<td>
+<p>{blocktrans}Your comments on the changes in file <em>{$file}</em>:{/blocktrans}<br />{$def[1]|safe}</p>
+</td>
+</tr></table>{/if}
+{/foreach}
+{if !$user.isAnonymous()}
+<table class="form" summary=" ">
+<tr>
+<td>&nbsp;</td>
+<td><input type="submit" value="{trans 'Submit Code Review'}" name="submit" /> | <a href="{url 'IDF_Views_Review::index', array($project.shortname)}">{trans 'Cancel'}</a>
+</td>
+</tr></table>
+{/if}
+</form>
+{/block}
+u
+{block javascript}
+<script type="text/javascript" src="{media '/idf/js/prettify.js'}"></script>
+<script type="text/javascript">
+prettyPrint();
+</script>
+{/block}

@@ -169,4 +169,162 @@ class IDF_Diff
         return $res;
     }
 
+    /**
+     * Review patch.
+     *
+     * Given the original file as a string and the parsed
+     * corresponding diff chunks, generate a side by side view of the
+     * original file and new file with added/removed lines.
+     *
+     * Example of use:
+     *
+     * $diff = new IDF_Diff(file_get_contents($diff_file));
+     * $orig = file_get_contents($orig_file);
+     * $diff->parse();
+     * echo $diff->fileCompare($orig, $diff->files[$orig_file], $diff_file);
+     *
+     * @param string Original file
+     * @param array Chunk description of the diff corresponding to the file
+     * @param string Original file name
+     * @param int Number of lines before/after the chunk to be displayed (10)
+     * @return Pluf_Template_SafeString The table body
+     */
+    public function fileCompare($orig, $chunks, $filename, $context=10) 
+    {
+        $orig_lines = preg_split("/\015\012|\015|\012/", $orig);
+        $new_chunks = $this->mergeChunks($orig_lines, $chunks, $context);
+        return $this->renderCompared($new_chunks, $filename);
+    }
+
+    public function mergeChunks($orig_lines, $chunks, $context=10) 
+    {
+        $spans = array();
+        $new_chunks = array();
+        $min_line = 0;
+        $max_line = 0;
+        //if (count($chunks['chunks_def']) == 0) return '';
+        foreach ($chunks['chunks_def'] as $chunk) {
+            $start = ($chunk[0][0] > $context) ? $chunk[0][0]-$context : 0;
+            $end = (($chunk[0][0]+$chunk[0][1]+$context-1) < count($orig_lines)) ? $chunk[0][0]+$chunk[0][1]+$context-1 : count($orig_lines);
+            $spans[] = array($start, $end);
+        }
+        // merge chunks/get the chunk lines
+        // these are reference lines
+        $chunk_lines = array();
+        foreach ($chunks['chunks'] as $chunk) {
+            foreach ($chunk as $line) {
+                $chunk_lines[] = $line;
+            }
+        }
+        $i = 0;
+        foreach ($chunks['chunks'] as $chunk) {
+            $n_chunk = array();
+            // add lines before
+            if ($chunk[0][0] > $spans[$i][0]) {
+                for ($lc=$spans[$i][0];$lc<$chunk[0][0];$lc++) {
+                    $exists = false;
+                    foreach ($chunk_lines as $line) {
+                        if ($lc == $line[0] or ($chunk[0][1]-$chunk[0][0]+$lc) == $line[1]) {
+                            $exists = true;
+                            break;
+                        }
+                    }
+                    if (!$exists) {
+                        $n_chunk[] = array(
+                                           $lc, 
+                                           $chunk[0][1]-$chunk[0][0]+$lc,
+                                           $orig_lines[$lc-1]
+                                           );
+                    }
+                }
+            }
+            // add chunk lines
+            foreach ($chunk as $line) {
+                $n_chunk[] = $line;
+            }
+            // add lines after
+            $lline = $line;
+            if (!empty($lline[0]) and $lline[0] < $spans[$i][1]) {
+                for ($lc=$lline[0];$lc<=$spans[$i][1];$lc++) {
+                    $exists = false;
+                    foreach ($chunk_lines as $line) {
+                        if ($lc == $line[0] or ($lline[1]-$lline[0]+$lc) == $line[1]) {
+                            $exists = true;
+                            break;
+                        }
+                    }
+                    if (!$exists) {
+                        $n_chunk[] = array(
+                                           $lc, 
+                                           $lline[1]-$lline[0]+$lc,
+                                           $orig_lines[$lc-1]
+                                           );
+                    }
+                }
+            }
+            $new_chunks[] = $n_chunk;
+            $i++;
+        }
+        // Now, each chunk has the right length, we need to merge them
+        // when needed
+        $nnew_chunks = array();
+        $i = 0;
+        foreach ($new_chunks as $chunk) {
+            if ($i>0) {
+                $lline = end($nnew_chunks[$i-1]);
+                if ($chunk[0][0] <= $lline[0]+1) {
+                    // need merging
+                    foreach ($chunk as $line) {
+                        if ($line[0] > $lline[0] or empty($line[0])) {
+                            $nnew_chunks[$i-1][] = $line;
+                        } 
+                    }
+                } else {
+                    $nnew_chunks[] = $chunk;
+                    $i++;
+                }
+            } else {
+                $nnew_chunks[] = $chunk;
+                $i++;
+            }
+        }
+        return $nnew_chunks;
+    }
+
+
+    public function renderCompared($chunks, $filename)
+    {
+        $fileinfo = IDF_Views_Source::getMimeType($filename);
+        $pretty = '';
+        if (IDF_Views_Source::isSupportedExtension($fileinfo[2])) {
+            $pretty = ' prettyprint';
+        }
+        $out = '';
+        $cc = 1;
+        $i = 0;
+        foreach ($chunks as $chunk) {
+            foreach ($chunk as $line) {
+                $line1 = '&nbsp;';
+                $line2 = '&nbsp;';
+                $line[2] = (strlen($line[2])) ? self::padLine(Pluf_esc($line[2])) : '&nbsp;';
+                if ($line[0] and $line[1]) {
+                    $class = 'diff-c';
+                    $line1 = $line2 = $line[2];
+                } elseif ($line[0]) {
+                    $class = 'diff-r';
+                    $line1 = $line[2];
+                } else {
+                    $class = 'diff-a';
+                    $line2 = $line[2];
+                }
+                $out .= sprintf('<tr class="diff-line"><td class="diff-lc">%s</td><td class="%s mono%s"><code>%s</code></td><td class="diff-lc">%s</td><td class="%s mono%s"><code>%s</code></td></tr>'."\n", $line[0], $class, $pretty, $line1, $line[1], $class, $pretty, $line2);
+            }
+            if (count($chunks) > $cc)
+                $out .= '<tr class="diff-next"><td>...</td><td>&nbsp;</td><td>...</td><td>&nbsp;</td></tr>'."\n";
+            $cc++;
+            $i++;
+        }
+        return Pluf_Template::markSafe($out);
+
+    }
 }

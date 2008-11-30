@@ -55,7 +55,7 @@ class IDF_Scm
         $cache = Pluf_Cache::factory();
         if (null === ($res=$cache->get($key))) {
             $ll = exec($command, $output, $return);
-            if ($return != 0 and Pluf::f('debug', false)) {
+            if ($return != 0 and Pluf::f('debug_scm', false)) {
                 throw new IDF_Scm_Exception(sprintf('Error when running command: "%s", return code: %d', $command, $return));
             }
             $cache->set($key, array($ll, $return, $output));

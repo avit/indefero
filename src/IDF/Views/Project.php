@@ -347,7 +347,7 @@ class IDF_Views_Project
             $params = array();
             $keys = array('downloads_access_rights', 'source_access_rights',
                           'issues_access_rights', 'private_project',
-                          'wiki_access_rights');
+                          'review_access_rights', 'wiki_access_rights');
             foreach ($keys as $key) {
                 $_val = $request->conf->getVal($key, false);
                 if ($_val !== false) {

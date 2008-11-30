@@ -152,7 +152,16 @@ class IDF_Precondition
         return self::accessTabGeneric($request, 'wiki_access_rights');
     }
 
-    /**
+    static public function accessReview($request)
+    {
+        $res = self::baseAccess($request);
+        if (true !== $res) {
+            return $res;
+        }
+        return self::accessTabGeneric($request, 'review_access_rights');
+    }
+
+     /**
      * Based on the request, it is automatically setting the user.
      *
      * API calls are not translated.

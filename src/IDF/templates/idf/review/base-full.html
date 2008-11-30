@@ -1,0 +1,15 @@
+{extends "idf/base-full.html"}
+{block tabreview} class="active"{/block}
+{block subtabs}
+<div id="sub-tabs">
+<a {if $inOpenReviews}class="active" {/if}href="{url 'IDF_Views_Review::index', array($project.shortname)}">{trans 'Open Reviews'}</a> {*
+
+{if !$user.isAnonymous()} | <a {if $inCreate}class="active" {/if}href="{url 'IDF_Views_Issue::create', array($project.shortname)}">{trans 'New Issue'}</a> | <a {if $inMyIssues}class="active" {/if}href="{url 'IDF_Views_Issue::myIssues', array($project.shortname, 'submit')}">{trans 'My Issues'}</a>{/if} |
+<form class="star" action="{url 'IDF_Views_Issue::search', array($project.shortname)}" method="get">
+<input accesskey="4" type="text" value="{$q}" name="q" size="20" />
+<input type="submit" name="s" value="{trans 'Search'}" />
+</form>
+*}
+{superblock}
+</div>
+{/block}

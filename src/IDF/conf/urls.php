@@ -283,6 +283,32 @@ $ctl[] = array('regex' => '#^/p/([\-\w]+)/downloads/(\d+)/delete/$#',
                'model' => 'IDF_Views_Download',
                'method' => 'delete');
 
+// ---------- CODE REVIEW --------------------------------
+
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/review/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Review',
+               'method' => 'index');
+
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/review/(\d+)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Review',
+               'method' => 'view');
+
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/review/create/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Review',
+               'method' => 'create');
+
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/review/getpatch/(\d+)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Review',
+               'method' => 'getPatch');
+
 
 // ---------- ADMIN --------------------------------------
 
