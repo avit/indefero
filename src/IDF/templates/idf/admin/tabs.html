@@ -36,6 +36,12 @@
 </td>
 </tr>
 <tr>
+<th><strong>{$form.f.review_access_rights.labelTag}:</strong></th>
+<td>{if $form.f.review_access_rights.errors}{$form.f.review_access_rights.fieldErrors}{/if}
+{$form.f.review_access_rights|unsafe}
+</td>
+</tr>
+<tr>
 <th>{if $form.f.private_project.errors}{$form.f.private_project.fieldErrors}{/if}
 {$form.f.private_project|unsafe}
 </th>

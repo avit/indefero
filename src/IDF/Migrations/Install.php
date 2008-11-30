@@ -42,6 +42,9 @@ function IDF_Migrations_Install_setup($params=null)
                     'IDF_Timeline',
                     'IDF_WikiPage',
                     'IDF_WikiRevision',
+                    'IDF_Review',
+                    'IDF_Review_Patch',
+                    'IDF_Review_FileComment',
                     );
     $db = Pluf::db();
     $schema = new Pluf_DB_Schema($db);
@@ -79,6 +82,9 @@ function IDF_Migrations_Install_teardown($params=null)
     $perm = Pluf_Permission::getFromString('IDF.project-authorized-user');
     if ($perm) $perm->delete();
     $models = array(
+                    'IDF_Review_FileComment',
+                    'IDF_Review_Patch',
+                    'IDF_Review',
                     'IDF_WikiRevision',
                     'IDF_WikiPage',
                     'IDF_Timeline',

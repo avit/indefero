@@ -47,6 +47,7 @@
 {if $hasWikiAccess}  <a href="{url 'IDF_Views_Wiki::index', array($project.shortname)}"{block tabwiki}{/block}>{trans 'Documentation'}</a>{/if} 
 {if $hasIssuesAccess} <a href="{url 'IDF_Views_Issue::index', array($project.shortname)}"{block tabissues}{/block}>{trans 'Issues'}</a>{/if}
 {if $hasSourceAccess} <a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $project.getScmRoot())}"{block tabsource}{/block}>{trans 'Source'}</a>{/if}
+{if $hasReviewAccess} <a href="{url 'IDF_Views_Review::index', array($project.shortname)}"{block tabreview}{/block}>{trans 'Code Review'}</a>{/if}
 {if $isOwner}
   <a href="{url 'IDF_Views_Project::admin', array($project.shortname)}"{block tabadmin}{/block}>{trans 'Administer'}</a>{/if}{/if}
 </div>

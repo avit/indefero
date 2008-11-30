@@ -69,6 +69,14 @@ a.userw {
   color: #777;
 }
 
+a.soft { 
+  color: #777;
+}
+
+a.soft:visited { 
+  color: #777;
+}
+
 div.context { 
   padding-left: 1em;
 }
@@ -518,6 +526,7 @@ table.diff tr.diff-next td {
   padding: 1px 5px;
 }
 
+
 /**
  * view file content
  */
@@ -632,4 +641,36 @@ div.deprecated-page {
 
 .delp a { 
   color: #a00;
+}
+
+#branding { 
+  float: right;
+  position: relative;
+  margin-right: -10px;
+  width: 115px;
+  font-size: 8px;
+  text-align: right;
+  padding-right: 20px;
+  padding-left: 0px;
+  background-color: #eeeeec; 
+  -moz-border-radius: 3px 0 0 3px;
+  -webkit-border-radius: 3px 0 0 3px;
+  color: #888a85;
+  clear: both;
+  background-image: url("../img/ceondo.png");
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+
+#branding a { 
+  color: #777;
+}
+
+#branding a:visited { 
+  color: #777;
+}
+
+#ft { 
+  padding: 0px;
+  margin: 0px;
 }

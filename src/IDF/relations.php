@@ -33,5 +33,9 @@ $m['IDF_Search_Occ'] = array('relate_to' => array('IDF_Project'),);
 $m['IDF_WikiPage'] = array('relate_to' => array('IDF_Project', 'Pluf_User'),
                            'relate_to_many' => array('IDF_Tag', 'Pluf_User'));
 $m['IDF_WikiRevision'] = array('relate_to' => array('IDF_WikiPage', 'Pluf_User'));
+$m['IDF_Review'] = array('relate_to' => array('IDF_Project', 'Pluf_User', 'IDF_Tag'),
+                        'relate_to_many' => array('IDF_Tag', 'Pluf_User'));
+$m['IDF_Review_Patch'] = array('relate_to' => array('IDF_Review', 'Pluf_User'));
+$m['IDF_Review_FileComment'] = array('relate_to' => array('IDF_Review_Patch', 'Pluf_User'));
 
 return $m;

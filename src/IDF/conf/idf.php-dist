@@ -24,9 +24,12 @@
 $cfg = array();
 
 #
-# You must set it to false once everything is running ok.
+# You must set them to false once everything is running ok.
 #
 $cfg['debug'] = true;
+# It will help you catch errors at beginning when configuring your 
+# SCM backend. It must be turned off in production.
+$cfg['debug_scm'] = true; 
 
 # If you have a single git repository, just put the full path to it
 # without trailing slash. The path is the path to the git database,

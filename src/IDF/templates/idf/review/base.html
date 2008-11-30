@@ -1,0 +1,9 @@
+{extends "idf/base.html"}
+{block tabreview} class="active"{/block}
+{block subtabs}
+<div id="sub-tabs">
+<a {if $inOpenReviews}class="active" {/if}href="{url 'IDF_Views_Review::index', array($project.shortname)}">{trans 'Open Reviews'}</a> 
+{if !$user.isAnonymous()} | <a {if $inCreate}class="active" {/if}href="{url 'IDF_Views_Review::create', array($project.shortname)}">{trans 'Start Code Review'}</a> {/if} 
+{superblock}
+</div>
+{/block}

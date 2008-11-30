@@ -1,0 +1,515 @@
+diff --git a/src/IDF/Form/IssueCreate.php b/src/IDF/Form/IssueCreate.php
+index 0743e72..67afca7 100644
+--- a/src/IDF/Form/IssueCreate.php
++++ b/src/IDF/Form/IssueCreate.php
+@@ -72,8 +72,9 @@ class IDF_Form_IssueCreate extends Pluf_Form
+         // We add .dummy to try to mitigate security issues in the
+         // case of someone allowing the upload path to be accessible
+         // to everybody.
+-        $filename = substr($md5, 0, 2).'/'.substr($md5, 2, 2).'/'.substr($md5, 4).'/%s.dummy';
+-        $this->fields['attachment'] = new Pluf_Form_Field_File(
++        for ($i=1;$i<4;$i++) {
++            $filename = substr($md5, 0, 2).'/'.substr($md5, 2, 2).'/'.substr($md5, 4).'/%s.dummy';
++            $this->fields['attachment'.$i] = new Pluf_Form_Field_File(
+                 array('required' => false,
+                       'label' => __('Attach a file'),
+                       'move_function_params' =>
+@@ -83,6 +84,7 @@ class IDF_Form_IssueCreate extends Pluf_Form
+                             )
+                       )
+                 );
++        }
+
+         if ($this->show_full) {
+             $this->fields['status'] = new Pluf_Form_Field_Varchar(
+@@ -195,6 +197,21 @@ class IDF_Form_IssueCreate extends Pluf_Form
+     }
+
+     /**
++     * Clean the attachments post failure.
++     */
++    function failed()
++    {
++        $upload_path = Pluf::f('upload_issue_path', false);
++        if ($upload_path == false) return;
++        for ($i=1;$i<4;$i++) {
++            if (!empty($this->cleaned_data['attachment'.$i]) and
++                file_exists($upload_path.'/'.$this->cleaned_data['attachment'.$i])) {
++                @unlink($upload_path.'/'.$this->cleaned_data['attachment'.$i]);
++            }
++        }
++    }
++
++    /**
+      * Save the model in the database.
+      *
+      * @param bool Commit in the database or not. If not, the object
+@@ -203,61 +220,63 @@ class IDF_Form_IssueCreate extends Pluf_Form
+      */
+     function save($commit=true)
+     {
+-        if ($this->isValid()) {
+-            // Add a tag for each label
+-            $tags = array();
+-            if ($this->show_full) {
+-                for ($i=1;$i<7;$i++) {
+-                    if (strlen($this->cleaned_data['label'.$i]) > 0) {
+-                        if (strpos($this->cleaned_data['label'.$i], ':') !== false) {
+-                            list($class, $name) = explode(':', $this->cleaned_data['label'.$i], 2);
+-                            list($class, $name) = array(trim($class), trim($name));
+-                        } else {
+-                            $class = 'Other';
+-                            $name = trim($this->cleaned_data['label'.$i]);
+-                        }
+-                        $tags[] = IDF_Tag::add($name, $this->project, $class);
++        if (!$this->isValid()) {
++            throw new Exception(__('Cannot save the model from an invalid form.'));
++        }
++        // Add a tag for each label
++        $tags = array();
++        if ($this->show_full) {
++            for ($i=1;$i<7;$i++) {
++                if (strlen($this->cleaned_data['label'.$i]) > 0) {
++                    if (strpos($this->cleaned_data['label'.$i], ':') !== false) {
++                        list($class, $name) = explode(':', $this->cleaned_data['label'.$i], 2);
++                        list($class, $name) = array(trim($class), trim($name));
++                    } else {
++                        $class = 'Other';
++                        $name = trim($this->cleaned_data['label'.$i]);
+                     }
++                    $tags[] = IDF_Tag::add($name, $this->project, $class);
+                 }
+-            } else {
+-                $tags[] = IDF_Tag::add('Medium', $this->project, 'Priority');
+-                $tags[] = IDF_Tag::add('Defect', $this->project, 'Type');
+-            }
+-            // Create the issue
+-            $issue = new IDF_Issue();
+-            $issue->project = $this->project;
+-            $issue->submitter = $this->user;
+-            if ($this->show_full) {
+-                $issue->status = IDF_Tag::add(trim($this->cleaned_data['status']), $this->project, 'Status');
+-                $issue->owner = self::findUser($this->cleaned_data['owner']);
+-            } else {
+-                $_t = $this->project->getTagIdsByStatus('open');
+-                $issue->status = new IDF_Tag($_t[0]); // first one is the default
+-                $issue->owner = null;
+-            }
+-            $issue->summary = trim($this->cleaned_data['summary']);
+-            $issue->create();
+-            foreach ($tags as $tag) {
+-                $issue->setAssoc($tag);
+             }
+-            // add the first comment
+-            $comment = new IDF_IssueComment();
+-            $comment->issue = $issue;
+-            $comment->content = $this->cleaned_data['content'];
+-            $comment->submitter = $this->user;
+-            $comment->create();
+-            // If we have a file, create the IDF_IssueFile and attach
+-            // it to the comment.
+-            if ($this->cleaned_data['attachment']) {
++        } else {
++            $tags[] = IDF_Tag::add('Medium', $this->project, 'Priority');
++            $tags[] = IDF_Tag::add('Defect', $this->project, 'Type');
++        }
++        // Create the issue
++        $issue = new IDF_Issue();
++        $issue->project = $this->project;
++        $issue->submitter = $this->user;
++        if ($this->show_full) {
++            $issue->status = IDF_Tag::add(trim($this->cleaned_data['status']), $this->project, 'Status');
++            $issue->owner = self::findUser($this->cleaned_data['owner']);
++        } else {
++            $_t = $this->project->getTagIdsByStatus('open');
++            $issue->status = new IDF_Tag($_t[0]); // first one is the default
++            $issue->owner = null;
++        }
++        $issue->summary = trim($this->cleaned_data['summary']);
++        $issue->create();
++        foreach ($tags as $tag) {
++            $issue->setAssoc($tag);
++        }
++        // add the first comment
++        $comment = new IDF_IssueComment();
++        $comment->issue = $issue;
++        $comment->content = $this->cleaned_data['content'];
++        $comment->submitter = $this->user;
++        $comment->create();
++        // If we have a file, create the IDF_IssueFile and attach
++        // it to the comment.
++        for ($i=1;$i<4;$i++) {
++            if ($this->cleaned_data['attachment'.$i]) {
+                 $file = new IDF_IssueFile();
+-                $file->attachment = $this->cleaned_data['attachment'];
++                $file->attachment = $this->cleaned_data['attachment'.$i];
+                 $file->submitter = $this->user;
+                 $file->comment = $comment;
+                 $file->create();
+             }
+-            return $issue;
+         }
+-        throw new Exception(__('Cannot save the model from an invalid form.'));
++        return $issue;
+     }
+
+     /**
+diff --git a/src/IDF/Form/IssueUpdate.php b/src/IDF/Form/IssueUpdate.php
+index 550889e..0d36e72 100644
+--- a/src/IDF/Form/IssueUpdate.php
++++ b/src/IDF/Form/IssueUpdate.php
+@@ -68,8 +68,9 @@ class IDF_Form_IssueUpdate  extends IDF_Form_IssueCreate
+         // We add .dummy to try to mitigate security issues in the
+         // case of someone allowing the upload path to be accessible
+         // to everybody.
+-        $filename = substr($md5, 0, 2).'/'.substr($md5, 2, 2).'/'.substr($md5, 4).'/%s.dummy';
+-        $this->fields['attachment'] = new Pluf_Form_Field_File(
++        for ($i=1;$i<4;$i++) {
++            $filename = substr($md5, 0, 2).'/'.substr($md5, 2, 2).'/'.substr($md5, 4).'/%s.dummy';
++            $this->fields['attachment'.$i] = new Pluf_Form_Field_File(
+                 array('required' => false,
+                       'label' => __('Attach a file'),
+                       'move_function_params' =>
+@@ -79,6 +80,7 @@ class IDF_Form_IssueUpdate  extends IDF_Form_IssueCreate
+                             )
+                       )
+                 );
++        }
+
+         if ($this->show_full) {
+             $this->fields['status'] = new Pluf_Form_Field_Varchar(
+@@ -124,6 +126,21 @@ class IDF_Form_IssueUpdate  extends IDF_Form_IssueCreate
+     }
+
+     /**
++     * Clean the attachments post failure.
++     */
++    function failed()
++    {
++        $upload_path = Pluf::f('upload_issue_path', false);
++        if ($upload_path == false) return;
++        for ($i=1;$i<4;$i++) {
++            if (!empty($this->cleaned_data['attachment'.$i]) and
++                file_exists($upload_path.'/'.$this->cleaned_data['attachment'.$i])) {
++                @unlink($upload_path.'/'.$this->cleaned_data['attachment'.$i]);
++            }
++        }
++    }
++
++    /**
+      * We check that something is really changed.
+      */
+     public function clean()
+@@ -202,90 +219,92 @@ class IDF_Form_IssueUpdate  extends IDF_Form_IssueCreate
+      */
+     function save($commit=true)
+     {
+-        if ($this->isValid()) {
+-            if ($this->show_full) {
+-                // Add a tag for each label
+-                $tags = array();
+-                $tagids = array();
+-                for ($i=1;$i<7;$i++) {
+-                    if (strlen($this->cleaned_data['label'.$i]) > 0) {
+-                        if (strpos($this->cleaned_data['label'.$i], ':') !== false) {
+-                            list($class, $name) = explode(':', $this->cleaned_data['label'.$i], 2);
+-                            list($class, $name) = array(trim($class), trim($name));
+-                        } else {
+-                            $class = 'Other';
+-                            $name = trim($this->cleaned_data['label'.$i]);
+-                        }
+-                        $tag = IDF_Tag::add($name, $this->project, $class);
+-                        $tags[] = $tag;
+-                        $tagids[] = $tag->id;
++        if (!$this->isValid()) {
++            throw new Exception(__('Cannot save the model from an invalid form.'));
++        }
++        if ($this->show_full) {
++            // Add a tag for each label
++            $tags = array();
++            $tagids = array();
++            for ($i=1;$i<7;$i++) {
++                if (strlen($this->cleaned_data['label'.$i]) > 0) {
++                    if (strpos($this->cleaned_data['label'.$i], ':') !== false) {
++                        list($class, $name) = explode(':', $this->cleaned_data['label'.$i], 2);
++                        list($class, $name) = array(trim($class), trim($name));
++                    } else {
++                        $class = 'Other';
++                        $name = trim($this->cleaned_data['label'.$i]);
+                     }
++                    $tag = IDF_Tag::add($name, $this->project, $class);
++                    $tags[] = $tag;
++                    $tagids[] = $tag->id;
+                 }
+-                // Compare between the old and the new data
+-                $changes = array();
+-                $oldtags = $this->issue->get_tags_list();
+-                foreach ($tags as $tag) {
+-                    if (!Pluf_Model_InArray($tag, $oldtags)) {
+-                        if (!isset($changes['lb'])) $changes['lb'] = array();
+-                        if ($tag->class != 'Other') {
+-                            $changes['lb'][] = (string) $tag; //new tag
+-                        } else {
+-                            $changes['lb'][] = (string) $tag->name;
+-                        }
++            }
++            // Compare between the old and the new data
++            $changes = array();
++            $oldtags = $this->issue->get_tags_list();
++            foreach ($tags as $tag) {
++                if (!Pluf_Model_InArray($tag, $oldtags)) {
++                    if (!isset($changes['lb'])) $changes['lb'] = array();
++                    if ($tag->class != 'Other') {
++                        $changes['lb'][] = (string) $tag; //new tag
++                    } else {
++                        $changes['lb'][] = (string) $tag->name;
+                     }
+                 }
+-                foreach ($oldtags as $tag) {
+-                    if (!Pluf_Model_InArray($tag, $tags)) {
+-                        if (!isset($changes['lb'])) $changes['lb'] = array();
+-                        if ($tag->class != 'Other') {
+-                            $changes['lb'][] = '-'.(string) $tag; //new tag
+-                        } else {
+-                            $changes['lb'][] = '-'.(string) $tag->name;
+-                        }
++            }
++            foreach ($oldtags as $tag) {
++                if (!Pluf_Model_InArray($tag, $tags)) {
++                    if (!isset($changes['lb'])) $changes['lb'] = array();
++                    if ($tag->class != 'Other') {
++                        $changes['lb'][] = '-'.(string) $tag; //new tag
++                    } else {
++                        $changes['lb'][] = '-'.(string) $tag->name;
+                     }
+                 }
+-                // Status, summary and owner
+-                $status = IDF_Tag::add(trim($this->cleaned_data['status']), $this->project, 'Status');
+-                if ($status->id != $this->issue->status) {
+-                    $changes['st'] = $status->name;
+-                }
+-                if (trim($this->issue->summary) != trim($this->cleaned_data['summary'])) {
+-                    $changes['su'] = trim($this->cleaned_data['summary']);
+-                }
+-                $owner = self::findUser($this->cleaned_data['owner']);
+-                if ((is_null($owner) and !is_null($this->issue->get_owner()))
+-                    or (!is_null($owner) and is_null($this->issue->get_owner()))
+-                    or ((!is_null($owner) and !is_null($this->issue->get_owner())) and $owner->id != $this->issue->get_owner()->id)) {
+-                    $changes['ow'] = (is_null($owner)) ? '---' : $owner->login;
+-                }
+-                // Update the issue
+-                $this->issue->batchAssoc('IDF_Tag', $tagids);
+-                $this->issue->summary = trim($this->cleaned_data['summary']);
+-                $this->issue->status = $status;
+-                $this->issue->owner = $owner;
+             }
+-            // Create the comment
+-            $comment = new IDF_IssueComment();
+-            $comment->issue = $this->issue;
+-            $comment->content = $this->cleaned_data['content'];
+-            $comment->submitter = $this->user;
+-            if (!$this->show_full) $changes = array();
+-            $comment->changes = $changes;
+-            $comment->create();
+-            $this->issue->update();
+-            if ($this->issue->owner != $this->user->id and
+-                $this->issue->submitter != $this->user->id) {
+-                $this->issue->setAssoc($this->user); // interested user.
++            // Status, summary and owner
++            $status = IDF_Tag::add(trim($this->cleaned_data['status']), $this->project, 'Status');
++            if ($status->id != $this->issue->status) {
++                $changes['st'] = $status->name;
+             }
+-            if ($this->cleaned_data['attachment']) {
++            if (trim($this->issue->summary) != trim($this->cleaned_data['summary'])) {
++                $changes['su'] = trim($this->cleaned_data['summary']);
++            }
++            $owner = self::findUser($this->cleaned_data['owner']);
++            if ((is_null($owner) and !is_null($this->issue->get_owner()))
++                or (!is_null($owner) and is_null($this->issue->get_owner()))
++                or ((!is_null($owner) and !is_null($this->issue->get_owner())) and $owner->id != $this->issue->get_owner()->id)) {
++                $changes['ow'] = (is_null($owner)) ? '---' : $owner->login;
++            }
++            // Update the issue
++            $this->issue->batchAssoc('IDF_Tag', $tagids);
++            $this->issue->summary = trim($this->cleaned_data['summary']);
++            $this->issue->status = $status;
++            $this->issue->owner = $owner;
++        }
++        // Create the comment
++        $comment = new IDF_IssueComment();
++        $comment->issue = $this->issue;
++        $comment->content = $this->cleaned_data['content'];
++        $comment->submitter = $this->user;
++        if (!$this->show_full) $changes = array();
++        $comment->changes = $changes;
++        $comment->create();
++        $this->issue->update();
++        if ($this->issue->owner != $this->user->id and
++            $this->issue->submitter != $this->user->id) {
++            $this->issue->setAssoc($this->user); // interested user.
++        }
++        for ($i=1;$i<4;$i++) {
++            if ($this->cleaned_data['attachment'.$i]) {
+                 $file = new IDF_IssueFile();
+-                $file->attachment = $this->cleaned_data['attachment'];
++                $file->attachment = $this->cleaned_data['attachment'.$i];
+                 $file->submitter = $this->user;
+                 $file->comment = $comment;
+                 $file->create();
+             }
+-            return $this->issue;
+         }
+-        throw new Exception(__('Cannot save the model from an invalid form.'));
++        return $this->issue;
+     }
+ }
+diff --git a/src/IDF/IssueFile.php b/src/IDF/IssueFile.php
+index f4367dd..f0745e8 100644
+--- a/src/IDF/IssueFile.php
++++ b/src/IDF/IssueFile.php
+@@ -114,6 +114,7 @@ class IDF_IssueFile extends Pluf_Model
+             $this->filename = substr(basename($file), 0, -6);
+             $img_extensions = array('jpeg', 'jpg', 'png', 'gif');
+             $info = pathinfo($this->filename);
++            if (!isset($info['extension'])) $info['extension'] = '';
+             if (in_array(strtolower($info['extension']), $img_extensions)) {
+                 $this->type = 'img';
+             } else {
+diff --git a/src/IDF/templates/idf/issues/create.html b/src/IDF/templates/idf/issues/create.html
+index e8f4a5b..faaa743 100644
+--- a/src/IDF/templates/idf/issues/create.html
++++ b/src/IDF/templates/idf/issues/create.html
+@@ -24,10 +24,22 @@
+ {$form.f.content|unsafe}
+ </td>
+ </tr>
+-<tr>
+-<th>{$form.f.attachment.labelTag}:</th>
+-<td>{if $form.f.attachment.errors}{$form.f.attachment.fieldErrors}{/if}
+-{$form.f.attachment|unsafe}
++<tr id="form-attachment-1">
++<th>{$form.f.attachment1.labelTag}:</th>
++<td>{if $form.f.attachment1.errors}{$form.f.attachment1.fieldErrors}{/if}
++{$form.f.attachment1|unsafe}
++</td>
++</tr>
++<tr id="form-attachment-2">
++<th>{$form.f.attachment2.labelTag}:</th>
++<td>{if $form.f.attachment2.errors}{$form.f.attachment2.fieldErrors}{/if}
++{$form.f.attachment2|unsafe}
++</td>
++</tr>
++<tr id="form-attachment-3">
++<th>{$form.f.attachment3.labelTag}:</th>
++<td>{if $form.f.attachment3.errors}{$form.f.attachment3.fieldErrors}{/if}
++{$form.f.attachment3|unsafe}
+ </td>
+ </tr>{if $isOwner or $isMember}
+ <tr>
+@@ -74,7 +86,34 @@
+ {/block}
+ {block javascript}
+ <script type="text/javascript">
+-document.getElementById('id_summary').focus()
++document.getElementById('id_summary').focus();{literal}
++$(document).ready(function(){
++
++    // Hide the upload forms, we insert before the first attach file
++    // row an "Attach File" little link.
++    // We hide all the rows.
++    $("#form-attachment-1").before("{/literal}<tr id=\"form-block-0\"><td>&nbsp;</td><td><img style=\"vertical-align: text-bottom;\" src=\"{media '/idf/img/attachment.png'}\" alt=\" \" align=\"bottom\" /><a id=\"form-show-0\" href=\"#\">{trans 'Attach file'}{literal}</a></td></tr>");
++    $("#form-show-0").click(function(){
++        $("#form-attachment-1").show();
++        $("#form-block-0").hide();
++    });
++    $("#form-attachment-1 td").append("<span id=\"form-block-1\"><a id=\"form-show-1\" href=\"#\">{/literal}{trans 'Attach another file'}{literal}</a></span>");
++    $("#form-show-1").click(function(){
++            $("#form-attachment-2").show();
++            $("#form-block-1").hide();
++        });
++    $("#form-attachment-2 td").append("<span id=\"form-block-2\"><a id=\"form-show-2\" href=\"#\">{/literal}{trans 'Attach another file'}{literal}</a></span>");
++    $("#form-show-2").click(function(){
++            $("#form-attachment-3").show();
++            $("#form-block-2").hide();
++        });
++    var j=0;
++    for (j=1;j<4;j=j+1) {
++        $("#form-attachment-"+j).hide();
++    }
++    });
+ </script>
++{/literal}{/block}
++
+ {include 'idf/issues/js-autocomplete.html'}{/block}
+
+diff --git a/src/IDF/templates/idf/issues/view.html b/src/IDF/templates/idf/issues/view.html
+index cb9e085..ad56d05 100644
+--- a/src/IDF/templates/idf/issues/view.html
++++ b/src/IDF/templates/idf/issues/view.html
+@@ -59,10 +59,22 @@
+ {$form.f.content|unsafe}
+ </td>
+ </tr>
+-<tr>
+-<th>{$form.f.attachment.labelTag}:</th>
+-<td>{if $form.f.attachment.errors}{$form.f.attachment.fieldErrors}{/if}
+-{$form.f.attachment|unsafe}
++<tr id="form-attachment-1">
++<th>{$form.f.attachment1.labelTag}:</th>
++<td>{if $form.f.attachment1.errors}{$form.f.attachment1.fieldErrors}{/if}
++{$form.f.attachment1|unsafe}
++</td>
++</tr>
++<tr id="form-attachment-2">
++<th>{$form.f.attachment2.labelTag}:</th>
++<td>{if $form.f.attachment2.errors}{$form.f.attachment2.fieldErrors}{/if}
++{$form.f.attachment2|unsafe}
++</td>
++</tr>
++<tr id="form-attachment-3">
++<th>{$form.f.attachment3.labelTag}:</th>
++<td>{if $form.f.attachment3.errors}{$form.f.attachment3.fieldErrors}{/if}
++{$form.f.attachment3|unsafe}
+ </td>
+ </tr>{if $isOwner or $isMember}
+ <tr>
+@@ -122,4 +134,33 @@
+ </p>{/if}
+ </div>
+ {/block}
+-{block javascript}{if $form}{include 'idf/issues/js-autocomplete.html'}{/if}{/block}
++{block javascript}{if $form}{include 'idf/issues/js-autocomplete.html'}
++<script type="text/javascript">
++{literal}
++$(document).ready(function(){
++
++    // Hide the upload forms, we insert before the first attach file
++    // row an "Attach File" little link.
++    // We hide all the rows.
++    $("#form-attachment-1").before("{/literal}<tr id=\"form-block-0\"><td>&nbsp;</td><td><img style=\"vertical-align: text-bottom;\" src=\"{media '/idf/img/attachment.png'}\" alt=\" \" align=\"bottom\" /><a id=\"form-show-0\" href=\"#\">{trans 'Attach file'}{literal}</a></td></tr>");
++    $("#form-show-0").click(function(){
++        $("#form-attachment-1").show();
++        $("#form-block-0").hide();
++    });
++    $("#form-attachment-1 td").append("<span id=\"form-block-1\"><a id=\"form-show-1\" href=\"#\">{/literal}{trans 'Attach another file'}{literal}</a></span>");
++    $("#form-show-1").click(function(){
++            $("#form-attachment-2").show();
++            $("#form-block-1").hide();
++        });
++    $("#form-attachment-2 td").append("<span id=\"form-block-2\"><a id=\"form-show-2\" href=\"#\">{/literal}{trans 'Attach another file'}{literal}</a></span>");
++    $("#form-show-2").click(function(){
++            $("#form-attachment-3").show();
++            $("#form-block-2").hide();
++        });
++    var j=0;
++    for (j=1;j<4;j=j+1) {
++        $("#form-attachment-"+j).hide();
++    }
++    });{/literal}
++</script>
++{/if}{/block}
+diff --git a/www/media/idf/img/attachment.png b/www/media/idf/img/attachment.png
+new file mode 100644
+index 0000000..529bb7f
+Binary files /dev/null and b/www/media/idf/img/attachment.png differ

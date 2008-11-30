@@ -1,0 +1,69 @@
+{extends "idf/review/base.html"}
+{block docclass}yui-t3{assign $inCreate = true}{/block}
+{block body}
+{if $form.errors}
+<div class="px-message-error">
+<p>{trans 'The form contains some errors. Please correct them to submit the code review.'}</p>
+{if $form.get_top_errors}
+{$form.render_top_errors|unsafe}
+{/if}
+</div>
+{/if}
+
+<form method="post" enctype="multipart/form-data" action=".">
+<table class="form" summary="">
+<tr>
+<th><strong>{$form.f.summary.labelTag}:</strong></th>
+<td>{if $form.f.summary.errors}{$form.f.summary.fieldErrors}{/if}
+{$form.f.summary|unsafe}
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.description.labelTag}:</strong></th>
+<td>{if $form.f.description.errors}{$form.f.description.fieldErrors}{/if}
+{$form.f.description|unsafe}
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.commit.labelTag}:</strong></th>
+<td>{if $form.f.commit.errors}{$form.f.commit.fieldErrors}{/if}
+{$form.f.commit|unsafe}<br />
+<span class="helptext">{trans 'Be sure to provide the right commit/revision reference for your patch to correctly apply.'}</span>
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.patch.labelTag}:</strong></th>
+<td>{if $form.f.patch.errors}{$form.f.patch.fieldErrors}{/if}
+{$form.f.patch|unsafe}
+</td>
+</tr>{if $isOwner or $isMember}
+<tr>
+<th><strong>{$form.f.status.labelTag}:</strong></th>
+<td>{if $form.f.status.errors}{$form.f.status.fieldErrors}{/if}
+{$form.f.status|unsafe}
+</td>
+</tr>{/if}
+<tr>
+<td>&nbsp;</td>
+<td><input type="submit" value="{trans 'Start Code Review'}" name="submit" /> | <a href="{url 'IDF_Views_Review::index', array($project.shortname)}">{trans 'Cancel'}</a>
+</td>
+</tr>
+</table>
+</form>
+{/block}
+{block context}
+<div class="issue-submit-info">
+{blocktrans}<p>To start a code review, you need to provide:</p>
+<ul>
+<li>A commit or revision of the current code in the repository from which you started your work.</li>
+<li>A patch describing your changes with respect to the reference commit.</li>
+<li><strong>Check your patch to not provide any password or confidential information!</strong></li>
+</ul>{/blocktrans}
+</div>
+{/block}
+{block javascript}
+<script type="text/javascript">
+document.getElementById('id_summary').focus();
+</script>{/block}
+
+
