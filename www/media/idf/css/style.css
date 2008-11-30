@@ -647,6 +647,7 @@ div.deprecated-page {
   float: right;
   position: relative;
   margin-right: -10px;
+  margin-bottom: 10px;
   width: 115px;
   font-size: 8px;
   text-align: right;
