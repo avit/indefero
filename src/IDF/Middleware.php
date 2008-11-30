@@ -48,7 +48,7 @@ class IDF_Middleware
             try {
                 $request->project = IDF_Project::getOr404($match[1]);
             } catch (Pluf_HTTP_Error404 $e) {
-                return new Pluf_HTTP_Response_NotFound(sprintf(__('The page <em>%s</em> was not found on the server.'), htmlspecialchars($request->query)));
+                return new Pluf_HTTP_Response_NotFound($request);
             }
             $request->conf = new IDF_Conf();
             $request->conf->setProject($request->project);
