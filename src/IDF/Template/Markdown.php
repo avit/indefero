@@ -36,19 +36,6 @@ class IDF_Template_Markdown extends Pluf_Template_Tag
     {
         $this->project = $request->project;
         $this->request = $request;
-        $filter = new IDF_Template_MarkdownPrefilter();
-        $text = $filter->go($text);
-        // The filter has replace < and > also in the code blocks so
-        // we need to revert them
-        $tmp = array();
-        foreach (preg_split("/\015\012|\015|\012/", $text, -1) as $s) {
-            if (0 === strpos($s, '    ')) {
-                $s = str_replace(array('&lt;', '&gt;'),
-                                 array('<', '>'), $s);
-            }
-            $tmp[] = $s;
-        }
-        $text = implode("\n", $tmp);
         // Replace like in the issue text
         $tag = new IDF_Template_IssueComment();
         $text = $tag->start($text, $request, false, false, false, false);
@@ -57,7 +44,8 @@ class IDF_Template_Markdown extends Pluf_Template_Tag
         $text = preg_replace_callback('#\[\[([A-Za-z0-9\-]+)\]\]#im',
                                       array($this, 'callbackWikiPage'), 
                                       $text);
-        echo Pluf_Text_MarkDown_parse($text);
+        $filter = new IDF_Template_MarkdownPrefilter();
+        echo $filter->go(Pluf_Text_MarkDown_parse($text));
     }
 
     function callbackWikiPage($m)
