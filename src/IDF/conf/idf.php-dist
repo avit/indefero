@@ -187,6 +187,7 @@ $cfg['template_tags'] = array(
                               );
 $cfg['template_modifiers'] = array(
                                    'size' => 'IDF_Views_Source_PrettySize',
+                                   'ssize' => 'IDF_Views_Source_PrettySizeSimple',
                                    );
 
 # available languages

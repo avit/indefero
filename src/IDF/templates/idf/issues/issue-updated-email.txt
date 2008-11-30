@@ -16,7 +16,12 @@
 
 {if strlen($c.content) > 0}{$c.content|safe}{else}{trans '(No comments were given for this change.)'}{/if}{if $c.changedIssue()}
 {foreach $c.changes as $w => $v}
- {if $w == 'su'}{trans 'Summary:'}{/if}{if $w == 'st'}{trans 'Status:'}{/if}{if $w == 'ow'}{trans 'Owner:'}{/if}{if $w == 'lb'}{trans 'Labels:'}{/if} {if $w == 'lb'}{assign $l = implode(', ', $v)}{$l}{else}{$v}{/if}{/foreach}{/if}
+ {if $w == 'su'}{trans 'Summary:'}{/if}{if $w == 'st'}{trans 'Status:'}{/if}{if $w == 'ow'}{trans 'Owner:'}{/if}{if $w == 'lb'}{trans 'Labels:'}{/if} {if $w == 'lb'}{assign $l = implode(', ', $v)}{$l}{else}{$v}{/if}{/foreach}{/if}{assign $attachments = $c.get_attachment_list()}{if $attachments.count() > 0}
+
+{trans 'Attachments:'}{foreach $attachments as $a}
+- {$a.filename|safe} - {$a.filesize|ssize}
+  {$url_base}{url 'IDF_Views_Issue::getAttachment', array($project.shortname, $a.id, $a.filename)}{/foreach}
+{/if}
 
 {/foreach}
 

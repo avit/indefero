@@ -12,7 +12,11 @@ to you:{/blocktrans}
 {/foreach}{/if}
 {trans 'Description:'}
 
-{$comment.content|safe}
-
+{$comment.content|safe}{assign $attachments = $comment.get_attachment_list()}
+{if $attachments.count() > 0}
+{trans 'Attachments:'}{foreach $attachments as $a}
+- {$a.filename|safe} - {$a.filesize|ssize}
+  {$url_base}{url 'IDF_Views_Issue::getAttachment', array($project.shortname, $a.id, $a.filename)}{/foreach}
+{/if}
 --
 {trans 'Issue:'} {$url_base}{url 'IDF_Views_Issue::view', array($project.shortname, $issue.id)}

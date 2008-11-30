@@ -446,3 +446,8 @@ function IDF_Views_Source_PrettySize($size)
                                                Pluf_Utils::prettySize($size)));
 }
 
+function IDF_Views_Source_PrettySizeSimple($size)
+{
+    return Pluf_Utils::prettySize($size);
+}
+
