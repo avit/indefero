@@ -1,0 +1,6 @@
+{extends "idf/gadmin/base.html"}
+{block tabprojects} class="active"{/block}
+{block subtabs}
+<a {if $inIndex}class="active" {/if}href="{url 'IDF_Views_Admin::projects'}">{trans 'Project List'}</a> |
+<a {if $inCreate}class="active" {/if}href="{url 'IDF_Views_Admin::projectCreate'}">{trans 'Create Project'}</a> 
+{/block}

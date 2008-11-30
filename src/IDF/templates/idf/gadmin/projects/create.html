@@ -1,0 +1,130 @@
+{extends "idf/gadmin/projects/base.html"}
+
+{block docclass}yui-t3{assign $inCreate=true}{/block}
+
+{block body}
+{if $form.errors}
+<div class="px-message-error">
+<p>{trans 'The form contains some errors. Please correct them to create the project.'}</p>
+{if $form.get_top_errors}
+{$form.render_top_errors|unsafe}
+{/if}
+</div>
+{/if}
+<form method="post" action=".">
+<table class="form" summary="">
+<tr>
+<th><strong>{$form.f.name.labelTag}:</strong></th>
+<td>
+{if $form.f.name.errors}{$form.f.name.fieldErrors}{/if}
+{$form.f.name|unsafe}
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.shortname.labelTag}:</strong></th>
+<td>
+{if $form.f.shortname.errors}{$form.f.shortname.fieldErrors}{/if}
+{$base_url}{$form.f.shortname|unsafe}/<br />
+<span class="helptext">{$form.f.shortname.help_text}</span>
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.scm.labelTag}:</strong></th>
+<td>{if $form.f.scm.errors}{$form.f.scm.fieldErrors}{/if}
+{$form.f.scm|unsafe}
+</td>
+</tr>
+<tr class="svn-form">
+<th>{$form.f.svn_remote_url.labelTag}:</th>
+<td>{if $form.f.svn_remote_url.errors}{$form.f.svn_remote_url.fieldErrors}{/if}
+{$form.f.svn_remote_url|unsafe}
+</td>
+</tr>
+<tr class="svn-form">
+<th>{$form.f.svn_username.labelTag}:</th>
+<td>{if $form.f.svn_username.errors}{$form.f.svn_username.fieldErrors}{/if}
+{$form.f.svn_username|unsafe}
+</td>
+</tr>
+<tr class="svn-form">
+<th>{$form.f.svn_password.labelTag}:</th>
+<td>{if $form.f.svn_password.errors}{$form.f.svn_password.fieldErrors}{/if}
+{$form.f.svn_password|unsafe}
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.owners.labelTag}:</strong></th>
+<td>
+{if $form.f.owners.errors}{$form.f.owners.fieldErrors}{/if}
+{$form.f.owners|unsafe}<br />
+<span class="helptext">{trans 'Provide at least one owner for the project.'}</span>
+</td>
+</tr>
+<tr>
+<th>{$form.f.members.labelTag}:</th>
+<td>
+{if $form.f.members.errors}{$form.f.members.fieldErrors}{/if}
+{$form.f.members|unsafe}
+</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>
+<input type="submit" value="{trans 'Create Project'}" name="submit" /> 
+</td>
+</tr>
+</table>
+</form>
+
+{/block}
+
+{block context}
+<div class="issue-submit-info">
+<p><strong>{trans 'Instructions:'}</strong></p>
+<p>{blocktrans}You can select the type of repository you want. In the case of subversion, you can use optionally a remote repository instead of the local one.{/blocktrans}</p>
+<p>{blocktrans}<strong>Once you have defined the repository type, you cannot change it</strong>.{/blocktrans}</p>
+</div>
+<div class="issue-submit-info">
+{blocktrans}
+<p>Specify each person by its login. Each person must have already registered with the given login.</p>
+<p>Separate the logins with commas and/or new lines.</p>
+{/blocktrans}
+</div>
+<div class="issue-submit-info">
+{blocktrans}
+<p><strong>Notes:</strong></p>
+<p>A project owner may make any change to this project, including removing other project owners. You need to be carefull when you give owner rights.</p>
+<p>A project member will not have access to the administration area but will have more options available in the use of the project.</p>
+{/blocktrans}
+</div>
+{/block}
+
+{block javascript}{literal}
+<script type="text/javascript">
+$(document).ready(function() {
+    // Hide if not svn
+    if ($("#id_scm option:selected").val() != "svn") {
+        $(".svn-form").hide();
+    }
+    $("#id_scm").change(function () {
+        if ($("#id_scm option:selected").val() == "svn") {
+            $(".svn-form").show();
+        } else {
+            $(".svn-form").hide();
+        }
+    });
+});
+</script>
+{/literal}{/block}
+{*
+
+ $("select").change(function () {
+          var str = "";
+          $("select option:selected").each(function () {
+                str += $(this).text() + " ";
+              });
+          $("div").text(str);
+        })
+        .trigger('change');
+
+*}

@@ -35,10 +35,10 @@
   <div id="hd">
     <p class="top"><a href="#title" accesskey="2"></a>
 {if !$user.isAnonymous()}{aurl 'url', 'IDF_Views_User::myAccount'}{blocktrans}Welcome, <strong><a class="userw" href="{$url}">{$user}</a></strong>.{/blocktrans} <a href="{url 'IDF_Views::logout'}">{trans 'Sign Out'}</a>{else}<a href="{url 'IDF_Views::login'}">{trans 'Sign in or create your account'}</a>{/if}
+{if $isAdmin}| <a href="{url 'IDF_Views_Admin::home'}">{trans 'Administer'}</a>{/if}
 | <a href="{url 'IDF_Views::faq'}" title="{trans 'Help and accessibility features'}">{trans 'Help'}</a>
     </p>
 	  <h1 id="title" class="title">{block title}{$page_title}{/block}</h1>
-
   </div>
   <div id="bd">
     <div id="yui-main"> 

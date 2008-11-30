@@ -378,37 +378,51 @@ class IDF_Views_Project
     {
         $prj = $request->project;
         $title = sprintf(__('%s Source'), (string) $prj);
-        $extra = array(
-                       'conf' => $request->conf,
-                       );
-        if ($request->method == 'POST') {
-            $form = new IDF_Form_SourceConf($request->POST, $extra);
-            if ($form->isValid()) {
-                foreach ($form->cleaned_data as $key=>$val) {
-                    $request->conf->setVal($key, $val);
+        $form = null;
+        $remote_svn = false;
+        if ($request->conf->getVal('scm') == 'svn' and
+            strlen($request->conf->getVal('svn_remote_url')) > 0) {
+            $remote_svn = true;
+            $extra = array(
+                           'conf' => $request->conf,
+                           );
+            if ($request->method == 'POST') {
+                $form = new IDF_Form_SourceConf($request->POST, $extra);
+                if ($form->isValid()) {
+                    foreach ($form->cleaned_data as $key=>$val) {
+                        $request->conf->setVal($key, $val);
+                    }
+                    $request->user->setMessage(__('The project source configuration  has been saved.'));
+                    $url = Pluf_HTTP_URL_urlForView('IDF_Views_Project::adminSource',
+                                                    array($prj->shortname));
+                    return new Pluf_HTTP_Response_Redirect($url);
                 }
-                $request->user->setMessage(__('The project source configuration  has been saved.'));
-                $url = Pluf_HTTP_URL_urlForView('IDF_Views_Project::adminSource',
-                                                array($prj->shortname));
-                return new Pluf_HTTP_Response_Redirect($url);
-            }
-        } else {
-            $params = array();
-            $keys = array('scm', 'svn_remote_url', 
-                          'svn_username', 'svn_password');
-            foreach ($keys as $key) {
-                $_val = $request->conf->getVal($key, false);
-                if ($_val !== false) {
-                    $params[$key] = $_val;
+            } else {
+                $params = array();
+                foreach (array('svn_username', 'svn_password') as $key) {
+                    $_val = $request->conf->getVal($key, false);
+                    if ($_val !== false) {
+                        $params[$key] = $_val;
+                    }
                 }
+                if (count($params) == 0) {
+                    $params = null; //Nothing in the db, so new form.
+                }
+                $form = new IDF_Form_SourceConf($params, $extra);
             }
-            if (count($params) == 0) {
-                $params = null; //Nothing in the db, so new form.
-            }
-            $form = new IDF_Form_SourceConf($params, $extra);
         }
+        $scm = $request->conf->getVal('scm', 'git');
+        $options = array(
+                         'git' => __('git'),
+                         'svn' => __('Subversion'),
+                         'mercurial' => __('mercurial'),
+                         );
+        $repository_type = $options[$scm];
         return Pluf_Shortcuts_RenderToResponse('idf/admin/source.html',
                                                array(
+                                                     'remote_svn' => $remote_svn,
+                                                     'repository_access' => $prj->getRemoteAccessUrl(),
+                                                     'repository_type' => $repository_type,
                                                      'page_title' => $title,
                                                      'form' => $form,
                                                      ),

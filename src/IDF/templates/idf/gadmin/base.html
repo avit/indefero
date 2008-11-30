@@ -33,30 +33,19 @@
 <body>
 <div id="{block docid}doc3{/block}" class="{block docclass}yui-t3{/block}">
   <div id="hd">
-{if $project}<h1 class="project-title">{$project}</h1>{/if}
     <p class="top"><a href="#title" accesskey="2"></a>
-{if !$user.isAnonymous()}{aurl 'url', 'IDF_Views_User::myAccount'}{blocktrans}Welcome, <strong><a class="userw" href="{$url}">{$user}</a></strong>.{/blocktrans} <a href="{url 'IDF_Views::logout'}">{trans 'Sign Out'}</a>{else}<a href="{url 'IDF_Views::login'}">{trans 'Sign in or create your account'}</a>{/if}
-{if $project} | <a href="{url 'IDF_Views::index'}">{trans 'Project List'}</a>{/if}
-{if $isAdmin}| <a href="{url 'IDF_Views_Admin::home'}">{trans 'Administer'}</a>{/if}
+{aurl 'url', 'IDF_Views_User::myAccount'}{blocktrans}Welcome, <strong><a class="userw" href="{$url}">{$user}</a></strong>.{/blocktrans} <a href="{url 'IDF_Views::logout'}">{trans 'Sign Out'}</a>
+| <a href="{url 'IDF_Views::index'}">{trans 'Project List'}</a>
 | <a href="{url 'IDF_Views::faq'}" title="{trans 'Help and accessibility features'}">{trans 'Help'}</a>
     </p>
 <div id="header">
 <div id="main-tabs">
-{if $project}
-  <a accesskey="1" href="{url 'IDF_Views_Project::home', array($project.shortname)}"{block tabhome}{/block}>{trans 'Project Home'}</a> 
-{if $hasDownloadsAccess}  <a href="{url 'IDF_Views_Download::index', array($project.shortname)}"{block tabdownloads}{/block}>{trans 'Downloads'}</a>{/if} 
-{if $hasWikiAccess}  <a href="{url 'IDF_Views_Wiki::index', array($project.shortname)}"{block tabwiki}{/block}>{trans 'Documentation'}</a>{/if} 
-{if $hasIssuesAccess} <a href="{url 'IDF_Views_Issue::index', array($project.shortname)}"{block tabissues}{/block}>{trans 'Issues'}</a>{/if}
-{if $hasSourceAccess} <a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $project.getScmRoot())}"{block tabsource}{/block}>{trans 'Source'}</a>{/if}
-{if $hasReviewAccess} <a href="{url 'IDF_Views_Review::index', array($project.shortname)}"{block tabreview}{/block}>{trans 'Code Review'}</a>{/if}
-{if $isOwner}
-  <a href="{url 'IDF_Views_Project::admin', array($project.shortname)}"{block tabadmin}{/block}>{trans 'Administer'}</a>{/if}{/if}
+  <a accesskey="1" href="{url 'IDF_Views_Admin::home'}"{block tabhome}{/block}>{trans 'Administer'}</a> 
+  <a href="{url 'IDF_Views_Admin::projects'}"{block tabprojects}{/block}>{trans 'Projects'}</a>
 </div>
-{block subtabs}{if $user.isAnonymous()} | {aurl 'url', 'IDF_Views::login'}{blocktrans}<a href="{$url}">Sign in or create your account</a> to create issues or add comments{/blocktrans}{/if}{/block}
+<div id="sub-tabs">{block subtabs}{/block}</div>
 </div>
-
-	  <h1 class="title" id="title">{block titleicon}{/block}{block title}{$page_title}{/block}</h1>
-
+	  <h1 id="title" class="title">{block title}{$page_title}{/block}</h1>
   </div>
   <div id="bd">
     <div id="yui-main"> 
@@ -74,16 +63,5 @@
 <script type="text/javascript" src="{media '/idf/js/jquery-1.2.6.min.js'}"></script>
 {include 'idf/js-hotkeys.html'}
 {block javascript}{/block}
-{if $project}
-<script type="text/javascript">{literal}
-<!-- //
- $(document).ready(function(){
-	var frag = location.hash;
-	if (frag.length > 3 && frag.substring(0, 3) == '#ic') {
-		$(frag).addClass("issue-comment-focus");
-	}
-});
-//  -->{/literal}
-</script>{/if}
 </body>
 </html>

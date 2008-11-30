@@ -400,5 +400,70 @@ class IDF_Project extends Pluf_Model
         }
         return $this->_pconf;
     }
-            
+
+    /**
+     * Needs to be called when you update the memberships of a
+     * project.
+     *
+     * This will allow a plugin to, for example, update some access
+     * rights to a repository.
+     */
+    public function membershipsUpdated()
+    {
+        /**
+         * [signal]
+         *
+         * IDF_Project::membershipsUpdated
+         *
+         * [sender]
+         *
+         * IDF_Project
+         *
+         * [description]
+         *
+         * This signal allows an application to update the some access
+         * rights to a repository when the project memberships is
+         * updated.
+         *
+         * [parameters]
+         *
+         * array('project' => $project)
+         *
+         */
+        $params = array('project' => $this);
+        Pluf_Signal::send('IDF_Project::membershipsUpdated',
+                          'IDF_Project', $params);
+    }
+
+    /**
+     * Needs to be called when you create a project.
+     *
+     * We cannot put it into the postSave call as the configuration of
+     * the project is not defined at that time.
+     */
+    function created()
+    {
+        /**
+         * [signal]
+         *
+         * IDF_Project::created
+         *
+         * [sender]
+         *
+         * IDF_Project
+         *
+         * [description]
+         *
+         * This signal allows an application to perform special
+         * operations at the creation of a project.
+         *
+         * [parameters]
+         *
+         * array('project' => $project)
+         *
+         */
+        $params = array('project' => $this);
+        Pluf_Signal::send('IDF_Project::created',
+                          'IDF_Project', $params);
+    }
 }

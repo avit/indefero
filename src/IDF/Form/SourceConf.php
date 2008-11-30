@@ -24,6 +24,9 @@
 
 /**
  * Configuration of the source.
+ *
+ * Only the modification of the login/password for subversion is
+ * authorized.
  */
 class IDF_Form_SourceConf extends Pluf_Form
 {
@@ -31,62 +34,21 @@ class IDF_Form_SourceConf extends Pluf_Form
     public function initFields($extra=array())
     {
         $this->conf = $extra['conf'];
-        $this->fields['scm'] = new Pluf_Form_Field_Varchar(
-                    array('required' => true,
-                          'label' => __('Repository type'),
-                          'initial' => $this->conf->getVal('scm', 'git'),
-                          'widget_attrs' => array('choices' => 
-                                  array(
-                                        __('git') => 'git',
-                                        __('Subversion') => 'svn',
-                                        __('mercurial') => 'mercurial',
-                                        )
-                                                  ),
-                          'widget' => 'Pluf_Form_Widget_SelectInput',
-                          ));
-        $this->fields['svn_remote_url'] = new Pluf_Form_Field_Varchar(
-                    array('required' => false,
-                          'label' => __('Remote Subversion repository'),
-                          'initial' => $this->conf->getVal('svn_remote_url', ''),
-                          'widget_attrs' => array('size' => '30'),
-                          ));
-
-        $this->fields['svn_username'] = new Pluf_Form_Field_Varchar(
+        if ($this->conf->getVal('scm', 'git') == 'svn') {
+            $this->fields['svn_username'] = new Pluf_Form_Field_Varchar(
                     array('required' => false,
                           'label' => __('Repository username'),
                           'initial' => $this->conf->getVal('svn_username', ''),
                           'widget_attrs' => array('size' => '15'),
                           ));
 
-        $this->fields['svn_password'] = new Pluf_Form_Field_Varchar(
+            $this->fields['svn_password'] = new Pluf_Form_Field_Varchar(
                     array('required' => false,
                           'label' => __('Repository password'),
                           'initial' => $this->conf->getVal('svn_password', ''),
                           'widget' => 'Pluf_Form_Widget_PasswordInput',
                           ));
-    }
-
-    public function clean_svn_remote_url()
-    {
-        $url = trim($this->cleaned_data['svn_remote_url']);
-        if (strlen($url) == 0) return $url;
-        // we accept only starting with http(s):// to avoid people
-        // trying to access the local filesystem.
-        if (!preg_match('#^(http|https)://#', $url)) {
-            throw new Pluf_Form_Invalid(__('Only a remote repository available throught http or https are allowed. For example "http://somewhere.com/svn/trunk".'));
         }
-        return $url;
-    }
-
-    public function clean()
-    {
-        if ($this->cleaned_data['scm'] == 'git') {
-            foreach (array('svn_remote_url', 'svn_username', 'svn_password')
-                     as $key) {
-                $this->cleaned_data[$key] = '';
-            }
-        }
-        return $this->cleaned_data;
     }
 }
 

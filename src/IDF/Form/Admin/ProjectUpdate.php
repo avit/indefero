@@ -23,28 +23,30 @@
 
 
 /**
- * Configuration of the members.
+ * Update a project.
  *
- * To simplify the management. Instead of being obliged to go through
- * a list of people and then select the rights member/owner, I am
- * using the same approach as googlecode, that is, asking for the
- * login. This makes the interface simpler and simplicity is king.
+ * A kind of merge of the member configuration and overview in the
+ * project administration area.
  *
- * In background, the row permission framework is used to give the
- * member/owner permission to the given project to the users.
  */
-class IDF_Form_MembersConf extends Pluf_Form
+class IDF_Form_Admin_ProjectUpdate extends Pluf_Form
 {
     public $project = null;
 
     public function initFields($extra=array())
     {
         $this->project = $extra['project'];
+        $members = $this->project->getMembershipData('string');
+        $this->fields['name'] = new Pluf_Form_Field_Varchar(
+                                      array('required' => true,
+                                            'label' => __('Name'),
+                                            'initial' => $this->project->name,
+                                            ));
 
         $this->fields['owners'] = new Pluf_Form_Field_Varchar(
                                       array('required' => false,
                                             'label' => __('Project owners'),
-                                            'initial' => '',
+                                            'initial' => $members['owners'],
                                             'widget' => 'Pluf_Form_Widget_TextareaInput',
                                             'widget_attrs' => array('rows' => 5,
                                                                     'cols' => 40),
@@ -52,6 +54,7 @@ class IDF_Form_MembersConf extends Pluf_Form
         $this->fields['members'] = new Pluf_Form_Field_Varchar(
                                       array('required' => false,
                                             'label' => __('Project members'),
+                                            'initial' => $members['members'],
                                             'widget_attrs' => array('rows' => 7,
                                                                     'cols' => 40),
                                             'widget' => 'Pluf_Form_Widget_TextareaInput',
@@ -63,36 +66,11 @@ class IDF_Form_MembersConf extends Pluf_Form
         if (!$this->isValid()) {
             throw new Exception(__('Cannot save the model from an invalid form.'));
         }
-        self::updateMemberships($this->project, $this->cleaned_data);
+        IDF_Form_MembersConf::updateMemberships($this->project, 
+                                                $this->cleaned_data);
         $this->project->membershipsUpdated();
-    }
-
-    /**
-     * The update of the memberships is done in different places. This
-     * avoids duplicating code.
-     *
-     * @param IDF_Project The project
-     * @param array The new memberships data in 'owners' and 'members' keys
-     */
-    public static function updateMemberships($project, $cleaned_data)
-    {
-        // remove all the permissions
-        $cm = $project->getMembershipData();
-        $def = array('owners' => Pluf_Permission::getFromString('IDF.project-owner'),
-                     'members' => Pluf_Permission::getFromString('IDF.project-member'));
-        $guser = new Pluf_User();
-        foreach ($def as $key=>$perm) {
-            foreach ($cm[$key] as $user) {
-                Pluf_RowPermission::remove($user, $project, $perm);
-            }
-            foreach (preg_split("/\015\012|\015|\012|\,/", $cleaned_data[$key], -1, PREG_SPLIT_NO_EMPTY) as $login) {
-                $sql = new Pluf_SQL('login=%s', array(trim($login)));
-                $users = $guser->getList(array('filter'=>$sql->gen()));
-                if ($users->count() == 1) {
-                    Pluf_RowPermission::add($users[0], $project, $perm);
-                }
-            }
-        }
+        $this->project->name = $this->cleaned_data['name'];
+        $this->project->update();
     }
 }
 

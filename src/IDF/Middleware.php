@@ -71,6 +71,7 @@ function IDF_Middleware_ContextPreProcessor($request)
 {
     $c = array();
     $c['request'] = $request;
+    $c['isAdmin'] = ($request->user->administrator or $request->user->staff);
     if (isset($request->project)) {
         $c['project'] = $request->project;
         $c['isOwner'] = $request->user->hasPerm('IDF.project-owner', 

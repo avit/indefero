@@ -374,4 +374,31 @@ $ctl[] = array('regex' => '#^/api/p/([\-\w]+)/issues/create/$#',
                'model' => 'IDF_Views_Api',
                'method' => 'issueCreate');
 
+// ---------- FORGE ADMIN --------------------------------
+
+$ctl[] = array('regex' => '#^/admin/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Admin',
+               'method' => 'home');
+
+$ctl[] = array('regex' => '#^/admin/projects/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Admin',
+               'method' => 'projects');
+
+$ctl[] = array('regex' => '#^/admin/projects/(\d+)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Admin',
+               'method' => 'projectUpdate');
+
+$ctl[] = array('regex' => '#^/admin/projects/create/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Admin',
+               'method' => 'projectCreate');
+
+
 return $ctl;

@@ -1,5 +1,7 @@
 {extends "idf/base-simple.html"}
 {block docclass}yui-t1{/block}
+{block tabhome} class="active"{/block}
+{block subtabs}<a href="{url 'IDF_Views::index'}" class="active">{trans 'Projects'}</a>{/block}
 {block body}
 {if $projects.count() == 0}
 <p>{trans 'No projects managed with InDefero were found.'}</p>

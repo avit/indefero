@@ -1,7 +1,7 @@
 {extends "idf/admin/base.html"}
 {block docclass}yui-t1{assign $inSource = true}{/block}
 {block body}
-{if $form.errors}
+{if $remote_svn and $form.errors}
 <div class="px-message-error">
 <p>{trans 'The form contains some errors. Please correct them to update the source configuration.'}</p>
 {if $form.get_top_errors}
@@ -12,17 +12,15 @@
 <form method="post" action=".">
 <table class="form" summary="">
 <tr>
-<th><strong>{$form.f.scm.labelTag}:</strong></th>
-<td>{if $form.f.scm.errors}{$form.f.scm.fieldErrors}{/if}
-{$form.f.scm|unsafe}
+<th>{trans 'Repository type:'}</th>
+<td>{$repository_type}
 </td>
 </tr>
 <tr>
-<th>{$form.f.svn_remote_url.labelTag}:</th>
-<td>{if $form.f.svn_remote_url.errors}{$form.f.svn_remote_url.fieldErrors}{/if}
-{$form.f.svn_remote_url|unsafe}
+<th>{trans 'Repository access:'}</th>
+<td>{$repository_access}
 </td>
-</tr>
+</tr>{if $remote_svn}
 <tr>
 <th>{$form.f.svn_username.labelTag}:</th>
 <td>{if $form.f.svn_username.errors}{$form.f.svn_username.fieldErrors}{/if}
@@ -40,13 +38,12 @@
 <td>
 <input type="submit" value="{trans 'Save Changes'}" name="submit" /> 
 </td>
-</tr>
+</tr>{/if}
 </table>
 </form>
 {/block}
 {block context}
 <div class="issue-submit-info">
-<p><strong>{trans 'Instructions:'}</strong></p>
-<p>{blocktrans}You can select the type of repository you want. In the case of subversion, you can use optionally a remote repository instead of the local one.{/blocktrans}</p>
+<p>{blocktrans}You can find here the current repository configuration of your project.{/blocktrans}</p>
 </div>
 {/block}
