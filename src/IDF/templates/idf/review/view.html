@@ -2,7 +2,7 @@
 {block extraheader}<link rel="stylesheet" type="text/css" href="{media '/idf/css/prettify.css'}" />{/block}
 {block docclass}yui-t1{assign $inCreate = true}{/block}
 {block body}
-{if $form.errors}
+{if !$user.isAnonymous() and $form.errors}
 <div class="px-message-error">
 <p>{trans 'The form contains some errors. Please correct them to submit your review.'}</p>
 {if $form.get_top_errors}
@@ -10,6 +10,8 @@
 {/if}
 </div>
 {/if}
+<table class="disp" summary="">
+<tr><td>
 <table class="commit" summary="">
 <tr>
 <th><strong>{trans 'Created:'}</strong></th><td>{$patch.creation_dtime|date:"%Y-%m-%d %H:%M:%S"} ({$patch.creation_dtime|dateago})</td>
@@ -43,9 +45,9 @@
 <th>&nbsp;</th><td><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/package-grey.png'}" alt="{trans 'Archive'}" align="bottom" /></a> <a href="{$url}" class="soft">{trans 'Download the corresponding diff file'}</a></td>
 </tr>
 </table>
-
+</td><td>
 {if !$user.isAnonymous()}
-<div class="issue-submit-info" style="width: 50%">
+<div class="issue-submit-info" style="width: 90%; float: right; position: relative;">
 <p><strong>{trans 'How to Participate in a Code Review'}</strong></p>
 
 <p>{blocktrans}Code review is a process in which
@@ -64,7 +66,8 @@ coding standards and the structure of the code and <strong>make them want
 to propose more contributions</strong>.
 {/blocktrans}</p></div>
 {/if}
-
+</td></tr>
+</table>
 
 <form method="post" action=".">
 {foreach $files as $file=>$def}

@@ -449,6 +449,11 @@ table td.fileicon {
   color: white;
 }
 
+table.disp th, table.disp td { 
+  border: none;
+  vertical-align: top;
+}
+
 /**
  * Commit
  */
