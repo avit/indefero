@@ -26,6 +26,8 @@
  */
 class IDF_Timeline_Paginator extends Pluf_Paginator
 {
+    public $current_day = null;
+
     /**
      * Generate a standard "line" of the body.
      *
@@ -37,6 +39,18 @@ class IDF_Timeline_Paginator extends Pluf_Paginator
     {
         $doc = Pluf::factory($item->model_class, $item->model_id);
         $doc->public_dtime = $item->public_dtime;
-        return $doc->timelineFragment($item->request);
+        $item_day = Pluf_Template_dateFormat($item->creation_dtime, 
+                                             '%y-%m-%d');
+        $out = '';
+        if ($this->current_day == null or
+            Pluf_Date::dayCompare($this->current_day, $item_day) != 0) {
+            $day = Pluf_Template_dateFormat($item->creation_dtime);
+            if ($item_day == Pluf_Template_timeFormat(time(), 'y-m-d')) {
+                $day = __('Today');
+            }
+            $out = '<tr><th colspan="2">'.$day.'</th></tr>'."\n";
+            $this->current_day = $item_day;
+        } 
+        return $out.$doc->timelineFragment($item->request);
     }
 }
