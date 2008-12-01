@@ -167,7 +167,8 @@ class IDF_WikiRevision extends Pluf_Model
         //$out .= '<strong>'.__('Summary:').'</strong>&nbsp;'.Pluf_esc($this->summary).' ';
         if ($this->changedRevision()) {
             $out .= '<div class="issue-changes-timeline">';
-            foreach ($this->changes as $w => $v) {
+            $changes = $this->changes;
+            foreach ($changes as $w => $v) {
                 $out .= '<strong>';
                 switch ($w) {
                 case 'lb':
