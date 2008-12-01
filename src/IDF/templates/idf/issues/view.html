@@ -4,7 +4,7 @@
 {assign $i = 0} 
 {assign $nc = $comments.count()} 
 {foreach $comments as $c}
-<div class="issue-comment{if $i == 0} issue-comment-first{/if}{if $i == ($nc-1)} issue-comment-last{/if}" id="ic{$c.id}">{assign $who = $c.get_submitter()}{aurl 'whourl', 'IDF_Views_User::view', array($who.login)}
+<div class="issue-comment{if $i == 0} issue-comment-first{/if}{if $i == ($nc-1)} issue-comment-last{/if}" id="ic{$c.id}">{assign $who = $c.get_submitter()}{aurl 'whourl', 'IDF_Views_User::view', array($who.login)}<img style="float:right; position: relative;" src="http://www.gravatar.com/avatar/{$who.email|md5}.jpg?s=60&amp;d={media}/idf/img/spacer.gif" alt=" " />
 {if $i == 0}
 <p>{blocktrans}Reported by <a href="{$whourl}">{$who}</a>, {$c.creation_dtime|date}{/blocktrans}</p>
 {else}
@@ -13,6 +13,7 @@
 {assign $url = $url~'#ic'~$c.id}
 <p>{blocktrans}Comment <a href="{$url}">{$i}</a> by <a href="{$whourl}">{$who}</a>, {$c.creation_dtime|date}{/blocktrans}</p>
 {/if}
+
 
 <pre class="issue-comment-text">{if strlen($c.content) > 0}{issuetext $c.content, $request}{else}<i>{trans '(No comments were given for this change.)'}</i>{/if}</pre>
 {assign $attachments = $c.get_attachment_list()}
