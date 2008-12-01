@@ -1,0 +1,24 @@
+{trans 'Hello,'}
+
+{blocktrans}The following review has been updated:{/blocktrans}
+
+{$review.id} - {$review.summary|safe}
+{trans 'Project:'} {$project.name|safe}
+{trans 'Status:'} {$review.get_status.name}
+{trans 'Reported by:'} {$review.get_submitter|safe}
+{trans 'URL:'} {$url_base}{url 'IDF_Views_Review::view', array($project.shortname, $review.id)}
+{assign $tags = $review.get_tags_list()}{if $tags.count()}{trans 'Labels:'}
+{foreach $tags as $tag} {$tag.class|safe}:{$tag.name|safe}
+{/foreach}
+{/if}{trans 'Comments (last first):'}
+
+{foreach $comments as $c}{assign $who = $c.get_submitter()}# {blocktrans}By {$who|safe}, {$c.creation_dtime|date}, on file:
+{$c.cfile|safe}
+{/blocktrans}
+
+{$c.content|safe}
+
+{/foreach}
+
+--
+{trans 'Review:'} {$url_base}{url 'IDF_Views_Review::view', array($project.shortname, $review.id)}

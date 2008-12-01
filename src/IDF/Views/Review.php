@@ -153,11 +153,41 @@ class IDF_Views_Review
                                                     ));
             if ($form->isValid()) {
                 $patch = $form->save();
+                $review = $patch->get_review();
                 $urlr = Pluf_HTTP_URL_urlForView('IDF_Views_Review::view', 
-                                                 array($prj->shortname, $patch->get_review()->id));
-                $request->user->setMessage(sprintf(__('Your <a href="%s">code review %d</a> has been published.'), $urlr, $patch->get_review()->id));
+                                                 array($prj->shortname, $review->id));
+                $request->user->setMessage(sprintf(__('Your <a href="%s">code review %d</a> has been published.'), $urlr, $review->id));
                 $url = Pluf_HTTP_URL_urlForView('IDF_Views_Review::index', 
                                                 array($prj->shortname));
+                // Get the list of reviewers + submitter
+                $reviewers = $review->get_reviewers_list();
+                if (!Pluf_Model_InArray($review->get_submitter(), $reviewers)) {
+                    $reviewers[] = $review->get_submitter();
+                }
+                $comments = $patch->get_filecomments_list(array('order' => 'id DESC'));
+                $context = new Pluf_Template_Context(
+                       array(
+                             'review' => $review,
+                             'patch' => $patch,
+                             'comments' => $comments,
+                             'project' => $prj,
+                             'url_base' => Pluf::f('url_base'),
+                             )
+                                                     );
+                $tmpl = new Pluf_Template('idf/review/review-updated-email.txt');
+                $text_email = $tmpl->render($context);
+                $email = new Pluf_Mail_Batch(Pluf::f('from_email'));
+                foreach ($reviewers as $user) {
+                    if ($user->id != $request->user->id) {
+                        $email->setSubject(sprintf(__('Updated Code Review %s - %s (%s)'),
+                                                   $review->id, $review->summary, $prj->shortname));
+                        $email->setTo($user->email);
+                        $email->setReturnPath(Pluf::f('from_email'));
+                        $email->addTextMessage($text_email);
+                        $email->sendMail();
+                    }
+                }
+                $email->close();
                 return new Pluf_HTTP_Response_Redirect($url);
             }
         } else {
