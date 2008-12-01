@@ -40,10 +40,16 @@
 {$form.f.password2|unsafe}
 </td>
 </tr>
-<tr>
+<tr class="pass-info" id="extra-password">
+<th>{trans 'Extra password'}:</th>
+<td><span class="mono">{$ext_pass}</span><br />
+<span class="helptext">{trans 'This password is used to access some of the external systems managed by our infrastructure. It will be regenerated if you change your password.'}</span>
+</td>
+</tr>
+<tr class="pass-info">
 <th>{trans 'API key'}:</th>
 <td><span class="mono">{$api_key}</span><br />
-<span class="helptext">{trans 'Your API key will automatically be regenerated if you change your password.'}</span>
+<span class="helptext">{trans 'Your API key will be regenerated automatically if you change your password.'}</span>
 </td>
 </tr>
 <tr>
@@ -57,11 +63,21 @@
 {block context}
 <div class="issue-submit-info">
 <p>{trans 'If possible, use your real name. By using your real name, people will have more trust in your comments and remarks.'}</p>
-<p>{trans 'The API key is used to interact with this website using a program.'}</p>
+<p>{trans 'The extra password is used to access some of the external systems and the API key is used to interact with this website using a program.'}</p>
 </div>{/block}
 
 {block javascript}<script type="text/javascript">
-document.getElementById('id_first_name').focus()
+document.getElementById('id_first_name').focus();
+{literal}
+$(document).ready(function() {
+    // Hide the key password by default.
+    $("#extra-password").before("{/literal}<tr id=\"form-block-0\"><td>&nbsp;</td><td><img style=\"vertical-align: text-bottom;\" src=\"{media '/idf/img/start.png'}\" alt=\" \" align=\"bottom\" /> <a id=\"form-show-0\" href=\"#\">{trans 'Show API key and extra password'}{literal}</a>.</td></tr>");
+    $("#form-show-0").click(function(){
+        $(".pass-info").show();
+        $("#form-block-0").hide();
+    });
+    $(".pass-info").hide();
+});{/literal}
 </script>
 {/block}
 

@@ -88,12 +88,39 @@ class IDF_Form_UserAccount  extends Pluf_Form
             throw new Exception(__('Cannot save the model from an invalid form.'));
         }
         unset($this->cleaned_data['password2']);
+        $update_pass = false;
         if (strlen($this->cleaned_data['password']) == 0) {
             unset($this->cleaned_data['password']);
+        } else {
+            $update_pass = true;
         }
         $this->user->setFromFormData($this->cleaned_data);
         if ($commit) {
             $this->user->update();
+            if ($update_pass) {
+                /**
+                 * [signal]
+                 *
+                 * Pluf_User::passwordUpdated
+                 *
+                 * [sender]
+                 *
+                 * IDF_Form_UserAccount
+                 *
+                 * [description]
+                 *
+                 * This signal is sent when the user updated his
+                 * password from his account page.
+                 *
+                 * [parameters]
+                 *
+                 * array('user' => $user)
+                 *
+                 */
+                $params = array('user' => $this->user);
+                Pluf_Signal::send('Pluf_User::passwordUpdated',
+                                  'IDF_Form_UserAccount', $params);
+            }
         }
         return $this->user;
     }

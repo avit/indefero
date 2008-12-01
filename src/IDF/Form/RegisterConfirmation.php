@@ -141,6 +141,28 @@ class IDF_Form_RegisterConfirmation extends Pluf_Form
         $this->_user->staff = false;
         if ($commit) {
             $this->_user->update();
+            /**
+             * [signal]
+             *
+             * Pluf_User::passwordUpdated
+             *
+             * [sender]
+             *
+             * IDF_Form_RegisterConfirmation
+             *
+             * [description]
+             *
+             * This signal is sent when the user updated his
+             * password from his account page.
+             *
+             * [parameters]
+             *
+             * array('user' => $user)
+             *
+             */
+            $params = array('user' => $this->_user);
+            Pluf_Signal::send('Pluf_User::passwordUpdated',
+                              'IDF_Form_RegisterConfirmation', $params);
         }
         return $this->_user;
     }
