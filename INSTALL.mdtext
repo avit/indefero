@@ -58,6 +58,7 @@ Here is the step-by-step installation procedure:
 
 * Run `php /home/www/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -i -d -u` to test the installation of the tables.
 * Run `php /home/www/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -i -d` to really install the tables.
+* More details about the migration is available in the [migration documentation](http://pluf.org/doc/migrations.html) of the Pluf framework.
 * Create a bootstrap file to create the admin user for example `www/bootstrap.php`. Do not forget to update the second line with your path to Pluf:
 
     <?php
