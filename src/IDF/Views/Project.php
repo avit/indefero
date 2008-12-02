@@ -134,7 +134,8 @@ class IDF_Views_Project
     {
         $prj = $request->project;
         $title = sprintf(__('%s Project Summary'), (string) $prj);
-        $form_fields = array('fields'=> array('name', 'description'));
+        $form_fields = array('fields'=> array('name', 'shortdesc',
+                                              'description'));
         if ($request->method == 'POST') {
             $form = Pluf_Shortcuts_GetFormForModel($prj, $request->POST,
                                                    $form_fields);
@@ -149,6 +150,9 @@ class IDF_Views_Project
             $form = Pluf_Shortcuts_GetFormForModel($prj, $prj->getData(),
                                                    $form_fields);
         }
+        $form->fields['description']->widget->attrs['cols'] = 68;
+        $form->fields['description']->widget->attrs['rows'] = 26;
+        $form->fields['shortdesc']->widget->attrs['size'] = 67;
         return Pluf_Shortcuts_RenderToResponse('idf/admin/summary.html',
                                                array(
                                                      'page_title' => $title,

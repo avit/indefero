@@ -28,7 +28,7 @@
   <link rel="stylesheet" type="text/css" href="{media '/idf/css/ie6.css'}" />
   <![endif]-->
   {block extraheader}{/block}
-  <title>{block pagetitle}{$page_title|strip_tags}{/block}</title>
+  <title>{block pagetitle}{$page_title|strip_tags}{/block}{if $project} - {$project.shortdesc}{/if}</title>
 </head>
 <body>
 <div id="{block docid}doc3{/block}" class="{block docclass}yui-t3{/block}">

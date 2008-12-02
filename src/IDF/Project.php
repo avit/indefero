@@ -62,6 +62,14 @@ class IDF_Project extends Pluf_Model
                                   'help_text' => __('Used in the url to access the project, must be short with only letters and numbers.'),
                                   'unique' => true,
                                   ),
+                            'shortdesc' =>
+                            array(
+                                  'type' => 'Pluf_DB_Field_Varchar',
+                                  'blank' => false,
+                                  'size' => 255,
+                                  'verbose' => __('short description'),
+                                  'help_text' => __('A one line description of the project.'),
+                                  ),
                             'description' =>
                             array(
                                   'type' => 'Pluf_DB_Field_Text',

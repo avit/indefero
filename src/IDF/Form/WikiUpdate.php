@@ -73,7 +73,7 @@ class IDF_Form_WikiUpdate extends Pluf_Form
                                             'initial' => $rev->content,
                                             'widget' => 'Pluf_Form_Widget_TextareaInput',
                                             'widget_attrs' => array(
-                                                       'cols' => 58,
+                                                       'cols' => 68,
                                                        'rows' => 26,
                                                                     ),
                                             ));
