@@ -49,9 +49,13 @@ Now, you need to restart apache:
 
 ## InDefero Configuration
 
-Based on the paths provided in the Apache configuration and if your
-Apache server is serving the domain `www.mydomain.com`, the you need
-to put the following in your configuration file:
+First, you need to install the File_Passwd PEAR package:
+
+    $ sudo pear install File_Passwd
+
+Then, based on the paths provided in the Apache configuration and if
+your Apache server is serving the domain `www.mydomain.com`, the you
+need to put the following in your configuration file:
 
     $cfg['svn_repositories'] = 'file:///home/svn/repositories/%s';
     // We add "trunk" to invite people to checkout the trunk of the
