@@ -140,16 +140,17 @@ class IDF_Scm_Svn
         $xmlLs = IDF_Scm::shell_exec($cmd);
         $xml = simplexml_load_string($xmlLs);
         $res = array();
+        $folder = (strlen($folder)) ? $folder.'/' : '';
         foreach ($xml->list->entry as $entry) {
             $file = array();
             $file['type'] = $this->assoc[(string) $entry['kind']];
             $file['file'] = (string) $entry->name;
-            $file['fullpath'] = $folder.'/'.((string) $entry->name);
+            $file['fullpath'] = $folder.((string) $entry->name);
             $file['date'] = gmdate('Y-m-d H:i:s',
                                    strtotime((string) $entry->commit->date));
             $file['rev'] = (string) $entry->commit['revision'];
             // Get commit message
-            $currentReposFile = $this->repo.'/'.$folder.'/'.$file['file'];
+            $currentReposFile = $this->repo.'/'.$folder.$file['file'];
             $file['log'] = $this->getCommitMessage($currentReposFile, $rev);
 
             // Get the size if the type is blob
