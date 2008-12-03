@@ -115,4 +115,9 @@ class IDF_Review_Patch extends Pluf_Model
     public function timelineFragment($request)
     {
     }
+
+    public function feedFragment($request)
+    {
+        return '';
+    }
 }

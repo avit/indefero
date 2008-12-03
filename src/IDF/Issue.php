@@ -195,4 +195,34 @@ class IDF_Issue extends Pluf_Model
 <div class="helptext right">'.sprintf(__('Creation of <a href="%s" class="%s">issue&nbsp;%d</a>'), $url, $ic, $this->id).', '.__('by').' '.Pluf_esc($submitter).'</div></td></tr>'; 
         return Pluf_Template::markSafe($out);
     }
+
+    public function feedFragment($request)
+    {
+        $base = '<entry>
+   <title>%%title%%</title>
+   <link href="%%url%%"/>
+   <id>%%url%%</id>
+   <updated>%%date%%</updated>
+   <content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+   <pre>%%content%%</pre>
+   </div></content>
+</entry>';
+        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view', 
+                                        array($request->project->shortname,
+                                              $this->id));
+        $title = sprintf(__('%s: Issue %d created - %s'),
+                         Pluf_esc($request->project->name),
+                         $this->id, Pluf_esc($this->summary));
+        // Get the first comment of this issue.
+        $cts = $this->get_comments_list(array('order' => 'id ASC',
+                                              'nb' => 1));
+        $tag = new IDF_Template_IssueComment();
+        $content = $tag->start($cts[0]->content, $request, false);
+        $date = Pluf_Date::gmDateToGmString($this->creation_dtime);
+        return Pluf_Translation::sprintf($base,
+                                         array('url' => $url,
+                                               'title' => $title,
+                                               'content' => $content,
+                                               'date' => $date));
+    }
 }

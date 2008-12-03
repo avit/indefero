@@ -165,4 +165,9 @@ class IDF_Review extends Pluf_Model
     {
         return '';
     }
+
+    public function feedFragment($request)
+    {
+        return '';
+    }
 }

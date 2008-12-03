@@ -52,17 +52,22 @@ class IDF_Middleware
             }
             $request->conf = new IDF_Conf();
             $request->conf->setProject($request->project);
-            $ak = array('downloads_access_rights' => 'hasDownloadsAccess',
-                        'wiki_access_rights' => 'hasWikiAccess',
-                        'review_access_rights' => 'hasReviewAccess',
-                        'source_access_rights' => 'hasSourceAccess',
-                        'issues_access_rights' => 'hasIssuesAccess');
-            $request->rights = array();
-            foreach ($ak as $key=>$val) {
-                $request->rights[$val] = (true === IDF_Precondition::accessTabGeneric($request, $key));
-            }
+            self::setRights($request);
         }
         return false;
+    }
+
+    public static function setRights(&$request)
+    {
+        $ak = array('downloads_access_rights' => 'hasDownloadsAccess',
+                    'wiki_access_rights' => 'hasWikiAccess',
+                    'review_access_rights' => 'hasReviewAccess',
+                    'source_access_rights' => 'hasSourceAccess',
+                    'issues_access_rights' => 'hasIssuesAccess');
+        $request->rights = array();
+        foreach ($ak as $key=>$val) {
+            $request->rights[$val] = (true === IDF_Precondition::accessTabGeneric($request, $key));
+        }
     }
 }
 

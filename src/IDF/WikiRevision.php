@@ -189,4 +189,32 @@ class IDF_WikiRevision extends Pluf_Model
 <div class="helptext right">'.sprintf(__('Change of <a href="%s">%s</a>'), $url, Pluf_esc($page->title)).', '.__('by').' '.Pluf_esc($submitter).'</div></td></tr>'; 
         return Pluf_Template::markSafe($out);
     }
+
+    public function feedFragment($request)
+    {
+        $base = '<entry>
+   <title>%%title%%</title>
+   <link href="%%url%%"/>
+   <id>%%url%%</id>
+   <updated>%%date%%</updated>
+   <content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+   %%content%%
+   </div></content>
+</entry>';
+        $page = $this->get_wikipage();
+        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Wiki::view', 
+                                        array($request->project->shortname,
+                                              $page->title));
+        $title = sprintf(__('%s: Documentation page %s updated - %s'),
+                         Pluf_esc($request->project->name),
+                         Pluf_esc($page->title), Pluf_esc($page->summary));
+        $content = Pluf_esc($this->summary);
+        $date = Pluf_Date::gmDateToGmString($this->creation_dtime);
+        return Pluf_Translation::sprintf($base,
+                                         array('url' => $url,
+                                               'title' => $title,
+                                               'content' => $content,
+                                               'date' => $date));
+    }
+
 }

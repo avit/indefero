@@ -115,14 +115,91 @@ class IDF_Views_Project
             // the first tag is the featured, the last is the deprecated.
             $downloads = $tags[0]->get_idf_upload_list(); 
         }
+        $pages = array();
+        if ($request->rights['hasWikiAccess']) {
+            $tags = IDF_Views_Wiki::getWikiTags($prj);
+            $pages = $tags[0]->get_idf_wikipage_list(); 
+        }
+        if (!$request->user->isAnonymous()) {
+            $feedurl = Pluf_HTTP_URL_urlForView('idf_project_timeline_feed_auth',
+                                                array($prj->shortname, 
+                                                      IDF_Precondition::genFeedToken($prj, $request->user)));
+        } else {
+            $feedurl = Pluf_HTTP_URL_urlForView('idf_project_timeline_feed',
+                                                array($prj->shortname));
+        }
         return Pluf_Shortcuts_RenderToResponse('idf/project/timeline.html',
                                                array(
                                                      'page_title' => $title,
+                                                     'feedurl' => $feedurl,
                                                      'timeline' => $pag,
                                                      'team' => $team,
                                                      'downloads' => $downloads,
                                                      ),
                                                $request);
+
+    }
+
+    /**
+     * Timeline feed.
+     *
+     * A custom view to have a bit more control on the way to handle
+     * it and optimize the output.
+     *
+     */
+    public $timelineFeed_precond = array('IDF_Precondition::feedSetUser',
+                                         'IDF_Precondition::baseAccess');
+    public function timelineFeed($request, $match)
+    {
+        $prj = $request->project;
+        // Need to check the rights
+        $rights = array();
+        if (true === IDF_Precondition::accessSource($request)) {
+            $rights[] = '\'IDF_Commit\'';
+            IDF_Scm::syncTimeline($request);
+        }
+        if (true === IDF_Precondition::accessIssues($request)) {
+            $rights[] = '\'IDF_Issue\'';
+            $rights[] = '\'IDF_IssueComment\'';
+        }
+        if (true === IDF_Precondition::accessDownloads($request)) {
+            $rights[] = '\'IDF_Upload\'';
+        }
+        if (true === IDF_Precondition::accessWiki($request)) {
+            $rights[] = '\'IDF_WikiPage\'';
+            $rights[] = '\'IDF_WikiRevision\'';
+        }
+        if (count($rights) == 0) {
+            $rights[] = '\'IDF_Dummy\'';
+        }
+        $sqls = sprintf('model_class IN (%s)', implode(', ', $rights));
+        $sql = new Pluf_SQL('project=%s AND '.$sqls, array($prj->id));
+        $params = array(
+                        'filter' => $sql->gen(),
+                        'order' => 'creation_dtime DESC',
+                        'nb' => 50,
+                        );
+        $items = Pluf::factory('IDF_Timeline')->getList($params);
+        $set = new Pluf_Model_Set($items, 
+                                  array('public_dtime' => 'public_dtime'));
+        $out = array();
+        foreach ($set as $item) {
+            $out[] = $item->feedFragment($request);
+        }
+        $out = Pluf_Template::markSafe(implode("\n", $out));
+        $tmpl = new Pluf_Template('idf/index.atom');
+        $title = __('Updates');
+        $feedurl = Pluf::f('url_base').Pluf::f('idf_base').$request->query;
+        $viewurl = Pluf_HTTP_URL_urlForView('IDF_Views_Project::timeline',
+                                            array($prj->shortname));
+        $context = new Pluf_Template_Context_Request($request, 
+                                                     array('body' => $out,
+                                                           'title' => $title,
+                                                           'feedurl' => $feedurl,
+                                                           'viewurl' => $viewurl));
+        return new Pluf_HTTP_Response('<?xml version="1.0" encoding="utf-8"?>'
+                                      ."\n".$tmpl->render($context),
+                                      'application/atom+xml; charset=utf-8');
     }
 
 

@@ -183,4 +183,36 @@ class IDF_Commit extends Pluf_Model
 <div class="helptext right">'.__('Commit').'&nbsp;<a href="'.$url.'" class="mono">'.$this->scm_id.'</a>, '.__('by').' '.strip_tags($this->origauthor).'</div></td></tr>'; 
         return Pluf_Template::markSafe($out);
     }
+
+    /**
+     * Returns the feed fragment for the commit.
+     *
+     * @param Pluf_HTTP_Request 
+     * @return Pluf_Template_SafeString
+     */
+    public function feedFragment($request)
+    {
+        $url = Pluf::f('url_base')
+            .Pluf_HTTP_URL_urlForView('IDF_Views_Source::commit', 
+                                      array($request->project->shortname, 
+                                            $this->scm_id));
+        $tag = new IDF_Template_IssueComment();
+        $summary = '<content type="xhtml">'."\n"
+            .'<div xmlns="http://www.w3.org/1999/xhtml">'
+            .$tag->start($this->summary, $request, false, false, false);
+        if ($this->fullmessage) {
+            $summary .= '<br /><br />'
+                .$tag->start($this->fullmessage, $request, false, false, false);
+        }
+        $date = Pluf_Date::gmDateToGmString($this->creation_dtime);
+        $summary .= '</div></content>';
+        $out = '<entry>
+   <title>'.Pluf_esc($request->project->name).': '.__('Commit').' '.$this->scm_id.'</title>
+   <link href="'.$url.'"/>
+   <id>'.$url.'</id>
+   <updated>'.$date.'</updated>'.$summary.'
+ </entry>
+';
+        return $out;
+    }
 }

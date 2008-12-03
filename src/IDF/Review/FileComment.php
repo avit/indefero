@@ -110,4 +110,9 @@ class IDF_Review_FileComment extends Pluf_Model
     {
         return '';
     }
+
+    public function feedFragment($request)
+    {
+        return '';
+    }
 }

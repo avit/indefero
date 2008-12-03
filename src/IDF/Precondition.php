@@ -161,7 +161,7 @@ class IDF_Precondition
         return self::accessTabGeneric($request, 'review_access_rights');
     }
 
-     /**
+    /**
      * Based on the request, it is automatically setting the user.
      *
      * API calls are not translated.
@@ -180,7 +180,7 @@ class IDF_Precondition
         $sql = new Pluf_SQL('login=%s AND active='.$true,
                             $request->REQUEST['_login']);
         $users = Pluf::factory('Pluf_User')->getList(array('filter'=>$sql->gen()));
-        if ($users->count() != 1) {
+        if ($users->count() != 1 or !$users[0]->active) {
             // Should return a special authentication error like user
             // not found.
             return true;
@@ -190,6 +190,70 @@ class IDF_Precondition
             return true; // Again need authentication error
         }
         $request->user = $users[0];
+        IDF_Middleware::setRights($request);
         return true;
+    }
+
+    /**
+     * Based on the request, it is automatically setting the user.
+     *
+     * Authenticated feeds have a token set at the end of the url in
+     * the for of 'authenticated/url/token/234092384023woeiur/'. If
+     * you remove 'token/234092384023woeiur/' the url is not
+     * authenticated.
+     *
+     * If the user is already logged in and not anonymous and no token
+     * is given, then the user is unset and a non authenticated user
+     * is loaded. This is to avoid people to not understand why a
+     * normally not authenticated feed is providing authenticated
+     * data.
+     */
+    static public function feedSetUser($request)
+    {
+        if (!isset($request->project)) {
+            return true; // we do not act on non project pages at the
+                         // moment.
+        }
+        if (!$request->user->isAnonymous()) {
+            // by default anonymous
+            $request->user = new Pluf_User();
+            IDF_Middleware::setRights($request);
+        }
+        $match = array();
+        if (!preg_match('#/token/([^/]+)/$#', $request->query, $match)) {
+            return true; // anonymous
+        }
+        $token = $match[1];
+        $hash = substr($token, 0, 2);
+        $encrypted = substr($token, 2);
+        if ($hash != substr(md5(Pluf::f('secret_key').$encrypted), 0, 2)) {
+            return true; // no match in the hash, anonymous
+        }
+        $cr = new Pluf_Crypt(md5(Pluf::f('secret_key')));
+        list($userid, $projectid) = split(':', $cr->decrypt($encrypted), 2);
+        if ($projectid != $request->project->id) {
+           return true; // anonymous
+        }
+        $user = new Pluf_User($userid);
+        if (!$user->active) {
+           return true; // anonymous
+        }
+        $request->user = $user;
+        IDF_Middleware::setRights($request);
+        return true;
+    }
+
+    /**
+     * Generate the token for the feed.
+     *
+     * @param IDF_Project
+     * @param Pluf_User
+     * @return string Token
+     */
+    static public function genFeedToken($project, $user)
+    {
+        $cr = new Pluf_Crypt(md5(Pluf::f('secret_key')));
+        $encrypted = trim($cr->encrypt($user->id.':'.$project->id), '~');
+        return substr(md5(Pluf::f('secret_key').$encrypted), 0, 2).$encrypted;
     }
 }
