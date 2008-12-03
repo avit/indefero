@@ -1,0 +1,75 @@
+# Plugin SyncSvn by Baptiste Michaud
+
+The SyncSvn plugin allow the direct creation and synchronisation of
+subversion repositories with the InDefero database. This requires
+giving access to the repositories using the DAV_SVN module of Apache2.
+
+## To Contact the Author
+
+    Baptiste Michaud
+    bactisme@gmail.com
+    webplay.fr - frandroid.com - lost-in-translation.fr
+
+## Apache configuration
+
+You will first need to install the DAV_SVN module for Apache. On
+Debian/Ubuntu based systems just run:
+
+    $ sudo apt-get install libapache2-svn
+    $ sudo a2enmod dav_svn
+
+Then, you need to configure dav_svn, this is an example of
+configuration:
+
+    <Location /svn>
+      DAV svn
+      SVNParentPath /home/svn/repositories
+      AuthzSVNAccessFile /home/svn/dav_svn.authz
+      Satisfy Any
+      Require valid-user
+      AuthType Basic
+      AuthName "Subversion Repository"
+      AuthUserFile /home/svn/dav_svn.passwd
+    </Location>
+
+Be sure to [read the documentation before](http://svnbook.red-bean.com/en/1.5/svn.serverconfig.httpd.html).
+
+The files `/home/svn/dav_svn.authz`, `/home/svn/dav_svn.passwd` and
+the directory `/home/svn/repositories` must be writable by your
+webserver process. To ensure that, do:
+
+    $ sudo mkdir --parents /home/svn/repositories
+    $ sudo touch /home/svn/dav_svn.authz
+    $ sudo touch /home/svn/dav_svn.passwd
+    $ sudo chown -R www-data:www-data /home/svn
+
+Now, you need to restart apache:
+
+    $ sudo /etc/init.d/apache2 force-reload
+
+## InDefero Configuration
+
+Based on the paths provided in the Apache configuration and if your
+Apache server is serving the domain `www.mydomain.com`, the you need
+to put the following in your configuration file:
+
+    $cfg['svn_repositories'] = 'file:///home/svn/repositories/%s';
+    // We add "trunk" to invite people to checkout the trunk of the
+    // project.
+    $cfg['svn_remote_url'] = 'http://www.mydomain.com/svn/%s/trunk';
+    
+    // Synchronisation specific configuration variables
+    $cfg['idf_plugin_syncsvn_authz_file'] = '/home/svn/dav_svn.authz';
+    $cfg['idf_plugin_syncsvn_passwd_file'] = '/home/svn/dav_svn.passwd';
+    $cfg['idf_plugin_syncsvn_svn_path'] = '/home/svn/repositories'; 
+
+You can have more control over the permissions given to the owners,
+members, extra authorized users and anonymous users if you want with
+the following configuration variables:
+
+* **idf_plugin_syncsvn_access_owners ('rw')**: Access for the project owners.
+* **idf_plugin_syncsvn_access_members ('rw')**: Access for the project members.
+* **idf_plugin_syncsvn_access_extra ('r')**: Access for the extra authorized people in case of a private project.
+* **idf_plugin_syncsvn_access_public ('r')**: Anonymous access.
+* **idf_plugin_syncsvn_access_private ('')**: Anonymous access in the case of a private project.
+

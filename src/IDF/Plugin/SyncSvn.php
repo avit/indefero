@@ -24,171 +24,175 @@
 require_once 'File/Passwd/Authdigest.php'; // $ pear install File_Passwd
 
 /**
- * This classes is a plugin which allows to synchronise access rights between indefero 
- * and a DAV powered SVN repository.
+ * This classes is a plugin which allows to synchronise access rights
+ * between indefero and a DAV powered Subversion repository.
  */
 class IDF_Plugin_SyncSvn
 {
     
     /**
-     * Entry point of the each plugins. 
+     * Entry point of the plugin.
      */
-    static function entry($signal, $params){
-        // if not actif, do nothing
-
-        if ($signal == 'IDF_Project::created'){
-            $project = $params['project'];
-
-            $plug = new IDF_Plugin_SyncSVN();
-            //$plug->processSVNCreate($project->shortname);
-
-        }else if ($signal == 'IDF_Project::membershipsUpdated'){
-            $project = $params['project'];
-            
-            $plug = new IDF_Plugin_SyncSVN();
-            $plug->processSyncAuthz($project);
-
-        }else if ($signal == 'IDF_User::passwordUpdated'){
-            $plug = new IDF_Plugin_SyncSVN();
+    static public function entry($signal, $params)
+    {
+        // First check for the 3 mandatory config variables.
+        if (!Pluf::f('idf_plugin_syncsvn_authz_file', false) or
+            !Pluf::f('idf_plugin_syncsvn_passwd_file', false) or
+            !Pluf::f('idf_plugin_syncsvn_svn_path'. false)) {
+            return;
+        }
+        $plug = new IDF_Plugin_SyncSvn();
+        switch ($signal) {
+        case 'IDF_Project::created':
+            $plug->processSvnCreate($params['project']);
+            break;
+        case 'IDF_Project::membershipsUpdated':
+            $plug->processSyncAuthz($params['project']);
+            break;
+        case 'Pluf_User::passwordUpdated':
             $plug->processSyncPasswd($params['user']);
-        }else {
-            // do nothing
+            break;
         }
     }
 
     /**
-     * Run svnadmin command to create a usable SVN repository
-     * @param Project name
+     * Run svnadmin command to create the corresponding Subversion
+     * repository.
+     *
+     * @param IDF_Project 
+     * @return bool Success
      */
-    function processSVNCreate($shortname){
-
-        $svn_path = Pluf::f('idf_plugin_syncsvn_svn_path');
-        $svn_import_path = Pluf::f('idf_plugin_syncsvn_svn_import_path');
-        $chown_user = Pluf::f('idf_plugin_syncsvn_svn_import_path');
-
-        $c = 0;
-        $createsvn = "svnadmin create ".$svn_path."/".$shortname;
-        Pluf_Utils::runExternal($createsvn, $c);
-
-        if ($svn_import_path != ""){
-            //perform initial import
-            // TODO
+    function processSvnCreate($project)
+    {
+        $shortname = $project->shortname;
+        if (false===($svn_path=Pluf::f('idf_plugin_syncsvn_svn_path',false))) {
+            throw new Pluf_Exception_SettingError("'idf_plugin_syncsvn_svn_path' must be defined in your configuration file.");
         }
-
-        if ($chown_user != ""){
-            $chown = "chown ".$chown_user." ".$svn_path."/".$shortname." -R";
-            Pluf_Utils::runExternal($chown, $c);
+        if (file_exists($svn_path.'/'.$shortname)) {
+            throw new Exception(sprintf(__('The repository %s already exists.'),
+                                        $svn_path.'/'.$shortname));
         }
+        $return = 0;
+        $output = array();
+        $cmd = sprintf('svnadmin create %s', 
+                       escapeshellarg($svn_path.'/'.$shortname));
+        $ll = exec($cmd, $output, $return);
+        return ($return == 0);
     }
     
     /**
-     * Synchronise an user's password
-     * @param $user Pluf_User
+     * Synchronise an user's password.
+     *
+     * @param Pluf_User
      */
-    function processSyncPasswd($user){
+    function processSyncPasswd($user)
+    {
         $passwd_file = Pluf::f('idf_plugin_syncsvn_passwd_file');
+        if (!file_exists($passwd_file) or !is_writable($passwd_file)) {
+            return false;
+        }
         $ht = new File_Passwd_Authbasic($passwd_file);
         $ht->parse();
-        $ht->setMode(FILE_PASSWD_SHA); // not anymore a option
-        $ht->addUser($user, $this->getSVNPass($user));
+        $ht->setMode(FILE_PASSWD_SHA); 
+        if ($ht->userExists($user->login)) {
+            $ht->changePasswd($user->login, $this->getSvnPass($user));
+        } else {
+            $ht->addUser($user->login, $this->getSvnPass($user));
+        }
         $ht->save();
+        return true;
     }
 
     /**
-     * Synchronize the authz file and the passwd file for the project
-     * @param $project IDF_Project
+     * Synchronize the authz file and the passwd file for the project.
+     *
+     * @param IDF_Project
      */
-    function processSyncAuthz($project){
-        //synchronise authz file        
+    function processSyncAuthz($project)
+    {
         $this->SyncAccess();
-        //synchronise pass file for 
         $this->generateProjectPasswd($project);
     }
 
     /**
      * Get the repository password for the user
      */
-    function getSVNPass($user){
+    function getSvnPass($user){
         return substr(sha1($user->password.Pluf::f('secret_key')), 0, 8);
     }
 
     /**
      * For a particular project: update all passwd information
      */
-    function generateProjectPasswd($project){
+    function generateProjectPasswd($project)
+    {
         $passwd_file = Pluf::f('idf_plugin_syncsvn_passwd_file');
-        $ht = new File_Passwd_Authbasic($passwd_file);
-
-        $ht->setMode(FILE_PASSWD_SHA); // not anymore a option
-        $ht->parse();
-
-        $mem = $project->getMembershipData();
-        $members = $mem['members'];
-        $owners = $mem['owners'];
-
-        foreach($owners as $v){
-            $ht->addUser($v->login, $this->getSVNPass($v));            
+        if (!file_exists($passwd_file) or !is_writable($passwd_file)) {
+            return false;
         }
-
-        foreach($members as $v){
-            $ht->addUser($v->login, $this->getSVNPass($v));        
+        $ht = new File_Passwd_Authbasic($passwd_file);
+        $ht->setMode(FILE_PASSWD_SHA); 
+        $ht->parse();
+        $mem = $project->getMembershipData();
+        $members = array_merge((array)$mem['members'], (array)$mem['owners'], 
+                               (array)$mem['authorized']);
+        foreach($members as $user) {
+            if ($ht->userExists($user->login)) {
+                $ht->changePasswd($user->login, $this->getSvnPass($user));
+            } else {
+                $ht->addUser($user->login, $this->getSvnPass($user));
+            }
         }
         $ht->save();
     }
 
     /**
      * Generate the dav_svn.authz file
+     *
+     * We rebuild the complete file each time. This is just to be sure
+     * not to bork the rights when trying to just edit part of the
+     * file.
      */
-    function SyncAccess(){
+    function SyncAccess()
+    {
         $authz_file = Pluf::f('idf_plugin_syncsvn_authz_file');
-        $access_owners = Pluf::f('idf_plugin_syncsvn_access_owners');
-        $access_members = Pluf::f('idf_plugin_syncsvn_access_members');
-        $access_all = Pluf::f('idf_plugin_syncsvn_access_all');
-        $access_all_pivate = Pluf::f('idf_plugin_syncsvn_access_all_pivate');
-
-        $projects = Pluf::factory('IDF_Project')->getList();
-
-        $fcontent = "";
-    
-        // for each project
-        foreach($projects as $project){
-
+        $access_owners = Pluf::f('idf_plugin_syncsvn_access_owners', 'rw');
+        $access_members = Pluf::f('idf_plugin_syncsvn_access_members', 'rw');
+        $access_extra = Pluf::f('idf_plugin_syncsvn_access_extra', 'r');
+        $access_public = Pluf::f('idf_plugin_syncsvn_access_public', 'r');
+        $access_public_priv = Pluf::f('idf_plugin_syncsvn_access_private', '');
+        if (!file_exists($authz_file) or !is_writable($authz_file)) {
+            return false;
+        }
+        $fcontent = '';
+        foreach (Pluf::factory('IDF_Project')->getList() as $project) {
             $conf = new IDF_Conf();
             $conf->setProject($project);
-
-            if ($conf->getVal('scm', "") == "svn"){
-
-	            $mem = $project->getMembershipData();
-	            $members = $mem['members'];
-	            $owners = $mem['owners'];
-
-                // [shortname:/]
-                $fcontent .= "[".$project->shortname.":/]\n";    
-
-                // login = rw
-	            foreach($owners as $v){
-                    	$fcontent .= $v->login." = ".$access_owners."\n";
-	            }
-                // login = rw
-	            foreach($members as $v){
-		            $fcontent .= $v->login." = ".$access_members."\n";
-	            }
-
-                // access for all users
-                if ($project->private == true){
-                    $fcontent .= "* = ".$access_all_pivate."\n";
-                }else{
-                    $fcontent .= "* = ".$access_all."\n";
+            if ($conf->getVal('scm') != 'svn' or 
+                strlen($conf->getVal('svn_remote_url')) > 0) {
+                continue;
+            }
+            $mem = $project->getMembershipData();
+            // [shortname:/]
+            $fcontent .= '['.$project->shortname.':/]'."\n";    
+            foreach ($mem['owners'] as $v) {
+                $fcontent .= $v->login.' = '.$access_owners."\n";
+            }
+            foreach ($mem['members'] as $v) {
+                $fcontent .= $v->login.' = '.$access_members."\n";
+            }
+            // access for all users
+            if ($project->private == true) {
+                foreach ($mem['authorized'] as $v) {
+                    $fcontent .= $v->login.' = '.$access_extra."\n";
                 }
-
-	            $fcontent .= "\n";
-            } //end if SVN
+                $fcontent .= '* = '.$access_public_priv."\n";
+            } else {
+                $fcontent .= '* = '.$access_public."\n";
+            }
+            $fcontent .= "\n";
         }
-
         file_put_contents($authz_file, $fcontent, LOCK_EX);
-
-        return 0;
+        return true;
     }
 }
-
-?>

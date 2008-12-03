@@ -97,6 +97,7 @@ class IDF_Form_TabsConf extends Pluf_Form
             $this->project->private = 0;
         }
         $this->project->update();
+        $this->project->membershipsUpdated();
     }
 }
 

@@ -38,4 +38,15 @@ $m['IDF_Review'] = array('relate_to' => array('IDF_Project', 'Pluf_User', 'IDF_T
 $m['IDF_Review_Patch'] = array('relate_to' => array('IDF_Review', 'Pluf_User'));
 $m['IDF_Review_FileComment'] = array('relate_to' => array('IDF_Review_Patch', 'Pluf_User'));
 
+
+# -- Standard plugins, they will run only if configured --
+#
+# Subversion synchronization
+Pluf_Signal::connect('IDF_Project::membershipsUpdated', 
+                     array('IDF_Plugin_SyncSvn', 'entry'));
+Pluf_Signal::connect('IDF_Project::created', 
+                     array('IDF_Plugin_SyncSvn', 'entry'));
+Pluf_Signal::connect('Pluf_User::passwordUpdated', 
+                     array('IDF_Plugin_SyncSvn', 'entry'));
+
 return $m;
