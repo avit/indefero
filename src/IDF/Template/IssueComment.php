@@ -40,9 +40,8 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
         if ($wordwrap) $text = wordwrap($text, 69, "\n", true);
         if ($esc) $text = Pluf_esc($text);
         if ($autolink) {
-            $text = ereg_replace('[[:alpha:]]+://[^<>[:space:]]+[[:alnum:]/]', 
-                                 '<a href="\\0" rel="nofollow">\\0</a>', 
-                                 $text); 
+            $text = preg_replace('#([a-z]+://[^\s\(\)]+)#i',
+                                 '<a href="\1">\1</a>', $text);
         }
         if ($request->rights['hasIssuesAccess']) {
             $text = preg_replace_callback('#(issues?|bugs?|tickets?)\s+(\d+)((\s+and|\s+or|,)\s+(\d+)){0,}#im',
