@@ -3,11 +3,6 @@
 {if !$user.isAnonymous()} <subtitle>{blocktrans}Personal project feed for {$user}.{/blocktrans}</subtitle>{/if}
  <link href="{$feedurl}" rel="self"/>
  <link href="{$viewurl}"/>
- <updated>{$updated}</updated>
- <author>
-   <name>Not given</name>
-   <email>Not given</email>
- </author>
  <id>{$feedurl}</id>
 {$body}
 </feed>

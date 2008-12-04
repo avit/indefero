@@ -185,9 +185,10 @@ class IDF_IssueComment extends Pluf_Model
    </div></content>
 </entry>';
         $issue = $this->get_issue();
-        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view', 
-                                        array($request->project->shortname,
-                                              $issue->id));
+        $url = Pluf::f('url_base')
+            .Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view', 
+                                      array($request->project->shortname,
+                                            $issue->id));
         $url .= '#ic'.$this->id;
         $title = sprintf(__('%s: Comment on issue %d - %s'),
                          Pluf_esc($request->project->name),

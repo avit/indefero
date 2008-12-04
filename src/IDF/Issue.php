@@ -207,9 +207,10 @@ class IDF_Issue extends Pluf_Model
    <pre>%%content%%</pre>
    </div></content>
 </entry>';
-        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view', 
-                                        array($request->project->shortname,
-                                              $this->id));
+        $url = Pluf::f('url_base')
+            .Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view', 
+                                      array($request->project->shortname,
+                                            $this->id));
         $title = sprintf(__('%s: Issue %d created - %s'),
                          Pluf_esc($request->project->name),
                          $this->id, Pluf_esc($this->summary));

@@ -210,9 +210,10 @@ class IDF_WikiPage extends Pluf_Model
    %%content%%
    </div></content>
 </entry>';
-        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Wiki::view', 
-                                        array($request->project->shortname,
-                                              $this->title));
+        $url = Pluf::f('url_base')
+            .Pluf_HTTP_URL_urlForView('IDF_Views_Wiki::view', 
+                                      array($request->project->shortname,
+                                            $this->title));
         $title = sprintf(__('%s: Documentation page %s added - %s'),
                          Pluf_esc($request->project->name),
                          Pluf_esc($this->title), Pluf_esc($this->summary));
