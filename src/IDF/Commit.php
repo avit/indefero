@@ -141,15 +141,16 @@ class IDF_Commit extends Pluf_Model
         $sql = new Pluf_SQL('project=%s AND scm_id=%s',
                             array($project->id, $change->commit));
         $r = Pluf::factory('IDF_Commit')->getList(array('filter'=>$sql->gen()));
-        if ($r->count()) {
+        if ($r->count() > 0) {
             return $r[0];
         }
+        $scm = IDF_Scm::get($project);
         $commit = new IDF_Commit();
         $commit->project = $project;
         $commit->scm_id = $change->commit;
         $commit->summary = $change->title;
         $commit->fullmessage = $change->full_message;
-        $commit->author = null;
+        $commit->author = $scm->findAuthor($change->author);
         $commit->origauthor = $change->author;
         $commit->creation_dtime = $change->date;
         $commit->create();

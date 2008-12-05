@@ -36,6 +36,26 @@ class IDF_Scm_Git
     }
 
     /**
+     * Given the string describing the author from the log find the
+     * author in the database.
+     *
+     * @param string Author
+     * @return mixed Pluf_User or null
+     */
+    public function findAuthor($author)
+    {
+        // We extract the email.
+        $match = array();
+        if (!preg_match('/<(.*)>/', $author, $match)) {
+            return null;
+        }
+        $sql = new Pluf_SQL('email=%s', array($match[1]));
+        $users = Pluf::factory('Pluf_User')->getList(array('filter'=>$sql->gen()));
+        return ($users->count() > 0) ? $users[0] : null;
+    }
+
+
+    /**
      * Returns the URL of the git daemon.
      *
      * @param IDF_Project

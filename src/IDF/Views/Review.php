@@ -196,7 +196,7 @@ class IDF_Views_Review
                                                     'user' => $request->user,
                                                     'patch' => $patch,));
         }
-        $scm = IDF_Scm::get($request);
+        $scm = IDF_Scm::get($request->project);
         $files = array();
         $reviewers = array();
         foreach ($diff->files as $filename => $def) {

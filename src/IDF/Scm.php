@@ -30,15 +30,16 @@ class IDF_Scm
     /**
      * Returns an instance of the correct scm backend object.
      *
+     * @param IDF_Project
      * @return Object
      */
-    public static function get($request=null)
+    public static function get($project=null)
     {
         // Get scm type from project conf ; defaults to git
-        $scm = $request->conf->getVal('scm', 'git');
+        // We will need to cache the factory
+        $scm = $project->getConf()->getVal('scm', 'git');
         $scms = Pluf::f('allowed_scm');
-        return call_user_func(array($scms[$scm], 'factory'),
-                              $request->project);
+        return call_user_func(array($scms[$scm], 'factory'), $project);
     }
 
     /**
@@ -91,7 +92,7 @@ class IDF_Scm
         $cache = Pluf_Cache::factory();
         $key = 'IDF_Scm:'.$request->project->shortname.':lastsync'; 
         if (null === ($res=$cache->get($key))) {
-            $scm = IDF_Scm::get($request);
+            $scm = IDF_Scm::get($request->project);
             foreach ($scm->getBranches() as $branche) {
                 foreach ($scm->getChangeLog($branche, 25) as $change) {
                     IDF_Commit::getOrAdd($change, $request->project);
@@ -100,6 +101,5 @@ class IDF_Scm
             $cache->set($key, true, (int)(Pluf::f('cache_timeout', 300)/2));
         }
     }
-
 }
 

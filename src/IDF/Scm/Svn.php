@@ -42,6 +42,20 @@ class IDF_Scm_Svn
     }
 
     /**
+     * Given the string describing the author from the log find the
+     * author in the database.
+     *
+     * @param string Author
+     * @return mixed Pluf_User or null
+     */
+    public function findAuthor($author)
+    {
+        $sql = new Pluf_SQL('login=%s', array(trim($author)));
+        $users = Pluf::factory('Pluf_User')->getList(array('filter'=>$sql->gen()));
+        return ($users->count() > 0) ? $users[0] : null;
+    }
+
+    /**
      * Returns the URL of the subversion repository.
      *
      * @param IDF_Project

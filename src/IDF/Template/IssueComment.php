@@ -36,7 +36,7 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
     {
         $this->project = $request->project;
         $this->request = $request;
-        $this->scm = IDF_Scm::get($request);
+        $this->scm = IDF_Scm::get($request->project);
         if ($wordwrap) $text = wordwrap($text, 69, "\n", true);
         if ($esc) $text = Pluf_esc($text);
         if ($autolink) {
