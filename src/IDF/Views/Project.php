@@ -79,7 +79,7 @@ class IDF_Views_Project
         $rights = array();
         if (true === IDF_Precondition::accessSource($request)) {
             $rights[] = '\'IDF_Commit\'';
-            IDF_Scm::syncTimeline($request);
+            IDF_Scm::syncTimeline($request->project);
         }
         if (true === IDF_Precondition::accessIssues($request)) {
             $rights[] = '\'IDF_Issue\'';
@@ -156,7 +156,7 @@ class IDF_Views_Project
         $rights = array();
         if (true === IDF_Precondition::accessSource($request)) {
             $rights[] = '\'IDF_Commit\'';
-            IDF_Scm::syncTimeline($request);
+            IDF_Scm::syncTimeline($request->project);
         }
         if (true === IDF_Precondition::accessIssues($request)) {
             $rights[] = '\'IDF_Issue\'';

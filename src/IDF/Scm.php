@@ -87,15 +87,15 @@ class IDF_Scm
      * Sync the changes in the repository with the timeline.
      *
      */
-    public static function syncTimeline($request)
+    public static function syncTimeline($project)
     {
         $cache = Pluf_Cache::factory();
-        $key = 'IDF_Scm:'.$request->project->shortname.':lastsync'; 
+        $key = 'IDF_Scm:'.$project->shortname.':lastsync'; 
         if (null === ($res=$cache->get($key))) {
-            $scm = IDF_Scm::get($request->project);
+            $scm = IDF_Scm::get($project);
             foreach ($scm->getBranches() as $branche) {
                 foreach ($scm->getChangeLog($branche, 25) as $change) {
-                    IDF_Commit::getOrAdd($change, $request->project);
+                    IDF_Commit::getOrAdd($change, $project);
                 }
             }
             $cache->set($key, true, (int)(Pluf::f('cache_timeout', 300)/2));
