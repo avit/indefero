@@ -10,7 +10,7 @@ use it as reference only if you are sure you need these specific information.{/b
 </div>
 {/if}
 {if $oldrev}
-{assign $submitter = $oldrev.get_submitter()}{aurl 'url', 'IDF_Views_Wiki::view', array($project.shortname, $page.title)}
+{ashowuser 'submitter', $oldrev.get_submitter(), $request}{aurl 'url', 'IDF_Views_Wiki::view', array($project.shortname, $page.title)}
 <div class="old-rev">
 <p>{blocktrans}You are looking at an old revision of the page 
 <a href="{$url}">{$page.title}</a>. This revision was created
@@ -31,9 +31,9 @@ by {$submitter}.{/blocktrans}</p>
 
 {/block}
 {block context}
-{assign $submitter = $page.get_submitter()}
+{ashowuser 'submitter', $page.get_submitter(), $request}
 <p><strong>{trans 'Created:'}</strong> <span class="nobrk">{$page.creation_dtime|dateago}</span><br /><span class="nobrk">{blocktrans}by {$submitter}{/blocktrans}</span></p>
-{if $rev.creation_dtime != $page.creation_dtime}<p>{assign $submitter = $rev.get_submitter()}
+{if $rev.creation_dtime != $page.creation_dtime}<p>{ashowuser 'submitter', $rev.get_submitter(), $request}
 <strong>{trans 'Updated:'}</strong> <span class="nobrk">{$rev.creation_dtime|dateago}</span><br /><span class="nobrk">{blocktrans}by {$submitter}{/blocktrans}</span></p>{/if}
 {if $tags.count()}
 <p>
