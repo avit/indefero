@@ -192,10 +192,11 @@ class IDF_WikiPage extends Pluf_Model
         $out = '<tr class="log"><td><a href="'.$url.'">'.
             Pluf_esc(Pluf_Template_dateAgo($this->creation_dtime, 'without')).
             '</a></td><td>';
-        $submitter = $this->get_submitter();
+        $stag = new IDF_Template_ShowUser();
+        $user = $stag->start($this->get_submitter(), $request, '', false);
         $out .= sprintf(__('<a href="%1$s" title="View page">%2$s</a>, %3$s'), $url, Pluf_esc($this->title), Pluf_esc($this->summary)).'</td>';
         $out .= "\n".'<tr class="extra"><td colspan="2">
-<div class="helptext right">'.sprintf(__('Creation of <a href="%s">page&nbsp;%s</a>'), $url, Pluf_esc($this->title)).', '.__('by').' '.Pluf_esc($submitter).'</div></td></tr>'; 
+<div class="helptext right">'.sprintf(__('Creation of <a href="%s">page&nbsp;%s</a>'), $url, Pluf_esc($this->title)).', '.__('by').' '.$user.'</div></td></tr>'; 
         return Pluf_Template::markSafe($out);
     }
 

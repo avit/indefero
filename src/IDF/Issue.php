@@ -188,11 +188,12 @@ class IDF_Issue extends Pluf_Model
         $out = '<tr class="log"><td><a href="'.$url.'">'.
             Pluf_esc(Pluf_Template_dateAgo($this->creation_dtime, 'without')).
             '</a></td><td>';
-        $submitter = $this->get_submitter();
+        $stag = new IDF_Template_ShowUser();
+        $user = $stag->start($this->get_submitter(), $request, '', false);
         $ic = (in_array($this->status, $request->project->getTagIdsByStatus('closed'))) ? 'issue-c' : 'issue-o';
         $out .= sprintf(__('<a href="%1$s" class="%2$s" title="View issue">Issue %3$d</a>, %4$s'), $url, $ic, $this->id, Pluf_esc($this->summary)).'</td>';
         $out .= "\n".'<tr class="extra"><td colspan="2">
-<div class="helptext right">'.sprintf(__('Creation of <a href="%s" class="%s">issue&nbsp;%d</a>'), $url, $ic, $this->id).', '.__('by').' '.Pluf_esc($submitter).'</div></td></tr>'; 
+<div class="helptext right">'.sprintf(__('Creation of <a href="%s" class="%s">issue&nbsp;%d</a>'), $url, $ic, $this->id).', '.__('by').' '.$user.'</div></td></tr>'; 
         return Pluf_Template::markSafe($out);
     }
 

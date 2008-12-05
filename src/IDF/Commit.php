@@ -172,6 +172,8 @@ class IDF_Commit extends Pluf_Model
         $out = '<tr class="log"><td><a href="'.$url.'">'.
             Pluf_esc(Pluf_Template_dateAgo($this->creation_dtime, 'without')).
             '</a></td><td>';
+        $stag = new IDF_Template_ShowUser();
+        $user = $stag->start($this->get_author(), $request, $this->origauthor, false);
         $tag = new IDF_Template_IssueComment();
         $out .= $tag->start($this->summary, $request, false);
         if (0 && $this->fullmessage) {
@@ -181,7 +183,7 @@ class IDF_Commit extends Pluf_Model
 </tr>
 <tr class="extra">
 <td colspan="2">
-<div class="helptext right">'.__('Commit').'&nbsp;<a href="'.$url.'" class="mono">'.$this->scm_id.'</a>, '.__('by').' '.strip_tags($this->origauthor).'</div></td></tr>'; 
+<div class="helptext right">'.__('Commit').'&nbsp;<a href="'.$url.'" class="mono">'.$this->scm_id.'</a>, '.__('by').' '.$user.'</div></td></tr>'; 
         return Pluf_Template::markSafe($out);
     }
 

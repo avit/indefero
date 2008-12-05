@@ -85,6 +85,7 @@ class IDF_Middleware
                               'issuetext' => 'IDF_Template_IssueComment',
                               'timeline' => 'IDF_Template_TimelineFragment',
                               'markdown' => 'IDF_Template_Markdown',
+                              'showuser' => 'IDF_Template_ShowUser',
                                             ));
         $params['modifiers'] = array_merge($params['modifiers'],
                                            array(
