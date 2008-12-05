@@ -3,7 +3,7 @@
 {block tabhome} class="active"{/block}
 {block subtabs}
 <div id="sub-tabs">
-{trans 'Welcome'} | <a href="{url 'IDF_Views_Project::timeline', array($project.shortname)}">{trans 'Updates'}</a>{superblock}
+{trans 'Welcome'} | <strong><a href="{url 'IDF_Views_Project::timeline', array($project.shortname)}">{trans 'Latest Updates'}</a></strong>{superblock}
 </div>
 {/block}
 {block body}
