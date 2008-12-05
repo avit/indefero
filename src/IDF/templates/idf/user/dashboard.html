@@ -1,0 +1,15 @@
+{extends "idf/base-simple.html"}
+{block body}
+{$issues.render}
+{/block}
+{block context}
+{if $nb_owner > 0}
+<p><strong>{trans 'Working issues:'}</strong> <a href="{url 'idf_dashboard'}">{$nb_owner}</a></p>
+{/if}
+<p><strong>{trans 'Submitted issues:'}</strong> <a href="{url 'idf_dashboard_submit'}">{$nb_submit}</a></p>
+{aurl 'url', 'IDF_Views_User::myAccount'}
+<p>{blocktrans}<a href="{$url}">Update your account</a>.{/blocktrans}</p>
+{aurl 'url', 'IDF_Views_User::view', array($user.login)}
+<p>{blocktrans}<a href="{$url}">See your public profile</a>.{/blocktrans}</p>
+{/block}
+

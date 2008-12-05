@@ -33,6 +33,74 @@ Pluf::loadFunction('Pluf_Shortcuts_RenderToResponse');
 class IDF_Views_User
 {
     /**
+     * Dashboard of a user. 
+     *
+     * Shows all the open issues assigned to the user.
+     *
+     * TODO: This views is a SQL horror. What needs to be done to cut
+     * by many the number of SQL queries:
+     * - Add a table to cache the open/closed status ids for all the 
+     *   projects.
+     * - Left join the issues with the project to get the shortname.
+     *
+     */
+    public $dashboard_precond = array('Pluf_Precondition::loginRequired');
+    public function dashboard($request, $match, $working=true)
+    {
+
+        $otags = array();
+        // Note that this approach does not scale, we will need to add
+        // a table to cache the meaning of the tags for large forges.
+        foreach (IDF_Views::getProjects($request->user) as $project) {
+            $otags = array_merge($otags, $project->getTagIdsByStatus('open'));
+        }
+        if (count($otags) == 0) $otags[] = 0;
+        if ($working) {
+            $title = __('Your Dashboard - Working Issues');
+            $f_sql = new Pluf_SQL('owner=%s AND status IN ('.implode(', ', $otags).')', array($request->user->id));
+        } else {
+            $title = __('Your Dashboard - Submitted Issues');
+            $f_sql = new Pluf_SQL('submitter=%s AND status IN ('.implode(', ', $otags).')', array($request->user->id));
+        }
+
+        // Get stats about the issues
+        $sql = new Pluf_SQL('submitter=%s AND status IN ('.implode(', ', $otags).')', array($request->user->id));
+        $nb_submit = Pluf::factory('IDF_Issue')->getCount(array('filter'=>$sql->gen()));
+        $sql = new Pluf_SQL('owner=%s AND status IN ('.implode(', ', $otags).')', array($request->user->id));
+        $nb_owner = Pluf::factory('IDF_Issue')->getCount(array('filter'=>$sql->gen()));
+        // Paginator to paginate the issues
+        $pag = new Pluf_Paginator(new IDF_Issue());
+        $pag->class = 'recent-issues';
+        $pag->item_extra_props = array('current_user' => $request->user);
+        $pag->summary = __('This table shows the open issues.');
+        $pag->forced_where = $f_sql;
+        $pag->action = ($working) ? 'idf_dashboard' : 'idf_dashboard_submit';
+        $pag->sort_order = array('modif_dtime', 'ASC'); // will be reverted
+        $pag->sort_reverse_order = array('modif_dtime');
+        $list_display = array(
+             'id' => __('Id'),
+             array('project', 'Pluf_Paginator_FkToString', __('Project')),
+             array('summary', 'IDF_Views_IssueSummaryAndLabels', __('Summary')),
+             array('status', 'IDF_Views_Issue_ShowStatus', __('Status')),
+             array('modif_dtime', 'Pluf_Paginator_DateAgo', __('Last Updated')),
+                              );
+        $pag->configure($list_display, array(), array('status', 'modif_dtime'));
+        $pag->items_per_page = 10;
+        $pag->no_results_text = ($working) ? __('No issues are assigned to you, yeah!') : __('All the issues you submitted are fixed, yeah!');
+        $pag->setFromRequest($request);
+        return Pluf_Shortcuts_RenderToResponse('idf/user/dashboard.html',
+                                               array(
+                                                     'page_title' => $title,
+                                                     'nb_submit' => $nb_submit,
+                                                     'nb_owner' => $nb_owner,
+                                                     'issues' => $pag,
+                                                     ),
+                                               $request);
+        
+
+    }
+
+    /**
      * Simple management of the base info of the user.
      */
     public $myAccount_precond = array('Pluf_Precondition::loginRequired');
@@ -81,4 +149,28 @@ class IDF_Views_User
                                                $request);
     }
 
+}
+
+/**
+ * Display the summary of an issue, then on a new line, display the
+ * list of labels with a link to a view "by label only".
+ *
+ * The summary of the issue is linking to the issue.
+ */
+function IDF_Views_IssueSummaryAndLabels($field, $issue, $extra='')
+{
+    $project = $issue->get_project();
+    $edit = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view', 
+                                     array($project->shortname, $issue->id));
+    $tags = array();
+    foreach ($issue->get_tags_list() as $tag) {
+        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::listLabel', 
+                                        array($project->shortname, $tag->id, 'open'));
+        $tags[] = sprintf('<a class="label" href="%s">%s</a>', $url, Pluf_esc((string) $tag));
+    }
+    $out = '';
+    if (count($tags)) {
+        $out = '<br /><span class="note">'.implode(', ', $tags).'</span>';
+    }
+    return sprintf('<a href="%s">%s</a>', $edit, Pluf_esc($issue->summary)).$out;
 }

@@ -43,6 +43,21 @@ $ctl[] = array('regex' => '#^/preferences/$#',
                'model' => 'IDF_Views_User',
                'method' => 'myAccount');
 
+$ctl[] = array('regex' => '#^/dashboard/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_User',
+               'method' => 'dashboard',
+               'name' => 'idf_dashboard');
+
+$ctl[] = array('regex' => '#^/dashboard/submitted/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_User',
+               'method' => 'dashboard',
+               'params' => false,
+               'name' => 'idf_dashboard_submit');
+
 $ctl[] = array('regex' => '#^/u/(.*)/$#',
                'base' => $base,
                'priority' => 4,
