@@ -7,7 +7,7 @@
 <th><strong>{trans 'Date:'}</strong></th><td>{$cobject.date|date:"%Y-%m-%d %H:%M:%S"} ({$cobject.date|dateago})</td>
 </tr>
 <tr>
-<th><strong>{trans 'Author:'}</strong></th><td>{$cobject.author|strip_tags}</td>
+<th><strong>{trans 'Author:'}</strong></th><td>{showuser $rcommit.get_author(), $request}</td>
 </tr>
 <tr>
 <th><strong>{trans 'Commit:'}</strong></th><td class="mono"><a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $commit)}" title="{trans 'View corresponding source tree'}">{$cobject.commit}</a></td>

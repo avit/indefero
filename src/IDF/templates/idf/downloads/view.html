@@ -47,7 +47,7 @@
 {/if}
 {/block}
 {block context}
-{assign $submitter = $file.get_submitter()}
+{ashowuser 'submitter', $file.get_submitter(), $request}
 <p><strong>{trans 'Uploaded:'}</strong> <span class="nobrk">{$file.creation_dtime|dateago}</span> <span class="nobrk">{blocktrans}by {$submitter}{/blocktrans}</span></p>
 {if $file.modif_dtime != $file.creation_dtime}<p>
 <strong>{trans 'Updated:'}</strong> <span class="nobrk">{$file.modif_dtime|dateago}</span></p>{/if}

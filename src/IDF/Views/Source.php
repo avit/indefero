@@ -53,17 +53,18 @@ class IDF_Views_Source
             return new Pluf_HTTP_Response_Redirect($url);
         }
         $changes = $scm->getChangeLog($commit, 25);
+        $rchanges = array();
         // Sync with the database
         foreach ($changes as $change) {
-            IDF_Commit::getOrAdd($change, $request->project);
+            $rchanges[] = IDF_Commit::getOrAdd($change, $request->project);
         }
-        $changes = new Pluf_Template_ContextVars($changes);
+        $rchanges = new Pluf_Template_ContextVars($rchanges);
         $scmConf = $request->conf->getVal('scm', 'git');
         return Pluf_Shortcuts_RenderToResponse('idf/source/changelog.html',
                                                array(
                                                      'page_title' => $title,
                                                      'title' => $title,
-                                                     'changes' => $changes,
+                                                     'changes' => $rchanges,
                                                      'commit' => $commit,
                                                      'branches' => $branches,
                                                      'scm' => $scmConf,
@@ -216,6 +217,7 @@ class IDF_Views_Source
         $title = sprintf(__('%s Commit Details'), (string) $request->project);
         $page_title = sprintf(__('%s Commit Details - %s'), (string) $request->project, $commit);
         $cobject = $scm->getCommit($commit);
+        $rcommit = IDF_Commit::getOrAdd($cobject, $request->project);
         $diff = new IDF_Diff($cobject->changes);
         $diff->parse();
         $scmConf = $request->conf->getVal('scm', 'git');
@@ -228,6 +230,7 @@ class IDF_Views_Source
                                                      'commit' => $commit,
                                                      'branches' => $branches,
                                                      'scm' => $scmConf,
+                                                     'rcommit' => $rcommit,
                                                      ),
                                                $request);
     }

@@ -86,6 +86,7 @@ class IDF_Middleware
                               'timeline' => 'IDF_Template_TimelineFragment',
                               'markdown' => 'IDF_Template_Markdown',
                               'showuser' => 'IDF_Template_ShowUser',
+                              'ashowuser' => 'IDF_Template_AssignShowUser',
                                             ));
         $params['modifiers'] = array_merge($params['modifiers'],
                                            array(
