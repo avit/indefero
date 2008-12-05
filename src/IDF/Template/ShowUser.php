@@ -50,12 +50,13 @@ class IDF_Template_ShowUser extends Pluf_Template_Tag
         if ($user == null) {
             $out = (strlen($text)) ? strip_tags($text) : __('Anonymous');
         } else {
-            $url = Pluf_HTTP_URL_urlForView('IDF_Views_User::view', 
-                                            array($user->login));
             if (!$user->isAnonymous() and $user->id == $request->user->id) {
                 $utext = __('Me');
+                $url = Pluf_HTTP_URL_urlForView('idf_dashboard');
             } else {
                 $utext = Pluf_esc($user);
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views_User::view', 
+                                            array($user->login));
             }
             $out = sprintf('<a href="%s" class="username">%s</a>',
                            $url, $utext);
