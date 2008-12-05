@@ -179,16 +179,6 @@ $cfg['middleware_classes'] = array(
          );
 $cfg['template_context_processors'] = array('IDF_Middleware_ContextPreProcessor');
 $cfg['idf_views'] = dirname(__FILE__).'/urls.php';
-$cfg['template_tags'] = array(
-                              'hotkey' => 'IDF_Template_HotKey',
-                              'issuetext' => 'IDF_Template_IssueComment',
-                              'timeline' => 'IDF_Template_TimelineFragment',
-                              'markdown' => 'IDF_Template_Markdown',
-                              );
-$cfg['template_modifiers'] = array(
-                                   'size' => 'IDF_Views_Source_PrettySize',
-                                   'ssize' => 'IDF_Views_Source_PrettySizeSimple',
-                                   );
 
 # available languages
 $cfg['languages'] = array('en', 'fr'); 

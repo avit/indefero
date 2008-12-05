@@ -69,6 +69,29 @@ class IDF_Middleware
             $request->rights[$val] = (true === IDF_Precondition::accessTabGeneric($request, $key));
         }
     }
+
+    /**
+     * Update the template tags and modifiers to not have them in the config.
+     *
+     * This is here at the moment because we do not want to put that
+     * in a IDF_Template class just for one method.
+     *
+     */
+    public static function updateTemplateTagsModifiers($sender, &$params)
+    {
+        $params['tags'] = array_merge($params['tags'],
+                                      array(
+                              'hotkey' => 'IDF_Template_HotKey',
+                              'issuetext' => 'IDF_Template_IssueComment',
+                              'timeline' => 'IDF_Template_TimelineFragment',
+                              'markdown' => 'IDF_Template_Markdown',
+                                            ));
+        $params['modifiers'] = array_merge($params['modifiers'],
+                                           array(
+                                   'size' => 'IDF_Views_Source_PrettySize',
+                                   'ssize' => 'IDF_Views_Source_PrettySizeSimple',
+                                                 ));
+    }
 }
 
 
