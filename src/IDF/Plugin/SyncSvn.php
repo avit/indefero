@@ -33,7 +33,7 @@ class IDF_Plugin_SyncSvn
     /**
      * Entry point of the plugin.
      */
-    static public function entry($signal, $params)
+    static public function entry($signal, &$params)
     {
         // First check for the 3 mandatory config variables.
         if (!Pluf::f('idf_plugin_syncsvn_authz_file', false) or
