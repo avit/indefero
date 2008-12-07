@@ -19,7 +19,7 @@
 #
 # ***** END LICENSE BLOCK ***** */
 
-h2.top { 
+.top { 
   margin-top: 0;
 }
 
@@ -118,6 +118,12 @@ div.user-messages {
   margin-bottom: 1em;
   margin-left: -1px;
   width: 90%;
+}
+
+div.theterms { 
+  border: 1px solid rgb(229, 225, 169);
+  background-color: #fffde3;
+  padding: 1em 1em 0 1em;
 }
 
 

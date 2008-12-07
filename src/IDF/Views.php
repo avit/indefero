@@ -95,9 +95,13 @@ class IDF_Views
             $init = (isset($request->GET['login'])) ? array('initial' => array('login' => $request->GET['login'])) : array();
             $form = new IDF_Form_Register(null, $init);
         }
+        $context = new Pluf_Template_Context(array());
+        $tmpl = new Pluf_Template('idf/terms.html');
+        $terms = Pluf_Template::markSafe($tmpl->render($context));
         return Pluf_Shortcuts_RenderToResponse('idf/register/index.html', 
                                                array('page_title' => $title,
-                                                     'form' => $form),
+                                                     'form' => $form,
+                                                     'terms' => $terms),
                                                $request);
     }
 

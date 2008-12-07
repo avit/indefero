@@ -25,12 +25,16 @@
 <span class="helptext">{$form.f.email.help_text}</span>
 </td>
 </tr>
+<tr id="theterms">
+<td>&nbsp;</td>
+<td><div class="theterms">{$terms}</div></td>
+</tr>
 <tr>
 <td>&nbsp;</td>
 <td>
 {if $form.f.terms.errors}{$form.f.terms.fieldErrors}{/if}
 {$form.f.terms|unsafe} <strong>{$form.f.terms.labelTag}</strong><br />
-<span class="helptext">{blocktrans}Read the <a href="#">terms and conditions</a> &ndash; basically <em>"Please be nice, we respect you"</em>.{/blocktrans}</span>
+<span class="helptext">{blocktrans}Read the <a id="showterms" href="#theterms">terms and conditions</a> &ndash; basically <em>"Please be nice, we respect you"</em>.{/blocktrans}</span>
 </td>
 </tr>
 <tr>
@@ -51,7 +55,15 @@
 </div>
 {/block}
 {block javascript}<script type="text/javascript">
-document.getElementById('id_login').focus()
+document.getElementById('id_login').focus();
+{literal}
+$(document).ready(function() {
+    // Hide the key password by default.
+    $("#theterms").hide();
+    $("#showterms").click(function(){
+        $("#theterms").show();
+    });
+});{/literal}
 </script>
 {/block}
 
