@@ -120,7 +120,9 @@ class IDF_Views_User
                 return new Pluf_HTTP_Response_Redirect($url);
             }
         } else {
-            $form = new IDF_Form_UserAccount($request->user->getData(), $params);
+            $data = $request->user->getData();
+            unset($data['password']);
+            $form = new IDF_Form_UserAccount($data, $params);
         }
         return Pluf_Shortcuts_RenderToResponse('idf/user/myaccount.html', 
                                                array('page_title' => __('Your Account'),
