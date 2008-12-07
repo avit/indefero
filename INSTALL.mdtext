@@ -101,6 +101,10 @@ To upgrade:
     $ php /home/www/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -d -u
     $ php /home/www/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -d 
 
+## Subversion Repository Synchronization
+
+The documentation is available in the `doc/syncsvn.mdtext` file.
+
 ## For the Apache Webserver Users
 
 If you are using [Apache](http://httpd.apache.org/) for your webserver
