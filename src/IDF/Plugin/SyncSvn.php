@@ -21,7 +21,6 @@
 #
 # ***** END LICENSE BLOCK ***** */
 
-require_once 'File/Passwd/Authdigest.php'; // $ pear install File_Passwd
 
 /**
  * This classes is a plugin which allows to synchronise access rights
@@ -41,6 +40,7 @@ class IDF_Plugin_SyncSvn
             !Pluf::f('idf_plugin_syncsvn_svn_path'. false)) {
             return;
         }
+        include_once 'File/Passwd/Authdigest.php'; // $ pear install File_Passwd
         $plug = new IDF_Plugin_SyncSvn();
         switch ($signal) {
         case 'IDF_Project::created':
