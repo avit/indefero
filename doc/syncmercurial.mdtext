@@ -59,6 +59,6 @@ need to put the following lines in your configuration file:
 As InDefero modifies the private_indefero.conf, apache needs to be reloaded.
 Each time this file is modified, a temporary file is created. 
 
-    */5 * * * * /bin/sh /home/indefero/src/cron/SyncMercurial.sh
+    */5 * * * * /bin/sh /home/indefero/src/scripts/SyncMercurial.sh
 
 Edit this script and add correct values to `private_notify` and `reload_cmd`.
