@@ -92,7 +92,7 @@ class IDF_Plugin_SyncSvn
             return false;
         }
         $ht = new File_Passwd_Authbasic($passwd_file);
-        $ht->parse();
+        $ht->load();
         $ht->setMode(FILE_PASSWD_SHA); 
         if ($ht->userExists($user->login)) {
             $ht->changePasswd($user->login, $this->getSvnPass($user));
@@ -132,7 +132,7 @@ class IDF_Plugin_SyncSvn
         }
         $ht = new File_Passwd_Authbasic($passwd_file);
         $ht->setMode(FILE_PASSWD_SHA); 
-        $ht->parse();
+        $ht->load();
         $mem = $project->getMembershipData();
         $members = array_merge((array)$mem['members'], (array)$mem['owners'], 
                                (array)$mem['authorized']);
