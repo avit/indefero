@@ -190,5 +190,9 @@ $cfg['allowed_scm'] = array('git' => 'IDF_Scm_Git',
                             'mercurial' => 'IDF_Scm_Mercurial',
                             );
 
-$cfg['idf_mimetypes_db'] = '/etc/mime.types';
+# If you want to use another memtypes database
+# $cfg['idf_mimetypes_db'] = '/etc/mime.types';
+
+# Extra text files when displaying source
+# $cfg['idf_extra_text_ext'] = 'ext1 ext2 ext3';
 return $cfg;
