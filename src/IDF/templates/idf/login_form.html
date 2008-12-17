@@ -4,7 +4,7 @@
 <form method="post" action="{url 'IDF_Views::login'}">
 <input type="hidden" name="_redirect_after" value="{$_redirect_after}" />
 {if $error}
-<p class="px-form-error">{$error}</p>
+<p class="px-message-error">{$error}</p>
 {/if}
 <h3>{trans 'What is your login?'}</h3>
 <p><label for="id_login">{trans 'My login is'}</label> <input type="text" name="login" id="id_login" value="{$login}" /></p>
