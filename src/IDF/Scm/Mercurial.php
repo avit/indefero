@@ -149,7 +149,7 @@ class IDF_Scm_Mercurial
             list($hash, $perm, $exec, $file) = preg_split('/ |\t/', $line, 4);
             $file = trim($file);
             $dir = explode('/', $file, -1);
-            preg_match_all('|(\w+)/|', $file, $dir);
+            preg_match_all('|([a-zA-Z0-9_-]+)/|', $file, $dir);
             $tmp = '';
             for ($i=0; $i < count($dir[1]); $i++) {
                 if ($i > 0) {
@@ -206,7 +206,7 @@ class IDF_Scm_Mercurial
             list($hash, $perm, $exec, $file) = preg_split('/ |\t/', $line, 4);
             $file = trim($file);
             $dir = explode('/', $file, -1);
-            preg_match_all('|(\w+)/|', $file, $dir);
+            preg_match_all('|([a-zA-Z0-9_-]+)/|', $file, $dir);
             $tmp = '';
             for ($i=0; $i < count($dir[1]); $i++) {
                 if ($i > 0) {
