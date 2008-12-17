@@ -401,7 +401,7 @@ class IDF_Views_Source
         if (0 === strpos($fileinfo[0], 'text/')) {
             return true;
         }
-        $ext = 'mdtext php js';
+        $ext = 'mdtext php js cpp php-dist';
         return (in_array($fileinfo[2], explode(' ', $ext)));
     }
 
