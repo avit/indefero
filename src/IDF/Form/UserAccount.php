@@ -49,6 +49,18 @@ class IDF_Form_UserAccount  extends Pluf_Form
                                                        'size' => 20,
                                                                     ),
                                             ));
+
+        $this->fields['language'] = new Pluf_Form_Field_Varchar(
+                                      array('required' => true,
+                                            'label' => __('Language'),
+                                            'initial' => $this->user->language,
+                                            'widget' => 'Pluf_Form_Widget_SelectInput',
+                                            'widget_attrs' => array(
+                                                       'choices' => 
+                                                       Pluf_L10n::getInstalledLanguages()
+                                                                    ),
+                                            ));
+
         $this->fields['password'] = new Pluf_Form_Field_Varchar(
                                       array('required' => false,
                                             'label' => __('Your password'),

@@ -28,6 +28,12 @@
 </td>
 </tr>
 <tr>
+<th>{$form.f.language.labelTag}:</th>
+<td>{if $form.f.language.errors}{$form.f.language.fieldErrors}{/if}
+{$form.f.language|unsafe}
+</td>
+</tr>
+<tr>
 <th>{$form.f.password.labelTag}:</th>
 <td>{if $form.f.password.errors}{$form.f.password.fieldErrors}{/if}
 {$form.f.password|unsafe}<br />
