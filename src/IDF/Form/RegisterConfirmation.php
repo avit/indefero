@@ -63,6 +63,7 @@ class IDF_Form_RegisterConfirmation extends Pluf_Form
                                                        'size' => 15,
                                                                     ),
                                             ));
+
         $this->fields['password'] = new Pluf_Form_Field_Varchar(
                                       array('required' => true,
                                             'label' => __('Your password'),

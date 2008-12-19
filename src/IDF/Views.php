@@ -84,16 +84,19 @@ class IDF_Views
     function register($request, $match)
     {
         $title = __('Create Your Account');
+        $params = array('request'=>$request);
         if ($request->method == 'POST') {
-            $form = new IDF_Form_Register($request->POST);
+            $form = new IDF_Form_Register($request->POST, $params);
             if ($form->isValid()) {
                 $user = $form->save(); // It is sending the confirmation email
                 $url = Pluf_HTTP_URL_urlForView('IDF_Views::registerInputKey');
                 return new Pluf_HTTP_Response_Redirect($url);
             }
         } else {
-            $init = (isset($request->GET['login'])) ? array('initial' => array('login' => $request->GET['login'])) : array();
-            $form = new IDF_Form_Register(null, $init);
+            if (isset($request->GET['login'])) {
+                $params['initial'] = array('login' => $request->GET['login']);
+            }
+            $form = new IDF_Form_Register(null, $params);
         }
         $context = new Pluf_Template_Context(array());
         $tmpl = new Pluf_Template('idf/terms.html');

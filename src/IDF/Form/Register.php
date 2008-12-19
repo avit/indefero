@@ -27,8 +27,11 @@
  */
 class IDF_Form_Register extends Pluf_Form
 {
+    protected $request;
+
     public function initFields($extra=array())
     {
+        $this->request = $extra['request'];
         $login = '';
         if (isset($extra['initial']['login'])) {
             $login = $extra['initial']['login'];
@@ -115,6 +118,7 @@ class IDF_Form_Register extends Pluf_Form
         $user->last_name = $this->cleaned_data['login'];
         $user->login = $this->cleaned_data['login'];
         $user->email = $this->cleaned_data['email'];
+        $user->language = $this->request->language_code;
         $user->active = false;
         $user->create();
         $from_email = Pluf::f('from_email');
