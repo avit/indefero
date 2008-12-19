@@ -34,7 +34,7 @@
 <div id="{block docid}doc3{/block}" class="{block docclass}yui-t3{/block}">
   <div id="hd">
     <p class="top"><a href="#title" accesskey="2"></a>
-{aurl 'url', 'IDF_Views_User::myAccount'}{blocktrans}Welcome, <strong><a class="userw" href="{$url}">{$user}</a></strong>.{/blocktrans} <a href="{url 'IDF_Views::logout'}">{trans 'Sign Out'}</a>
+{aurl 'url', 'IDF_Views_User::dashboard'}{blocktrans}Welcome, <strong><a class="userw" href="{$url}">{$user}</a></strong>.{/blocktrans} <a href="{url 'IDF_Views::logout'}">{trans 'Sign Out'}</a>
 | <a href="{url 'IDF_Views::index'}">{trans 'Project List'}</a>
 | <a href="{url 'IDF_Views::faq'}" title="{trans 'Help and accessibility features'}">{trans 'Help'}</a>
     </p>
