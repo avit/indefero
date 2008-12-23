@@ -171,7 +171,7 @@ class IDF_Scm_Git
         if ('tree' != $this->testHash($tree)) {
             throw new Exception(sprintf(__('Not a valid tree: %s.'), $tree));
         }
-        $cmd_tmpl = 'GIT_DIR=%s git-ls-tree%s -t -l %s';
+        $cmd_tmpl = 'GIT_DIR=%s git ls-tree%s -t -l %s';
         $cmd = sprintf($cmd_tmpl, 
                        escapeshellarg($this->repo), 
                        ($recurse) ? ' -r' : '',
@@ -198,7 +198,7 @@ class IDF_Scm_Git
      */
     public function getFileInfo($totest, $commit='HEAD')
     {
-        $cmd_tmpl = 'GIT_DIR=%s git-ls-tree -r -t -l %s';
+        $cmd_tmpl = 'GIT_DIR=%s git ls-tree -r -t -l %s';
         $cmd = sprintf($cmd_tmpl, 
                        escapeshellarg($this->repo), 
                        escapeshellarg($commit));
@@ -224,7 +224,7 @@ class IDF_Scm_Git
      */
     public function getBlob($request_file_info, $dummy=null)
     {
-        return shell_exec(sprintf('GIT_DIR=%s git-cat-file blob %s',
+        return shell_exec(sprintf('GIT_DIR=%s git cat-file blob %s',
                                   escapeshellarg($this->repo), 
                                   escapeshellarg($request_file_info->hash)));
     }
