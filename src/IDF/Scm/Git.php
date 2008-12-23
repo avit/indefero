@@ -132,7 +132,7 @@ class IDF_Scm_Git
         // get the raw log corresponding to this commit to find the
         // origin of each file.
         $rawlog = array();
-        $cmd = sprintf('GIT_DIR=%s git log --raw --abbrev=40 --pretty=oneline %s',
+        $cmd = sprintf('GIT_DIR=%s git log --raw --abbrev=40 --pretty=oneline -5000 %s',
                        escapeshellarg($this->repo), escapeshellarg($commit));
         IDF_Scm::exec($cmd, $rawlog);
         // We reverse the log to be able to use a fixed efficient
@@ -150,8 +150,8 @@ class IDF_Scm_Git
                 $file->author = $fc->author;
             } else if ($file->type == 'blob') {
                 $file->date = $co->date;
-                $file->log = $co->title;
-                $file->author = $co->author; // May be wrong in some cases.
+                $file->log = '----'; 
+                $file->author = 'Unknown';
             }
             $file->fullpath = ($folder) ? $folder.'/'.$file->file : $file->file;
             $res[] = $file;
@@ -309,27 +309,29 @@ class IDF_Scm_Git
     {
         $res = array();
         $c = array();
-        $i = 0;
         $hdrs += 2;
+        $inheads = true;
+        $next_is_title = false;
         foreach ($lines as $line) {
-            $i++;
-            if (0 === strpos($line, 'commit')) {
+            if (preg_match('/^commit (\w{40})$/', $line)) {
                 if (count($c) > 0) {
                     $c['full_message'] = trim($c['full_message']);
                     $res[] = (object) $c;
                 }
                 $c = array();
-                $c['commit'] = trim(substr($line, 7));
+                $c['commit'] = trim(substr($line, 7, 40));
                 $c['full_message'] = '';
-                $i=1;
+                $inheads = true;
+                $next_is_title = false;
                 continue;
             }
-            if ($i == $hdrs) {
+            if ($next_is_title) {
                 $c['title'] = trim($line);
+                $next_is_title = false;
                 continue;
             }
             $match = array();
-            if (preg_match('/(\S+)\s*:\s*(.*)/', $line, $match)) {
+            if ($inheads and preg_match('/(\S+)\s*:\s*(.*)/', $line, $match)) {
                 $match[1] = strtolower($match[1]);
                 $c[$match[1]] = trim($match[2]);
                 if ($match[1] == 'date') {
@@ -337,13 +339,16 @@ class IDF_Scm_Git
                 }
                 continue;
             }
-            if ($i > ($hdrs+1)) {
+            if ($inheads and !$next_is_title and $line == '') {
+                $next_is_title = true;
+                $inheads = false;
+            }
+            if (!$inheads) {
                 $c['full_message'] .= trim($line)."\n";
                 continue;
             }
         }
         $c['full_message'] = trim($c['full_message']);
-        
         $res[] = (object) $c;
         return $res;
     }

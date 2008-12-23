@@ -33,7 +33,7 @@
 <td class="fileicon"><img src="{media '/idf/img/'~$file.type~'.png'}" alt="{$file.type}" /></td>
 <td{if $file.type != 'blob'} colspan="4"{/if}><a href="{$url}">{$file.file}</a></td>
 {if $file.type == 'blob'}
-{if isset($file.date)}
+{if isset($file.date) and $file.log != '----'}
 <td><span class="smaller">{$file.date|dateago:"wihtout"}</span></td> 
 <td><span class="smaller">{$file.author|strip_tags|trim}{trans ':'} {issuetext $file.log, $request, true, false}</span></td>
 {else}<td colspan="2"></td>{/if}
