@@ -140,6 +140,15 @@ class IDF_Form_IssueUpdate  extends IDF_Form_IssueCreate
         }
     }
 
+    function clean_content()
+    {
+        $content = trim($this->cleaned_data['content']);
+        if (!$this->show_full and strlen($content) == 0) {
+            throw new Pluf_Form_Invalid(__('You need to provide a description of the issue.'));
+        }
+        return $content;
+    }
+
     /**
      * We check that something is really changed.
      */

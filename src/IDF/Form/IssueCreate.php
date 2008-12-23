@@ -173,6 +173,15 @@ class IDF_Form_IssueCreate extends Pluf_Form
         return $this->cleaned_data;
     }
 
+    function clean_content()
+    {
+        $content = trim($this->cleaned_data['content']);
+        if (strlen($content) == 0) {
+            throw new Pluf_Form_Invalid(__('You need to provide a description of the issue.'));
+        }
+        return $content;
+    }
+
     function clean_status()
     {
         // Check that the status is in the list of official status
