@@ -55,8 +55,14 @@ class IDF_Diff
                 $files[$current_file]['chunks_def'] = array();
                 $current_chunk = 0;
                 continue;
-            }
-            if (0 === strpos($line, 'Index: ')) {
+            } else if (preg_match('#^diff -r [^\s]+ -r [^\s]+ (.+)$#', $line, $matches)) {
+                $current_file = $matches[1];
+                $files[$current_file] = array();
+                $files[$current_file]['chunks'] = array();
+                $files[$current_file]['chunks_def'] = array();
+                $current_chunk = 0;
+                continue;
+            } else if (0 === strpos($line, 'Index: ')) {
                 $current_file = self::getSvnFile($line);
                 $files[$current_file] = array();
                 $files[$current_file]['chunks'] = array();
