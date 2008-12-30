@@ -20,7 +20,7 @@
 {if $attachments.count() > 0}
 <hr align="left" class="attach" />
 <ul>
-{foreach $attachments as $a}<li><a href="{url 'IDF_Views_Issue::getAttachment', array($project.shortname, $a.id, $a.filename)}">{$a.filename}</a> - {$a.filesize|size}</li>{/foreach}
+{foreach $attachments as $a}<li><a href="{url 'IDF_Views_Issue::viewAttachment', array($project.shortname, $a.id, $a.filename)}">{$a.filename}</a> - {$a.filesize|size}</li>{/foreach}
 </ul>{/if}
 {if $i> 0 and $c.changedIssue()}
 <div class="issue-changes"> 

@@ -20,7 +20,7 @@
 
 {trans 'Attachments:'}{foreach $attachments as $a}
 - {$a.filename|safe} - {$a.filesize|ssize}
-  {$url_base}{url 'IDF_Views_Issue::getAttachment', array($project.shortname, $a.id, $a.filename)}{/foreach}
+  {$url_base}{url 'IDF_Views_Issue::viewAttachment', array($project.shortname, $a.id, $a.filename)}{/foreach}
 {/if}
 
 {/foreach}

@@ -8,6 +8,10 @@
 <input accesskey="4" type="text" value="{$q}" name="q" size="20" />
 <input type="submit" name="s" value="{trans 'Search'}" />
 </form>
+{if $inIssue} |
+{aurl 'url', 'IDF_Views_Issue::view', array($project.shortname, $issue.id)}
+<a href="{$url}">{trans 'Back to the issue'}</a>
+{/if}
 {superblock}
 </div>
 {/block}

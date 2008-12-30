@@ -1,0 +1,26 @@
+{extends "idf/issues/base.html"}
+{block extraheader}<link rel="stylesheet" type="text/css" href="{media '/idf/css/prettify.css'}" />{/block}
+{block docclass}yui-t2{assign $inIssue=true}{/block}
+{block body}
+<table class="code" summary=" ">
+<tbody>
+{$file}
+</tbody>
+</table>
+{aurl 'url', 'IDF_Views_Issue::getAttachment', array($project.shortname, $attachment.id, $attachment.filename)}
+<p class="right soft"><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/package-grey.png'}" alt="{trans 'Archive'}" align="bottom" /></a> <a href="{$url}">{trans 'Download this file'}</a></p>
+
+{/block}
+{block context}
+{aurl 'url', 'IDF_Views_Issue::view', array($project.shortname, $issue.id)}
+{assign $url = $url~'#ic'~$comment.id}
+<p>{blocktrans}Attachment to issue <a href="{$url}">{$issue.id}</a>{/blocktrans}</p>
+{ashowuser 'submitter', $attachment.get_submitter(), $request}
+<p><strong>{trans 'Created:'}</strong> <span class="nobrk">{$attachment.creation_dtime|dateago}</span> <span class="nobrk">{blocktrans}by {$submitter}{/blocktrans}</span></p>
+
+{/block}
+
+{block javascript}
+<script type="text/javascript" src="{media '/idf/js/prettify.js'}"></script>
+<script type="text/javascript">prettyPrint();</script>
+{/block}

@@ -401,7 +401,7 @@ class IDF_Views_Source
         if (0 === strpos($fileinfo[0], 'text/')) {
             return true;
         }
-        $ext = 'mdtext php js cpp php-dist h gitignore sh py pl rb '
+        $ext = 'mdtext php js cpp php-dist h gitignore sh py pl rb diff patch'
             .Pluf::f('idf_extra_text_ext', '');
         return (in_array($fileinfo[2], explode(' ', $ext)));
     }

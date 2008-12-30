@@ -323,10 +323,48 @@ class IDF_Views_Issue
         $prj = $request->project;
         $attach = Pluf_Shortcuts_GetObjectOr404('IDF_IssueFile', $match[2]);
         $prj->inOr404($attach->get_comment()->get_issue());
+        $info = IDF_Views_Source::getMimeType($attach->filename);
+        $mime = 'application/octet-stream';
+        if (strpos($info[0], 'image/') === 0) {
+            $mime = $info[0];
+        }
         $res = new Pluf_HTTP_Response_File(Pluf::f('upload_issue_path').'/'.$attach->attachment,
-                                           'application/octet-stream');
-        $res->headers['Content-Disposition'] = 'attachment; filename="'.$attach->filename.'"';
+                                           $mime);
+        if ($mime == 'application/octet-stream') {
+            $res->headers['Content-Disposition'] = 'attachment; filename="'.$attach->filename.'"';
+        }
         return $res;
+    }
+
+    /**
+     * View a given attachment.
+     */
+    public $viewAttachment_precond = array('IDF_Precondition::accessIssues');
+    public function viewAttachment($request, $match)
+    {
+        $prj = $request->project;
+        $attach = Pluf_Shortcuts_GetObjectOr404('IDF_IssueFile', $match[2]);
+        $prj->inOr404($attach->get_comment()->get_issue());
+        // If one cannot see the attachement, redirect to the
+        // getAttachment view.
+        $info = IDF_Views_Source::getMimeType($attach->filename);
+        if (!IDF_Views_Source::isText($info)) {
+            return $this->getAttachment($request, $match);
+        }
+        // Now we want to look at the file but with links back to the
+        // issue.
+        $file = IDF_Views_Source::highLight($info, 
+                                            file_get_contents(Pluf::f('upload_issue_path').'/'.$attach->attachment));
+        $title = sprintf(__('View %s'), $attach->filename);
+        return Pluf_Shortcuts_RenderToResponse('idf/issues/attachment.html',
+                                               array(
+                                                     'attachment' => $attach,
+                                                     'page_title' => $title,
+                                                     'comment' => $attach->get_comment(),
+                                                     'issue' => $attach->get_comment()->get_issue(),
+                                                     'file' => $file,
+                                                     ),
+                                               $request);
     }
 
     /**
