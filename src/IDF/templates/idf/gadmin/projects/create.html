@@ -68,6 +68,12 @@
 </td>
 </tr>
 <tr>
+<th>{if $form.f.private_project.errors}{$form.f.private_project.fieldErrors}{/if}
+{$form.f.private_project|unsafe}
+</th>
+<td>{$form.f.private_project.labelTag}</td>
+</tr>
+<tr>
 <td>&nbsp;</td>
 <td>
 <input type="submit" value="{trans 'Create Project'}" name="submit" /> 

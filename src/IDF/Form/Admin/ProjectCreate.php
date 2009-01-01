@@ -49,10 +49,17 @@ class IDF_Form_Admin_ProjectCreate extends Pluf_Form
                                             'initial' => '',
                                             ));
 
+        $this->fields['private_project'] = new Pluf_Form_Field_Boolean(
+                    array('required' => false,
+                          'label' => __('Private project'),
+                          'initial' => false,
+                          'widget' => 'Pluf_Form_Widget_CheckboxInput',
+                          ));
+
         $this->fields['shortname'] = new Pluf_Form_Field_Varchar(
                                       array('required' => true,
                                             'label' => __('Shortname'),
-                                            'initial' => 'myproject',
+                                            'initial' => '',
                                             'help_text' => __('It must be unique for each project and composed only of letters and digits.'),
                                             ));
 
@@ -149,6 +156,7 @@ class IDF_Form_Admin_ProjectCreate extends Pluf_Form
         $project = new IDF_Project();
         $project->name = $this->cleaned_data['name'];
         $project->shortname = $this->cleaned_data['shortname'];
+        $project->private = $this->cleaned_data['private_project'];
         $project->description = __('Write your project description here.');
         $project->create();
         $conf = new IDF_Conf();
