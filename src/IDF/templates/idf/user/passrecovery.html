@@ -1,0 +1,53 @@
+{extends "idf/base-simple.html"}
+{block body}
+{if $form.errors}
+<div class="px-message-error">
+<p>{trans 'Oups, please check the form for errors.'}</p>
+{if $form.get_top_errors}
+{$form.render_top_errors|unsafe}
+{/if}
+{if $form.f.key.errors}{$form.f.key.fieldErrors}{/if}
+</div>
+{/if}
+
+<form method="post" action=".">
+<table class="form" summary="">
+<tr>
+<th><strong>{trans 'Login:'}</strong></th>
+<td>{$new_user.login}</td>
+</tr>
+<tr>
+<th><strong>{trans 'Email:'}</strong></th>
+<td>{$new_user.email}</td>
+</tr>
+<tr>
+<th><strong>{$form.f.password.labelTag}:</strong></th>
+<td>{if $form.f.password.errors}{$form.f.password.fieldErrors}{/if}
+{$form.f.password|unsafe}<br />
+<span class="helptext">{$form.f.password.help_text}</span>
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.password2.labelTag}:</strong></th>
+<td>{if $form.f.password2.errors}{$form.f.password2.fieldErrors}{/if}
+{$form.f.password2|unsafe}
+</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td><input type="submit" value="{trans 'Reset Your Password'}" name="submit" /> | <a href="{url 'IDF_Views::index'}">{trans 'Cancel'}</a>
+</td>
+</tr>
+</table>{$form.f.key|unsafe}
+</form>
+{/block}
+{block context}
+<div class="issue-submit-info">
+<p>{trans 'This is the last step, but just <strong>be sure to have the cookies enabled</strong> to log in afterwards.'}</p>
+</div>
+{/block}
+{block javascript}<script type="text/javascript">
+document.getElementById('id_password').focus()
+</script>
+{/block}
+

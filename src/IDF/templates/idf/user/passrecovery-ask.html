@@ -1,0 +1,39 @@
+{extends "idf/base-simple.html"}
+{block body}
+{if $form.errors}
+<div class="px-message-error">
+<p>{trans 'Oups, please check the provided login or email address to recover your password.'}</p>
+{if $form.get_top_errors}
+{$form.render_top_errors|unsafe}
+{/if}
+</div>
+{/if}
+
+<form method="post" action=".">
+<table class="form" summary="">
+<tr>
+<th><strong>{$form.f.account.labelTag}:</strong></th>
+<td>{if $form.f.account.errors}{$form.f.account.fieldErrors}{/if}
+{$form.f.account|unsafe}<br />
+<span class="helptext">{$form.f.account.help_text}</span>
+</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td><input type="submit" value="{trans 'Recover My Password'}" name="submit" /> | <a href="{url 'IDF_Views::index'}">{trans 'Cancel'}</a>
+</td>
+</tr>
+</table>
+</form>
+{/block}
+{block context}
+<div class="issue-submit-info">
+<p>{trans 'Provide either your login or email address, if a corresponding user is found in the database, we will send you an email with the details on how to reset your password.'}</p>
+
+</div>
+{/block}
+{block javascript}<script type="text/javascript">
+document.getElementById('id_account').focus();
+</script>
+{/block}
+

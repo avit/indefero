@@ -64,24 +64,6 @@ $ctl[] = array('regex' => '#^/u/(.*)/$#',
                'model' => 'IDF_Views_User',
                'method' => 'view');
 
-$ctl[] = array('regex' => '#^/register/$#',
-               'base' => $base,
-               'priority' => 4,
-               'model' => 'IDF_Views',
-               'method' => 'register');
-
-$ctl[] = array('regex' => '#^/register/k/(.*)/$#',
-               'base' => $base,
-               'priority' => 4,
-               'model' => 'IDF_Views',
-               'method' => 'registerConfirmation');
-
-$ctl[] = array('regex' => '#^/register/ik/$#',
-               'base' => $base,
-               'priority' => 4,
-               'model' => 'IDF_Views',
-               'method' => 'registerInputKey');
-
 $ctl[] = array('regex' => '#^/logout/$#',
                'base' => $base,
                'priority' => 4,
@@ -434,6 +416,45 @@ $ctl[] = array('regex' => '#^/admin/projects/create/$#',
                'priority' => 4,
                'model' => 'IDF_Views_Admin',
                'method' => 'projectCreate');
+
+// ---------- UTILITY VIEWS -------------------------------
+
+$ctl[] = array('regex' => '#^/register/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views',
+               'method' => 'register');
+
+$ctl[] = array('regex' => '#^/register/k/(.*)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views',
+               'method' => 'registerConfirmation');
+
+$ctl[] = array('regex' => '#^/register/ik/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views',
+               'method' => 'registerInputKey');
+
+$ctl[] = array('regex' => '#^/password/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views',
+               'method' => 'passwordRecoveryAsk');
+
+$ctl[] = array('regex' => '#^/password/ik/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views',
+               'method' => 'passwordRecoveryInputCode');
+
+$ctl[] = array('regex' => '#^/password/k/(.*)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views',
+               'method' => 'passwordRecovery');
+
 
 
 return $ctl;

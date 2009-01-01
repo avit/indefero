@@ -1,0 +1,25 @@
+{blocktrans}Hello {$user},
+
+You lost your password and wanted to recover it.
+To provide a new password for your account, you
+just have to follow the provided link. You will
+get a simple form to provide a new password.
+
+{$url}
+
+Alternatively, go to this page:
+
+{$urlik}
+
+and provide the following verification key:
+
+{$key}
+
+If you are not the one who requested to reset
+your password, simply ignore this email, your
+password will not be changed.
+
+Yours faithfully,
+The development team.
+{/blocktrans}
+

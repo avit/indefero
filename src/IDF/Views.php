@@ -177,6 +177,98 @@ class IDF_Views
     }
 
     /**
+     * Password recovery.
+     *
+     * Request the login or the email of the user and if the login or
+     * email is available in the database, send an email with a key to
+     * reset the password.
+     *
+     */
+    function passwordRecoveryAsk($request, $match)
+    {
+        $title = __('Password Recovery');
+        if ($request->method == 'POST') {
+            $form = new IDF_Form_Password($request->POST);
+            if ($form->isValid()) {
+                $form->save();
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views::passwordRecoveryInputCode');
+                return new Pluf_HTTP_Response_Redirect($url);
+            }
+        } else {
+            $form = new IDF_Form_Password();
+        }
+        return Pluf_Shortcuts_RenderToResponse('idf/user/passrecovery-ask.html',
+                                               array('page_title' => $title,
+                                                     'form' => $form),
+                                               $request);
+    }
+
+    /**
+     * If the key is valid, provide a nice form to reset the password
+     * and automatically login the user. 
+     *
+     * This is also firing the password change event for the plugins.
+     */
+    public function passwordRecovery($request, $match)
+    {
+        $title = __('Password Recovery');
+        $key = $match[1];
+        // first "check", full check is done in the form.
+        $email_id = IDF_Form_PasswordInputKey::checkKeyHash($key);
+        if (false == $email_id) {
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views::passwordRecoveryInputKey');
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
+        $user = new Pluf_User($email_id[1]);
+        $extra = array('key' => $key,
+                       'user' => $user);
+        if ($request->method == 'POST') {
+            $form = new IDF_Form_PasswordReset($request->POST, $extra);
+            if ($form->isValid()) {
+                $user = $form->save();
+                $request->user = $user;
+                $request->session->clear();
+                $request->session->setData('login_time', gmdate('Y-m-d H:i:s'));
+                $user->last_login = gmdate('Y-m-d H:i:s');
+                $user->update();                
+                $request->user->setMessage(__('Welcome back! Next time, you can use your broswer options to remember the password.'));
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views::index');
+                return new Pluf_HTTP_Response_Redirect($url);
+            }
+        } else {
+            $form = new IDF_Form_PasswordReset(null, $extra);
+        }
+        return Pluf_Shortcuts_RenderToResponse('idf/user/passrecovery.html', 
+                                               array('page_title' => $title,
+                                                     'new_user' => $user,
+                                                     'form' => $form),
+                                               $request);
+        
+    }
+
+    /**
+     * Just a simple input box to provide the code and redirect to
+     * passwordRecovery
+     */
+    public function passwordRecoveryInputCode($request, $match)
+    {
+        $title = __('Password Recovery');
+        if ($request->method == 'POST') {
+            $form = new IDF_Form_PasswordInputKey($request->POST);
+            if ($form->isValid()) {
+                $url = $form->save();
+                return new Pluf_HTTP_Response_Redirect($url);
+            }
+        } else {
+            $form = new IDF_Form_PasswordInputKey();
+        }
+        return Pluf_Shortcuts_RenderToResponse('idf/user/passrecovery-inputkey.html', 
+                                               array('page_title' => $title,
+                                                     'form' => $form),
+                                               $request);
+    }
+
+    /**
      * FAQ.
      */
     public function faq($request, $match)
