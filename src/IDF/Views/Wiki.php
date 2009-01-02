@@ -144,6 +144,7 @@ class IDF_Views_Wiki
         $pag->forced_where = new Pluf_SQL('project=%s AND idf_tag_id=%s', array($prj->id, $tag->id));
         $pag->action = array('IDF_Views_Wiki::listLabel', array($prj->shortname, $tag->id));
         $pag->edit_action = array('IDF_Views_Wiki::view', 'shortname', 'title');
+        $pag->extra_classes = array('right', '', 'a-c');
         $list_display = array(
              'title' => __('Page Title'),
              array('summary', 'IDF_Views_Wiki_SummaryAndLabels', __('Summary')),

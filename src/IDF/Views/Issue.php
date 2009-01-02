@@ -55,6 +55,7 @@ class IDF_Views_Issue
         $pag->action = array('IDF_Views_Issue::index', array($prj->shortname));
         $pag->sort_order = array('modif_dtime', 'ASC'); // will be reverted
         $pag->sort_reverse_order = array('modif_dtime');
+        $pag->extra_classes = array('a-c', '', 'a-c', '');
         $list_display = array(
              'id' => __('Id'),
              array('summary', 'IDF_Views_Issue_SummaryAndLabels', __('Summary')),
@@ -111,6 +112,7 @@ class IDF_Views_Issue
         $pag->action = array('IDF_Views_Issue::myIssues', array($prj->shortname, $match[2]));
         $pag->sort_order = array('modif_dtime', 'ASC'); // will be reverted
         $pag->sort_reverse_order = array('modif_dtime');
+        $pag->extra_classes = array('a-c', '', 'a-c', '');
         $list_display = array(
              'id' => __('Id'),
              array('summary', 'IDF_Views_Issue_SummaryAndLabels', __('Summary')),
@@ -211,6 +213,7 @@ class IDF_Views_Issue
                                        'current_user' => $request->user);
         $pag->summary = __('This table shows the found issues.');
         $pag->action = array('IDF_Views_Issue::search', array($prj->shortname), array('q'=> $q));
+        $pag->extra_classes = array('a-c', '', 'a-c', '');
         $list_display = array(
                               'id' => __('Id'),
                               array('summary', 'IDF_Views_Issue_SummaryAndLabels', __('Summary')),
@@ -392,6 +395,7 @@ class IDF_Views_Issue
         $pag->action = array('IDF_Views_Issue::listStatus', array($prj->shortname, $status));
         $pag->sort_order = array('modif_dtime', 'ASC'); // will be reverted
         $pag->sort_reverse_order = array('modif_dtime');
+        $pag->extra_classes = array('a-c', '', 'a-c', '');
         $list_display = array(
              'id' => __('Id'),
              array('summary', 'IDF_Views_Issue_SummaryAndLabels', __('Summary')),
@@ -449,6 +453,7 @@ class IDF_Views_Issue
         $pag->action = array('IDF_Views_Issue::listLabel', array($prj->shortname, $tag->id, $status));
         $pag->sort_order = array('modif_dtime', 'ASC'); // will be reverted
         $pag->sort_reverse_order = array('modif_dtime');
+        $pag->extra_classes = array('a-c', '', 'a-c', '');
         $list_display = array(
              'id' => __('Id'),
              array('summary', 'IDF_Views_Issue_SummaryAndLabels', __('Summary')),
