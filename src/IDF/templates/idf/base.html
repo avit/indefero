@@ -37,7 +37,7 @@
     <p class="top"><a href="#title" accesskey="2"></a>
 {if !$user.isAnonymous()}{aurl 'url', 'idf_dashboard'}{blocktrans}Welcome, <strong><a class="userw" href="{$url}">{$user}</a></strong>.{/blocktrans} <a href="{url 'IDF_Views::logout'}">{trans 'Sign Out'}</a>{else}<a href="{url 'IDF_Views::login'}">{trans 'Sign in or create your account'}</a>{/if}
 {if $project} | <a href="{url 'IDF_Views::index'}">{trans 'Project List'}</a>{/if}
-{if $isAdmin}| <a href="{url 'IDF_Views_Admin::home'}">{trans 'Administer'}</a>{/if}
+{if $isAdmin}| <a href="{url 'IDF_Views_Admin::projects'}">{trans 'Administer'}</a>{/if}
 | <a href="{url 'IDF_Views::faq'}" title="{trans 'Help and accessibility features'}">{trans 'Help'}</a>
     </p>
 <div id="header">

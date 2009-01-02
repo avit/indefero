@@ -393,12 +393,6 @@ $ctl[] = array('regex' => '#^/api/p/([\-\w]+)/issues/create/$#',
 
 // ---------- FORGE ADMIN --------------------------------
 
-$ctl[] = array('regex' => '#^/admin/$#',
-               'base' => $base,
-               'priority' => 4,
-               'model' => 'IDF_Views_Admin',
-               'method' => 'home');
-
 $ctl[] = array('regex' => '#^/admin/projects/$#',
                'base' => $base,
                'priority' => 4,
