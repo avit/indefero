@@ -54,10 +54,11 @@ Add your content here. Format your content with:
             or $this->user->hasPerm('IDF.project-member', $this->project)) {
             $this->show_full = true;
         }
+        $initname = (!empty($extra['name'])) ? $extra['name'] : __('PageName');
         $this->fields['title'] = new Pluf_Form_Field_Varchar(
                                       array('required' => true,
                                             'label' => __('Page title'),
-                                            'initial' => __('PageName'),
+                                            'initial' => $initname,
                                             'widget_attrs' => array(
                                                        'maxlength' => 200,
                                                        'size' => 67,

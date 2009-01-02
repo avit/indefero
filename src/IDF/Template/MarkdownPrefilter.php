@@ -90,7 +90,7 @@ class IDF_Template_MarkdownPrefilter extends Pluf_Text_HTML_Filter
                                      );
 
     public $allowed = array(
-                            'img' => array('src', 'class', 'alt', 'height', 'width'),
+                            'img' => array('src', 'class', 'alt', 'height', 'width', 'style'),
                             'strong' => array(),
                             'em' => array(),
                             'b' => array(),
@@ -98,6 +98,9 @@ class IDF_Template_MarkdownPrefilter extends Pluf_Text_HTML_Filter
                             'ul' => array(),
                             'ol' => array(),
                             'li' => array(),
+                            'dl' => array(),
+                            'dt' => array(),
+                            'dd' => array(),
                             'p' => array('align', 'class'),
                             'div' => array('align', 'class'),
                             'br' => array(),

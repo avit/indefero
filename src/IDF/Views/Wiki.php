@@ -56,6 +56,7 @@ class IDF_Views_Wiki
             $sql .= ' AND id NOT IN ('.implode(',', $ids).')';
         }
         $pag->forced_where = new Pluf_SQL($sql, array($prj->id));
+        $pag->extra_classes = array('right', '', 'a-c');
         $list_display = array(
              'title' => __('Page Title'),
              array('summary', 'IDF_Views_Wiki_SummaryAndLabels', __('Summary')),
@@ -102,6 +103,7 @@ class IDF_Views_Wiki
         $pag->summary = __('This table shows the pages found.');
         $pag->action = array('IDF_Views_Wiki::search', array($prj->shortname), array('q'=> $q));
         $pag->edit_action = array('IDF_Views_Wiki::view', 'shortname', 'title');
+        $pag->extra_classes = array('right', '', 'a-c');
         $list_display = array(
              'title' => __('Page Title'),
              array('summary', 'IDF_Views_Wiki_SummaryAndLabels', __('Summary')),
@@ -190,9 +192,12 @@ class IDF_Views_Wiki
                 $preview = $request->POST['content'];
             }
         } else {
+            $pagename = (isset($request->GET['name'])) ?
+                $request->GET['name'] : '';
             $form = new IDF_Form_WikiCreate(null,
-                                        array('project' => $prj,
-                                              'user' => $request->user));
+                                            array('name' => $pagename,
+                                                  'project' => $prj,
+                                                  'user' => $request->user));
         }
         return Pluf_Shortcuts_RenderToResponse('idf/wiki/create.html',
                                                array(

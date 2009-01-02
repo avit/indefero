@@ -53,8 +53,12 @@ class IDF_Template_Markdown extends Pluf_Template_Tag
         $sql = new Pluf_SQL('project=%s AND title=%s', 
                             array($this->project->id, $m[1]));
         $pages = Pluf::factory('IDF_WikiPage')->getList(array('filter'=>$sql->gen()));
-        if ($pages->count() != 1) {
+        if ($pages->count() != 1 and !$this->request->rights['hasWikiAccess']) {
             return $m[0];
+        }
+        if ($pages->count() != 1 and $this->request->rights['hasWikiAccess']
+            and !$this->request->user->isAnonymous()) {
+            return '<img style="vertical-align: text-bottom;" alt=" " src="'.Pluf::f('url_media').'/idf/img/add.png" /><a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Wiki::create', array($this->project->shortname), array('name'=>$m[1])).'" title="'.__('Create this documentation page').'">'.$m[1].'</a>';
         }
         if (!$this->request->rights['hasWikiAccess']) {
             return $m[1];
