@@ -147,10 +147,18 @@ class IDF_Views_Admin
      *
      */
     public $users_precond = array('Pluf_Precondition::staffRequired');
-    public function users($request, $match)
+    public function users($request, $match, $not_validated=false)
     {
-        $title = __('User List');
         $pag = new Pluf_Paginator(new Pluf_User());
+        $db =& Pluf::db();
+        $true = Pluf_DB_BooleanToDb(true, $db);
+        if ($not_validated) {
+            $pag->forced_where = new Pluf_SQL('first_name = \'---\' AND active!='.$true);
+            $title = __('Not Validated User List');
+        } else {
+            $pag->forced_where = new Pluf_SQL('first_name != \'---\' AND active='.$true);
+            $title = __('User List');
+        }
         $pag->class = 'recent-issues';
         $pag->summary = __('This table shows the users in the forge.');
         $pag->action = 'IDF_Views_Admin::users';
@@ -164,7 +172,7 @@ class IDF_Views_Admin
              array('active', 'IDF_Views_Admin_bool', __('Active')),
              array('last_login', 'Pluf_Paginator_DateYMDHM', __('Last Login')),
                               );
-        $pag->extra_classes = array('', 'a-c', 'a-c', 'a-c', 'a-c', 'a-c');
+        $pag->extra_classes = array('', '', 'a-c', 'a-c', 'a-c', 'a-c');
         $pag->configure($list_display, array(), array('login'));
         $pag->items_per_page = 50;
         $pag->no_results_text = __('No users were found.');
@@ -173,8 +181,18 @@ class IDF_Views_Admin
                                                array(
                                                      'page_title' => $title,
                                                      'users' => $pag,
+                                                     'not_validated' => $not_validated,
                                                      ),
                                                $request);
+    }
+    
+    /**
+     * Not validated users.
+     */
+    public $usersNotValidated_precond = array('Pluf_Precondition::staffRequired');
+    public function usersNotValidated($request, $match)
+    {
+        return $this->users($request, $match, true);
     }
 
     /**

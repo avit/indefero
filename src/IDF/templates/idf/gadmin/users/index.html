@@ -6,6 +6,10 @@
 {$users.render}
 {/block}
 {block context}
+<p>{trans 'Number of users:'} <strong>{$users.nb_items}</strong></p>
+{if !$not_validated}{aurl 'url', 'IDF_Views_Admin::usersNotValidated'}
+<p class="helptext">{blocktrans}See <a href="{$url}">not validated users</a>.{/blocktrans}</p>
+{/if}
 <div class="issue-submit-info">
 {blocktrans}<p>You have here an overview of the users registered in the forge.</p>{/blocktrans}
 </div>
