@@ -1,0 +1,12 @@
+{extends "idf/gadmin/users/base.html"}
+
+{block docclass}yui-t2{assign $inIndex=true}{/block}
+
+{block body}
+{$users.render}
+{/block}
+{block context}
+<div class="issue-submit-info">
+{blocktrans}<p>You have here an overview of the users registered in the forge.</p>{/blocktrans}
+</div>
+{/block}

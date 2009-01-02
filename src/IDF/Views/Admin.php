@@ -142,4 +142,93 @@ class IDF_Views_Admin
                                                $request);
     }
 
+    /**
+     * Users overview.
+     *
+     */
+    public $users_precond = array('Pluf_Precondition::staffRequired');
+    public function users($request, $match)
+    {
+        $title = __('User List');
+        $pag = new Pluf_Paginator(new Pluf_User());
+        $pag->class = 'recent-issues';
+        $pag->summary = __('This table shows the users in the forge.');
+        $pag->action = 'IDF_Views_Admin::users';
+        $pag->edit_action = array('IDF_Views_Admin::userUpdate', 'id');
+        $pag->sort_order = array('login', 'ASC');
+        $list_display = array(
+             'login' => __('login'),
+             array('last_name', 'Pluf_Paginator_ToString', __('Name')),
+             array('staff', 'IDF_Views_Admin_bool', __('Staff')),
+             array('administrator', 'IDF_Views_Admin_bool', __('Admin')),
+             array('active', 'IDF_Views_Admin_bool', __('Active')),
+             array('last_login', 'Pluf_Paginator_DateYMDHM', __('Last Login')),
+                              );
+        $pag->extra_classes = array('', 'a-c', 'a-c', 'a-c', 'a-c', 'a-c');
+        $pag->configure($list_display, array(), array('login'));
+        $pag->items_per_page = 50;
+        $pag->no_results_text = __('No users were found.');
+        $pag->setFromRequest($request);
+        return Pluf_Shortcuts_RenderToResponse('idf/gadmin/users/index.html',
+                                               array(
+                                                     'page_title' => $title,
+                                                     'users' => $pag,
+                                                     ),
+                                               $request);
+    }
+
+    /**
+     * Edition of a user.
+     *
+     * Staff cannot edit other staff people and only admin can edit
+     * staff.
+     */
+    public $userUpdate_precond = array('Pluf_Precondition::staffRequired');
+    public function userUpdate($request, $match)
+    {
+        $user = Pluf_Shortcuts_GetObjectOr404('Pluf_User', $match[1]);
+        $title = sprintf(__('Update %s'), $user->__toString());
+        $params = array(
+                        'user' => $user,
+                        'request' => $request,
+                        );
+        // Check the rights.
+        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Admin::users');
+        $error = __('You do not have the rights to update this user.');
+        if ($user->administrator and $request->user->id != $user->id) {
+            $request->user->setMessage($error);
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
+        if ($user->staff) {
+            if (!$request->user->administrator and $request->user->id != $user->id) {
+                $request->user->setMessage($error);
+                return new Pluf_HTTP_Response_Redirect($url);
+            }
+        }
+
+        if ($request->method == 'POST') {
+            $form = new IDF_Form_Admin_UserUpdate($request->POST, $params);
+            if ($form->isValid()) {
+                $form->save();
+                $request->user->setMessage(__('The user has been updated.'));
+                return new Pluf_HTTP_Response_Redirect($url);
+            }
+        } else {
+            $form = new IDF_Form_Admin_UserUpdate(null, $params);
+        }
+        return Pluf_Shortcuts_RenderToResponse('idf/gadmin/users/update.html',
+                                               array(
+                                                     'page_title' => $title,
+                                                     'cuser' => $user,
+                                                     'form' => $form,
+                                                     ),
+                                               $request);
+    }
+}
+
+function IDF_Views_Admin_bool($field, $item)
+{
+    $img = ($item->$field) ? 'day' : 'night';
+    $text = ($item->$field) ? __('Yes') : __('No');
+    return sprintf('<img src="'.Pluf::f('url_media').'/idf/img/%s.png" alt="%s" /> ', $img, $text);
 }

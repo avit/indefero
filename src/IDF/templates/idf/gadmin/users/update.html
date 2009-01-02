@@ -1,0 +1,82 @@
+{extends "idf/gadmin/users/base.html"}
+{block docclass}yui-t1{assign $inUpdate=true}{/block}
+{block body}
+{if $form.errors}
+<div class="px-message-error">
+<p>{trans 'The form contains some errors. Please correct them to update the user.'}</p>
+{if $form.get_top_errors}
+{$form.render_top_errors|unsafe}
+{/if}
+</div>
+{/if}
+<form method="post" action=".">
+<table class="form" summary="">
+<tr>
+<th>{trans 'Login:'}</th>{aurl 'url', 'IDF_Views_User::view', array($cuser.login)}
+<td><a href="{$url}">{$cuser.login}</a></td>
+</tr>
+<tr>
+<th>{$form.f.first_name.labelTag}:</th>
+<td>{if $form.f.first_name.errors}{$form.f.first_name.fieldErrors}{/if}
+{$form.f.first_name|unsafe}
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.last_name.labelTag}:</strong></th>
+<td>{if $form.f.last_name.errors}{$form.f.last_name.fieldErrors}{/if}
+{$form.f.last_name|unsafe}
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.email.labelTag}:</strong></th>
+<td>{if $form.f.email.errors}{$form.f.email.fieldErrors}{/if}
+{$form.f.email|unsafe}
+</td>
+</tr>
+<tr>
+<th>{$form.f.language.labelTag}:</th>
+<td>{if $form.f.language.errors}{$form.f.language.fieldErrors}{/if}
+{$form.f.language|unsafe}
+</td>
+</tr>
+<tr>
+<th>{$form.f.password.labelTag}:</th>
+<td>{if $form.f.password.errors}{$form.f.password.fieldErrors}{/if}
+{$form.f.password|unsafe}<br />
+<span class="helptext">{$form.f.password.help_text}</span>
+</td>
+</tr>
+<tr>
+<th>{$form.f.password2.labelTag}:</th>
+<td>{if $form.f.password2.errors}{$form.f.password2.fieldErrors}{/if}
+{$form.f.password2|unsafe}
+</td>
+</tr>
+<tr>
+<th>{if $form.f.active.errors}{$form.f.active.fieldErrors}{/if}
+{$form.f.active|unsafe}
+</th>
+<td>{$form.f.active.labelTag}<br />
+<span class="helptext">{$form.f.active.help_text}</span></td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>
+<input type="submit" value="{trans 'Update User'}" name="submit" /> 
+| <a href="{url 'IDF_Views_Admin::users'}">{trans 'Cancel'}</a>
+</td>
+</tr>
+</table>
+</form>
+{/block}
+{block context}
+<div class="issue-submit-info">
+<p><strong>{trans 'Instructions:'}</strong></p>
+<p>{blocktrans}If you are changing the email address of the user, you
+need to ensure that you are providing a valid email
+address{/blocktrans}</p>
+</div>
+{/block}
+
+
+

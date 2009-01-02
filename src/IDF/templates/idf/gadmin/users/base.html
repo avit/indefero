@@ -1,0 +1,9 @@
+{extends "idf/gadmin/base.html"}
+{block tabusers} class="active"{/block}
+{block subtabs}
+<a {if $inIndex}class="active" {/if}href="{url 'IDF_Views_Admin::users'}">{trans 'User List'}</a> 
+{if $inUpdate} |
+<a class="active" href="{url 'IDF_Views_Admin::userUpdate', array($cuser.id)}">{trans 'Update User'}</a> 
+{/if}
+
+{/block}

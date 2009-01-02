@@ -417,6 +417,18 @@ $ctl[] = array('regex' => '#^/admin/projects/create/$#',
                'model' => 'IDF_Views_Admin',
                'method' => 'projectCreate');
 
+$ctl[] = array('regex' => '#^/admin/users/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Admin',
+               'method' => 'users');
+
+$ctl[] = array('regex' => '#^/admin/users/(\d+)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_Admin',
+               'method' => 'userUpdate');
+
 // ---------- UTILITY VIEWS -------------------------------
 
 $ctl[] = array('regex' => '#^/register/$#',

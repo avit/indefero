@@ -43,6 +43,10 @@ a:active{
   text-align: right;
 }
 
+.a-c { 
+  text-align: center;
+}
+
 .dellink { 
   float: right; 
   position: relative; 
