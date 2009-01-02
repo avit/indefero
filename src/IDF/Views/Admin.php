@@ -156,7 +156,7 @@ class IDF_Views_Admin
             $pag->forced_where = new Pluf_SQL('first_name = \'---\' AND active!='.$true);
             $title = __('Not Validated User List');
         } else {
-            $pag->forced_where = new Pluf_SQL('first_name != \'---\' AND active='.$true);
+            $pag->forced_where = new Pluf_SQL('first_name != \'---\'');
             $title = __('User List');
         }
         $pag->class = 'recent-issues';
@@ -173,7 +173,7 @@ class IDF_Views_Admin
              array('last_login', 'Pluf_Paginator_DateYMDHM', __('Last Login')),
                               );
         $pag->extra_classes = array('', '', 'a-c', 'a-c', 'a-c', 'a-c');
-        $pag->configure($list_display, array(), array('login'));
+        $pag->configure($list_display, array(), array('login', 'last_login'));
         $pag->items_per_page = 50;
         $pag->no_results_text = __('No users were found.');
         $pag->setFromRequest($request);
