@@ -68,6 +68,9 @@ class IDF_Form_Register extends Pluf_Form
     public function clean_login()
     {
         $this->cleaned_data['login'] = mb_strtolower(trim($this->cleaned_data['login']));
+        if (preg_match('/[^A-Za-z0-9]/', $this->cleaned_data['login'])) {
+            throw new Pluf_Form_Invalid(sprintf(__('The login "%s" can only contain letters and digits.'), $this->cleaned_data['login']));
+        }
         $guser = new Pluf_User();
         $sql = new Pluf_SQL('login=%s', $this->cleaned_data['login']);
         if ($guser->getCount(array('filter' => $sql->gen())) > 0) {
