@@ -93,6 +93,16 @@ class IDF_Form_Admin_UserUpdate  extends Pluf_Form
                                                                     ),
                                             ));
 
+        if ($extra['request']->user->administrator) {
+            $this->fields['staff'] = new Pluf_Form_Field_Boolean(
+                    array('required' => false,
+                          'label' => __('Staff'),
+                          'initial' => $this->user->staff,
+                          'widget' => 'Pluf_Form_Widget_CheckboxInput',
+                          'help_text' => __('If you give staff rights to a user, you really need to trust him.'),
+                          ));
+        }
+
         $attrs = ($extra['request']->user->id == $this->user->id) ?
             array('readonly' => 'readonly') : array();
         $this->fields['active'] = new Pluf_Form_Field_Boolean(

@@ -51,7 +51,14 @@
 <td>{if $form.f.password2.errors}{$form.f.password2.fieldErrors}{/if}
 {$form.f.password2|unsafe}
 </td>
-</tr>
+</tr>{if $user.administrator}
+<tr>
+<th>{if $form.f.staff.errors}{$form.f.staff.fieldErrors}{/if}
+{$form.f.staff|unsafe}
+</th>
+<td>{$form.f.staff.labelTag}<br />
+<span class="helptext">{$form.f.staff.help_text}</span></td>
+</tr>{/if}
 <tr>
 <th>{if $form.f.active.errors}{$form.f.active.fieldErrors}{/if}
 {$form.f.active|unsafe}
@@ -75,6 +82,10 @@
 <p>{blocktrans}If you are changing the email address of the user, you
 need to ensure that you are providing a valid email
 address{/blocktrans}</p>
+{if $user.administrator}
+<p>{blocktrans}If you give the user staff rights, the user will be
+able to create new projects and update other non staff users.
+{/blocktrans}</p> {/if}
 </div>
 {/block}
 
