@@ -115,7 +115,7 @@ class IDF_Scm_Git
             // As we are limiting to a given folder, we need to find
             // the tree corresponding to this folder.
             $found = false;
-            foreach ($this->getTreeInfo($co->tree) as $file) {
+            foreach ($this->getTreeInfo($co->tree, true, $folder) as $file) {
                 if ($file->type == 'tree' and $file->file == $folder) {
                     $found = true;
                     $tree = $file->hash;
@@ -166,16 +166,16 @@ class IDF_Scm_Git
      * @param bool Do we recurse in subtrees (true)
      * @return array Array of file information.
      */
-    public function getTreeInfo($tree, $recurse=true)
+    public function getTreeInfo($tree, $recurse=true, $folder='')
     {
         if ('tree' != $this->testHash($tree)) {
             throw new Exception(sprintf(__('Not a valid tree: %s.'), $tree));
         }
-        $cmd_tmpl = 'GIT_DIR=%s git ls-tree%s -t -l %s';
+        $cmd_tmpl = 'GIT_DIR=%s git ls-tree%s -t -l %s %s';
         $cmd = sprintf($cmd_tmpl, 
                        escapeshellarg($this->repo), 
                        ($recurse) ? ' -r' : '',
-                       escapeshellarg($tree));
+                       escapeshellarg($tree), escapeshellarg($folder));
         $out = array();
         $res = array();
         IDF_Scm::exec($cmd, $out);
