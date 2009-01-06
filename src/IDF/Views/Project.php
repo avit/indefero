@@ -416,7 +416,9 @@ class IDF_Views_Project
             $form = new IDF_Form_TabsConf($request->POST, $extra);
             if ($form->isValid()) {
                 foreach ($form->cleaned_data as $key=>$val) {
-                    $request->conf->setVal($key, $val);
+                    if (!in_array($key, array('private_project', 'authorized_users'))) {
+                        $request->conf->setVal($key, $val);
+                    }
                 }
                 $form->save(); // Save the authorized users.
                 $request->user->setMessage(__('The project tabs access rights have been saved.'));
@@ -427,8 +429,8 @@ class IDF_Views_Project
         } else {
             $params = array();
             $keys = array('downloads_access_rights', 'source_access_rights',
-                          'issues_access_rights', 'private_project',
-                          'review_access_rights', 'wiki_access_rights');
+                          'issues_access_rights', 'review_access_rights', 
+                          'wiki_access_rights');
             foreach ($keys as $key) {
                 $_val = $request->conf->getVal($key, false);
                 if ($_val !== false) {
@@ -438,9 +440,7 @@ class IDF_Views_Project
             // Add the authorized users.
             $md = $prj->getMembershipData('string');
             $params['authorized_users'] = $md['authorized'];
-            if (count($params) == 0) {
-                $params = null; //Nothing in the db, so new form.
-            }
+            $params['private_project'] = $prj->private;
             $form = new IDF_Form_TabsConf($params, $extra);
         }
         return Pluf_Shortcuts_RenderToResponse('idf/admin/tabs.html',
