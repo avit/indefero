@@ -101,6 +101,8 @@ To upgrade:
     $ php /home/www/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -d -u
     $ php /home/www/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -d 
 
+* Remove all the `*.phps` files in your temp folder.
+
 ## Repository Synchronization
 
 The documentation is available in the `doc` folder.
