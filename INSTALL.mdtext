@@ -32,6 +32,7 @@ docroot.
 * Checkout the trunk of [Pluf](http://www.pluf.org).
 * Install the `Mail` and `Mail_mime` classes from [PEAR](http://pear.php.net). You must use the `--alldeps` flag when installing these modules:
 
+    $ sudo pear upgrade-all
     $ sudo pear install --alldeps Mail
     $ sudo pear install --alldeps Mail_mime
 
