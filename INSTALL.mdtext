@@ -63,10 +63,10 @@ Here is the step-by-step installation procedure:
 * Create a bootstrap file to create the admin user for example `www/bootstrap.php`. Do not forget to update the second line with your path to Pluf:
 
     <?php
-    set_include_path(get_include_path().PATH_SEPARATOR.dirname(__FILE__).'/home/www/indefero/src');
+    set_include_path(get_include_path().PATH_SEPARATOR.'/home/www/indefero/src');
     set_include_path(get_include_path().PATH_SEPARATOR.'/home/www/pluf/src');
     require 'Pluf.php';
-    Pluf::start(dirname(__FILE__).'/home/www/indefero/src/IDF/conf/idf.php');
+    Pluf::start('/home/www/indefero/src/IDF/conf/idf.php');
     Pluf_Dispatcher::loadControllers(Pluf::f('idf_views'));
     
     $user = new Pluf_User();
