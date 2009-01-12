@@ -109,10 +109,33 @@ class IDF_Form_Admin_ProjectCreate extends Pluf_Form
                                                                     'cols' => 40),
                                             'widget' => 'Pluf_Form_Widget_TextareaInput',
                                             ));
+        /**
+         * [signal]
+         *
+         * IDF_Form_Admin_ProjectCreate::initFields
+         *
+         * [sender]
+         *
+         * IDF_Form_Admin_ProjectCreate
+         *
+         * [description]
+         *
+         * This signal allows an application to modify the form
+         * for the creation of a project.
+         *
+         * [parameters]
+         *
+         * array('form' => $form)
+         *
+         */
+        $params = array('form' => $this);
+        Pluf_Signal::send('IDF_Form_Admin_ProjectCreate::initFields',
+                          'IDF_Form_Admin_ProjectCreate', $params);
     }
 
     public function clean_svn_remote_url()
     {
+        $this->cleaned_data['svn_remote_url'] = (!empty($this->cleaned_data['svn_remote_url'])) ? $this->cleaned_data['svn_remote_url'] : '';
         $url = trim($this->cleaned_data['svn_remote_url']);
         if (strlen($url) == 0) return $url;
         // we accept only starting with http(s):// to avoid people
@@ -151,6 +174,28 @@ class IDF_Form_Admin_ProjectCreate extends Pluf_Form
                 $this->cleaned_data[$key] = '';
             }
         }
+        /**
+         * [signal]
+         *
+         * IDF_Form_Admin_ProjectCreate::clean
+         *
+         * [sender]
+         *
+         * IDF_Form_Admin_ProjectCreate
+         *
+         * [description]
+         *
+         * This signal allows an application to clean the form
+         * for the creation of a project.
+         *
+         * [parameters]
+         *
+         * array('cleaned_data' => $cleaned_data)
+         *
+         */
+        $params = array('cleaned_data' => $this->cleaned_data);
+        Pluf_Signal::send('IDF_Form_Admin_ProjectCreate::clean',
+                          'IDF_Form_Admin_ProjectCreate', $params);
         return $this->cleaned_data;
     }
 
@@ -170,6 +215,8 @@ class IDF_Form_Admin_ProjectCreate extends Pluf_Form
         $keys = array('scm', 'svn_remote_url', 
                       'svn_username', 'svn_password');
         foreach ($keys as $key) {
+            $this->cleaned_data[$key] = (!empty($this->cleaned_data[$key])) ? 
+                $this->cleaned_data[$key] : '';
             $conf->setVal($key, $this->cleaned_data[$key]);
         }
         $project->created();
