@@ -29,7 +29,7 @@ $cfg = array();
 $cfg['debug'] = true;
 # It will help you catch errors at beginning when configuring your 
 # SCM backend. It must be turned off in production.
-$cfg['debug_scm'] = true; 
+$cfg['debug_scm'] = false; 
 
 # If you have a single git repository, just put the full path to it
 # without trailing slash. The path is the path to the git database,
@@ -53,7 +53,7 @@ $cfg['git_repositories'] = '/home/git/repositories/%s.git';
 # configuration variable as it is only for information use in the
 # tree view.
 #
-$cfg['git_remote_url'] = 'git://projects.ceondo.com/%s.git';
+$cfg['git_remote_url'] = 'git://localhost/%s.git';
 
 # Same as for git, you can have multiple repositories, one for each
 # project or a single one for all the projects. 
@@ -63,7 +63,7 @@ $cfg['git_remote_url'] = 'git://projects.ceondo.com/%s.git';
 # you can define a local repository, local repositories are defined
 # here. This if for security reasons.
 $cfg['svn_repositories'] = 'file:///home/svn/repositories/%s';
-$cfg['svn_remote_url'] = 'http://projects.ceondo.com/svn/%s';
+$cfg['svn_remote_url'] = 'http://localhost/svn/%s';
 
 # Mercurial repositories path
 #$cfg['mercurial_repositories'] = '/home/mercurial/repositories/%s';
@@ -90,7 +90,7 @@ $cfg['mail_port'] = 25;
 #   $cfg['idf_base'] = '/myfolder/index.php';
 #   $cfg['url_base'] = 'http://www.mydomain.com';
 #
-# You have: 
+# You have mod_rewrite: 
 #   http://www.mydomain.com/
 # Put:
 #   $cfg['idf_base'] = '';
@@ -98,18 +98,18 @@ $cfg['mail_port'] = 25;
 #
 #
 #
-$cfg['idf_base'] = '';
-$cfg['url_base'] = 'http://projects.ceondo.com';
+$cfg['idf_base'] = '/index.php';
+$cfg['url_base'] = 'http://localhost';
 
 # Url to access the media folder which is in the www folder 
 # of the archive
-$cfg['url_media'] = 'http://projects.ceondo.com/media';
+$cfg['url_media'] = 'http://localhost/media';
 
 # Url to access a folder in which the files you upload through
 # the downloads tab will be stored.
-$cfg['url_upload'] = 'http://projects/ceondo.com/media/upload';
+$cfg['url_upload'] = 'http://localhost/media/upload';
 # Path to the upload folder
-$cfg['upload_path'] = '/path/to/media/upload';
+$cfg['upload_path'] = '/home/www/indefero/www/media/upload';
 
 #
 # The following path *MUST NOT* be accessible through a web browser 
@@ -117,7 +117,7 @@ $cfg['upload_path'] = '/path/to/media/upload';
 # create *TERRIBLE* security issues. In this folder, the attachments 
 # to the issues will be uploaded and we do not restrict the content type.
 #
-$cfg['upload_issue_path'] = '/path/to/attachments';
+$cfg['upload_issue_path'] = '/home/www/indefero/attachments';
 
 #
 # write here a long random string unique for this installation. This
@@ -137,12 +137,10 @@ $cfg['bounce_email'] = 'no-reply@example.com';
 $cfg['tmp_folder'] = '/tmp';
 
 # Database configuration
-# For testing we are using in memory SQLite database.
 $cfg['db_login'] = 'www';
 $cfg['db_password'] = '';
 $cfg['db_server'] = '';
-# Only needed for MySQL
-$cfg['db_version'] = '5.1';
+$cfg['db_version'] = '5.1'; # Only needed for MySQL
 # If you want to have different installations with the same DB
 $cfg['db_table_prefix'] = 'indefero_'; 
 # ** DO NOT USE SQLITE IN PRODUCTION ** 
