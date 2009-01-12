@@ -151,7 +151,7 @@ class IDF_Upload extends Pluf_Model
 
     function getAbsoluteUrl($project)
     {
-        return Pluf::f('url_media').'/upload/'.$project->shortname.'/files/'.$this->file;
+        return Pluf::f('url_upload').'/'.$project->shortname.'/files/'.$this->file;
     }
 
     /**
