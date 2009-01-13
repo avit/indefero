@@ -97,12 +97,15 @@ To upgrade:
 * Extract the new archive on top of the current one.
 * Update your version of Pluf.
 * Check that the path in the `index.php` are still good.
-* Upgrade the database with:
+* Remove all the `*.phps` files in your temp folder.
+* Upgrade the database with the upgrade commands:
+
+**Upgrade commands:**
 
     $ php /home/www/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -d -u
     $ php /home/www/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -d 
 
-* Remove all the `*.phps` files in your temp folder.
+
 
 ## Repository Synchronization
 
@@ -119,11 +122,13 @@ and not `http://yourdomain.com/index.php/p/yourproject/` you can use
 the following `.htaccess` file to be put in the same folder of the
 `www/index.php` file.
 
+    Options +FollowSymLinks
     RewriteEngine On
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*) /index.php/$1
 
+`Options +FollowSymLinks` is only needed if you are using symlinks.
 
 ## For the Gentoo users
 
