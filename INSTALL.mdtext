@@ -151,3 +151,18 @@ this in your configuration file:
 
     $cfg['idf_mimetypes_db'] = '/home/mime.types';
 
+## Using a SMTP server with authentication
+
+If your SMTP server requires authentication, for example,
+*smtp.gmail.com*, you can use the following email configuration:
+
+    $cfg['send_emails'] = true;
+    $cfg['mail_backend'] = 'smtp';
+    $cfg['mail_auth'] = true;
+    $cfg['mail_host'] = 'ssl://smtp.gmail.com';
+    $cfg['mail_port'] = 465;
+    $cfg['mail_username'] = 'YOURGMAILADDRESS';
+    $cfg['mail_password'] = 'YOURPASSWORD';
+
+Check with your provider to get the right settings.
+
