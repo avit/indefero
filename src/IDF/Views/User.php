@@ -124,10 +124,17 @@ class IDF_Views_User
             unset($data['password']);
             $form = new IDF_Form_UserAccount($data, $params);
         }
+        $keys = $request->user->get_idf_key_list();
+        if ($keys->count() > 0 and strlen($keys[0]->content) > 30) {
+            $ssh_key = Pluf_Template::markSafe('<span class="mono">'.Pluf_esc(substr($keys[0]->content, 0, 30)).'...</span><br /><span class="helptext">'.__('Troncated for security reasons.').'</span>');
+        } else {
+            $ssh_key = __('You have not upload your public SSH key yet.');
+        }
         return Pluf_Shortcuts_RenderToResponse('idf/user/myaccount.html', 
                                                array('page_title' => __('Your Account'),
                                                      'api_key' => $api_key,
                                                      'ext_pass' => $ext_pass,
+                                                     'ssh_key' => $ssh_key,
                                                      'form' => $form),
                                                $request);
     }

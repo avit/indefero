@@ -36,11 +36,6 @@ class IDF_Plugin_SyncGit_Serve
     public $commands_write = array('git-receive-pack', 'git receive-pack');
 
     /**
-     * Check that the command is authorized.
-     */
-
-
-    /**
      * Serve a git request.
      *
      * @param string Username.
@@ -120,7 +115,7 @@ class IDF_Plugin_SyncGit_Serve
             exit(1);
         }
         $cmd = $env['SSH_ORIGINAL_COMMAND'];
-        chdir(Pluf::f('git_home_dir', '/home/git'));
+        chdir(Pluf::f('idf_plugin_syncgit_git_home_dir', '/home/git'));
         $serve = new IDF_Plugin_SyncGit_Serve();
         try {
             $new_cmd = $serve->serve($username, $cmd);
@@ -171,11 +166,11 @@ class IDF_Plugin_SyncGit_Serve
         $request->user = $user;
         if (true === IDF_Precondition::accessTabGeneric($request, 'source_access_rights')) {
             if ($mode == 'readonly') {
-                return array(Pluf::f('git_base_repositories', '/home/git/repositories'),
+                return array(Pluf::f('idf_plugin_syncgit_base_repositories', '/home/git/repositories'),
                              $project->shortname);
             }
             if (true === IDF_Precondition::projectMemberOrOwner($request)) {
-                return array(Pluf::f('git_base_repositories', '/home/git/repositories'),
+                return array(Pluf::f('idf_plugin_syncgit_base_repositories', '/home/git/repositories'),
                              $project->shortname);
             }
         }

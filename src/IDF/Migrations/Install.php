@@ -45,6 +45,7 @@ function IDF_Migrations_Install_setup($params=null)
                     'IDF_Review',
                     'IDF_Review_Patch',
                     'IDF_Review_FileComment',
+                    'IDF_Key',
                     );
     $db = Pluf::db();
     $schema = new Pluf_DB_Schema($db);
@@ -82,6 +83,7 @@ function IDF_Migrations_Install_teardown($params=null)
     $perm = Pluf_Permission::getFromString('IDF.project-authorized-user');
     if ($perm) $perm->delete();
     $models = array(
+                    'IDF_Key',
                     'IDF_Review_FileComment',
                     'IDF_Review_Patch',
                     'IDF_Review',

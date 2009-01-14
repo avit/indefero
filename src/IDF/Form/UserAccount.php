@@ -82,6 +82,16 @@ class IDF_Form_UserAccount  extends Pluf_Form
                                                        'size' => 15,
                                                                     ),
                                             ));
+
+        $this->fields['ssh_key'] = new Pluf_Form_Field_Varchar(
+                                      array('required' => false,
+                                            'label' => __('Your public SSH key'),
+                                            'initial' => '',
+                                            'widget_attrs' => array('rows' => 3,
+                                                                    'cols' => 40),
+                                            'widget' => 'Pluf_Form_Widget_TextareaInput',
+                                            'help_text' => __('Be careful to provide your public key and not your private key!')
+                                            ));
         
 
     }
@@ -107,8 +117,22 @@ class IDF_Form_UserAccount  extends Pluf_Form
             $update_pass = true;
         }
         $this->user->setFromFormData($this->cleaned_data);
+        // Get keys
+        $keys = $this->user->get_idf_key_list();
+        if ($keys->count() > 0) {
+            $key = $keys[0];
+        } else {
+            $key = new IDF_Key();
+            $key->user = $this->user;
+        }
+        $key->content = $this->cleaned_data['ssh_key'];
         if ($commit) {
             $this->user->update();
+            if ($key->id != '') {
+                $key->update();
+            } else {
+                $key->create();
+            }
             if ($update_pass) {
                 /**
                  * [signal]

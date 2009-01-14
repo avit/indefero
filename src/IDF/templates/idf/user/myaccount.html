@@ -46,6 +46,14 @@
 {$form.f.password2|unsafe}
 </td>
 </tr>
+<tr>
+<th>{$form.f.ssh_key.labelTag}:</th>
+<td>{if $form.f.ssh_key.errors}{$form.f.ssh_key.fieldErrors}{/if}
+{$ssh_key}<br />
+{$form.f.ssh_key|unsafe}<br />
+<span class="helptext">{$form.f.ssh_key.help_text}</span>
+</td>
+</tr>
 <tr class="pass-info" id="extra-password">
 <th>{trans 'Extra password'}:</th>
 <td><span class="mono">{$ext_pass}</span><br />

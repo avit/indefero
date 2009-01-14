@@ -37,7 +37,7 @@ $m['IDF_Review'] = array('relate_to' => array('IDF_Project', 'Pluf_User', 'IDF_T
                         'relate_to_many' => array('IDF_Tag', 'Pluf_User'));
 $m['IDF_Review_Patch'] = array('relate_to' => array('IDF_Review', 'Pluf_User'));
 $m['IDF_Review_FileComment'] = array('relate_to' => array('IDF_Review_Patch', 'Pluf_User'));
-
+$m['IDF_Key'] = array('relate_to' => array('Pluf_User'));
 
 Pluf_Signal::connect('Pluf_Template_Compiler::construct_template_tags_modifiers',
                      array('IDF_Middleware', 'updateTemplateTagsModifiers'));
