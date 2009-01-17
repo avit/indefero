@@ -287,6 +287,39 @@ class IDF_Scm_Git
     }
 
     /**
+     * Get commit size.
+     *
+     * Get the sum of all the added/removed lines and the number of
+     * affected files.
+     *
+     * @param string Commit ('HEAD')
+     * @return array array(added, removed, affected)
+     */
+    public function getCommitSize($commit='HEAD')
+    {
+        $cmd = sprintf('GIT_DIR=%s git log --numstat -1 --pretty=format:%s %s',
+                       escapeshellarg($this->repo), 
+                       "'commit %H%n'", 
+                       escapeshellarg($commit));
+        $out = array();
+        IDF_Scm::exec($cmd, $out);
+        $affected = count($out) - 2;
+        $added = 0;
+        $removed = 0;
+        $c=0;
+        foreach ($out as $line) {
+            $c++;
+            if ($c < 3) {
+                continue;
+            }
+            list($a, $r, $f) = preg_split("/[\s]+/", $line, 3, PREG_SPLIT_NO_EMPTY);
+            $added+=$a;
+            $removed+=$r;
+        }
+        return array($added, $removed, $affected);
+    }
+
+    /**
      * Get latest changes.
      *
      * @param string Commit ('HEAD').

@@ -291,6 +291,20 @@ class IDF_Scm_Svn
         return (object) $res;
     }
 
+    /**
+     * Get commit size.
+     *
+     * Get the sum of all the added/removed lines and the number of
+     * affected files.
+     *
+     * @param string Commit ('HEAD')
+     * @return array array(added, removed, affected)
+     */
+    public function getCommitSize($commit='HEAD')
+    {
+        return array(0, 0, 0);
+    }
+
     private function getDiff($rev='HEAD')
     {
         $res = array();

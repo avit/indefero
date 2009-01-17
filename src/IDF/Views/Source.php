@@ -216,7 +216,9 @@ class IDF_Views_Source
         }
         $title = sprintf(__('%s Commit Details'), (string) $request->project);
         $page_title = sprintf(__('%s Commit Details - %s'), (string) $request->project, $commit);
-        $cobject = $scm->getCommit($commit, true);
+        $size = $scm->getCommitSize($commit);
+        $large = ($size[2] > 100 or ($size[0] + $size[1]) > 20000);
+        $cobject = $scm->getCommit($commit, !$large);
         $rcommit = IDF_Commit::getOrAdd($cobject, $request->project);
         $diff = new IDF_Diff($cobject->changes);
         $diff->parse();
@@ -231,6 +233,7 @@ class IDF_Views_Source
                                                      'branches' => $branches,
                                                      'scm' => $scmConf,
                                                      'rcommit' => $rcommit,
+                                                     'large_commit' => $large,
                                                      ),
                                                $request);
     }
