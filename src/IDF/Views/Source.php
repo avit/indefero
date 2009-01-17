@@ -216,7 +216,7 @@ class IDF_Views_Source
         }
         $title = sprintf(__('%s Commit Details'), (string) $request->project);
         $page_title = sprintf(__('%s Commit Details - %s'), (string) $request->project, $commit);
-        $cobject = $scm->getCommit($commit);
+        $cobject = $scm->getCommit($commit, true);
         $rcommit = IDF_Commit::getOrAdd($cobject, $request->project);
         $diff = new IDF_Diff($cobject->changes);
         $diff->parse();

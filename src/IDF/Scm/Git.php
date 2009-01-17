@@ -250,14 +250,22 @@ class IDF_Scm_Git
      * Get commit details.
      *
      * @param string Commit ('HEAD').
+     * @param bool Get commit diff (false).
      * @return array Changes.
      */
-    public function getCommit($commit='HEAD')
+    public function getCommit($commit='HEAD', $getdiff=false)
     {
-        $cmd = sprintf('GIT_DIR=%s git show --date=iso --pretty=format:%s %s',
-                       escapeshellarg($this->repo), 
-                       "'".$this->mediumtree_fmt."'", 
-                       escapeshellarg($commit));
+        if ($getdiff) {
+            $cmd = sprintf('GIT_DIR=%s git show --date=iso --pretty=format:%s %s',
+                           escapeshellarg($this->repo), 
+                           "'".$this->mediumtree_fmt."'", 
+                           escapeshellarg($commit));
+        } else {
+            $cmd = sprintf('GIT_DIR=%s git log -1 --date=iso --pretty=format:%s %s',
+                           escapeshellarg($this->repo), 
+                           "'".$this->mediumtree_fmt."'", 
+                           escapeshellarg($commit));
+        }
         $out = array();
         IDF_Scm::exec($cmd, $out);
         $log = array();
@@ -277,7 +285,6 @@ class IDF_Scm_Git
         $out[0]->changes = implode("\n", $change);
         return $out[0];
     }
-
 
     /**
      * Get latest changes.
