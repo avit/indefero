@@ -149,13 +149,12 @@ class IDF_Scm_Mercurial
             list($hash, $perm, $exec, $file) = preg_split('/ |\t/', $line, 4);
             $file = trim($file);
             $dir = explode('/', $file, -1);
-            preg_match_all('|([a-zA-Z0-9_-]+)/|', $file, $dir);
             $tmp = '';
-            for ($i=0; $i < count($dir[1]); $i++) {
+            for ($i=0; $i < count($dir); $i++) {
                 if ($i > 0) {
                     $tmp .= '/';
                 }
-                $tmp .= $dir[1][$i];
+                $tmp .= $dir[$i];
                 if (!in_array("empty\t000\t\t$tmp/", $out_hack))
                     $out_hack[] = "empty\t000\t\t$tmp/";
             }
@@ -206,13 +205,12 @@ class IDF_Scm_Mercurial
             list($hash, $perm, $exec, $file) = preg_split('/ |\t/', $line, 4);
             $file = trim($file);
             $dir = explode('/', $file, -1);
-            preg_match_all('|([a-zA-Z0-9_-]+)/|', $file, $dir);
             $tmp = '';
-            for ($i=0; $i < count($dir[1]); $i++) {
+            for ($i=0; $i < count($dir); $i++) {
                 if ($i > 0) {
                     $tmp .= '/';
                 }
-                $tmp .= $dir[1][$i];
+                $tmp .= $dir[$i];
                 if (!in_array("empty\t000\t\t$tmp/", $out_hack)) {
                     $out_hack[] = "emtpy\t000\t\t$tmp/";
                 }
