@@ -87,8 +87,12 @@ class IDF_Views_Source
                                                   $branches[0]));
             return new Pluf_HTTP_Response_Redirect($url);
         }
-
-        $res = new Pluf_Template_ContextVars($scm->filesAtCommit($commit));
+        $cache = Pluf_Cache::factory();
+        $key = 'IDF_Views_Source::treeBase:'.$commit.'::';
+        if (null === ($res=$cache->get($key))) {
+            $res = new Pluf_Template_ContextVars($scm->filesAtCommit($commit));
+            $cache->set($key, $res);
+        }
         $cobject = $scm->getCommit($commit);
         $tree_in = in_array($commit, $branches);
         $scmConf = $request->conf->getVal('scm', 'git');
@@ -154,7 +158,12 @@ class IDF_Views_Source
         $cobject = $scm->getCommit($commit);
         $tree_in = in_array($commit, $branches);
         try {
-            $res = new Pluf_Template_ContextVars($scm->filesAtCommit($commit, $request_file));
+            $cache = Pluf_Cache::factory();
+            $key = 'IDF_Views_Source::tree:'.$commit.'::'.$request_file;
+            if (null === ($res=$cache->get($key))) {
+                $res = new Pluf_Template_ContextVars($scm->filesAtCommit($commit, $request_file));
+                $cache->set($key, $res);
+            }
         } catch (Exception $e) {
             return new Pluf_HTTP_Response_Redirect($fburl);
         }
