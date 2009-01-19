@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-
-GITSERVEPHP='/home/loa/Projects/indefero/scripts/gitserve.php'
-
+# -*- coding: utf-8 -*-
+# 
 # ***** BEGIN LICENSE BLOCK *****
 # This file is part of InDefero, an open source project management application.
 # Copyright (C) 2008 Céondo Ltd and contributors.
@@ -25,7 +24,10 @@ GITSERVEPHP='/home/loa/Projects/indefero/scripts/gitserve.php'
 import os
 import sys
 import commands
+import traceback
 
+n = len("/gitserve.py")
+GITSERVEPHP = '%s/gitserve.php' % traceback.extract_stack(limit=1)[0][0][0:-n]
 status, output = commands.getstatusoutput('php %s %s' % (GITSERVEPHP, sys.argv[1]))
 if status == 0:
     os.execvp('git', ['git', 'shell', '-c', output.strip()])
