@@ -104,15 +104,13 @@ class IDF_Plugin_SyncGit_Serve
      */
     public static function main($argv, $env)
     {
-        if (count($argv) != 1) {
-            print('Missing argument USER.');
-            exit(1);
+        if (count($argv) != 2) {
+            self::fatalError('Missing argument USER.');
         }
-        $username = $argv[0];
+        $username = $argv[1];
         umask(0022);
         if (!isset($env['SSH_ORIGINAL_COMMAND'])) {
-            print('Need SSH_ORIGINAL_COMMAND in environment.');
-            exit(1);
+            self::fatalError('Need SSH_ORIGINAL_COMMAND in environment.');
         }
         $cmd = $env['SSH_ORIGINAL_COMMAND'];
         chdir(Pluf::f('idf_plugin_syncgit_git_home_dir', '/home/git'));
@@ -120,15 +118,10 @@ class IDF_Plugin_SyncGit_Serve
         try {
             $new_cmd = $serve->serve($username, $cmd);
         } catch (Exception $e) {
-            print($e->getMessage());
-            exit(1);
+            self::fatalError($e->getMessage());
         }
-        passthru(sprintf('git shell -c %s', $new_cmd), $res);
-        if ($res != 0) {
-            print('Cannot execute git-shell.');
-            exit(1);
-        }
-        exit();
+        print $new_cmd;
+        exit(0);
     }
 
     /**
@@ -164,6 +157,8 @@ class IDF_Plugin_SyncGit_Serve
         $user = $users[0];
         $request = new StdClass();
         $request->user = $user;
+        $request->conf = $conf;
+        $request->project = $project;
         if (true === IDF_Precondition::accessTabGeneric($request, 'source_access_rights')) {
             if ($mode == 'readonly') {
                 return array(Pluf::f('idf_plugin_syncgit_base_repositories', '/home/git/repositories'),
@@ -175,6 +170,17 @@ class IDF_Plugin_SyncGit_Serve
             }
         }
         return false;
+    }
+
+    /**
+     * Die on a message on stderr.
+     *
+     * @param string Message
+     */
+    public static function fatalError($mess)
+    {
+        fwrite(STDERR, $mess."\n");
+        exit(1);
     }
 
     /**

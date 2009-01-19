@@ -29,8 +29,7 @@ class IDF_Plugin_SyncGit_Cron
     /**
      * Template for the SSH key.
      */
-    public $template = 'command="%s %s",no-port-forwarding,no-X11-forwarding,'
-        .'no-agent-forwarding,no-pty %s';
+    public $template = 'command="php %s %s",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty %s';
 
     /**
      * Synchronize.
@@ -38,8 +37,7 @@ class IDF_Plugin_SyncGit_Cron
     public static function sync()
     {
         $template = Pluf::factory(__CLASS__)->template;
-        $keys = Pluf::factory('IDF_Key')->getList(array('view'=>'join_user'));
-        $cmd = Pluf::f('idf_plugin_syncgit_path_gitserve', '/bin/false');
+        $cmd = Pluf::f('idf_plugin_syncgit_path_gitserve', '/dev/null');
         $authorized_keys = Pluf::f('idf_plugin_syncgit_path_authorized_keys', false);
         if (false == $authorized_keys) {
             throw new Pluf_Exception_SettingError('Setting git_path_authorized_keys not set.');
@@ -48,6 +46,7 @@ class IDF_Plugin_SyncGit_Cron
             throw new Exception('Cannot create file: '.$authorized_keys);
         }
         $out = '';
+        $keys = Pluf::factory('IDF_Key')->getList(array('view'=>'join_user'));
         foreach ($keys as $key) {
             if (strlen($key->content) > 40 // minimal check
                 and preg_match('/^[a-zA-Z][a-zA-Z0-9_.-]*(@[a-zA-Z][a-zA-Z0-9.-]*)?$/', $key->login)) {
@@ -56,5 +55,17 @@ class IDF_Plugin_SyncGit_Cron
             }
         }
         file_put_contents($authorized_keys, $out, LOCK_EX);        
+    }
+
+    /**
+     * Check if a sync is needed.
+     *
+     */
+    public static function main()
+    {
+        if (file_exists(Pluf::f('idf_plugin_syncgit_sync_file'))) {
+            @unlink(Pluf::f('idf_plugin_syncgit_sync_file'));
+            self::sync();
+        }
     }
 }
