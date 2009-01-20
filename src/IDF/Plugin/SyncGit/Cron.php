@@ -58,6 +58,17 @@ class IDF_Plugin_SyncGit_Cron
     }
 
     /**
+     * Mark export of git repositories for the daemon.
+     */
+    public static function markExport()
+    {
+        foreach (Pluf::factory('IDF_Project')->getList() as $project) {
+            $rep = sprintf(Pluf::f('git_repositories'), $project->shortname);
+            IDF_Plugin_SyncGit_Serve::setGitExport($project->shortname, $rep);
+        }
+    }
+
+    /**
      * Check if a sync is needed.
      *
      */
@@ -66,6 +77,7 @@ class IDF_Plugin_SyncGit_Cron
         if (file_exists(Pluf::f('idf_plugin_syncgit_sync_file'))) {
             @unlink(Pluf::f('idf_plugin_syncgit_sync_file'));
             self::sync();
+            self::markExport();
         }
     }
 }

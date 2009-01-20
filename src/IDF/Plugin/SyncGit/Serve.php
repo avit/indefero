@@ -231,6 +231,9 @@ class IDF_Plugin_SyncGit_Serve
      */
     public function gitExportDeny($fullpath)
     {
+        if (!file_exists($fullpath)) {
+            return; // Not created yet.
+        }
         @unlink($fullpath.DIRECTORY_SEPARATOR.'git-daemon-export-ok');
         if (file_exists($fullpath.DIRECTORY_SEPARATOR.'git-daemon-export-ok')) {
             throw new Exception('Cannot remove git-daemon-export-ok file.');
@@ -245,6 +248,9 @@ class IDF_Plugin_SyncGit_Serve
      */
     public function gitExportAllow($fullpath)
     {
+        if (!file_exists($fullpath)) {
+            return; // Not created yet.
+        }
         touch($fullpath.DIRECTORY_SEPARATOR.'git-daemon-export-ok');
         if (!file_exists($fullpath.DIRECTORY_SEPARATOR.'git-daemon-export-ok')) {
             throw new Exception('Cannot create git-daemon-export-ok file.');

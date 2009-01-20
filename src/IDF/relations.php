@@ -63,6 +63,8 @@ Pluf_Signal::connect('Pluf_User::passwordUpdated',
 
 #
 # Git synchronization
+Pluf_Signal::connect('IDF_Project::membershipsUpdated', 
+                     array('IDF_Plugin_SyncGit', 'entry'));
 Pluf_Signal::connect('IDF_Key::postSave', 
                      array('IDF_Plugin_SyncGit', 'entry'));
 
