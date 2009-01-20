@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-02 21:57+0100\n"
+"POT-Creation-Date: 2009-01-20 11:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -192,6 +192,14 @@ msgstr ""
 #: IDF/Issue.php:215
 #, php-format
 msgid "%s: Issue %d created - %s"
+msgstr ""
+
+#: IDF/Key.php:49
+msgid "user"
+msgstr ""
+
+#: IDF/Key.php:55
+msgid "ssh key"
 msgstr ""
 
 #: IDF/Project.php:54 IDF/Tag.php:66
@@ -579,7 +587,7 @@ msgstr ""
 msgid "%s Tabs Access Rights"
 msgstr ""
 
-#: IDF/Views/Project.php:422
+#: IDF/Views/Project.php:424
 msgid "The project tabs access rights have been saved."
 msgstr ""
 
@@ -690,7 +698,15 @@ msgstr ""
 msgid "Your personal information have been updated."
 msgstr ""
 
-#: IDF/Views/User.php:128
+#: IDF/Views/User.php:129
+msgid "Troncated for security reasons."
+msgstr ""
+
+#: IDF/Views/User.php:131
+msgid "You have not upload your public SSH key yet."
+msgstr ""
+
+#: IDF/Views/User.php:134
 msgid "Your Account"
 msgstr ""
 
@@ -699,17 +715,17 @@ msgstr ""
 msgid "%1$s %2$s Change Log"
 msgstr ""
 
-#: IDF/Views/Source.php:78 IDF/Views/Source.php:116 IDF/Views/Source.php:262
+#: IDF/Views/Source.php:78 IDF/Views/Source.php:120 IDF/Views/Source.php:274
 #, php-format
 msgid "%1$s %2$s Source Tree"
 msgstr ""
 
-#: IDF/Views/Source.php:217
+#: IDF/Views/Source.php:226
 #, php-format
 msgid "%s Commit Details"
 msgstr ""
 
-#: IDF/Views/Source.php:218
+#: IDF/Views/Source.php:227
 #, php-format
 msgid "%s Commit Details - %s"
 msgstr ""
@@ -997,7 +1013,7 @@ msgid "You provided an invalid label."
 msgstr ""
 
 #: IDF/Form/Upload.php:134 IDF/Form/Register.php:114
-#: IDF/Form/UserAccount.php:100 IDF/Form/Admin/ProjectCreate.php:160
+#: IDF/Form/UserAccount.php:110 IDF/Form/Admin/ProjectCreate.php:205
 #: IDF/Form/Admin/ProjectUpdate.php:67 IDF/Form/Admin/UserUpdate.php:129
 #: IDF/Form/UpdateUpload.php:116 IDF/Form/WikiUpdate.php:178
 #: IDF/Form/TabsConf.php:78 IDF/Form/ReviewCommentFile.php:166
@@ -1121,7 +1137,15 @@ msgstr ""
 msgid "Confirm your password"
 msgstr ""
 
-#: IDF/Form/UserAccount.php:170 IDF/Form/Admin/UserUpdate.php:211
+#: IDF/Form/UserAccount.php:88
+msgid "Your public SSH key"
+msgstr ""
+
+#: IDF/Form/UserAccount.php:93
+msgid "Be careful to provide your public key and not your private key!"
+msgstr ""
+
+#: IDF/Form/UserAccount.php:194 IDF/Form/Admin/UserUpdate.php:211
 msgid "The passwords do not match. Please give them again."
 msgstr ""
 
@@ -1184,31 +1208,31 @@ msgstr ""
 msgid "Project members"
 msgstr ""
 
-#: IDF/Form/Admin/ProjectCreate.php:121
+#: IDF/Form/Admin/ProjectCreate.php:144
 msgid ""
 "Only a remote repository available throught http or https are allowed. For "
 "example \"http://somewhere.com/svn/trunk\"."
 msgstr ""
 
-#: IDF/Form/Admin/ProjectCreate.php:130
+#: IDF/Form/Admin/ProjectCreate.php:153
 msgid ""
 "This shortname contains illegal characters, please use only letters and "
 "digits."
 msgstr ""
 
-#: IDF/Form/Admin/ProjectCreate.php:133
+#: IDF/Form/Admin/ProjectCreate.php:156
 msgid "The shortname cannot start with the dash (-) character."
 msgstr ""
 
-#: IDF/Form/Admin/ProjectCreate.php:136
+#: IDF/Form/Admin/ProjectCreate.php:159
 msgid "The shortname cannot end with the dash (-) character."
 msgstr ""
 
-#: IDF/Form/Admin/ProjectCreate.php:141
+#: IDF/Form/Admin/ProjectCreate.php:164
 msgid "This shortname is already used. Please select another one."
 msgstr ""
 
-#: IDF/Form/Admin/ProjectCreate.php:166
+#: IDF/Form/Admin/ProjectCreate.php:211
 msgid "Write your project description here."
 msgstr ""
 
