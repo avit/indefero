@@ -64,7 +64,8 @@ class IDF_Plugin_SyncGit_Cron
     {
         foreach (Pluf::factory('IDF_Project')->getList() as $project) {
             $rep = sprintf(Pluf::f('git_repositories'), $project->shortname);
-            IDF_Plugin_SyncGit_Serve::setGitExport($project->shortname, $rep);
+            $serve = new IDF_Plugin_SyncGit_Serve();
+            $serve->setGitExport($project->shortname, $rep);
         }
     }
 
