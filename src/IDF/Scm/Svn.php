@@ -266,10 +266,11 @@ class IDF_Scm_Svn
     /**
      * Get commit details.
      *
-     * @param string Commit ('HEAD').
-     * @return array Changes.
+     * @param string Commit ('HEAD')
+     * @param bool Get commit diff (false)
+     * @return array Changes
      */
-    public function getCommit($rev='HEAD')
+    public function getCommit($rev='HEAD', $getdiff=false)
     {
         $res = array();
         $cmd = sprintf('svn log --xml -v --username=%s --password=%s %s@%s',
@@ -279,15 +280,12 @@ class IDF_Scm_Svn
                        escapeshellarg($rev));
         $xmlRes = IDF_Scm::shell_exec($cmd);
         $xml = simplexml_load_string($xmlRes);
-
         $res['author'] = (string) $xml->logentry->author;
         $res['date'] = gmdate('Y-m-d H:i:s', strtotime((string) $xml->logentry->date));
         $res['title'] = (string) $xml->logentry->msg;
         $res['commit'] = (string) $xml->logentry['revision'];
-        $res['changes'] = $this->getDiff($rev);
+        $res['changes'] = ($getdiff) ? $this->getDiff($rev) : '';
         $res['tree'] = '';
-
-
         return (object) $res;
     }
 

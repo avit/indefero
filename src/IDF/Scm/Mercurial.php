@@ -275,13 +275,16 @@ class IDF_Scm_Mercurial
     /**
      * Get commit details.
      *
-     * @param string Commit ('HEAD').
-     * @return array Changes.
+     * @param string Commit ('HEAD')
+     * @param bool Get commit diff (false)
+     * @return array Changes
      */
-    public function getCommit($commit='tip')
+    public function getCommit($commit='tip', $getdiff=false)
     {
-
-        $cmd = sprintf('hg log -p -r %s -R %s', escapeshellarg($commit), escapeshellarg($this->repo));
+        $tmpl = ($getdiff) ? 
+            'hg log -p -r %s -R %s' : 'hg log -r %s -R %s';
+        $cmd = sprintf($tmpl, 
+                       escapeshellarg($commit), escapeshellarg($this->repo));
         $out = array();
         IDF_Scm::exec($cmd, $out);
         $log = array();
