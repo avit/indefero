@@ -1,0 +1,78 @@
+# Plugin SyncGit by Céondo Ltd
+
+The SyncGit plugin allow the direct creation and synchronisation of
+git repositories with the InDefero database. This requires giving
+access to the repositories using a dedicated SSH account, usually the
+`git` account.
+
+## Prerequisites
+
+A good understanding of:
+
+* the security issues related to using a SSH account on a server;
+* the principle of public/private SSH keys;
+* the rights/ownership of files on a Linux/BSD/nix system;
+
+Yes, what you are going to do has security implications.
+
+## Git user configuration
+
+On your system, you will need to create a new `git` account. This
+account will only be used to access the git repositories and at the
+moment cannot be shared for other use.
+
+First create a new git account:
+
+    $ sudo adduser \
+          --system \
+          --shell /bin/sh \
+          --gecos 'git version control' \
+          --group \
+          --disabled-password \
+          --home /home/git \
+          git
+
+Then, we need to create the base SSH files with the right permissions:
+
+    $ sudo su git
+    $ mkdir /home/git/.ssh
+    $ touch /home/git/.ssh/authorized_keys
+    $ chmod 0700 /home/git/.ssh
+    $ chmod 0600 /home/git/.ssh/authorized_keys
+    $ exit
+
+## Creation of the repositories base
+
+For each project using git in InDefero a corresponding bare repository
+will be created in `/home/git/repositories`. For example, if the
+shortname of your project is `wonder`, it will be created in
+`/home/git/repositories/wonder.git`
+
+    $ sudo -H -u git mkdir /home/git/repositories
+
+## InDefero Configuration
+
+First, you need to have python installed on your system to be able to
+run the very small python script `gitserve.py` in the `scripts`
+folder. Here is a configuration example:
+
+
+    $cfg['git_repositories'] = '/home/git/repositories/%s.git';
+    $cfg['git_remote_url'] = 'git://yourdomain.com/%s.git';
+    $cfg['idf_plugin_syncgit_path_gitserve'] = '/home/www/indefero/scripts/gitserve.py'; # yes .py
+    $cfg['idf_plugin_syncgit_path_authorized_keys'] = '/home/git/.ssh/authorized_keys';
+    $cfg['idf_plugin_syncgit_sync_file'] = '/tmp/SYNC-GIT';
+
+When someone will change his SSH key or add a new one, the
+`/tmp/SYNC-GIT` file will be created. The cron job
+`/home/www/indefero/scripts/gitcron.php` will see the file and update
+the content of the `authorized_keys` file.
+
+## Cron Job Configuration
+
+You need to run a cron job every now and then to synchronize the SSH
+keys. The command to run in the cron job is:
+
+    php /home/www/indefero/scripts/gitcron.php
+
+The user of the cron job must be `git`.
