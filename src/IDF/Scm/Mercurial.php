@@ -306,17 +306,14 @@ class IDF_Scm_Mercurial
     }
 
     /**
-     * Get commit size.
-     *
-     * Get the sum of all the added/removed lines and the number of
-     * affected files.
+     * Check if a commit is big.
      *
      * @param string Commit ('HEAD')
-     * @return array array(added, removed, affected)
+     * @return bool The commit is big
      */
-    public function getCommitSize($commit='HEAD')
+    public function isCommitLarge($commit='HEAD')
     {
-        return array(0, 0, 0);
+        return false;
     }
 
     /**

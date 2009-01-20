@@ -290,17 +290,25 @@ class IDF_Scm_Svn
     }
 
     /**
-     * Get commit size.
-     *
-     * Get the sum of all the added/removed lines and the number of
-     * affected files.
+     * Check if a commit is big.
      *
      * @param string Commit ('HEAD')
-     * @return array array(added, removed, affected)
+     * @return bool The commit is big
      */
-    public function getCommitSize($commit='HEAD')
+    public function isCommitLarge($commit='HEAD')
     {
-        return array(0, 0, 0);
+        if (substr($this->repo, 0, 7) != 'file://') {
+            return false;
+        }
+        // We have a locally hosted repository, we can query it with
+        // svnlook
+        $repo = substr($this->repo, 7);
+        $cmd = sprintf('svnlook changed -r %s %s',
+                       escapeshellarg($commit),
+                       escapeshellarg($repo));
+        $out = IDF_Scm::shell_exec($cmd);
+        $lines = preg_split("/\015\012|\015|\012/", $out);
+        return (count($lines) > 100);
     }
 
     private function getDiff($rev='HEAD')

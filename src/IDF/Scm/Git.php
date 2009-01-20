@@ -287,15 +287,12 @@ class IDF_Scm_Git
     }
 
     /**
-     * Get commit size.
-     *
-     * Get the sum of all the added/removed lines and the number of
-     * affected files.
+     * Check if a commit is big.
      *
      * @param string Commit ('HEAD')
-     * @return array array(added, removed, affected)
+     * @return bool The commit is big
      */
-    public function getCommitSize($commit='HEAD')
+    public function isCommitLarge($commit='HEAD')
     {
         $cmd = sprintf('GIT_DIR=%s git log --numstat -1 --pretty=format:%s %s',
                        escapeshellarg($this->repo), 
@@ -316,7 +313,7 @@ class IDF_Scm_Git
             $added+=$a;
             $removed+=$r;
         }
-        return array($added, $removed, $affected);
+        return ($affected > 100 or ($added + $removed) > 20000);
     }
 
     /**
