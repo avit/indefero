@@ -31,6 +31,13 @@ $cfg['debug'] = true;
 # SCM backend. It must be turned off in production.
 $cfg['debug_scm'] = false; 
 
+#
+# Note: By default, InDefero will not manage the repositories for 
+# you, you can enable the repositories management with the 
+# built-in plugins. The documentation of the plugins is available 
+# in the `doc/` folder.
+#
+
 # If you have a single git repository, just put the full path to it
 # without trailing slash. The path is the path to the git database,
 # so you need to include the /.git folder.
