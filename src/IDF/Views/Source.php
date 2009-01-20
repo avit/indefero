@@ -259,7 +259,7 @@ class IDF_Views_Source
                                                   $branches[0]));
             return new Pluf_HTTP_Response_Redirect($url);
         }
-        $cobject = $scm->getCommit($commit);
+        $cobject = $scm->getCommit($commit, true);
         $rep = new Pluf_HTTP_Response($cobject->changes, 'text/plain');
         $rep->headers['Content-Disposition'] = 'attachment; filename="'.$commit.'.diff"';
         return $rep;
