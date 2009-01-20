@@ -208,7 +208,7 @@ class IDF_Form_Admin_ProjectCreate extends Pluf_Form
         $project->name = $this->cleaned_data['name'];
         $project->shortname = $this->cleaned_data['shortname'];
         $project->private = $this->cleaned_data['private_project'];
-        $project->description = __('Write your project description here.');
+        $project->description = __('Click on the Administer tab to set the description of your project.');
         $project->create();
         $conf = new IDF_Conf();
         $conf->setProject($project);
