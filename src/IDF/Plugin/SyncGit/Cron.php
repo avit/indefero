@@ -29,7 +29,7 @@ class IDF_Plugin_SyncGit_Cron
     /**
      * Template for the SSH key.
      */
-    public $template = 'command="php %s %s",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty %s';
+    public $template = 'command="python %s %s",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty %s';
 
     /**
      * Synchronize.
