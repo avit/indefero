@@ -67,5 +67,7 @@ Pluf_Signal::connect('IDF_Project::membershipsUpdated',
                      array('IDF_Plugin_SyncGit', 'entry'));
 Pluf_Signal::connect('IDF_Key::postSave', 
                      array('IDF_Plugin_SyncGit', 'entry'));
+Pluf_Signal::connect('IDF_Project::created', 
+                     array('IDF_Plugin_SyncGit', 'entry'));
 
 return $m;

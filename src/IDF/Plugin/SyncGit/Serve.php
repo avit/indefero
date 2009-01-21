@@ -215,6 +215,9 @@ class IDF_Plugin_SyncGit_Serve
         $conf = new IDF_Conf();
         $conf->setProject($project);
         $scm = $conf->getVal('scm', 'git');
+        if ($scm == 'git' and !file_exists($fullpath)) {
+            $this->initRepository($fullpath);
+        }
         if ($scm != 'git' or $project->private) {
             return $this->gitExportDeny($fullpath);
         }
