@@ -41,6 +41,12 @@ Then, we need to create the base SSH files with the right permissions:
     $ chmod 0600 /home/git/.ssh/authorized_keys
     $ exit
 
+We add the `www-data` user to the `git` group so it can access the
+repositories to read the content:
+
+    $ sudo usermod -a -G git www-data
+
+
 ## Creation of the repositories base
 
 For each project using git in InDefero a corresponding bare repository
@@ -76,3 +82,23 @@ keys. The command to run in the cron job is:
     php /home/www/indefero/scripts/gitcron.php
 
 The user of the cron job must be `git`.
+
+## Git daemon configuration
+
+Put in `/etc/event.d/local-git-daemon` the following:
+
+    start on startup
+    stop on shutdown
+    
+    exec /usr/bin/git-daemon \
+    	--user=git --group=git \
+    	--verbose \
+    	--reuseaddr \
+    	--base-path=/home/git/repositories/ \
+    	/home/git/repositories/
+    respawn
+
+Then run:
+
+    $ sudo start local-git-daemon
+
