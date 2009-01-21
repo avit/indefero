@@ -36,6 +36,10 @@ docroot.
     $ sudo pear install --alldeps Mail
     $ sudo pear install --alldeps Mail_mime
 
+If you already have some of the PEAR packages installed with your
+distribution, the `Mail` package is often not up-to-date, 
+[read more here](http://projects.ceondo.com/p/indefero/issues/104/#ic347).
+
 The Pluf installation folder is the folder containing the file `Pluf.php`. 
 
 ## Installation of InDefero
