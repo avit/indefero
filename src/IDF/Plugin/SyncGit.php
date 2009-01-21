@@ -47,5 +47,6 @@ class IDF_Plugin_SyncGit
             return;
         }
         @touch(Pluf::f('idf_plugin_syncgit_sync_file'));
+        @chmod(Pluf::f('idf_plugin_syncgit_sync_file'), 0666);
     }
 }
