@@ -80,6 +80,12 @@ class IDF_Views_Source
         $scm = IDF_Scm::get($request->project);
         $commit = $match[2];
         $branches = $scm->getBranches();
+        if (count($branches) == 0) {
+            // Redirect to the project home
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Project::home',
+                                            array($request->project->shortname));
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
         if ('commit' != $scm->testHash($commit)) {
             // Redirect to the first branch
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
