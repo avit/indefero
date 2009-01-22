@@ -43,7 +43,7 @@
 </tbody>
 </table>
 {aurl 'url', 'IDF_Views_Source::download', array($project.shortname, $commit)}
-<p class="right soft"><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/package-grey.png'}" alt="{trans 'Archive'}" align="bottom" /></a> <a href="{$url}">{trans 'Download this version'}</a> {trans 'or'} <kbd>hg clone {$project.getRemoteAccessUrl()}</kbd></p>
+<p class="right soft"><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/package-grey.png'}" alt="{trans 'Archive'}" align="bottom" /></a> <a href="{$url}">{trans 'Download this version'}</a> {trans 'or'} <kbd>hg clone {$project.getRemoteAccessUrl()}</kbd> <a href="{url 'IDF_Views_Source::help', array($project.shortname)}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/help.png'}" alt="{trans 'Help'}" /></a></p>
 {/block}
 
 {block context}

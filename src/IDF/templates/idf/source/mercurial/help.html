@@ -1,0 +1,31 @@
+{extends "idf/source/base.html"}
+{block docclass}yui-t2{/block}
+{block body}
+
+<p>{blocktrans}The team behind {$project} is using
+the <strong>Mercurial</strong> software to manage the source
+code.{/blocktrans}</p>
+
+<h3>{trans 'Command-Line Access'}</h3>
+
+<p><kbd>hg clone {$project.getRemoteAccessUrl()}</kbd></p>
+
+
+{if $isOwner or $isMember}
+<h3>{trans 'Write Access Authentication'}</h3>
+
+{aurl 'url', 'IDF_Views_User::myAccount'}
+<p>{blocktrans}To get write access to the repository, you need to use your username and your <a href="{$url}">extra password</a>.{/blocktrans}</p>
+
+<p><kbd>hg clone {$project.getRemoteAccessUrl()}</kbd></p>
+
+{/if}
+
+{/block}
+{block context}
+<div class="issue-submit-info">
+<p>{blocktrans}Find here more details on how to access {$project} source code.{/blocktrans}</p>
+</div>
+{/block}
+
+

@@ -56,7 +56,7 @@
     {/foreach}
   </tbody>
 </table>
-<p class="right soft"><kbd>svn co -r {$commit} {$project.getRemoteAccessUrl()}</kbd></p>
+<p class="right soft"><kbd>svn co -r {$commit} {$project.getRemoteAccessUrl()}</kbd> <a href="{url 'IDF_Views_Source::help', array($project.shortname)}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/help.png'}" alt="{trans 'Help'}" /></a></p>
 
 
 {/block}

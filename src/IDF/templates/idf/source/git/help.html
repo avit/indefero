@@ -1,0 +1,36 @@
+{extends "idf/source/base.html"}
+{block docclass}yui-t2{/block}
+{block body}
+
+<p>{blocktrans}The team behind {$project} is using
+the <strong>git</strong> software to manage the source
+code.{/blocktrans}</p>
+
+<h3>{trans 'Command-Line Access'}</h3>
+
+<p><kbd>git clone {$project.getRemoteAccessUrl()}</kbd></p>
+
+
+{if $isOwner or $isMember}
+<h3>{trans 'First Commit'}</h3>
+
+<p>{blocktrans}To make a first commit in the repository, perform the following steps:{/blocktrans}</p>
+
+<pre>
+git init
+git add .
+git commit -m "initial import"
+git remote add repo {$project.getRemoteAccessUrl()}
+git push repo master
+</pre>
+
+{/if}
+
+{/block}
+{block context}
+<div class="issue-submit-info">
+<p>{blocktrans}Find here more details on how to access {$project} source code.{/blocktrans}</p>
+</div>
+{/block}
+
+

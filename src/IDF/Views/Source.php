@@ -37,6 +37,24 @@ class IDF_Views_Source
                                                 'pl', 'pm', 'rb', 'js', 'html',
                                                 'html', 'xhtml', 'xml', 'xsl');
 
+    /**
+     * Display help on how to checkout etc.
+     */
+    public $help_precond = array('IDF_Precondition::accessSource');
+    public function help($request, $match)
+    {
+        $title = sprintf(__('%s Source Help'), (string) $request->project);
+        $scm = IDF_Scm::get($request->project);
+        $scmConf = $request->conf->getVal('scm', 'git');
+        $params = array(
+                        'page_title' => $title,
+                        'title' => $title,
+                        'scm' => $scmConf,
+                        );
+        return Pluf_Shortcuts_RenderToResponse('idf/source/'.$scmConf.'/help.html',
+                                               $params, $request);
+    }
+
     public $changeLog_precond = array('IDF_Precondition::accessSource');
     public function changeLog($request, $match)
     {
@@ -82,7 +100,7 @@ class IDF_Views_Source
         $branches = $scm->getBranches();
         if (count($branches) == 0) {
             // Redirect to the project home
-            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Project::home',
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::help',
                                             array($request->project->shortname));
             return new Pluf_HTTP_Response_Redirect($url);
         }
