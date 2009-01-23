@@ -112,7 +112,8 @@ class IDF_Views_Source
             return new Pluf_HTTP_Response_Redirect($url);
         }
         $cache = Pluf_Cache::factory();
-        $key = 'IDF_Views_Source::treeBase:'.$commit.'::';
+        $key = sprintf('Project:%s::IDF_Views_Source::treeBase:%s::',
+                       $request->project->id, $commit);
         if (null === ($res=$cache->get($key))) {
             $res = new Pluf_Template_ContextVars($scm->filesAtCommit($commit));
             $cache->set($key, $res);
@@ -183,7 +184,8 @@ class IDF_Views_Source
         $tree_in = in_array($commit, $branches);
         try {
             $cache = Pluf_Cache::factory();
-            $key = 'IDF_Views_Source::tree:'.$commit.'::'.$request_file;
+            $key = sprintf('Project:%s::IDF_Views_Source::tree:%s::%s',
+                           $request->project->id, $commit, $request_file);
             if (null === ($res=$cache->get($key))) {
                 $res = new Pluf_Template_ContextVars($scm->filesAtCommit($commit, $request_file));
                 $cache->set($key, $res);
