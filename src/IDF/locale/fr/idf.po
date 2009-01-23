@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: InDefero\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-23 14:19+0100\n"
-"PO-Revision-Date: 2009-01-23 14:25+0100\n"
+"PO-Revision-Date: 2009-01-23 16:27+0100\n"
 "Last-Translator: Loïc d'Anterroches <titoo@users.sourceforge.net>\n"
 "Language-Team: Translation team <titoo@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2482,7 +2482,7 @@ msgstr "Montrer la clef d'API et le mot de passe supplémentaire"
 #: IDF/gettexttemplates/idf/user/public.html.php:3
 #, php-format
 msgid "You are looking at the public profile of %%member%%."
-msgstr "Vous regardez le profile public de %%member%%."
+msgstr "Vous regardez le profil public de %%member%%."
 
 #: IDF/gettexttemplates/idf/user/public.html.php:4
 msgid "Last time seen:"
@@ -2500,7 +2500,7 @@ msgstr "<a href=\"%%url%%\">Mettre à jour votre compte</a>."
 #: IDF/gettexttemplates/idf/user/dashboard.html.php:4
 #, php-format
 msgid "<a href=\"%%url%%\">See your public profile</a>."
-msgstr "<a href=\"%%url%%\">Voir votre profile public</a>."
+msgstr "<a href=\"%%url%%\">Voir votre profil public</a>."
 
 #: IDF/gettexttemplates/idf/user/dashboard.html.php:5
 #: IDF/gettexttemplates/idf/issues/my-issues.html.php:5
