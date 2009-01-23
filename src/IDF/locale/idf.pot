@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-20 11:43+0100\n"
+"POT-Creation-Date: 2009-01-23 14:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -710,22 +710,27 @@ msgstr ""
 msgid "Your Account"
 msgstr ""
 
-#: IDF/Views/Source.php:43
+#: IDF/Views/Source.php:46
+#, php-format
+msgid "%s Source Help"
+msgstr ""
+
+#: IDF/Views/Source.php:61
 #, php-format
 msgid "%1$s %2$s Change Log"
 msgstr ""
 
-#: IDF/Views/Source.php:78 IDF/Views/Source.php:120 IDF/Views/Source.php:274
+#: IDF/Views/Source.php:96 IDF/Views/Source.php:144 IDF/Views/Source.php:297
 #, php-format
 msgid "%1$s %2$s Source Tree"
 msgstr ""
 
-#: IDF/Views/Source.php:226
+#: IDF/Views/Source.php:250
 #, php-format
 msgid "%s Commit Details"
 msgstr ""
 
-#: IDF/Views/Source.php:227
+#: IDF/Views/Source.php:251
 #, php-format
 msgid "%s Commit Details - %s"
 msgstr ""
@@ -1233,7 +1238,7 @@ msgid "This shortname is already used. Please select another one."
 msgstr ""
 
 #: IDF/Form/Admin/ProjectCreate.php:211
-msgid "Write your project description here."
+msgid "Click on the Administer tab to set the description of your project."
 msgstr ""
 
 #: IDF/Form/Admin/UserUpdate.php:55
@@ -1660,12 +1665,46 @@ msgid "Download this file"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/source/mercurial/file.html.php:8
-#: IDF/gettexttemplates/idf/source/mercurial/tree.html.php:14
+#: IDF/gettexttemplates/idf/source/mercurial/tree.html.php:15
 #: IDF/gettexttemplates/idf/source/commit.html.php:13
 #: IDF/gettexttemplates/idf/source/git/file.html.php:8
-#: IDF/gettexttemplates/idf/source/git/tree.html.php:14
+#: IDF/gettexttemplates/idf/source/git/tree.html.php:15
 #: IDF/gettexttemplates/idf/source/changelog.html.php:7
 msgid "Branches:"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/source/mercurial/help.html.php:3
+#, php-format
+msgid ""
+"The team behind %%project%% is using\n"
+"the <strong>Mercurial</strong> software to manage the source\n"
+"code."
+msgstr ""
+
+#: IDF/gettexttemplates/idf/source/mercurial/help.html.php:6
+#: IDF/gettexttemplates/idf/source/svn/help.html.php:6
+#, php-format
+msgid ""
+"To get write access to the repository, you need to use your username and "
+"your <a href=\"%%url%%\">extra password</a>."
+msgstr ""
+
+#: IDF/gettexttemplates/idf/source/mercurial/help.html.php:7
+#: IDF/gettexttemplates/idf/source/svn/help.html.php:7
+#: IDF/gettexttemplates/idf/source/git/help.html.php:7
+#, php-format
+msgid "Find here more details on how to access %%project%% source code."
+msgstr ""
+
+#: IDF/gettexttemplates/idf/source/mercurial/help.html.php:8
+#: IDF/gettexttemplates/idf/source/svn/help.html.php:8
+#: IDF/gettexttemplates/idf/source/git/help.html.php:8
+msgid "Command-Line Access"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/source/mercurial/help.html.php:9
+#: IDF/gettexttemplates/idf/source/svn/help.html.php:9
+msgid "Write Access Authentication"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/source/mercurial/tree.html.php:8
@@ -1691,6 +1730,16 @@ msgstr ""
 msgid "or"
 msgstr ""
 
+#: IDF/gettexttemplates/idf/source/mercurial/tree.html.php:14
+#: IDF/gettexttemplates/idf/source/svn/tree.html.php:14
+#: IDF/gettexttemplates/idf/source/git/tree.html.php:14
+#: IDF/gettexttemplates/idf/gadmin/base.html.php:7
+#: IDF/gettexttemplates/idf/base-simple.html.php:9
+#: IDF/gettexttemplates/idf/base.html.php:10
+#: IDF/gettexttemplates/idf/base-full.html.php:9
+msgid "Help"
+msgstr ""
+
 #: IDF/gettexttemplates/idf/source/svn/file.html.php:6
 #: IDF/gettexttemplates/idf/source/svn/tree.html.php:11
 msgid "Property"
@@ -1702,15 +1751,23 @@ msgid "set to:"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/source/svn/file.html.php:10
-#: IDF/gettexttemplates/idf/source/svn/tree.html.php:14
+#: IDF/gettexttemplates/idf/source/svn/tree.html.php:15
 #: IDF/gettexttemplates/idf/source/changelog.html.php:8
 msgid "Revision:"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/source/svn/file.html.php:11
-#: IDF/gettexttemplates/idf/source/svn/tree.html.php:15
+#: IDF/gettexttemplates/idf/source/svn/tree.html.php:16
 #: IDF/gettexttemplates/idf/source/changelog.html.php:9
 msgid "Go to revision"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/source/svn/help.html.php:3
+#, php-format
+msgid ""
+"The team behind %%project%% is using\n"
+"the <strong>subversion</strong> software to manage the source\n"
+"code."
 msgstr ""
 
 #: IDF/gettexttemplates/idf/source/svn/tree.html.php:8
@@ -1760,6 +1817,22 @@ msgstr ""
 #: IDF/gettexttemplates/idf/source/commit.html.php:12
 #: IDF/gettexttemplates/idf/review/view.html.php:33
 msgid "Download the corresponding diff file"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/source/git/help.html.php:3
+#, php-format
+msgid ""
+"The team behind %%project%% is using\n"
+"the <strong>git</strong> software to manage the source\n"
+"code."
+msgstr ""
+
+#: IDF/gettexttemplates/idf/source/git/help.html.php:6
+msgid "To make a first commit in the repository, perform the following steps:"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/source/git/help.html.php:9
+msgid "First Commit"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/gadmin/users/update.html.php:3
@@ -1861,13 +1934,6 @@ msgstr ""
 #: IDF/gettexttemplates/idf/base.html.php:9
 #: IDF/gettexttemplates/idf/base-full.html.php:8
 msgid "Help and accessibility features"
-msgstr ""
-
-#: IDF/gettexttemplates/idf/gadmin/base.html.php:7
-#: IDF/gettexttemplates/idf/base-simple.html.php:9
-#: IDF/gettexttemplates/idf/base.html.php:10
-#: IDF/gettexttemplates/idf/base-full.html.php:9
-msgid "Help"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/gadmin/base.html.php:9
