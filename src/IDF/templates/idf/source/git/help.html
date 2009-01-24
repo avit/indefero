@@ -10,6 +10,8 @@ code.{/blocktrans}</p>
 
 <p><kbd>git clone {$project.getRemoteAccessUrl()}</kbd></p>
 
+{aurl 'url', 'IDF_Views_User::myAccount'}
+<p>{blocktrans}You may need to <a href="{$url}">provide your SSH key</a>. The synchronization of your SSH key can take a couple of minutes. You can learn more about <a href="http://www.google.com/search?q=public+ssh+key+authentication">SSH key authentification</a>.{/blocktrans}</p>
 
 {if $isOwner or $isMember}
 <h3>{trans 'First Commit'}</h3>
