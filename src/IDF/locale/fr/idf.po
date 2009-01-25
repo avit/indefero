@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: InDefero\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-23 14:19+0100\n"
-"PO-Revision-Date: 2009-01-23 16:27+0100\n"
+"PO-Revision-Date: 2009-01-25 10:55+0100\n"
 "Last-Translator: Loïc d'Anterroches <titoo@users.sourceforge.net>\n"
 "Language-Team: Translation team <titoo@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2984,7 +2984,7 @@ msgstr "Tickets trouvés:"
 msgid ""
 "A new issue has been created and assigned\n"
 "to you:"
-msgstr "Un nouveau ticket a été créé et vous a étéattribué :"
+msgstr "Un nouveau ticket a été créé et vous a été attribué :"
 
 #: IDF/gettexttemplates/idf/issues/by-label.html.php:3
 #, php-format
