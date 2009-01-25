@@ -64,6 +64,12 @@ class IDF_Views_Source
         $branches = $scm->getBranches();
         $commit = $match[2];
         if ('commit' != $scm->testHash($commit)) {
+            if (count($branches) == 0) {
+                // Redirect to the project source help
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::help',
+                                                array($request->project->shortname));
+                return new Pluf_HTTP_Response_Redirect($url);
+            }
             // Redirect to the first branch
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::changeLog',
                                             array($request->project->shortname,
