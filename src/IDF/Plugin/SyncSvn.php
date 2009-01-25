@@ -64,6 +64,9 @@ class IDF_Plugin_SyncSvn
      */
     function processSvnCreate($project)
     {
+        if ($params['project']->getConf()->getVal('scm') != 'svn') {
+            return false;
+        }
         $shortname = $project->shortname;
         if (false===($svn_path=Pluf::f('idf_plugin_syncsvn_svn_path',false))) {
             throw new Pluf_Exception_SettingError("'idf_plugin_syncsvn_svn_path' must be defined in your configuration file.");

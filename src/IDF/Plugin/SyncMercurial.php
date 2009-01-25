@@ -63,8 +63,10 @@ class IDF_Plugin_SyncMercurial
      */
     function processMercurialCreate($project)
     {
+        if ($project->getConf()->getVal('scm') != 'mercurial') {
+            return false;
+        }
         $shortname = $project->shortname;
-
         if (false===($mercurial_path=Pluf::f('idf_plugin_syncmercurial_path',false))) {
             throw new Pluf_Exception_SettingError("'idf_plugin_syncmercurial_path' must be defined in your configuration file.");
         }
