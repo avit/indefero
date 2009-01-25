@@ -76,7 +76,7 @@ Here is the step-by-step installation procedure:
     $user = new Pluf_User();
     $user->first_name = 'John';
     $user->last_name = 'Doe'; // Required!
-    $user->login = 'doe';
+    $user->login = 'doe'; // must be lowercase!
     $user->email = 'doe@example.com';
     $user->password = 'yourpassword'; // the password is salted/hashed 
                                       // in the database, so do not worry :)
