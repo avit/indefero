@@ -113,6 +113,9 @@ class IDF_Plugin_SyncMercurial
      */
     function processSyncAuthz($project)
     {
+        if ($project->getConf()->getVal('scm') != 'mercurial') {
+            return false;
+        }
         $this->SyncAccess($project);
         $this->generateProjectPasswd($project);
     }
