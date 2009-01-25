@@ -57,6 +57,20 @@ class IDF_Form_TabsConf extends Pluf_Form
                                             'widget' => 'Pluf_Form_Widget_SelectInput',
                                             ));
         }
+        $ak = array('downloads_notification_email',
+                    'review_notification_email',
+                    'wiki_notification_email',
+                    'source_notification_email',
+                    'issues_notification_email',);
+        foreach ($ak as $key) {
+            $this->fields[$key] = new Pluf_Form_Field_Email(
+                                      array('required' => false,
+                                            'label' => $key,
+                                            'initial' => $this->conf->getVal($key, ''),
+                                            ));
+        }
+
+
         $this->fields['private_project'] = new Pluf_Form_Field_Boolean(
                     array('required' => false,
                           'label' => __('Private project'),

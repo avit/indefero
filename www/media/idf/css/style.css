@@ -48,7 +48,7 @@ a:active{
 }
 
 .a-c { 
-  text-align: center;
+  text-align: center !important;
 }
 
 .dellink { 
