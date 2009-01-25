@@ -86,7 +86,8 @@
 {block context}
 <div class="issue-submit-info">
 <p><strong>{trans 'Instructions:'}</strong></p>
-<p>{blocktrans}You can configure here the project tabs access rights.{/blocktrans}</p>
+<p>{blocktrans}You can configure here the project tabs access rights and notification emails.{/blocktrans}</p>
+<p>{blocktrans}Notification emails will be sent by the <strong>{$from_email}</strong> address, if you send the email to a mailing list, you may need to register this email address. If you do not want to send emails for a given type of changes, simply leave the corresponding field empty.{/blocktrans}</p>
 <p>{blocktrans}If you mark a project as private, only the project members and administrators, together with the extra authorized users you provide will have access to the project. You will still be able to define further access rights for the different tabs but the "Open to all" and "Signed in users" will default to authorized users only.{/blocktrans}</p>
 <p>{blocktrans}Specify each person by its login. Each person must have already registered with the given login. Separate the logins with commas and/or new lines.{/blocktrans}</p>
 </div>

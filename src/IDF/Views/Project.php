@@ -452,6 +452,7 @@ class IDF_Views_Project
                                                array(
                                                      'page_title' => $title,
                                                      'form' => $form,
+                                                     'from_email' => Pluf::f('from_email'),
                                                      ),
                                                $request);
     }
