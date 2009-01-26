@@ -67,6 +67,17 @@ class IDF_Scm_Git
     }
 
     /**
+     * Returns the URL for SSH access
+     *
+     * @param IDF_Project
+     * @return string URL
+     */
+    public static function getWriteRemoteAccessUrl($project)
+    {
+        return sprintf(Pluf::f('git_write_remote_url'), $project->shortname);
+    }
+
+    /**
      * Returns this object correctly initialized for the project.
      *
      * @param IDF_Project

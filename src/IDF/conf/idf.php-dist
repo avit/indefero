@@ -61,6 +61,7 @@ $cfg['git_repositories'] = '/home/git/repositories/%s.git';
 # tree view.
 #
 $cfg['git_remote_url'] = 'git://localhost/%s.git';
+$cfg['git_write_remote_url'] = 'git@localhost:%s.git';
 
 # Same as for git, you can have multiple repositories, one for each
 # project or a single one for all the projects. 

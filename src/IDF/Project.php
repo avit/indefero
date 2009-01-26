@@ -363,6 +363,22 @@ class IDF_Project extends Pluf_Model
     }
 
     /**
+     * Get the remote write access url to the repository.
+     *
+     * Some SCM have a remote access URL to write which is not the
+     * same as the one to read. For example, you do a checkout with
+     * git-daemon and push with SSH.
+     */
+    public function getWriteRemoteAccessUrl()
+    {
+        $conf = $this->getConf();
+        $scm = $conf->getVal('scm', 'git');
+        $scms = Pluf::f('allowed_scm');
+        return call_user_func(array($scms[$scm], 'getWriteRemoteAccessUrl'),
+                              $this);
+    }
+
+    /**
      * Get the root name of the project scm
      *
      * @return string SCM root
