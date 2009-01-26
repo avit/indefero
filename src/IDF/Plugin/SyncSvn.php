@@ -64,7 +64,7 @@ class IDF_Plugin_SyncSvn
      */
     function processSvnCreate($project)
     {
-        if ($params['project']->getConf()->getVal('scm') != 'svn') {
+        if ($project->getConf()->getVal('scm') != 'svn') {
             return false;
         }
         $shortname = $project->shortname;
