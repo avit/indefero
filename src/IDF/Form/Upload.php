@@ -159,6 +159,22 @@ class IDF_Form_Upload extends Pluf_Form
         foreach ($tags as $tag) {
             $upload->setAssoc($tag);
         }
+        // Send the notification
+        if ('' != $this->project->getConf()->getVal('downloads_notification_email', '')) {
+            $context = new Pluf_Template_Context(
+                      array('file' => $upload,
+                            'urlfile' => $upload->getAbsoluteUrl($this->project),
+                            'project' => $this->project,
+                            'tags' => $upload->get_tags_list(),
+                            ));
+            $tmpl = new Pluf_Template('idf/downloads/download-created-email.txt');
+            $text_email = $tmpl->render($context);
+            $email = new Pluf_Mail(Pluf::f('from_email'), $this->project->getConf()->getVal('downloads_notification_email'),
+                                   sprintf(__('New download - %s (%s)'),
+                                           $upload->summary, $this->project->shortname));
+            $email->addTextMessage($text_email);
+            $email->sendMail();
+        }
         return $upload;
     }
 }

@@ -1,0 +1,12 @@
+{trans 'Hello,'}
+
+{blocktrans}A new file is available for download:{/blocktrans}
+
+{$file.summary|safe}
+{$file} - {$file.filesize|ssize}
+{trans 'Project:'} {$project.name|safe}
+{trans 'Submitted by:'} {$file.get_submitter|safe}
+{if $tags.count()}{trans 'Labels:'}
+{foreach $tags as $tag} {$tag.class|safe}:{$tag.name|safe}
+{/foreach}{/if}
+{trans 'Download:'} {$urlfile}
