@@ -54,6 +54,20 @@ need to put the following lines in your configuration file:
     $cfg['idf_plugin_syncmercurial_private_notify'] = '/home/indefero/tmp/notify.tmp';
     $cfg['idf_plugin_syncmercurial_private_url'] = '/hg/%s';
 
+You also need to provide the base definition of the hgrc file. For example:
+
+    $cfg['idf_plugin_syncmercurial_hgrc'] = array(
+               'web' => array('push_ssl' => 'false',
+                              'allow_push' => '',
+                              'description' => '',
+                              'allow_archive' => 'bz2, zip, gz',
+                              'style' => 'gitweb',
+                              'contact' => ''),
+               'hooks' => array(),
+               'extensions' => array(),
+                                                  );
+
+
 ## Cron configuration
 
 As InDefero modifies the private_indefero.conf, apache needs to be reloaded.
