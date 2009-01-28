@@ -177,15 +177,22 @@ class IDF_Views_Review
                 $tmpl = new Pluf_Template('idf/review/review-updated-email.txt');
                 $text_email = $tmpl->render($context);
                 $email = new Pluf_Mail_Batch(Pluf::f('from_email'));
+                $to_emails = array();
                 foreach ($reviewers as $user) {
                     if ($user->id != $request->user->id) {
-                        $email->setSubject(sprintf(__('Updated Code Review %s - %s (%s)'),
-                                                   $review->id, $review->summary, $prj->shortname));
-                        $email->setTo($user->email);
-                        $email->setReturnPath(Pluf::f('from_email'));
-                        $email->addTextMessage($text_email);
-                        $email->sendMail();
+                        $to_emails[] = $user->email;
                     }
+                }
+                if ('' != $request->conf->getVal('review_notification_email', '')) {
+                    $to_emails[] = $request->conf->getVal('review_notification_email');
+                }
+                foreach ($to_emails as $oemail) {
+                    $email->setSubject(sprintf(__('Updated Code Review %s - %s (%s)'),
+                                               $review->id, $review->summary, $prj->shortname));
+                    $email->setTo($oemail);
+                    $email->setReturnPath(Pluf::f('from_email'));
+                    $email->addTextMessage($text_email);
+                    $email->sendMail();
                 }
                 $email->close();
                 return new Pluf_HTTP_Response_Redirect($url);
