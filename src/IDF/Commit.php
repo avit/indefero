@@ -154,6 +154,25 @@ class IDF_Commit extends Pluf_Model
         $commit->origauthor = $change->author;
         $commit->creation_dtime = $change->date;
         $commit->create();
+        // We notify the creation of the commit
+        if ('' != $project->getConf()->getVal('source_notification_email', '')) {
+            $context = new Pluf_Template_Context(
+                       array(
+                             'c' => $commit,
+                             'project' => $project,
+                             'url_base' => Pluf::f('url_base'),
+                             )
+                                                     );
+            $tmpl = new Pluf_Template('idf/source/commit-created-email.txt');
+            $text_email = $tmpl->render($context);
+            $email = new Pluf_Mail(Pluf::f('from_email'), 
+                       $project->getConf()->getVal('source_notification_email'),
+                       sprintf(__('New Commit %s - %s (%s)'),
+                               $commit->scm_id, $commit->summary, $project->shortname));
+            $email->addTextMessage($text_email);
+            $email->sendMail();
+        }
+        
         return $commit;
     }
 
