@@ -1,0 +1,16 @@
+{trans 'Hello,'}
+
+{blocktrans}A new documentation page has been created:{/blocktrans}
+
+{$page.title|safe} - {$page.summary|safe}
+{trans 'Project:'} {$project.name|safe}
+{trans 'Created by:'} {$rev.get_submitter|safe}
+{assign $tags = $page.get_tags_list()}{if $tags.count()}{trans 'Labels:'}
+{foreach $tags as $tag} {$tag.class|safe}:{$tag.name|safe}
+{/foreach}{/if}
+{trans 'Content:'}
+
+{$rev.content}
+
+--
+{trans 'Documentation page:'} {$url_base}{url 'IDF_Views_Wiki::view', array($project.shortname, $page.title)}

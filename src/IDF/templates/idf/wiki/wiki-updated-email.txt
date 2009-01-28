@@ -1,0 +1,21 @@
+{trans 'Hello,'}
+
+{blocktrans}The following documentation page has been updated:{/blocktrans}
+
+{$page.title|safe} - {$page.summary|safe}
+{trans 'Project:'} {$project.name|safe}
+{trans 'Summary:'} {$rev.summary|safe}
+{trans 'Updated by:'} {$page.get_submitter|safe}
+{trans 'Created by:'} {$rev.get_submitter|safe}
+{assign $tags = $page.get_tags_list()}{if $tags.count()}{trans 'Labels:'}
+{foreach $tags as $tag} {$tag.class|safe}:{$tag.name|safe}
+{/foreach}{/if}{if $rev.changedRevision()}{trans 'Changes:'}
+{foreach $rev.changes as $w => $v}
+ {if $w == 'su'}{trans 'Summary:'}{/if}{if $w == 'lb'}{trans 'Labels:'}{/if} {if $w == 'lb'}{assign $l = implode(', ', $v)}{$l}{else}{$v}{/if}{/foreach}{/if}
+
+{trans 'New content:'}
+
+{$rev.content}
+
+--
+{trans 'Documentation page:'} {$url_base}{url 'IDF_Views_Wiki::view', array($project.shortname, $page.title)}
