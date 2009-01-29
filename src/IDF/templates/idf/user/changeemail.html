@@ -1,0 +1,39 @@
+{extends "idf/base-simple.html"}
+{block body}
+{if $form.errors}
+<div class="px-message-error">
+<p>{trans 'Oups, we found an error in the form.'}</p>
+{if $form.get_top_errors}
+{$form.render_top_errors|unsafe}
+{/if}
+</div>
+{/if}
+
+<form method="post" action=".">
+<table class="form" summary="">
+<tr>
+<td>&nbsp;</td>
+<td><strong>{$form.f.key.labelTag}:</strong><br />
+{if $form.f.key.errors}{$form.f.key.fieldErrors}{/if}
+{$form.f.key|unsafe}
+</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td><input type="submit" value="{trans 'Confirm Your New Email Address'}" name="submit" /> | <a href="{url 'IDF_Views_User::myAccount'}">{trans 'Cancel'}</a>
+</td>
+</tr>
+</table>
+</form>
+{/block}
+{block context}
+<div class="issue-submit-info">
+<h2>{trans 'Instructions'}</h2>
+<p>{trans 'Use your email software to read your emails and open your verification email. Either click directly on the verification link or copy/paste the verification key in the box and submit the form.'}</p>
+</div>
+{/block}
+{block javascript}<script type="text/javascript">
+document.getElementById('id_key').focus()
+</script>
+{/block}
+

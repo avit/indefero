@@ -96,8 +96,6 @@ class IDF_Views_User
                                                      'issues' => $pag,
                                                      ),
                                                $request);
-        
-
     }
 
     /**
@@ -138,6 +136,55 @@ class IDF_Views_User
                                                      'form' => $form),
                                                $request);
     }
+
+    /**
+     * Enter the key to change an email address.
+     *
+     * This is redirecting to changeEmailDo
+     */
+    public $changeEmailInputKey_precond = array('Pluf_Precondition::loginRequired');
+    public function changeEmailInputKey($request, $match)
+    {
+        if ($request->method == 'POST') {
+            $form = new IDF_Form_UserChangeEmail($request->POST);
+            if ($form->isValid()) {
+                $url = $form->save();
+                return new Pluf_HTTP_Response_Redirect($url);
+            }
+        } else {
+            $form = new IDF_Form_UserChangeEmail();
+        }
+        return Pluf_Shortcuts_RenderToResponse('idf/user/changeemail.html', 
+                                               array('page_title' => __('Confirm The Email Change'),
+                                                     'form' => $form),
+                                               $request);
+        
+    }
+
+    /**
+     * Really change the email address.
+     */
+    public $changeEmailDo_precond = array('Pluf_Precondition::loginRequired');
+    public function changeEmailDo($request, $match)
+    {
+        $key = $match[1];
+        $url = Pluf_HTTP_URL_urlForView('IDF_Views_User::changeEmailInputKey');
+        try {
+            list($email, $id, $time) = IDF_Form_UserChangeEmail::validateKey($key);
+        } catch (Pluf_Form_Invalid $e) {
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
+        if ($id != $request->user->id) {
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
+        // Now we have a change link coming from the right user.
+        $request->user->email = $email;
+        $request->user->update();
+        $request->user->setMessage(sprintf(__('Your new email address "%s" has been validated. Thank you!'), Pluf_esc($email)));
+        $url = Pluf_HTTP_URL_urlForView('IDF_Views_User::myAccount');
+        return new Pluf_HTTP_Response_Redirect($url);
+    }
+
 
     /**
      * Public profile of a user.

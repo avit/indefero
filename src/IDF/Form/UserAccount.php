@@ -21,6 +21,8 @@
 #
 # ***** END LICENSE BLOCK ***** */
 
+Pluf::loadFunction('Pluf_HTTP_URL_urlForView');
+
 /**
  * Allow a user to update its details.
  */
@@ -48,6 +50,13 @@ class IDF_Form_UserAccount  extends Pluf_Form
                                                        'maxlength' => 50,
                                                        'size' => 20,
                                                                     ),
+                                            ));
+
+        $this->fields['email'] = new Pluf_Form_Field_Email(
+                                      array('required' => true,
+                                            'label' => __('Your mail'),
+                                            'initial' => $this->user->email,
+                                            'help_text' => __('If you change your email address, an email will be sent to the new address to confirm it.'),
                                             ));
 
         $this->fields['language'] = new Pluf_Form_Field_Varchar(
@@ -116,6 +125,31 @@ class IDF_Form_UserAccount  extends Pluf_Form
         } else {
             $update_pass = true;
         }
+        $old_email = $this->user->email;
+        $new_email = $this->cleaned_data['email'];
+        unset($this->cleaned_data['email']);
+        if ($old_email != $new_email) {
+            $cr = new Pluf_Crypt(md5(Pluf::f('secret_key')));
+            $encrypted = trim($cr->encrypt($new_email.':'.$this->user->id.':'.time()), '~');
+            $key = substr(md5(Pluf::f('secret_key').$encrypted), 0, 2).$encrypted;
+            $url = Pluf::f('url_base').Pluf_HTTP_URL_urlForView('IDF_Views_User::changeEmailDo', array($key), array(), false);
+            $urlik = Pluf::f('url_base').Pluf_HTTP_URL_urlForView('IDF_Views_User::changeEmailInputKey', array(), array(), false);
+            $context = new Pluf_Template_Context(
+                 array('key' => Pluf_Template::markSafe($key),
+                       'url' => Pluf_Template::markSafe($url),
+                       'urlik' => Pluf_Template::markSafe($urlik),
+                       'email' => $new_email,
+                       'user'=> $this->user,
+                       )
+                                                 );
+            $tmpl = new Pluf_Template('idf/user/changeemail-email.txt');
+            $text_email = $tmpl->render($context);
+            $email = new Pluf_Mail(Pluf::f('from_email'), $new_email,
+                                   __('Confirm your new email address.'));
+            $email->addTextMessage($text_email);
+            $email->sendMail();
+            $this->user->setMessage(sprintf(__('A validation email has been sent to "%s" to validate the email address change.'), Pluf_esc($new_email)));
+        }
         $this->user->setFromFormData($this->cleaned_data);
         // Get keys
         $keys = $this->user->get_idf_key_list();
@@ -179,6 +213,18 @@ class IDF_Form_UserAccount  extends Pluf_Form
                                    MB_CASE_TITLE, 'UTF-8');
         }
         return $first_name;
+    }
+
+    function clean_email()
+    {
+        $this->cleaned_data['email'] = mb_strtolower(trim($this->cleaned_data['email']));
+        $guser = new Pluf_User();
+        $sql = new Pluf_SQL('email=%s AND id!=%s', 
+                            array($this->cleaned_data['email'], $this->user->id));
+        if ($guser->getCount(array('filter' => $sql->gen())) > 0) {
+            throw new Pluf_Form_Invalid(sprintf(__('The email "%s" is already used.'), $this->cleaned_data['email']));
+        }
+        return $this->cleaned_data['email'];
     }
 
     /**

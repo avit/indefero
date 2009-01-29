@@ -28,6 +28,13 @@
 </td>
 </tr>
 <tr>
+<th><strong>{$form.f.email.labelTag}:</strong></th>
+<td>{if $form.f.email.errors}{$form.f.email.fieldErrors}{/if}
+{$form.f.email|unsafe}<br />
+<span class="helptext">{$form.f.email.help_text}</span>
+</td>
+</tr>
+<tr>
 <th>{$form.f.language.labelTag}:</th>
 <td>{if $form.f.language.errors}{$form.f.language.fieldErrors}{/if}
 {$form.f.language|unsafe}

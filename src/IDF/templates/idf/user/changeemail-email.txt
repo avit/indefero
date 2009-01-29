@@ -1,0 +1,22 @@
+{blocktrans}Hello {$user},
+
+To confirm that you want {$email}
+to be your new email address, just follow this link:
+
+{$url}
+
+Alternatively, go to this page:
+
+{$urlik}
+
+and provide the following verification key:
+
+{$key}
+
+If you do not want to change your email address, 
+just ignore this message.
+
+Yours faithfully,
+The development team.
+{/blocktrans}
+

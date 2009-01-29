@@ -473,6 +473,19 @@ $ctl[] = array('regex' => '#^/password/k/(.*)/$#',
                'model' => 'IDF_Views',
                'method' => 'passwordRecovery');
 
+$ctl[] = array('regex' => '#^/preferences/email/ik/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_User',
+               'method' => 'changeEmailInputKey');
+
+$ctl[] = array('regex' => '#^/preferences/email/ak/(.*)/$#',
+               'base' => $base,
+               'priority' => 4,
+               'model' => 'IDF_Views_User',
+               'method' => 'changeEmailDo');
+
+
 
 
 return $ctl;
