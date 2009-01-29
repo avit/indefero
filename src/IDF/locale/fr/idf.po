@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: InDefero\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-28 15:29+0100\n"
-"PO-Revision-Date: 2009-01-28 15:39+0100\n"
+"POT-Creation-Date: 2009-01-29 18:52+0100\n"
+"PO-Revision-Date: 2009-01-29 18:59+0100\n"
 "Last-Translator: Loïc d'Anterroches <titoo@users.sourceforge.net>\n"
 "Language-Team: Translation team <titoo@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -792,21 +792,30 @@ msgstr "Aucun ticket en cours pour vous, yeah !"
 msgid "All the issues you submitted are fixed, yeah!"
 msgstr "Tous les tickets que vous avez soumis ont été fixés, yeah !"
 
-#: IDF/Views/User.php:119
+#: IDF/Views/User.php:117
 msgid "Your personal information have been updated."
 msgstr "Vos informations personnelles ont été mises à jour."
 
-#: IDF/Views/User.php:129
+#: IDF/Views/User.php:127
 msgid "Troncated for security reasons."
 msgstr "Par sécurité affichage tronqué."
 
-#: IDF/Views/User.php:131
+#: IDF/Views/User.php:129
 msgid "You have not upload your public SSH key yet."
 msgstr "Vous n'avez pas encore donné votre clef SSH."
 
-#: IDF/Views/User.php:134
+#: IDF/Views/User.php:132
 msgid "Your Account"
 msgstr "Votre compte"
+
+#: IDF/Views/User.php:158
+msgid "Confirm The Email Change"
+msgstr "Confirmez le changement d'adresse"
+
+#: IDF/Views/User.php:183
+#, php-format
+msgid "Your new email address \"%s\" has been validated. Thank you!"
+msgstr "Votre nouvelle adresse email \"%s\" a été validée. Merci !"
 
 #: IDF/Views/Source.php:46
 #, php-format
@@ -1107,6 +1116,37 @@ msgstr "Oui"
 msgid "No"
 msgstr "Non"
 
+#: IDF/Form/UserChangeEmail.php:36
+#: IDF/Form/PasswordInputKey.php:36
+#: IDF/Form/PasswordReset.php:39
+msgid "Your verification key"
+msgstr "Votre clef de vérification"
+
+#: IDF/Form/UserChangeEmail.php:63
+msgid "The validation key is not valid. Please copy/paste it from your confirmation email."
+msgstr "Nous sommes désolés mais cette clef de confirmation est invalide. Vous devriez peut-être faire directement un copier/coller depuis votre email de confirmation."
+
+#: IDF/Form/UserChangeEmail.php:80
+#: IDF/Form/Upload.php:134
+#: IDF/Form/Register.php:114
+#: IDF/Form/UserAccount.php:119
+#: IDF/Form/Admin/ProjectCreate.php:205
+#: IDF/Form/Admin/ProjectUpdate.php:67
+#: IDF/Form/Admin/UserUpdate.php:129
+#: IDF/Form/UpdateUpload.php:116
+#: IDF/Form/WikiUpdate.php:178
+#: IDF/Form/TabsConf.php:92
+#: IDF/Form/ReviewCommentFile.php:166
+#: IDF/Form/IssueCreate.php:233
+#: IDF/Form/Password.php:61
+#: IDF/Form/IssueUpdate.php:232
+#: IDF/Form/ReviewFileComment.php:77
+#: IDF/Form/WikiCreate.php:167
+#: IDF/Form/MembersConf.php:64
+#: IDF/Form/ReviewCreate.php:165
+msgid "Cannot save the model from an invalid form."
+msgstr "Ne peut pas sauvegarder le modèle depuis un formulaire invalide."
+
 #: IDF/Form/Upload.php:59
 #: IDF/Form/UpdateUpload.php:61
 #: IDF/Form/WikiUpdate.php:104
@@ -1138,35 +1178,10 @@ msgstr "Vous ne pouvez pas fournir plus d'une étiquette de la classe %s à un t
 msgid "You provided an invalid label."
 msgstr "Vous avez donné une étiquette invalide."
 
-#: IDF/Form/Upload.php:134
-#: IDF/Form/Register.php:114
-#: IDF/Form/UserAccount.php:110
-#: IDF/Form/Admin/ProjectCreate.php:205
-#: IDF/Form/Admin/ProjectUpdate.php:67
-#: IDF/Form/Admin/UserUpdate.php:129
-#: IDF/Form/UpdateUpload.php:116
-#: IDF/Form/WikiUpdate.php:178
-#: IDF/Form/TabsConf.php:92
-#: IDF/Form/ReviewCommentFile.php:166
-#: IDF/Form/IssueCreate.php:233
-#: IDF/Form/Password.php:61
-#: IDF/Form/IssueUpdate.php:232
-#: IDF/Form/ReviewFileComment.php:77
-#: IDF/Form/WikiCreate.php:167
-#: IDF/Form/MembersConf.php:64
-#: IDF/Form/ReviewCreate.php:165
-msgid "Cannot save the model from an invalid form."
-msgstr "Ne peut pas sauvegarder le modèle depuis un formulaire invalide."
-
 #: IDF/Form/Upload.php:173
 #, php-format
 msgid "New download - %s (%s)"
 msgstr "Nouveau téléchargement - %s (%s)"
-
-#: IDF/Form/PasswordInputKey.php:36
-#: IDF/Form/PasswordReset.php:39
-msgid "Your verification key"
-msgstr "Votre clef de vérification"
 
 #: IDF/Form/PasswordInputKey.php:50
 #: IDF/Form/PasswordReset.php:86
@@ -1236,54 +1251,76 @@ msgstr "Étiquettes prédéfinies des téléchargements"
 msgid "Each download may have at most one label with each of these classes"
 msgstr "Chaque téléchargement ne peut avoir qu'une seule étiquette pour chacune de ces classes"
 
-#: IDF/Form/UserAccount.php:36
+#: IDF/Form/UserAccount.php:38
 #: IDF/Form/RegisterConfirmation.php:50
 #: IDF/Form/Admin/UserUpdate.php:36
 msgid "First name"
 msgstr "Prénom"
 
-#: IDF/Form/UserAccount.php:45
+#: IDF/Form/UserAccount.php:47
 #: IDF/Form/RegisterConfirmation.php:59
 #: IDF/Form/Admin/UserUpdate.php:45
 msgid "Last name"
 msgstr "Nom de famille"
 
-#: IDF/Form/UserAccount.php:55
+#: IDF/Form/UserAccount.php:57
+msgid "Your mail"
+msgstr "Votre email"
+
+#: IDF/Form/UserAccount.php:59
+msgid "If you change your email address, an email will be sent to the new address to confirm it."
+msgstr "Si vous changez votre adresse email, un email sera envoyé à la nouvelle adresse pour confirmation."
+
+#: IDF/Form/UserAccount.php:64
 #: IDF/Form/Admin/UserUpdate.php:65
 msgid "Language"
 msgstr "Langage"
 
-#: IDF/Form/UserAccount.php:66
+#: IDF/Form/UserAccount.php:75
 #: IDF/Form/RegisterConfirmation.php:69
 #: IDF/Form/PasswordReset.php:45
 msgid "Your password"
 msgstr "Votre mot de passe"
 
-#: IDF/Form/UserAccount.php:69
+#: IDF/Form/UserAccount.php:78
 msgid "Leave blank if you do not want to change your password."
 msgstr "Laissez vide si vous ne voulez pas changer votre mot de passe."
 
-#: IDF/Form/UserAccount.php:69
+#: IDF/Form/UserAccount.php:78
 #: IDF/Form/RegisterConfirmation.php:72
 #: IDF/Form/PasswordReset.php:48
 msgid "Your password must be hard for other people to find it, but easy for you to remember."
 msgstr "Votre mot de passe doit être difficile à trouver pour d'autres personnes, mais simple à retenir pour vous."
 
-#: IDF/Form/UserAccount.php:77
+#: IDF/Form/UserAccount.php:86
 #: IDF/Form/RegisterConfirmation.php:80
 #: IDF/Form/PasswordReset.php:56
 msgid "Confirm your password"
 msgstr "Confirmez votre mot de passe"
 
-#: IDF/Form/UserAccount.php:88
+#: IDF/Form/UserAccount.php:97
 msgid "Your public SSH key"
 msgstr "Votre clef SSH publique"
 
-#: IDF/Form/UserAccount.php:93
+#: IDF/Form/UserAccount.php:102
 msgid "Be careful to provide your public key and not your private key!"
 msgstr "Faites attention de bien donner votre clef publique et non votre clef privée !"
 
-#: IDF/Form/UserAccount.php:194
+#: IDF/Form/UserAccount.php:148
+msgid "Confirm your new email address."
+msgstr "Confirmez votre nouvelle adresse email."
+
+#: IDF/Form/UserAccount.php:151
+#, php-format
+msgid "A validation email has been sent to \"%s\" to validate the email address change."
+msgstr "Un email a été envoyé à \"%s\" pour valider le changement d'adresse."
+
+#: IDF/Form/UserAccount.php:225
+#, php-format
+msgid "The email \"%s\" is already used."
+msgstr "L'adresse email \"%s\" est déjà utilisée."
+
+#: IDF/Form/UserAccount.php:240
 #: IDF/Form/Admin/UserUpdate.php:211
 msgid "The passwords do not match. Please give them again."
 msgstr "Les mots de passe ne sont pas identiques, veuillez les donner de nouveau."
@@ -2095,6 +2132,7 @@ msgstr "Mise à jour"
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:10
 #: IDF/gettexttemplates/idf/wiki/create.html.php:7
 #: IDF/gettexttemplates/idf/user/passrecovery-inputkey.html.php:5
+#: IDF/gettexttemplates/idf/user/changeemail.html.php:5
 #: IDF/gettexttemplates/idf/user/passrecovery-ask.html.php:5
 #: IDF/gettexttemplates/idf/user/myaccount.html.php:10
 #: IDF/gettexttemplates/idf/user/passrecovery.html.php:7
@@ -2529,6 +2567,7 @@ msgid "Managed Projects:"
 msgstr "Projets supervisés :"
 
 #: IDF/gettexttemplates/idf/user/passrecovery-inputkey.html.php:3
+#: IDF/gettexttemplates/idf/user/changeemail.html.php:3
 #: IDF/gettexttemplates/idf/register/inputkey.html.php:3
 msgid "Oups, we found an error in the form."
 msgstr "Oups, nous avons trouvé une erreur dans le formulaire."
@@ -2538,18 +2577,67 @@ msgid "Recover Your Password"
 msgstr "Récupérer votre mot de passe"
 
 #: IDF/gettexttemplates/idf/user/passrecovery-inputkey.html.php:6
+#: IDF/gettexttemplates/idf/user/changeemail.html.php:6
 #: IDF/gettexttemplates/idf/register/inputkey.html.php:6
 #: IDF/gettexttemplates/idf/downloads/submit.html.php:9
 msgid "Instructions"
 msgstr "Instructions"
 
 #: IDF/gettexttemplates/idf/user/passrecovery-inputkey.html.php:7
+#: IDF/gettexttemplates/idf/user/changeemail.html.php:7
 msgid "Use your email software to read your emails and open your verification email. Either click directly on the verification link or copy/paste the verification key in the box and submit the form."
 msgstr "Utilisez votre logiciel de messagerie pour lire votre email de vérification. Vous pouvez cliquer sur le lien fourni ou copier/coller la clef de vérification dans le formulaire et le soumettre."
 
 #: IDF/gettexttemplates/idf/user/passrecovery-inputkey.html.php:8
 msgid "Just after providing the confirmation key, you will be able to reset your password and use again this website fully."
 msgstr "Juste après avoir fourni la clef de vérification, vous pourrez donner votre mot de passe et réutiliser complètement le site."
+
+#: IDF/gettexttemplates/idf/user/changeemail.html.php:4
+msgid "Confirm Your New Email Address"
+msgstr "Confirmez votre nouvelle adresse"
+
+#: IDF/gettexttemplates/idf/user/changeemail-email.txt.php:3
+#, php-format
+msgid ""
+"Hello %%user%%,\n"
+"\n"
+"To confirm that you want %%email%%\n"
+"to be your new email address, just follow this link:\n"
+"\n"
+"%%url%%\n"
+"\n"
+"Alternatively, go to this page:\n"
+"\n"
+"%%urlik%%\n"
+"\n"
+"and provide the following verification key:\n"
+"\n"
+"%%key%%\n"
+"\n"
+"If you do not want to change your email address, \n"
+"just ignore this message.\n"
+"\n"
+"Yours faithfully,\n"
+"The development team.\n"
+msgstr ""
+"Bonjour %%user%%,\n"
+"\n"
+"Pour confirmer que vous voulez que %%email%%\n"
+"soit votre nouvelle adresse email, suivez le lien suivant :\n"
+"\n"
+"%%url%%\n"
+"\n"
+"Vous pouvez allez aussi sur la page suivante :\n"
+"\n"
+"%%urlik%%\n"
+"\n"
+"et fournir la clef de confirmation suivante :\n"
+"\n"
+"%%key%%\n"
+"\n"
+"Si vous ne voulez pas changer votre adresse email,ignorez simplement ce message.\n"
+"Cordialement,\n"
+"l'équipe de développement.\n"
 
 #: IDF/gettexttemplates/idf/user/passrecovery-ask.html.php:3
 msgid "Oups, please check the provided login or email address to recover your password."
