@@ -369,7 +369,7 @@ class IDF_Scm_Svn
      */
     public function getArchiveCommand($commit, $prefix='git-repo-dump/')
     {
-        throw new Exception(('Unsupported feature.'));
+        throw new Exception('Unsupported feature.');
     }
 
 

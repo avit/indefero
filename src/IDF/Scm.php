@@ -52,6 +52,7 @@ class IDF_Scm
      */
     public static function exec($command, &$output=array(), &$return=0)
     {
+        $command = Pluf::f('idf_exec_cmd_prefix', '').$command;
         $key = md5($command);
         $cache = Pluf_Cache::factory();
         if (null === ($res=$cache->get($key))) {
@@ -74,6 +75,7 @@ class IDF_Scm
      */
     public static function shell_exec($command)
     {
+        $command = Pluf::f('idf_exec_cmd_prefix', '').$command;
         $key = md5($command);
         $cache = Pluf_Cache::factory();
         if (null === ($res=$cache->get($key))) {

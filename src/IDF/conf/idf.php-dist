@@ -201,4 +201,11 @@ $cfg['allowed_scm'] = array('git' => 'IDF_Scm_Git',
 
 # Extra text files when displaying source
 # $cfg['idf_extra_text_ext'] = 'ext1 ext2 ext3';
+
+# If you can execute the shell commands executed to get info
+# from the scm  with the user of your PHP process but it is 
+# not working from within PHP, this can be due to the environment 
+# variables not being set correctly. Note the trailing space.
+# $cfg['idf_exec_cmd_prefix'] = '/usr/bin/env -i ';
+
 return $cfg;

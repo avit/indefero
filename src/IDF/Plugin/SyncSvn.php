@@ -79,6 +79,7 @@ class IDF_Plugin_SyncSvn
         $output = array();
         $cmd = sprintf('svnadmin create %s', 
                        escapeshellarg($svn_path.'/'.$shortname));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $ll = exec($cmd, $output, $return);
         return ($return == 0);
     }

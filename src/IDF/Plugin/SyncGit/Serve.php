@@ -191,7 +191,8 @@ class IDF_Plugin_SyncGit_Serve
     public function initRepository($fullpath)
     {
         mkdir($fullpath, 0750, true);
-        exec(sprintf('git --git-dir=%s init', escapeshellarg($fullpath)), 
+        exec(sprintf(Pluf::f('idf_exec_cmd_prefix', '').
+                     'git --git-dir=%s init', escapeshellarg($fullpath)), 
              $out, $res);
         if ($res != 0) {
             throw new Exception(sprintf('Init repository error, exit status %d.', $res));

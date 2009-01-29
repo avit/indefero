@@ -398,7 +398,8 @@ class IDF_Scm_Mercurial
      */
     public function getArchiveCommand($commit, $prefix='')
     {
-        return sprintf('hg archive --type=zip -R %s -r %s -',
+        return sprintf(Pluf::f('idf_exec_cmd_prefix', '').
+                       'hg archive --type=zip -R %s -r %s -',
                        escapeshellarg($this->repo),
                        escapeshellarg($commit));
     }

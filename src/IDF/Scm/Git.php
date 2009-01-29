@@ -235,7 +235,8 @@ class IDF_Scm_Git
      */
     public function getBlob($request_file_info, $dummy=null)
     {
-        return shell_exec(sprintf('GIT_DIR=%s git cat-file blob %s',
+        return shell_exec(sprintf(Pluf::f('idf_exec_cmd_prefix', '').
+                                  'GIT_DIR=%s git cat-file blob %s',
                                   escapeshellarg($this->repo), 
                                   escapeshellarg($request_file_info->hash)));
     }
@@ -410,7 +411,8 @@ class IDF_Scm_Git
      */
     public function getArchiveCommand($commit, $prefix='git-repo-dump/')
     {
-        return sprintf('GIT_DIR=%s git archive --format=zip --prefix=%s %s',
+        return sprintf(Pluf::f('idf_exec_cmd_prefix', '').
+                       'GIT_DIR=%s git archive --format=zip --prefix=%s %s',
                        escapeshellarg($this->repo),
                        escapeshellarg($prefix),
                        escapeshellarg($commit));
