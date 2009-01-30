@@ -169,6 +169,9 @@ class IDF_Form_ReviewCreate extends Pluf_Form
         $review->project = $this->project;
         $review->summary = $this->cleaned_data['summary'];
         $review->submitter = $this->user;
+        if (!isset($this->cleaned_data['status'])) {
+            $this->cleaned_data['status'] = 'New';
+        }
         $review->status = IDF_Tag::add(trim($this->cleaned_data['status']), $this->project, 'Status');
         $review->create();
         // add the first patch
