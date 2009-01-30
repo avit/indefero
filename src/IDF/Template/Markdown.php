@@ -60,7 +60,7 @@ class IDF_Template_Markdown extends Pluf_Template_Tag
             and !$this->request->user->isAnonymous()) {
             return '<img style="vertical-align: text-bottom;" alt=" " src="'.Pluf::f('url_media').'/idf/img/add.png" /><a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Wiki::create', array($this->project->shortname), array('name'=>$m[1])).'" title="'.__('Create this documentation page').'">'.$m[1].'</a>';
         }
-        if (!$this->request->rights['hasWikiAccess']) {
+        if (!$this->request->rights['hasWikiAccess'] or $pages->count() == 0) {
             return $m[1];
         }
         return '<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Wiki::view', array($this->project->shortname, $pages[0]->title)).'" title="'.Pluf_esc($pages[0]->summary).'">'.$m[1].'</a>';
