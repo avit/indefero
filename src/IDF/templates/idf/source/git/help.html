@@ -8,7 +8,7 @@ code.{/blocktrans}</p>
 
 <h3>{trans 'Command-Line Access'}</h3>
 
-<p><kbd>git clone {$project.getRemoteAccessUrl()}</kbd></p>
+<p><kbd>git clone {if $project.private}{$project.getWriteRemoteAccessUrl()}{else}{$project.getRemoteAccessUrl()}{/if}</kbd></p>
 
 {aurl 'url', 'IDF_Views_User::myAccount'}
 <p>{blocktrans}You may need to <a href="{$url}">provide your SSH key</a>. The synchronization of your SSH key can take a couple of minutes. You can learn more about <a href="http://www.google.com/search?q=public+ssh+key+authentication">SSH key authentification</a>.{/blocktrans}</p>
