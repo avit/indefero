@@ -46,6 +46,8 @@ repositories to read the content:
 
     $ sudo usermod -a -G git www-data
 
+Do not forget to restart Apache or your fastcgi process to take the
+group addition into account.
 
 ## Creation of the repositories base
 
