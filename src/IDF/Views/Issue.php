@@ -251,6 +251,7 @@ class IDF_Views_Issue
         $form = false; // The form is available only if logged in.
         $starred = false;
         $closed = in_array($issue->status, $prj->getTagIdsByStatus('closed'));
+        $interested = $issue->get_interested_list();
         if (!$request->user->isAnonymous()) {
             $starred = Pluf_Model_InArray($request->user, $issue->get_interested_list());
             $params = array(
@@ -270,7 +271,6 @@ class IDF_Views_Issue
                                                          array($prj->shortname, $issue->id));
                     $request->user->setMessage(sprintf(__('<a href="%s">Issue %d</a> has been updated.'), $urlissue, $issue->id));
                     // Get the list of interested person + owner + submitter
-                    $interested = $issue->get_interested_list();
                     if (!Pluf_Model_InArray($issue->get_submitter(), $interested)) {
                         $interested[] = $issue->get_submitter();
                     }
@@ -324,6 +324,7 @@ class IDF_Views_Issue
                                                      'starred' => $starred,
                                                      'page_title' => $title,
                                                      'closed' => $closed,
+                                                     'interested' =>$interested->count(),
                                                      ),
                                                $arrays),
                                                $request);

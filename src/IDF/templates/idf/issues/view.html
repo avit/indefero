@@ -126,7 +126,9 @@
 <strong>{trans 'Status:'}</strong> {$issue.get_status.name}</p>
 {if $issue.get_owner != null}<p>
 <strong>{trans 'Owner:'}</strong> {showuser $issue.get_owner(), $request}
-</p>{/if}{assign $tags = $issue.get_tags_list()}{if $tags.count()}
+</p>{/if}
+{if $interested > 0}<p><strong>{trans 'Followed by:'}</strong> {blocktrans $interested}{$interested} person{plural}{$interested} persons{/blocktrans}</p>{/if}
+{assign $tags = $issue.get_tags_list()}{if $tags.count()}
 <p>
 <strong>{trans 'Labels:'}</strong><br />
 {foreach $tags as $tag}{aurl 'url', 'IDF_Views_Issue::listLabel', array($project.shortname, $tag.id, 'open')}
