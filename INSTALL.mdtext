@@ -30,7 +30,9 @@ docroot.
 ## Installation of Pluf
 
 * Checkout the trunk of [Pluf](http://www.pluf.org).
-* Install the `Mail` and `Mail_mime` classes from [PEAR](http://pear.php.net). You must use the `--alldeps` flag when installing these modules:
+* Install the `Mail` and `Mail_mime` classes from [PEAR](http://pear.php.net). You must use the `--alldeps` flag when installing these modules.
+
+**Pear install/upgrade:**
 
     $ sudo pear upgrade-all
     $ sudo pear install --alldeps Mail
@@ -59,12 +61,16 @@ Here is the step-by-step installation procedure:
 * Update the idf.php file to match your system.
 * Open a terminal/shell and go into the `src` folder in the InDefero installation folder.
 
+**Command:**
+
     $ cd /home/www/indefero/src
 
 * Run `php /home/www/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -i -d -u` to test the installation of the tables.
 * Run `php /home/www/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -i -d` to really install the tables.
 * More details about the migration is available in the [migration documentation](http://pluf.org/doc/migrations.html) of the Pluf framework.
-* Create a bootstrap file to create the admin user for example `www/bootstrap.php`. Do not forget to update the second line with your path to Pluf:
+* Create a bootstrap file to create the admin user for example `www/bootstrap.php`. Do not forget to update the second line with your path to Pluf.
+
+**Bootstrap script:**
 
     <?php
     set_include_path(get_include_path().PATH_SEPARATOR.'/home/www/indefero/src');
