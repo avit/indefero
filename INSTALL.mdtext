@@ -123,6 +123,7 @@ The documentation is available in the `doc` folder.
 
 * Subversion: `doc/syncsvn.mdtext`.
 * Mercurial: `doc/syncmercurial.mdtext`.
+* Git: `doc/syncgit.mdtext`.
 
 ## For the Apache Webserver Users
 
