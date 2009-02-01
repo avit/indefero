@@ -549,7 +549,7 @@ class IDF_Views_Issue
                                        Pluf_esc($d),
                                        Pluf_esc($v));
             }
-            $auto[$key] = substr($auto[$key], 0, -1);
+            $auto[$key] = substr($auto[$key], 0, -2);
         }
         // Get the members/owners
         $m = $project->getMembershipData();
@@ -565,7 +565,7 @@ class IDF_Views_Issue
                                            Pluf_esc($owner),
                                            Pluf_esc($owner->login));
         }
-        $auto['auto_owner'] = substr($auto['auto_owner'], 0, -1);
+        $auto['auto_owner'] = substr($auto['auto_owner'], 0, -2);
         unset($auto['_auto_owner']);
         return $auto;
     }

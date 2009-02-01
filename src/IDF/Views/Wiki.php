@@ -407,7 +407,7 @@ class IDF_Views_Wiki
             $auto .= sprintf('{ name: "%s", to: "%s" }, ',
                              Pluf_esc($d), Pluf_esc($v));
         }
-        return substr($auto, 0, -1);
+        return substr($auto, 0, -2);
     }
 }
 
