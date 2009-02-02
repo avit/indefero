@@ -79,4 +79,15 @@ class IDF_Tests_TestDiff extends UnitTestCase
         $this->assertEqual(2, count($diff->files));
         $this->assertEqual(12, count($diff->files['src/IDF/conf/idf.php-dist']['chunks'][0]));
     }
+
+    public function testDiffRemoveOneLine()
+    {
+        $diff_content = file_get_contents(dirname(__FILE__).'/test-diff-remove-oneline.diff');
+        $diff = new IDF_Diff($diff_content);
+        $diff->parse();
+        $this->assertEqual(2, count($diff->files));
+        $this->assertEqual(array(280, 288, ''),
+                           $diff->files['src/IDF/Scm/Git.php']['chunks'][1][2]);
+        $this->assertEqual(7, count($diff->files['src/IDF/Scm/Git.php']['chunks'][1]));
+    }
 }

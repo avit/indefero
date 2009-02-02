@@ -1,0 +1,53 @@
+diff --git a/src/IDF/Scm/Git.php b/src/IDF/Scm/Git.php
+index 5f35e0b..ebe0530 100644
+--- a/src/IDF/Scm/Git.php
++++ b/src/IDF/Scm/Git.php
+@@ -250,14 +250,22 @@ class IDF_Scm_Git
+      * Get commit details.
+      *
+      * @param string Commit ('HEAD').
++     * @param bool Get commit diff (false).
+      * @return array Changes.
+      */
+-    public function getCommit($commit='HEAD')
++    public function getCommit($commit='HEAD', $getdiff=false)
+     {
+-        $cmd = sprintf('GIT_DIR=%s git show --date=iso --pretty=format:%s %s',
+-                       escapeshellarg($this->repo),
+-                       "'".$this->mediumtree_fmt."'",
+-                       escapeshellarg($commit));
++        if ($getdiff) {
++            $cmd = sprintf('GIT_DIR=%s git show --date=iso --pretty=format:%s %s',
++                           escapeshellarg($this->repo),
++                           "'".$this->mediumtree_fmt."'",
++                           escapeshellarg($commit));
++        } else {
++            $cmd = sprintf('GIT_DIR=%s git log -1 --date=iso --pretty=format:%s %s',
++                           escapeshellarg($this->repo),
++                           "'".$this->mediumtree_fmt."'",
++                           escapeshellarg($commit));
++        }
+         $out = array();
+         IDF_Scm::exec($cmd, $out);
+         $log = array();
+@@ -278,7 +286,6 @@ class IDF_Scm_Git
+         return $out[0];
+     }
+
+-
+     /**
+      * Get latest changes.
+      *
+diff --git a/src/IDF/Views/Source.php b/src/IDF/Views/Source.php
+index ad24ed6..e5b4f1b 100644
+--- a/src/IDF/Views/Source.php
++++ b/src/IDF/Views/Source.php
+@@ -216,7 +216,7 @@ class IDF_Views_Source
+         }
+         $title = sprintf(__('%s Commit Details'), (string) $request->project);
+         $page_title = sprintf(__('%s Commit Details - %s'), (string) $request->project, $commit);
+-        $cobject = $scm->getCommit($commit);
++        $cobject = $scm->getCommit($commit, true);
+         $rcommit = IDF_Commit::getOrAdd($cobject, $request->project);
+         $diff = new IDF_Diff($cobject->changes);
+         $diff->parse();

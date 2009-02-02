@@ -110,6 +110,12 @@ class IDF_Diff
                 $lline++;
                 continue;
             }
+            if ($line == '') {
+                $files[$current_file]['chunks'][$current_chunk-1][] = array($lline, $rline, $line);
+                $rline++;
+                $lline++;
+                continue;
+            }
         }
         $this->files = $files;
         return $files;
@@ -243,7 +249,8 @@ class IDF_Diff
                 for ($lc=$spans[$i][0];$lc<$chunk[0][0];$lc++) {
                     $exists = false;
                     foreach ($chunk_lines as $line) {
-                        if ($lc == $line[0] or ($chunk[0][1]-$chunk[0][0]+$lc) == $line[1]) {
+                        if ($lc == $line[0] 
+                            or ($chunk[0][1]-$chunk[0][0]+$lc) == $line[1]) {
                             $exists = true;
                             break;
                         }
