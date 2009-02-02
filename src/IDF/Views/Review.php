@@ -208,7 +208,6 @@ class IDF_Views_Review
         $reviewers = array();
         foreach ($diff->files as $filename => $def) {
             $fileinfo = $scm->getFileInfo($filename, $patch->get_commit()->scm_id);
-
             $sql = new Pluf_SQL('cfile=%s', array($filename));
             $cts = $patch->get_filecomments_list(array('filter'=>$sql->gen(),
                                                 'order'=>'creation_dtime ASC'));
@@ -216,7 +215,7 @@ class IDF_Views_Review
                 $reviewers[] = $ct->get_submitter();
             }
             if (count($def['chunks'])) { 
-                $orig_file = $scm->getBlob($fileinfo);
+                $orig_file = ($fileinfo) ? $scm->getBlob($fileinfo) : '';
                 $files[$filename] = array(
                                           $diff->fileCompare($orig_file, $def, $filename),
                                           $form->f->{md5($filename)},

@@ -59,12 +59,21 @@ class IDF_Form_ReviewCreate extends Pluf_Form
                                                        'rows' => 7,
                                                                     ),
                                             ));
+        $commits = Pluf::factory('IDF_Commit')->getList(array('order' => 'creation_dtime DESC',
+                                                              'nb' => 10));
+        $choices = array();
+        foreach ($commits as $c) {
+            $id = (strlen($c->scm_id) > 10) ? substr($c->scm_id, 0, 10) : $c->scm_id;
+            $ext = (mb_strlen($c->summary) > 50) ? mb_substr($c->summary, 0, 47).'...' : $c->summary;
+            $choices[$id.' - '.$ext] = $c->scm_id;
+        }
         $this->fields['commit'] = new Pluf_Form_Field_Varchar(
                                       array('required' => true,
                                             'label' => __('Commit'),
                                             'initial' => '',
+                                            'widget' => 'Pluf_Form_Widget_SelectInput',
                                             'widget_attrs' => array(
-                                                       'size' => 42,
+                                                       'choices' => $choices,
                                                                     ),
                                             ));
         $upload_path = Pluf::f('upload_issue_path', false);
