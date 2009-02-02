@@ -69,6 +69,14 @@ class IDF_Tests_TestDiff extends UnitTestCase
         $lline = end($lchunk);
         $this->assertEqual(array('', '166', '{/if}{/block}'),
                            $lline);
-        //print_r($diff->mergeChunks($orig_lines, $def, 10));
+    }
+
+    public function testDiffWithHeaders()
+    {
+        $diff_content = file_get_contents(dirname(__FILE__).'/0001-Some-configuration-variables-have-been-added-in-orde.patch');
+        $diff = new IDF_Diff($diff_content);
+        $diff->parse();
+        $this->assertEqual(2, count($diff->files));
+        $this->assertEqual(12, count($diff->files['src/IDF/conf/idf.php-dist']['chunks'][0]));
     }
 }

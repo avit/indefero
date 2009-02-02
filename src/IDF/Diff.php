@@ -47,13 +47,21 @@ class IDF_Diff
         $lline = 0;
         $rline = 0;
         $files = array();
+        $indiff = false; // Used to skip the headers in the git patches
+        $i = 0; // Used to skip the end of a git patch with --\nversion number
         foreach ($this->lines as $line) {
+            $i++;
+            if (0 === strpos($line, '--') and isset($this->lines[$i]) 
+                and preg_match('/^\d+\.\d+\.\d+\.\d+$/', $this->lines[$i])) {
+                break;
+            }
             if (0 === strpos($line, 'diff --git a')) {
                 $current_file = self::getFile($line);
                 $files[$current_file] = array();
                 $files[$current_file]['chunks'] = array();
                 $files[$current_file]['chunks_def'] = array();
                 $current_chunk = 0;
+                $indiff = true;
                 continue;
             } else if (preg_match('#^diff -r [^\s]+ -r [^\s]+ (.+)$#', $line, $matches)) {
                 $current_file = $matches[1];
@@ -61,6 +69,7 @@ class IDF_Diff
                 $files[$current_file]['chunks'] = array();
                 $files[$current_file]['chunks_def'] = array();
                 $current_chunk = 0;
+                $indiff = true;
                 continue;
             } else if (0 === strpos($line, 'Index: ')) {
                 $current_file = self::getSvnFile($line);
@@ -68,6 +77,10 @@ class IDF_Diff
                 $files[$current_file]['chunks'] = array();
                 $files[$current_file]['chunks_def'] = array();
                 $current_chunk = 0;
+                $indiff = true;
+                continue;
+            }
+            if (!$indiff) {
                 continue;
             }
             if (0 === strpos($line, '@@ ')) {

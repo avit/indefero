@@ -1,0 +1,52 @@
+From ec6cb8b19ee3a08f48625181d6a74744b3950e90 Mon Sep 17 00:00:00 2001
+From: Manuel Eidenberger <eidenberger@...>
+Date: Mon, 2 Feb 2009 15:11:23 +0100
+Subject: [PATCH] Some configuration variables have been added in order to manually set svn and svnlook binarie paths (see issue 123)
+
+---
+ src/IDF/Scm/Svn.php       |   24 ++++++++++++------------
+ src/IDF/conf/idf.php-dist |    8 ++++++++
+ 2 files changed, 20 insertions(+), 12 deletions(-)
+
+diff --git a/src/IDF/Scm/Svn.php b/src/IDF/Scm/Svn.php
+index e2f7a61..e1359c7 100644
+--- a/src/IDF/Scm/Svn.php
++++ b/src/IDF/Scm/Svn.php
+@@ -108,7 +108,7 @@ class IDF_Scm_Svn
+         }
+ 
+         // Else, test the path on revision
+-        $cmd = sprintf('svn info --xml --username=%s --password=%s %s@%s',
++        $cmd = sprintf(Pluf::f('svn_path').' info --xml --username=%s --password=%s %s@%s',
+                        escapeshellarg($this->username),
+                        escapeshellarg($this->password),
+                        escapeshellarg($this->repo.'/'.$path),
+@@ -190,7 +190,7 @@ class IDF_Scm_Svn
+      */
+     private function getCommitMessage($file, $rev='HEAD')
+     {
+-        $cmd = sprintf('svn log --xml --limit 1 --username=%s --password=%s %s@%s',
++        $cmd = sprintf(Pluf::f('svn_path').' log --xml --limit 1 --username=%s --password=%s %s@%s',
+                        escapeshellarg($this->username),
+                        escapeshellarg($this->password),
+                        escapeshellarg($file),
+diff --git a/src/IDF/conf/idf.php-dist b/src/IDF/conf/idf.php-dist
+index 8aca31f..abb4ecd 100644
+--- a/src/IDF/conf/idf.php-dist
++++ b/src/IDF/conf/idf.php-dist
+@@ -208,4 +208,12 @@ $cfg['allowed_scm'] = array('git' => 'IDF_Scm_Git',
+ # variables not being set correctly. Note the trailing space.
+ # $cfg['idf_exec_cmd_prefix'] = '/usr/bin/env -i ';
+ 
++# Path to svn and svnlook binaries. In some cases, it is sometimes
++# necessary to define absolut path to these two binaries, for example:
++# $cfg['svn_path'] = 'svn'; 
++# $cfg['svnlook_path'] = 'svnlook_path'; 
++# This is only necessary if svn and svnlook binaries are not set in $PATH
++$cfg['svn_path'] = 'svn';
++$cfg['svnlook_path'] = 'svnlook';
++
+ return $cfg;
+-- 
+1.5.4.3
+
