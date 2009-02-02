@@ -256,10 +256,11 @@ class IDF_Diff
                         }
                     }
                     if (!$exists) {
+                        $orig = isset($orig_lines[$lc-1]) ? $orig_lines[$lc-1] : '';
                         $n_chunk[] = array(
                                            $lc, 
                                            $chunk[0][1]-$chunk[0][0]+$lc,
-                                           $orig_lines[$lc-1]
+                                           $orig
                                            );
                     }
                 }
