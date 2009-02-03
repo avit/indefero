@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-31 22:45+0100\n"
+"POT-Creation-Date: 2009-02-03 10:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,7 +50,7 @@ msgstr ""
 msgid "New Commit %s - %s (%s)"
 msgstr ""
 
-#: IDF/Commit.php:205 IDF/Commit.php:232 IDF/Form/ReviewCreate.php:64
+#: IDF/Commit.php:205 IDF/Commit.php:232 IDF/Form/ReviewCreate.php:72
 #: IDF/gettexttemplates/idf/source/base.html.php:5
 #: IDF/gettexttemplates/idf/source/changelog.html.php:5
 msgid "Commit"
@@ -96,7 +96,6 @@ msgstr ""
 #: IDF/gettexttemplates/idf/wiki/wiki-updated-email.txt.php:6
 #: IDF/gettexttemplates/idf/wiki/wiki-updated-email.txt.php:11
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:13
-#: IDF/gettexttemplates/idf/issues/view.html.php:9
 #: IDF/gettexttemplates/idf/issues/view.html.php:10
 msgid "Summary:"
 msgstr ""
@@ -106,18 +105,14 @@ msgstr ""
 #: IDF/gettexttemplates/idf/review/review-updated-email.txt.php:9
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:7
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:14
-#: IDF/gettexttemplates/idf/issues/view.html.php:10
-#: IDF/gettexttemplates/idf/issues/view.html.php:18
-#: IDF/gettexttemplates/idf/issues/issue-created-email.txt.php:7
 #: IDF/gettexttemplates/idf/issues/view.html.php:11
 #: IDF/gettexttemplates/idf/issues/view.html.php:19
+#: IDF/gettexttemplates/idf/issues/issue-created-email.txt.php:7
 msgid "Status:"
 msgstr ""
 
 #: IDF/IssueComment.php:155 IDF/IssueComment.php:211
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:15
-#: IDF/gettexttemplates/idf/issues/view.html.php:11
-#: IDF/gettexttemplates/idf/issues/view.html.php:19
 #: IDF/gettexttemplates/idf/issues/view.html.php:12
 #: IDF/gettexttemplates/idf/issues/view.html.php:20
 msgid "Owner:"
@@ -133,14 +128,12 @@ msgstr ""
 #: IDF/gettexttemplates/idf/review/review-updated-email.txt.php:12
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:10
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:16
-#: IDF/gettexttemplates/idf/issues/view.html.php:12
-#: IDF/gettexttemplates/idf/issues/view.html.php:20
+#: IDF/gettexttemplates/idf/issues/view.html.php:13
+#: IDF/gettexttemplates/idf/issues/view.html.php:22
 #: IDF/gettexttemplates/idf/issues/issue-created-email.txt.php:9
 #: IDF/gettexttemplates/idf/downloads/view.html.php:15
 #: IDF/gettexttemplates/idf/downloads/delete.html.php:11
 #: IDF/gettexttemplates/idf/downloads/download-created-email.txt.php:7
-#: IDF/gettexttemplates/idf/issues/view.html.php:13
-#: IDF/gettexttemplates/idf/issues/view.html.php:22
 msgid "Labels:"
 msgstr ""
 
@@ -650,7 +643,7 @@ msgstr ""
 #: IDF/Views/Review.php:59 IDF/Views/User.php:84 IDF/Views/Issue.php:62
 #: IDF/Views/Issue.php:119 IDF/Views/Issue.php:226 IDF/Views/Issue.php:416
 #: IDF/Views/Issue.php:474 IDF/Form/IssueCreate.php:92
-#: IDF/Form/IssueUpdate.php:88 IDF/Form/ReviewCreate.php:92
+#: IDF/Form/IssueUpdate.php:88 IDF/Form/ReviewCreate.php:101
 msgid "Status"
 msgstr ""
 
@@ -1041,7 +1034,7 @@ msgstr ""
 #: IDF/Form/ReviewCommentFile.php:166 IDF/Form/IssueCreate.php:233
 #: IDF/Form/Password.php:61 IDF/Form/IssueUpdate.php:232
 #: IDF/Form/ReviewFileComment.php:77 IDF/Form/WikiCreate.php:167
-#: IDF/Form/MembersConf.php:64 IDF/Form/ReviewCreate.php:165
+#: IDF/Form/MembersConf.php:64 IDF/Form/ReviewCreate.php:174
 msgid "Cannot save the model from an invalid form."
 msgstr ""
 
@@ -1472,7 +1465,7 @@ msgid "Initial page creation"
 msgstr ""
 
 #: IDF/Form/IssueCreate.php:69 IDF/Form/IssueUpdate.php:65
-#: IDF/Form/ReviewCreate.php:72
+#: IDF/Form/ReviewCreate.php:81
 msgid "The \"upload_issue_path\" configuration variable was not set."
 msgstr ""
 
@@ -1492,7 +1485,7 @@ msgstr ""
 msgid "You need to provide a description of the issue."
 msgstr ""
 
-#: IDF/Form/IssueCreate.php:203 IDF/Form/ReviewCreate.php:137
+#: IDF/Form/IssueCreate.php:203 IDF/Form/ReviewCreate.php:146
 msgid "You provided an invalid status."
 msgstr ""
 
@@ -1552,19 +1545,19 @@ msgstr ""
 msgid "Each issue may have at most one label with each of these classes"
 msgstr ""
 
-#: IDF/Form/ReviewCreate.php:81
+#: IDF/Form/ReviewCreate.php:90
 msgid "Patch"
 msgstr ""
 
-#: IDF/Form/ReviewCreate.php:106
+#: IDF/Form/ReviewCreate.php:115
 msgid "You provided an invalid commit."
 msgstr ""
 
-#: IDF/Form/ReviewCreate.php:180
+#: IDF/Form/ReviewCreate.php:189
 msgid "Initial patch to be reviewed."
 msgstr ""
 
-#: IDF/Form/ReviewCreate.php:200
+#: IDF/Form/ReviewCreate.php:209
 #, php-format
 msgid "New Code Review %s - %s (%s)"
 msgstr ""
@@ -2016,12 +2009,11 @@ msgstr ""
 #: IDF/gettexttemplates/idf/register/index.html.php:7
 #: IDF/gettexttemplates/idf/review/view.html.php:38
 #: IDF/gettexttemplates/idf/review/create.html.php:12
-#: IDF/gettexttemplates/idf/issues/view.html.php:15
+#: IDF/gettexttemplates/idf/issues/view.html.php:16
 #: IDF/gettexttemplates/idf/issues/create.html.php:12
 #: IDF/gettexttemplates/idf/downloads/view.html.php:7
 #: IDF/gettexttemplates/idf/downloads/delete.html.php:7
 #: IDF/gettexttemplates/idf/downloads/submit.html.php:8
-#: IDF/gettexttemplates/idf/issues/view.html.php:16
 msgid "Cancel"
 msgstr ""
 
@@ -2309,19 +2301,17 @@ msgstr ""
 #: IDF/gettexttemplates/idf/wiki/view.html.php:13
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:11
 #: IDF/gettexttemplates/idf/review/view.html.php:23
-#: IDF/gettexttemplates/idf/issues/view.html.php:16
-#: IDF/gettexttemplates/idf/issues/attachment.html.php:7
 #: IDF/gettexttemplates/idf/issues/view.html.php:17
+#: IDF/gettexttemplates/idf/issues/attachment.html.php:7
 msgid "Created:"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/wiki/view.html.php:14
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:12
 #: IDF/gettexttemplates/idf/review/view.html.php:24
-#: IDF/gettexttemplates/idf/issues/view.html.php:17
+#: IDF/gettexttemplates/idf/issues/view.html.php:18
 #: IDF/gettexttemplates/idf/downloads/view.html.php:13
 #: IDF/gettexttemplates/idf/downloads/delete.html.php:9
-#: IDF/gettexttemplates/idf/issues/view.html.php:18
 msgid "Updated:"
 msgstr ""
 
@@ -2947,8 +2937,8 @@ msgstr ""
 
 #: IDF/gettexttemplates/idf/review/create.html.php:10
 msgid ""
-"Be sure to provide the right commit/revision reference for your patch to "
-"correctly apply."
+"Select the commit against which you created your patch to be sure it applies "
+"correctly."
 msgstr ""
 
 #: IDF/gettexttemplates/idf/issues/my-issues.html.php:3
@@ -2969,7 +2959,6 @@ msgid "By %%who%%, %%c.creation_dtime%%:"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:12
-#: IDF/gettexttemplates/idf/issues/view.html.php:8
 #: IDF/gettexttemplates/idf/issues/view.html.php:9
 msgid "(No comments were given for this change.)"
 msgstr ""
@@ -3006,28 +2995,34 @@ msgid ""
 "is still valid and more work is needed to fully fix it."
 msgstr ""
 
-#: IDF/gettexttemplates/idf/issues/view.html.php:13
+#: IDF/gettexttemplates/idf/issues/view.html.php:8
+#, php-format
+msgid "%%interested%% person"
+msgid_plural "%%interested%% persons"
+msgstr[0] ""
+msgstr[1] ""
+
 #: IDF/gettexttemplates/idf/issues/view.html.php:14
 msgid "The form contains some errors. Please correct them to change the issue."
 msgstr ""
 
-#: IDF/gettexttemplates/idf/issues/view.html.php:14
 #: IDF/gettexttemplates/idf/issues/view.html.php:15
 msgid "Submit Changes"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/issues/view.html.php:21
-#: IDF/gettexttemplates/idf/issues/create.html.php:13
+msgid "Followed by:"
+msgstr ""
+
 #: IDF/gettexttemplates/idf/issues/view.html.php:23
+#: IDF/gettexttemplates/idf/issues/create.html.php:13
 msgid "Attach file"
 msgstr ""
 
-#: IDF/gettexttemplates/idf/issues/view.html.php:22
-#: IDF/gettexttemplates/idf/issues/view.html.php:23
-#: IDF/gettexttemplates/idf/issues/create.html.php:14
-#: IDF/gettexttemplates/idf/issues/create.html.php:15
 #: IDF/gettexttemplates/idf/issues/view.html.php:24
 #: IDF/gettexttemplates/idf/issues/view.html.php:25
+#: IDF/gettexttemplates/idf/issues/create.html.php:14
+#: IDF/gettexttemplates/idf/issues/create.html.php:15
 msgid "Attach another file"
 msgstr ""
 
@@ -3204,15 +3199,4 @@ msgstr ""
 
 #: IDF/Template/Markdown.php:61
 msgid "Create this documentation page"
-msgstr ""
-
-#: IDF/gettexttemplates/idf/issues/view.html.php:8
-#, php-format
-msgid "%%interested%% person"
-msgid_plural "%%interested%% persons"
-msgstr[0] ""
-msgstr[1] ""
-
-#: IDF/gettexttemplates/idf/issues/view.html.php:21
-msgid "Followed by:"
 msgstr ""

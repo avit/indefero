@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: InDefero\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-31 22:45+0100\n"
-"PO-Revision-Date: 2009-01-31 22:46+0100\n"
+"POT-Creation-Date: 2009-02-03 10:50+0100\n"
+"PO-Revision-Date: 2009-02-03 10:51+0100\n"
 "Last-Translator: Loïc d'Anterroches <titoo@users.sourceforge.net>\n"
 "Language-Team: Translation team <titoo@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -73,7 +73,7 @@ msgstr "Nouveau commit %s - %s (%s)"
 
 #: IDF/Commit.php:205
 #: IDF/Commit.php:232
-#: IDF/Form/ReviewCreate.php:64
+#: IDF/Form/ReviewCreate.php:72
 #: IDF/gettexttemplates/idf/source/base.html.php:5
 #: IDF/gettexttemplates/idf/source/changelog.html.php:5
 msgid "Commit"
@@ -127,7 +127,6 @@ msgstr "<a href=\"%1$s\" class=\"%2$s\" title=\"Voir le ticket\">Ticket %3$d</a>
 #: IDF/gettexttemplates/idf/wiki/wiki-updated-email.txt.php:6
 #: IDF/gettexttemplates/idf/wiki/wiki-updated-email.txt.php:11
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:13
-#: IDF/gettexttemplates/idf/issues/view.html.php:9
 #: IDF/gettexttemplates/idf/issues/view.html.php:10
 msgid "Summary:"
 msgstr "Résumé :"
@@ -138,19 +137,15 @@ msgstr "Résumé :"
 #: IDF/gettexttemplates/idf/review/review-updated-email.txt.php:9
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:7
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:14
-#: IDF/gettexttemplates/idf/issues/view.html.php:10
-#: IDF/gettexttemplates/idf/issues/view.html.php:18
-#: IDF/gettexttemplates/idf/issues/issue-created-email.txt.php:7
 #: IDF/gettexttemplates/idf/issues/view.html.php:11
 #: IDF/gettexttemplates/idf/issues/view.html.php:19
+#: IDF/gettexttemplates/idf/issues/issue-created-email.txt.php:7
 msgid "Status:"
 msgstr "Statut :"
 
 #: IDF/IssueComment.php:155
 #: IDF/IssueComment.php:211
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:15
-#: IDF/gettexttemplates/idf/issues/view.html.php:11
-#: IDF/gettexttemplates/idf/issues/view.html.php:19
 #: IDF/gettexttemplates/idf/issues/view.html.php:12
 #: IDF/gettexttemplates/idf/issues/view.html.php:20
 msgid "Owner:"
@@ -168,14 +163,12 @@ msgstr "Propriétaire :"
 #: IDF/gettexttemplates/idf/review/review-updated-email.txt.php:12
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:10
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:16
-#: IDF/gettexttemplates/idf/issues/view.html.php:12
-#: IDF/gettexttemplates/idf/issues/view.html.php:20
+#: IDF/gettexttemplates/idf/issues/view.html.php:13
+#: IDF/gettexttemplates/idf/issues/view.html.php:22
 #: IDF/gettexttemplates/idf/issues/issue-created-email.txt.php:9
 #: IDF/gettexttemplates/idf/downloads/view.html.php:15
 #: IDF/gettexttemplates/idf/downloads/delete.html.php:11
 #: IDF/gettexttemplates/idf/downloads/download-created-email.txt.php:7
-#: IDF/gettexttemplates/idf/issues/view.html.php:13
-#: IDF/gettexttemplates/idf/issues/view.html.php:22
 msgid "Labels:"
 msgstr "Étiquettes :"
 
@@ -728,7 +721,7 @@ msgstr "Id"
 #: IDF/Views/Issue.php:474
 #: IDF/Form/IssueCreate.php:92
 #: IDF/Form/IssueUpdate.php:88
-#: IDF/Form/ReviewCreate.php:92
+#: IDF/Form/ReviewCreate.php:101
 msgid "Status"
 msgstr "Statut"
 
@@ -1150,7 +1143,7 @@ msgstr "Nous sommes désolés mais cette clef de confirmation est invalide. Vous
 #: IDF/Form/ReviewFileComment.php:77
 #: IDF/Form/WikiCreate.php:167
 #: IDF/Form/MembersConf.php:64
-#: IDF/Form/ReviewCreate.php:165
+#: IDF/Form/ReviewCreate.php:174
 msgid "Cannot save the model from an invalid form."
 msgstr "Ne peut pas sauvegarder le modèle depuis un formulaire invalide."
 
@@ -1609,7 +1602,7 @@ msgstr "Création de la page"
 
 #: IDF/Form/IssueCreate.php:69
 #: IDF/Form/IssueUpdate.php:65
-#: IDF/Form/ReviewCreate.php:72
+#: IDF/Form/ReviewCreate.php:81
 msgid "The \"upload_issue_path\" configuration variable was not set."
 msgstr "La variable de configuration \"upload_issue_path\" n'a pas été définie."
 
@@ -1633,7 +1626,7 @@ msgid "You need to provide a description of the issue."
 msgstr "Vous devez fournir une description du problème."
 
 #: IDF/Form/IssueCreate.php:203
-#: IDF/Form/ReviewCreate.php:137
+#: IDF/Form/ReviewCreate.php:146
 msgid "You provided an invalid status."
 msgstr "Vous avez fourni un statut invalide."
 
@@ -1690,19 +1683,19 @@ msgstr "Étiquettes prédéfinies des tickets"
 msgid "Each issue may have at most one label with each of these classes"
 msgstr "Chaque ticket ne peut avoir qu'une seule étiquette pour chacune de ces classes."
 
-#: IDF/Form/ReviewCreate.php:81
+#: IDF/Form/ReviewCreate.php:90
 msgid "Patch"
 msgstr "Patch"
 
-#: IDF/Form/ReviewCreate.php:106
+#: IDF/Form/ReviewCreate.php:115
 msgid "You provided an invalid commit."
 msgstr "Vous avez fourni un commit invalide."
 
-#: IDF/Form/ReviewCreate.php:180
+#: IDF/Form/ReviewCreate.php:189
 msgid "Initial patch to be reviewed."
 msgstr "Patch initial à discuter."
 
-#: IDF/Form/ReviewCreate.php:200
+#: IDF/Form/ReviewCreate.php:209
 #, php-format
 msgid "New Code Review %s - %s (%s)"
 msgstr "Nouvelle revue de code %s - %s (%s)"
@@ -2148,12 +2141,11 @@ msgstr "Mise à jour"
 #: IDF/gettexttemplates/idf/register/index.html.php:7
 #: IDF/gettexttemplates/idf/review/view.html.php:38
 #: IDF/gettexttemplates/idf/review/create.html.php:12
-#: IDF/gettexttemplates/idf/issues/view.html.php:15
+#: IDF/gettexttemplates/idf/issues/view.html.php:16
 #: IDF/gettexttemplates/idf/issues/create.html.php:12
 #: IDF/gettexttemplates/idf/downloads/view.html.php:7
 #: IDF/gettexttemplates/idf/downloads/delete.html.php:7
 #: IDF/gettexttemplates/idf/downloads/submit.html.php:8
-#: IDF/gettexttemplates/idf/issues/view.html.php:16
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -2427,19 +2419,17 @@ msgstr "Poubelle"
 #: IDF/gettexttemplates/idf/wiki/view.html.php:13
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:11
 #: IDF/gettexttemplates/idf/review/view.html.php:23
-#: IDF/gettexttemplates/idf/issues/view.html.php:16
-#: IDF/gettexttemplates/idf/issues/attachment.html.php:7
 #: IDF/gettexttemplates/idf/issues/view.html.php:17
+#: IDF/gettexttemplates/idf/issues/attachment.html.php:7
 msgid "Created:"
 msgstr "Créé :"
 
 #: IDF/gettexttemplates/idf/wiki/view.html.php:14
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:12
 #: IDF/gettexttemplates/idf/review/view.html.php:24
-#: IDF/gettexttemplates/idf/issues/view.html.php:17
+#: IDF/gettexttemplates/idf/issues/view.html.php:18
 #: IDF/gettexttemplates/idf/downloads/view.html.php:13
 #: IDF/gettexttemplates/idf/downloads/delete.html.php:9
-#: IDF/gettexttemplates/idf/issues/view.html.php:18
 msgid "Updated:"
 msgstr "Mis à jour :"
 
@@ -3091,8 +3081,8 @@ msgid "The form contains some errors. Please correct them to submit the code rev
 msgstr "Le formulaire contient des erreurs. Merci de les corriger pour soumettre votre revue de code."
 
 #: IDF/gettexttemplates/idf/review/create.html.php:10
-msgid "Be sure to provide the right commit/revision reference for your patch to correctly apply."
-msgstr "Faites attention de donner le bon commit/révision comme référence pour que votre patch s'applique correctement."
+msgid "Select the commit against which you created your patch to be sure it applies correctly."
+msgstr "Sélectionnez le commit correspondant à votre patch pour être certain qu'il puisse s'appliquer correctement."
 
 #: IDF/gettexttemplates/idf/issues/my-issues.html.php:3
 #: IDF/gettexttemplates/idf/issues/base.html.php:4
@@ -3112,7 +3102,6 @@ msgid "By %%who%%, %%c.creation_dtime%%:"
 msgstr "Par %%who%%, %%c.creation_dtime%%"
 
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:12
-#: IDF/gettexttemplates/idf/issues/view.html.php:8
 #: IDF/gettexttemplates/idf/issues/view.html.php:9
 msgid "(No comments were given for this change.)"
 msgstr "(Aucun commentaire n'a été donné pour ce changement.)"
@@ -3146,28 +3135,34 @@ msgstr "<a href=\"%%url%%\">Connectez-vous</a> pour répondre à ce commentaire.
 msgid "This issue is marked as closed, add a comment only if you think this issue is still valid and more work is needed to fully fix it."
 msgstr "Ce ticket est marqué comme fermé. N'ajoutez de commentaires que si vous pensez que ce ticket est toujours valide et qu'un travail supplémentaire est nécessaire pour corriger le problème."
 
-#: IDF/gettexttemplates/idf/issues/view.html.php:13
+#: IDF/gettexttemplates/idf/issues/view.html.php:8
+#, php-format
+msgid "%%interested%% person"
+msgid_plural "%%interested%% persons"
+msgstr[0] "%%interested%%  personne"
+msgstr[1] "%%interested%%  personnes"
+
 #: IDF/gettexttemplates/idf/issues/view.html.php:14
 msgid "The form contains some errors. Please correct them to change the issue."
 msgstr "Le formulaire contient des erreurs. Merci de les corriger pour mettre à jour ce ticket."
 
-#: IDF/gettexttemplates/idf/issues/view.html.php:14
 #: IDF/gettexttemplates/idf/issues/view.html.php:15
 msgid "Submit Changes"
 msgstr "Soumettre les changements"
 
 #: IDF/gettexttemplates/idf/issues/view.html.php:21
-#: IDF/gettexttemplates/idf/issues/create.html.php:13
+msgid "Followed by:"
+msgstr "Suivi par :"
+
 #: IDF/gettexttemplates/idf/issues/view.html.php:23
+#: IDF/gettexttemplates/idf/issues/create.html.php:13
 msgid "Attach file"
 msgstr "Attacher un fichier"
 
-#: IDF/gettexttemplates/idf/issues/view.html.php:22
-#: IDF/gettexttemplates/idf/issues/view.html.php:23
-#: IDF/gettexttemplates/idf/issues/create.html.php:14
-#: IDF/gettexttemplates/idf/issues/create.html.php:15
 #: IDF/gettexttemplates/idf/issues/view.html.php:24
 #: IDF/gettexttemplates/idf/issues/view.html.php:25
+#: IDF/gettexttemplates/idf/issues/create.html.php:14
+#: IDF/gettexttemplates/idf/issues/create.html.php:15
 msgid "Attach another file"
 msgstr "Attacher un autre fichier"
 
@@ -3346,14 +3341,10 @@ msgstr "Moi"
 msgid "Create this documentation page"
 msgstr "Créer cette page de documentation"
 
-#: IDF/gettexttemplates/idf/issues/view.html.php:8
-#, php-format
-msgid "%%interested%% person"
-msgid_plural "%%interested%% persons"
-msgstr[0] "%%interested%%  personne"
-msgstr[1] "%%interested%%  personnes"
-
-#: IDF/gettexttemplates/idf/issues/view.html.php:21
-msgid "Followed by:"
-msgstr "Suivi par :"
+#~ msgid ""
+#~ "Be sure to provide the right commit/revision reference for your patch to "
+#~ "correctly apply."
+#~ msgstr ""
+#~ "Faites attention de donner le bon commit/révision comme référence pour "
+#~ "que votre patch s'applique correctement."
 
