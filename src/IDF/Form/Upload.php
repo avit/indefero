@@ -48,6 +48,7 @@ class IDF_Form_Upload extends Pluf_Form
                                       array('required' => true,
                                             'label' => __('File'),
                                             'initial' => '',
+                                            'max_size' => Pluf::f('max_upload_size', 2097152),
                                             'move_function_params' => array('upload_path' => Pluf::f('upload_path').'/'.$this->project->shortname.'/files',
                                                                             'upload_path_create' => true,
                                                                             'upload_overwrite' => false),
@@ -68,7 +69,9 @@ class IDF_Form_Upload extends Pluf_Form
 
     public function clean_file()
     {
-        if (!preg_match('/\.(png|jpg|jpeg|gif|bmp|psd|tif|aiff|asf|avi|bz2|css|doc|eps|gz|mdtext|mid|mov|mp3|mpg|ogg|pdf|ppt|ps|qt|ra|ram|rm|rtf|sdd|sdw|sit|sxi|sxw|swf|tgz|txt|wav|xls|xml|wmv|zip)$/i', $this->cleaned_data['file'])) {
+        $extra = strtolower(implode('|', explode(' ', Pluf::f('idf_extra_upload_ext'))));
+        if (strlen($extra)) $extra .= '|';
+        if (!preg_match('/\.('.$extra.'png|jpg|jpeg|gif|bmp|psd|tif|aiff|asf|avi|bz2|css|doc|eps|gz|mdtext|mid|mov|mp3|mpg|ogg|pdf|ppt|ps|qt|ra|ram|rm|rtf|sdd|sdw|sit|sxi|sxw|swf|tgz|txt|wav|xls|xml|wmv|zip)$/i', $this->cleaned_data['file'])) {
             throw new Pluf_Form_Invalid(__('For security reason, you cannot upload a file with this extension.'));
         }
         return $this->cleaned_data['file'];

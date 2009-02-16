@@ -159,6 +159,13 @@ $cfg['db_table_prefix'] = 'indefero_';
 $cfg['db_engine'] = 'PostgreSQL'; # SQLite is also well tested or MySQL
 $cfg['db_database'] = 'website'; # put absolute path to the db if you
                                  # are using SQLite. 
+#
+# The extension of the downloads are limited. You can add extra
+# extensions here.
+# $cfg['idf_extra_upload_ext'] = 'ext1 ext2';
+#
+# By default, the size of the downloads is limited to 2MB.
+# $cfg['max_upload_size'] = 2097152; // Size in bytes
 
 # -- From this point you should not need to update anything. --
 $cfg['pear_path'] = '/usr/share/php';
