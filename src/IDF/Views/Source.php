@@ -157,6 +157,9 @@ class IDF_Views_Source
         $fburl = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
                                           array($request->project->shortname,
                                                 $branches[0]));
+        if (substr($request_file, -1) == '/') {
+            $request_file = substr($request_file, 0, -1);
+        }
         if ('commit' != $scm->testHash($commit, $request_file)) {
             // Redirect to the first branch
             return new Pluf_HTTP_Response_Redirect($fburl);
