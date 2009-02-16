@@ -159,6 +159,10 @@ class IDF_Views_Source
                                                 $branches[0]));
         if (substr($request_file, -1) == '/') {
             $request_file = substr($request_file, 0, -1);
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::tree',
+                                            array($match[1], $match[2],
+                                                  $request_file));
+            return new Pluf_HTTP_Response_Redirect($url, 301);
         }
         if ('commit' != $scm->testHash($commit, $request_file)) {
             // Redirect to the first branch
