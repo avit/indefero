@@ -13,7 +13,7 @@
 <th><strong>{trans 'Commit:'}</strong></th><td class="mono"><a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $commit)}" title="{trans 'View corresponding source tree'}">{$cobject.commit}</a></td>
 </tr>
 <tr>
-<th><strong>{trans 'Message:'}</strong></th><td>{issuetext $cobject.title, $request}{if isset($cobject.full_message)}<br /><br />{issuetext $cobject.full_message, $request}{/if}</td>
+<th><strong>{trans 'Message:'}</strong></th><td>{issuetext $cobject.title, $request}{if isset($cobject.full_message)}<br /><br />{issuetext $cobject.full_message, $request, true, false, true, true, true}{/if}</td>
 </tr>
 {if count($diff.files)}
 <tr>

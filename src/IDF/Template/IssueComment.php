@@ -32,7 +32,7 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
     private $request = null;
     private $scm = null;
 
-    function start($text, $request, $echo=true, $wordwrap=true, $esc=true, $autolink=true)
+    function start($text, $request, $echo=true, $wordwrap=true, $esc=true, $autolink=true, $nl2br=false)
     {
         $this->project = $request->project;
         $this->request = $request;
@@ -53,6 +53,7 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
             $text = preg_replace_callback('#(src:)([^\s\(\)]+)#im',
                                           array($this, 'callbackSource'), $text);
         }
+        if ($nl2br) $text = nl2br($text);
         if ($echo) {
             echo $text;
         } else {
