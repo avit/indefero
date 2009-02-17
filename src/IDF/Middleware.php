@@ -44,7 +44,7 @@ class IDF_Middleware
     function process_request(&$request)
     {
         $match = array();
-        if (preg_match('#^/(?:api/p|p)/([\-\w]+)/#', $request->query, $match)) {
+        if (preg_match('#^/(?:api/p|p)/([\-\w]+)/?#', $request->query, $match)) {
             try {
                 $request->project = IDF_Project::getOr404($match[1]);
             } catch (Pluf_HTTP_Error404 $e) {
