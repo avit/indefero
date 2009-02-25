@@ -85,7 +85,7 @@ class IDF_Scm_Mercurial
      */
     public function testHash($hash, $dummy=null)
     {
-        $cmd = sprintf('hg log -R %s -r %s',
+        $cmd = sprintf(Pluf::f('hg_path', 'hg').' log -R %s -r %s',
                        escapeshellarg($this->repo),
                        escapeshellarg($hash));
         $ret = 0; 
@@ -139,7 +139,7 @@ class IDF_Scm_Mercurial
         if ('commit' != $this->testHash($tree)) {
             throw new Exception(sprintf(__('Not a valid tree: %s.'), $tree));
         }
-        $cmd_tmpl = 'hg manifest -R %s --debug -r %s';
+        $cmd_tmpl = Pluf::f('hg_path', 'hg').' manifest -R %s --debug -r %s';
         $cmd = sprintf($cmd_tmpl, escapeshellarg($this->repo), $tree, ($recurse) ? '' : ''); 
         $out = array();
         $res = array();
@@ -195,7 +195,7 @@ class IDF_Scm_Mercurial
      */
     public function getFileInfo($totest, $commit='tip')
     {
-        $cmd_tmpl = 'hg manifest -R %s --debug -r %s';
+        $cmd_tmpl = Pluf::f('hg_path', 'hg').' manifest -R %s --debug -r %s';
         $cmd = sprintf($cmd_tmpl, escapeshellarg($this->repo), $commit); 
         $out = array();
         $res = array();
@@ -248,7 +248,7 @@ class IDF_Scm_Mercurial
      */
     public function getBlob($request_file_info, $dummy=null)
     {
-        return IDF_Scm::shell_exec(sprintf('hg cat -R %s -r %s %s',
+        return IDF_Scm::shell_exec(sprintf(Pluf::f('hg_path', 'hg').' cat -R %s -r %s %s',
                                            escapeshellarg($this->repo), 
                                            $dummy,
                                            escapeshellarg($this->repo . '/' . $request_file_info->file)));
@@ -262,7 +262,7 @@ class IDF_Scm_Mercurial
     public function getBranches()
     {
         $out = array();
-        IDF_Scm::exec(sprintf('hg branches -R %s', 
+        IDF_Scm::exec(sprintf(Pluf::f('hg_path', 'hg').' branches -R %s', 
                               escapeshellarg($this->repo)), $out);
         $res = array();
         foreach ($out as $b) {
@@ -282,7 +282,7 @@ class IDF_Scm_Mercurial
     public function getCommit($commit='tip', $getdiff=false)
     {
         $tmpl = ($getdiff) ? 
-            'hg log -p -r %s -R %s' : 'hg log -r %s -R %s';
+            Pluf::f('hg_path', 'hg').' log -p -r %s -R %s' : Pluf::f('hg_path', 'hg').' log -r %s -R %s';
         $cmd = sprintf($tmpl, 
                        escapeshellarg($commit), escapeshellarg($this->repo));
         $out = array();
@@ -325,7 +325,7 @@ class IDF_Scm_Mercurial
      */
     public function getChangeLog($commit='tip', $n=10)
     {
-        $cmd = sprintf('hg log -R %s -l%s ', escapeshellarg($this->repo), $n, $commit);
+        $cmd = sprintf(Pluf::f('hg_path', 'hg').' log -R %s -l%s ', escapeshellarg($this->repo), $n, $commit);
         $out = array();
         IDF_Scm::exec($cmd, $out);
         return self::parseLog($out, 6);
@@ -399,7 +399,7 @@ class IDF_Scm_Mercurial
     public function getArchiveCommand($commit, $prefix='')
     {
         return sprintf(Pluf::f('idf_exec_cmd_prefix', '').
-                       'hg archive --type=zip -R %s -r %s -',
+                       Pluf::f('hg_path', 'hg').' archive --type=zip -R %s -r %s -',
                        escapeshellarg($this->repo),
                        escapeshellarg($commit));
     }

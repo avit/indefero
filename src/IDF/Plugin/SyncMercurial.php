@@ -77,7 +77,7 @@ class IDF_Plugin_SyncMercurial
         }
         $return = 0;
         $output = array();
-        $cmd = sprintf('hg init %s', 
+        $cmd = sprintf(Pluf::f('hg_path', 'hg').' init %s', 
                        escapeshellarg($mercurial_path.'/'.$shortname));
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $ll = exec($cmd, $output, $return);

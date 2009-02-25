@@ -215,4 +215,16 @@ $cfg['allowed_scm'] = array('git' => 'IDF_Scm_Git',
 # variables not being set correctly. Note the trailing space.
 # $cfg['idf_exec_cmd_prefix'] = '/usr/bin/env -i ';
 
+# Path to the SCM binaries. These binaries are not necessarily in
+# the path of your webserver or fastcgi process. In that case you
+# may need to set the path manually here. This is the case with OSX.
+# To know which path you need to provide, just run:
+# $ which git
+# from the command line. This will give you the path to git.
+# $cfg['svn_path'] = 'svn'; 
+# $cfg['svnlook_path'] = 'svnlook'; 
+# $cfg['svnadmin_path'] = 'svnadmin';
+# $cfg['hg_path'] = 'hg';
+# $cfg['git_path'] = 'git'; 
+
 return $cfg;

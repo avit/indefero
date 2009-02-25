@@ -98,7 +98,7 @@ class IDF_Scm_Git
      */
     public function testHash($hash, $dummy=null)
     {
-        $cmd = sprintf('GIT_DIR=%s git cat-file -t %s',
+        $cmd = sprintf('GIT_DIR=%s '.Pluf::f('git_path', 'git').' cat-file -t %s',
                        escapeshellarg($this->repo),
                        escapeshellarg($hash));
         $ret = 0; $out = array();
@@ -143,7 +143,7 @@ class IDF_Scm_Git
         // get the raw log corresponding to this commit to find the
         // origin of each file.
         $rawlog = array();
-        $cmd = sprintf('GIT_DIR=%s git log --raw --abbrev=40 --pretty=oneline -5000 %s',
+        $cmd = sprintf('GIT_DIR=%s '.Pluf::f('git_path', 'git').' log --raw --abbrev=40 --pretty=oneline -5000 %s',
                        escapeshellarg($this->repo), escapeshellarg($commit));
         IDF_Scm::exec($cmd, $rawlog);
         // We reverse the log to be able to use a fixed efficient
@@ -182,7 +182,7 @@ class IDF_Scm_Git
         if ('tree' != $this->testHash($tree)) {
             throw new Exception(sprintf(__('Not a valid tree: %s.'), $tree));
         }
-        $cmd_tmpl = 'GIT_DIR=%s git ls-tree%s -t -l %s %s';
+        $cmd_tmpl = 'GIT_DIR=%s '.Pluf::f('git_path', 'git').' ls-tree%s -t -l %s %s';
         $cmd = sprintf($cmd_tmpl, 
                        escapeshellarg($this->repo), 
                        ($recurse) ? ' -r' : '',
@@ -209,7 +209,7 @@ class IDF_Scm_Git
      */
     public function getFileInfo($totest, $commit='HEAD')
     {
-        $cmd_tmpl = 'GIT_DIR=%s git ls-tree -r -t -l %s';
+        $cmd_tmpl = 'GIT_DIR=%s '.Pluf::f('git_path', 'git').' ls-tree -r -t -l %s';
         $cmd = sprintf($cmd_tmpl, 
                        escapeshellarg($this->repo), 
                        escapeshellarg($commit));
@@ -236,7 +236,7 @@ class IDF_Scm_Git
     public function getBlob($request_file_info, $dummy=null)
     {
         return shell_exec(sprintf(Pluf::f('idf_exec_cmd_prefix', '').
-                                  'GIT_DIR=%s git cat-file blob %s',
+                                  'GIT_DIR=%s '.Pluf::f('git_path', 'git').' cat-file blob %s',
                                   escapeshellarg($this->repo), 
                                   escapeshellarg($request_file_info->hash)));
     }
@@ -249,7 +249,7 @@ class IDF_Scm_Git
     public function getBranches()
     {
         $out = array();
-        IDF_Scm::exec(sprintf('GIT_DIR=%s git branch', 
+        IDF_Scm::exec(sprintf('GIT_DIR=%s '.Pluf::f('git_path', 'git').' branch', 
                               escapeshellarg($this->repo)), $out);
         $res = array();
         foreach ($out as $b) {
@@ -268,12 +268,12 @@ class IDF_Scm_Git
     public function getCommit($commit='HEAD', $getdiff=false)
     {
         if ($getdiff) {
-            $cmd = sprintf('GIT_DIR=%s git show --date=iso --pretty=format:%s %s',
+            $cmd = sprintf('GIT_DIR=%s '.Pluf::f('git_path', 'git').' show --date=iso --pretty=format:%s %s',
                            escapeshellarg($this->repo), 
                            "'".$this->mediumtree_fmt."'", 
                            escapeshellarg($commit));
         } else {
-            $cmd = sprintf('GIT_DIR=%s git log -1 --date=iso --pretty=format:%s %s',
+            $cmd = sprintf('GIT_DIR=%s '.Pluf::f('git_path', 'git').' log -1 --date=iso --pretty=format:%s %s',
                            escapeshellarg($this->repo), 
                            "'".$this->mediumtree_fmt."'", 
                            escapeshellarg($commit));
@@ -306,7 +306,7 @@ class IDF_Scm_Git
      */
     public function isCommitLarge($commit='HEAD')
     {
-        $cmd = sprintf('GIT_DIR=%s git log --numstat -1 --pretty=format:%s %s',
+        $cmd = sprintf('GIT_DIR=%s '.Pluf::f('git_path', 'git').' log --numstat -1 --pretty=format:%s %s',
                        escapeshellarg($this->repo), 
                        "'commit %H%n'", 
                        escapeshellarg($commit));
@@ -339,7 +339,7 @@ class IDF_Scm_Git
     {
         if ($n === null) $n = '';
         else $n = ' -'.$n;
-        $cmd = sprintf('GIT_DIR=%s git log%s --date=iso --pretty=format:\'%s\' %s',
+        $cmd = sprintf('GIT_DIR=%s '.Pluf::f('git_path', 'git').' log%s --date=iso --pretty=format:\'%s\' %s',
                        escapeshellarg($this->repo), $n, $this->mediumtree_fmt, 
                        escapeshellarg($commit));
         $out = array();
@@ -412,7 +412,7 @@ class IDF_Scm_Git
     public function getArchiveCommand($commit, $prefix='git-repo-dump/')
     {
         return sprintf(Pluf::f('idf_exec_cmd_prefix', '').
-                       'GIT_DIR=%s git archive --format=zip --prefix=%s %s',
+                       'GIT_DIR=%s '.Pluf::f('git_path', 'git').' archive --format=zip --prefix=%s %s',
                        escapeshellarg($this->repo),
                        escapeshellarg($prefix),
                        escapeshellarg($commit));

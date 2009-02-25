@@ -108,7 +108,7 @@ class IDF_Scm_Svn
         }
 
         // Else, test the path on revision
-        $cmd = sprintf('svn info --xml --username=%s --password=%s %s@%s',
+        $cmd = sprintf(Pluf::f('svn_path', 'svn').' info --xml --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$path),
@@ -146,7 +146,7 @@ class IDF_Scm_Svn
      */
     public function filesAtCommit($rev='HEAD', $folder='')
     {
-        $cmd = sprintf('svn ls --xml --username=%s --password=%s %s@%s',
+        $cmd = sprintf(Pluf::f('svn_path', 'svn').' ls --xml --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$folder),
@@ -190,7 +190,7 @@ class IDF_Scm_Svn
      */
     private function getCommitMessage($file, $rev='HEAD')
     {
-        $cmd = sprintf('svn log --xml --limit 1 --username=%s --password=%s %s@%s',
+        $cmd = sprintf(Pluf::f('svn_path', 'svn').' log --xml --limit 1 --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($file),
@@ -210,7 +210,7 @@ class IDF_Scm_Svn
      */
     public function getFileInfo($totest, $rev='HEAD')
     {
-        $cmd = sprintf('svn info --xml --username=%s --password=%s %s@%s',
+        $cmd = sprintf(Pluf::f('svn_path', 'svn').' info --xml --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$totest),
@@ -242,7 +242,7 @@ class IDF_Scm_Svn
      */
     public function getBlob($request_file_info, $rev)
     {
-        $cmd = sprintf('svn cat --username=%s --password=%s %s@%s',
+        $cmd = sprintf(Pluf::f('svn_path', 'svn').' cat --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$request_file_info->fullpath),
@@ -273,7 +273,7 @@ class IDF_Scm_Svn
     public function getCommit($rev='HEAD', $getdiff=false)
     {
         $res = array();
-        $cmd = sprintf('svn log --xml -v --username=%s --password=%s %s@%s',
+        $cmd = sprintf(Pluf::f('svn_path', 'svn').' log --xml -v --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo),
@@ -303,7 +303,7 @@ class IDF_Scm_Svn
         // We have a locally hosted repository, we can query it with
         // svnlook
         $repo = substr($this->repo, 7);
-        $cmd = sprintf('svnlook changed -r %s %s',
+        $cmd = sprintf(Pluf::f('svnlook_path', 'svnlook').' changed -r %s %s',
                        escapeshellarg($commit),
                        escapeshellarg($repo));
         $out = IDF_Scm::shell_exec($cmd);
@@ -314,7 +314,7 @@ class IDF_Scm_Svn
     private function getDiff($rev='HEAD')
     {
         $res = array();
-        $cmd = sprintf('svn diff -c %s --username=%s --password=%s %s',
+        $cmd = sprintf(Pluf::f('svn_path', 'svn').' diff -c %s --username=%s --password=%s %s',
                        escapeshellarg($rev),
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
@@ -334,7 +334,7 @@ class IDF_Scm_Svn
     public function getChangeLog($rev='HEAD', $n=10)
     {
         $res = array();
-        $cmd = sprintf('svn log --xml -v --limit %s --username=%s --password=%s %s@%s',
+        $cmd = sprintf(Pluf::f('svn_path', 'svn').' log --xml -v --limit %s --username=%s --password=%s %s@%s',
                        escapeshellarg($n),
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
@@ -383,7 +383,7 @@ class IDF_Scm_Svn
     public function getProperties($rev, $path='')
     {
         $res = array();
-        $cmd = sprintf('svn proplist --xml --username=%s --password=%s %s@%s',
+        $cmd = sprintf(Pluf::f('svn_path', 'svn').' proplist --xml --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$path),
@@ -417,7 +417,7 @@ class IDF_Scm_Svn
     private function getProperty($property, $rev, $path='')
     {
         $res = array();
-        $cmd = sprintf('svn propget --xml %s --username=%s --password=%s %s@%s',
+        $cmd = sprintf(Pluf::f('svn_path', 'svn').' propget --xml %s --username=%s --password=%s %s@%s',
                        escapeshellarg($property),
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
@@ -440,7 +440,7 @@ class IDF_Scm_Svn
     public function getLastCommit($rev='HEAD')
     {
         $xmlInfo = '';
-        $cmd = sprintf('svn info --xml --username=%s --password=%s %s@%s',
+        $cmd = sprintf(Pluf::f('svn_path', 'svn').' info --xml --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo),
