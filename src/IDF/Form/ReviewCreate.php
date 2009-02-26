@@ -108,6 +108,17 @@ class IDF_Form_ReviewCreate extends Pluf_Form
         }
     }
 
+    public function clean_patch()
+    {
+        $diff = new IDF_Diff(file_get_contents(Pluf::f('upload_issue_path').'/'
+                                               .$this->cleaned_data['patch']));
+        $diff->parse();
+        if (count($diff->files) == 0) {
+            throw new Pluf_Form_Invalid(__('We were not able to parse your patch. Please provide a valid patch.'));
+        }
+        return $this->cleaned_data['patch'];
+    }
+
     public function clean_commit()
     {
         $commit = self::findCommit($this->cleaned_data['commit']);
