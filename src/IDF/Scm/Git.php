@@ -165,6 +165,10 @@ class IDF_Scm_Git
                 $file->author = 'Unknown';
             }
             $file->fullpath = ($folder) ? $folder.'/'.$file->file : $file->file;
+            if ($file->type == 'commit') {
+                // We have a submodule
+                $file = $this->getSubmodule($file, $commit);
+            }
             $res[] = $file;
         }
         return $res;
@@ -416,6 +420,35 @@ class IDF_Scm_Git
                        escapeshellarg($this->repo),
                        escapeshellarg($prefix),
                        escapeshellarg($commit));
+    }
+
+    /*
+     * =====================================================
+     *             Specific Git Commands
+     * =====================================================
+     */
+    
+    /**
+     * Get submodule details.
+     *
+     * Given a "commit" file in the tree, find the submodule details.
+     *
+     * @param stdClass File description of the module
+     * @param string Current commit
+     * @return stdClass File description
+     */
+    public function getSubmodule($file, $commit)
+    {
+        $file->type = 'extern';
+        $info = $this->getFileInfo('.gitmodules', $commit);
+        if ($info == false) {
+            return $file;
+        }
+        $gitmodules = $this->getBlob($info);
+        if (preg_match('#\[submodule\s+\"'.$file->fullpath.'\"\]\s+path\s=\s(\S+)\s+url\s=\s(\S+)#mi', $gitmodules, $matches)) {
+            $file->extern = $matches[2];
+         }
+        return $file;
     }
 
 }
