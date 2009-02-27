@@ -142,11 +142,13 @@ class IDF_Views_Issue
         $params = array(
                         'project' => $prj,
                         'user' => $request->user);
+        $preview = (isset($request->POST['preview'])) ?
+            $request->POST['content'] : false;
         if ($request->method == 'POST') {
             $form = new IDF_Form_IssueCreate(array_merge($request->POST,
                                                          $request->FILES),
                                              $params);
-            if ($form->isValid()) {
+            if (!isset($request->POST['preview']) and $form->isValid()) {
                 $issue = $form->save();
                 $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::index',
                                                 array($prj->shortname));
@@ -187,6 +189,7 @@ class IDF_Views_Issue
                               array('project' => $prj,
                                     'form' => $form,
                                     'page_title' => $title,
+                                    'preview' => $preview,
                                     ),
                               self::autoCompleteArrays($prj)
                               );
@@ -252,6 +255,8 @@ class IDF_Views_Issue
         $starred = false;
         $closed = in_array($issue->status, $prj->getTagIdsByStatus('closed'));
         $interested = $issue->get_interested_list();
+        $preview = (isset($request->POST['preview'])) ?
+            $request->POST['content'] : false;
         if (!$request->user->isAnonymous()) {
             $starred = Pluf_Model_InArray($request->user, $issue->get_interested_list());
             $params = array(
@@ -263,7 +268,7 @@ class IDF_Views_Issue
                 $form = new IDF_Form_IssueUpdate(array_merge($request->POST, 
                                                              $request->FILES),
                                                  $params);
-                if ($form->isValid()) {
+                if (!isset($request->POST['preview']) && $form->isValid()) {
                     $issue = $form->save();
                     $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::index',
                                                     array($prj->shortname));
@@ -324,6 +329,7 @@ class IDF_Views_Issue
                                                      'starred' => $starred,
                                                      'page_title' => $title,
                                                      'closed' => $closed,
+                                                     'preview' => $preview,
                                                      'interested' =>$interested->count(),
                                                      ),
                                                $arrays),
