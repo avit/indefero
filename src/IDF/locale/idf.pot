@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-03 10:50+0100\n"
+"POT-Creation-Date: 2009-02-27 10:51+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -511,7 +511,7 @@ msgstr ""
 msgid "Delete Old Revision of %s"
 msgstr ""
 
-#: IDF/Views/Wiki.php:316 IDF/Views/Admin.php:90 IDF/Views/Admin.php:208
+#: IDF/Views/Wiki.php:316 IDF/Views/Admin.php:90 IDF/Views/Admin.php:241
 #, php-format
 msgid "Update %s"
 msgstr ""
@@ -742,17 +742,17 @@ msgstr ""
 msgid "%1$s %2$s Change Log"
 msgstr ""
 
-#: IDF/Views/Source.php:102 IDF/Views/Source.php:151 IDF/Views/Source.php:305
+#: IDF/Views/Source.php:102 IDF/Views/Source.php:151 IDF/Views/Source.php:312
 #, php-format
 msgid "%1$s %2$s Source Tree"
 msgstr ""
 
-#: IDF/Views/Source.php:258
+#: IDF/Views/Source.php:265
 #, php-format
 msgid "%s Commit Details"
 msgstr ""
 
-#: IDF/Views/Source.php:259
+#: IDF/Views/Source.php:266
 #, php-format
 msgid "%s Commit Details - %s"
 msgstr ""
@@ -942,7 +942,7 @@ msgstr ""
 msgid "Short Name"
 msgstr ""
 
-#: IDF/Views/Admin.php:66 IDF/Views/Admin.php:169
+#: IDF/Views/Admin.php:66 IDF/Views/Admin.php:202
 #: IDF/Form/Admin/ProjectCreate.php:48 IDF/Form/Admin/ProjectUpdate.php:42
 msgid "Name"
 msgstr ""
@@ -962,56 +962,65 @@ msgstr ""
 msgid "The project has been created."
 msgstr ""
 
-#: IDF/Views/Admin.php:157
+#: IDF/Views/Admin.php:154
+#, php-format
+msgid "Delete %s Project"
+msgstr ""
+
+#: IDF/Views/Admin.php:161
+msgid "The project has been deleted."
+msgstr ""
+
+#: IDF/Views/Admin.php:190
 msgid "Not Validated User List"
 msgstr ""
 
-#: IDF/Views/Admin.php:160
+#: IDF/Views/Admin.php:193
 #: IDF/gettexttemplates/idf/gadmin/users/base.html.php:3
 msgid "User List"
 msgstr ""
 
-#: IDF/Views/Admin.php:163
+#: IDF/Views/Admin.php:196
 msgid "This table shows the users in the forge."
 msgstr ""
 
-#: IDF/Views/Admin.php:168
+#: IDF/Views/Admin.php:201
 msgid "login"
 msgstr ""
 
-#: IDF/Views/Admin.php:170 IDF/Form/Admin/UserUpdate.php:99
+#: IDF/Views/Admin.php:203 IDF/Form/Admin/UserUpdate.php:99
 msgid "Staff"
 msgstr ""
 
-#: IDF/Views/Admin.php:171
+#: IDF/Views/Admin.php:204
 msgid "Admin"
 msgstr ""
 
-#: IDF/Views/Admin.php:172 IDF/Form/Admin/UserUpdate.php:110
+#: IDF/Views/Admin.php:205 IDF/Form/Admin/UserUpdate.php:110
 msgid "Active"
 msgstr ""
 
-#: IDF/Views/Admin.php:173
+#: IDF/Views/Admin.php:206
 msgid "Last Login"
 msgstr ""
 
-#: IDF/Views/Admin.php:178
+#: IDF/Views/Admin.php:211
 msgid "No users were found."
 msgstr ""
 
-#: IDF/Views/Admin.php:215
+#: IDF/Views/Admin.php:248
 msgid "You do not have the rights to update this user."
 msgstr ""
 
-#: IDF/Views/Admin.php:231
+#: IDF/Views/Admin.php:264
 msgid "The user has been updated."
 msgstr ""
 
-#: IDF/Views/Admin.php:250 IDF/gettexttemplates/idf/login_form.html.php:7
+#: IDF/Views/Admin.php:283 IDF/gettexttemplates/idf/login_form.html.php:7
 msgid "Yes"
 msgstr ""
 
-#: IDF/Views/Admin.php:250
+#: IDF/Views/Admin.php:283
 msgid "No"
 msgstr ""
 
@@ -1026,43 +1035,44 @@ msgid ""
 "email."
 msgstr ""
 
-#: IDF/Form/UserChangeEmail.php:80 IDF/Form/Upload.php:134
+#: IDF/Form/UserChangeEmail.php:80 IDF/Form/Upload.php:137
 #: IDF/Form/Register.php:114 IDF/Form/UserAccount.php:119
 #: IDF/Form/Admin/ProjectCreate.php:205 IDF/Form/Admin/ProjectUpdate.php:67
-#: IDF/Form/Admin/UserUpdate.php:129 IDF/Form/UpdateUpload.php:116
-#: IDF/Form/WikiUpdate.php:178 IDF/Form/TabsConf.php:92
-#: IDF/Form/ReviewCommentFile.php:166 IDF/Form/IssueCreate.php:233
-#: IDF/Form/Password.php:61 IDF/Form/IssueUpdate.php:232
-#: IDF/Form/ReviewFileComment.php:77 IDF/Form/WikiCreate.php:167
-#: IDF/Form/MembersConf.php:64 IDF/Form/ReviewCreate.php:174
+#: IDF/Form/Admin/UserUpdate.php:129 IDF/Form/Admin/ProjectDelete.php:78
+#: IDF/Form/UpdateUpload.php:116 IDF/Form/WikiUpdate.php:178
+#: IDF/Form/TabsConf.php:92 IDF/Form/ReviewCommentFile.php:166
+#: IDF/Form/IssueCreate.php:233 IDF/Form/Password.php:61
+#: IDF/Form/IssueUpdate.php:232 IDF/Form/ReviewFileComment.php:77
+#: IDF/Form/WikiCreate.php:167 IDF/Form/MembersConf.php:64
+#: IDF/Form/ReviewCreate.php:185
 msgid "Cannot save the model from an invalid form."
 msgstr ""
 
-#: IDF/Form/Upload.php:59 IDF/Form/UpdateUpload.php:61
+#: IDF/Form/Upload.php:60 IDF/Form/UpdateUpload.php:61
 #: IDF/Form/WikiUpdate.php:104 IDF/Form/ReviewCommentFile.php:92
 #: IDF/Form/IssueCreate.php:120 IDF/Form/IssueUpdate.php:117
 #: IDF/Form/WikiCreate.php:93
 msgid "Labels"
 msgstr ""
 
-#: IDF/Form/Upload.php:72
+#: IDF/Form/Upload.php:75
 msgid "For security reason, you cannot upload a file with this extension."
 msgstr ""
 
-#: IDF/Form/Upload.php:105 IDF/Form/UpdateUpload.php:99
+#: IDF/Form/Upload.php:108 IDF/Form/UpdateUpload.php:99
 #: IDF/Form/IssueCreate.php:169
 #, php-format
 msgid "You cannot provide more than label from the %s class to an issue."
 msgstr ""
 
-#: IDF/Form/Upload.php:106 IDF/Form/UpdateUpload.php:100
+#: IDF/Form/Upload.php:109 IDF/Form/UpdateUpload.php:100
 #: IDF/Form/WikiUpdate.php:162 IDF/Form/ReviewCommentFile.php:150
 #: IDF/Form/IssueCreate.php:163 IDF/Form/IssueCreate.php:170
 #: IDF/Form/WikiCreate.php:151
 msgid "You provided an invalid label."
 msgstr ""
 
-#: IDF/Form/Upload.php:173
+#: IDF/Form/Upload.php:176
 #, php-format
 msgid "New download - %s (%s)"
 msgstr ""
@@ -1338,6 +1348,24 @@ msgid ""
 "A user with this email already exists, please provide another email address."
 msgstr ""
 
+#: IDF/Form/Admin/ProjectDelete.php:41
+msgid "Confirmation code"
+msgstr ""
+
+#: IDF/Form/Admin/ProjectDelete.php:46
+msgid "I have made a backup of all the important data of this project."
+msgstr ""
+
+#: IDF/Form/Admin/ProjectDelete.php:55
+msgid ""
+"The confirmation code does not match. Please provide a valid confirmation "
+"code to delete the project."
+msgstr ""
+
+#: IDF/Form/Admin/ProjectDelete.php:63
+msgid "Sorry, you really need to backup your data before deletion."
+msgstr ""
+
 #: IDF/Form/WikiUpdate.php:50 IDF/Form/ReviewCommentFile.php:59
 #: IDF/Form/WikiCreate.php:60
 msgid "Page title"
@@ -1395,7 +1423,9 @@ msgstr ""
 msgid "Documentation Page Changed %s - %s (%s)"
 msgstr ""
 
-#: IDF/Form/TabsConf.php:38 IDF/gettexttemplates/idf/admin/base.html.php:4
+#: IDF/Form/TabsConf.php:38
+#: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:14
+#: IDF/gettexttemplates/idf/admin/base.html.php:4
 #: IDF/gettexttemplates/idf/base.html.php:12
 #: IDF/gettexttemplates/idf/base-full.html.php:11
 #: IDF/gettexttemplates/idf/downloads/base.html.php:3
@@ -1419,7 +1449,9 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-#: IDF/Form/TabsConf.php:42 IDF/gettexttemplates/idf/base.html.php:14
+#: IDF/Form/TabsConf.php:42
+#: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:17
+#: IDF/gettexttemplates/idf/base.html.php:14
 #: IDF/gettexttemplates/idf/base-full.html.php:13
 msgid "Issues"
 msgstr ""
@@ -1485,7 +1517,7 @@ msgstr ""
 msgid "You need to provide a description of the issue."
 msgstr ""
 
-#: IDF/Form/IssueCreate.php:203 IDF/Form/ReviewCreate.php:146
+#: IDF/Form/IssueCreate.php:203 IDF/Form/ReviewCreate.php:157
 msgid "You provided an invalid status."
 msgstr ""
 
@@ -1549,15 +1581,19 @@ msgstr ""
 msgid "Patch"
 msgstr ""
 
-#: IDF/Form/ReviewCreate.php:115
+#: IDF/Form/ReviewCreate.php:117
+msgid "We were not able to parse your patch. Please provide a valid patch."
+msgstr ""
+
+#: IDF/Form/ReviewCreate.php:126
 msgid "You provided an invalid commit."
 msgstr ""
 
-#: IDF/Form/ReviewCreate.php:189
+#: IDF/Form/ReviewCreate.php:200
 msgid "Initial patch to be reviewed."
 msgstr ""
 
-#: IDF/Form/ReviewCreate.php:209
+#: IDF/Form/ReviewCreate.php:220
 #, php-format
 msgid "New Code Review %s - %s (%s)"
 msgstr ""
@@ -1996,6 +2032,7 @@ msgstr ""
 
 #: IDF/gettexttemplates/idf/gadmin/users/update.html.php:12
 #: IDF/gettexttemplates/idf/gadmin/projects/update.html.php:16
+#: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:21
 #: IDF/gettexttemplates/idf/wiki/update.html.php:7
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:10
 #: IDF/gettexttemplates/idf/wiki/create.html.php:7
@@ -2106,6 +2143,76 @@ msgstr ""
 
 #: IDF/gettexttemplates/idf/gadmin/projects/update.html.php:15
 msgid "Update Project"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/projects/update.html.php:17
+#: IDF/gettexttemplates/idf/gadmin/projects/update.html.php:19
+#: IDF/gettexttemplates/idf/gadmin/projects/update.html.php:20
+msgid "Delete this project"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/projects/update.html.php:18
+#: IDF/gettexttemplates/idf/wiki/view.html.php:11
+#: IDF/gettexttemplates/idf/downloads/view.html.php:9
+msgid "Trash"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/projects/update.html.php:21
+msgid "You will be ask to confirm."
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:3
+#, php-format
+msgid ""
+"Confirmation code to confirm the deletion of the project: \n"
+"<em>%%code%%</em>."
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:5
+msgid ""
+"\n"
+"<strong>Attention!</strong> Deleting a project is a one second operation\n"
+"with the consequences that <strong>all the data</strong> related to the \n"
+"project <strong>will be deleted</strong>.\n"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:10
+msgid ""
+"The form contains some errors. Please correct them to delete the project."
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:11
+msgid "Project Statistics"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:12
+msgid "Tab"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:13
+msgid "Number"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:15
+msgid "Code reviews"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:16
+msgid "Commits"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:18
+msgid "Documentation pages"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:19
+#: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:20
+msgid "Delete Project"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:22
+msgid ""
+"For large projects, the suppression can take a while, please be patient."
 msgstr ""
 
 #: IDF/gettexttemplates/idf/gadmin/projects/create.html.php:3
@@ -2291,11 +2398,6 @@ msgstr ""
 #: IDF/gettexttemplates/idf/wiki/view.html.php:10
 #: IDF/gettexttemplates/idf/wiki/view.html.php:12
 msgid "Delete this revision"
-msgstr ""
-
-#: IDF/gettexttemplates/idf/wiki/view.html.php:11
-#: IDF/gettexttemplates/idf/downloads/view.html.php:9
-msgid "Trash"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/wiki/view.html.php:13
