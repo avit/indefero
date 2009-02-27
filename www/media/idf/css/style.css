@@ -142,6 +142,10 @@ table.recent-issues {
   width: 90%;
 }
 
+table.minsize { 
+  width: auto !important;
+}
+
 table.recent-issues tr.log { 
   border-bottom: 1px solid #e7ebe3; 
 }

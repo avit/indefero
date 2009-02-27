@@ -34,9 +34,10 @@
 </tr>
 <tr>
 <td>&nbsp;</td>
-<td>
+<td> {aurl 'url', 'IDF_Views_Admin::projectDelete', array($project.id)}
 <input type="submit" value="{trans 'Update Project'}" name="submit" /> 
-| <a href="{url 'IDF_Views_Admin::projects'}">{trans 'Cancel'}</a>
+| <a href="{url 'IDF_Views_Admin::projects'}">{trans 'Cancel'}</a> {if $isAdmin}
+ <span class="dellink"><a href="{$url}" title="{trans 'Delete this project'}"><img src="{media '/idf/img/trash.png'}" style="vertical-align: text-bottom;" alt="{trans 'Trash'}" /></a> <a href="{$url}" title="{trans 'Delete this project'}">{trans 'Delete this project'}</a><br /><span class="note helptext">{trans 'You will be ask to confirm.'}</span></span>{/if}
 </td>
 </tr>
 </table>

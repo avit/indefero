@@ -426,6 +426,57 @@ class IDF_Project extends Pluf_Model
     }
 
     /**
+     * Get simple statistics about the project.
+     *
+     * This returns an associative array with number of tickets,
+     * number of downloads, etc.
+     *
+     * @return array Stats
+     */
+    public function getStats()
+    {
+        $stats = array();
+        $stats['total'] = 0;
+        $what = array('downloads' => 'IDF_Upload',
+                      'reviews' => 'IDF_Review',
+                      'issues' => 'IDF_Issue',
+                      'docpages' => 'IDF_WikiPage',
+                      'commits' => 'IDF_Commit',
+                      );
+        foreach ($what as $key=>$m) {
+            $i = Pluf::factory($m)->getCount(array('filter' => 'project='.(int)$this->id));
+            $stats[$key] = $i;
+            $stats['total'] += $i;
+        }
+        /**
+         * [signal]
+         *
+         * IDF_Project::getStats
+         *
+         * [sender]
+         *
+         * IDF_Project
+         *
+         * [description]
+         *
+         * This signal allows an application to update the statistics 
+         * array of a project. For example to add the on disk size
+         * of the repository if available.
+         *
+         * [parameters]
+         *
+         * array('project' => $project,
+         *       'stats' => $stats)
+         *
+         */
+        $params = array('project' => $this,
+                        'stats' => $stats);
+        Pluf_Signal::send('IDF_Project::getStats',
+                          'IDF_Project', $params);
+        return $stats;
+    }
+
+    /**
      * Needs to be called when you update the memberships of a
      * project.
      *

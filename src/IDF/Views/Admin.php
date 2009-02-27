@@ -143,6 +143,39 @@ class IDF_Views_Admin
     }
 
     /**
+     * Deletion of a project.
+     *
+     * Only the forge administrator can perform this operation.
+     */
+    public $projectDelete_precond = array('Pluf_Precondition::adminRequired');
+    public function projectDelete($request, $match)
+    {
+        $project = Pluf_Shortcuts_GetObjectOr404('IDF_Project', $match[1]);
+        $title = sprintf(__('Delete %s Project'), $project);
+        $extra = array('project' => $project,
+                       'user' => $request->user);
+        if ($request->method == 'POST') {
+            $form = new IDF_Form_Admin_ProjectDelete($request->POST, $extra);
+            if ($form->isValid()) {
+                $project = $form->save();
+                $request->user->setMessage(__('The project has been deleted.'));
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views_Admin::projects');
+                return new Pluf_HTTP_Response_Redirect($url);
+            }
+        } else {
+            $form = new IDF_Form_Admin_ProjectDelete(null, $extra);
+        }
+        return Pluf_Shortcuts_RenderToResponse('idf/gadmin/projects/delete.html',
+                                               array(
+                                                     'page_title' => $title,
+                                                     'form' => $form,
+                                                     'stats' => $project->getStats(),
+                                                     'code' => $form->getCode(),
+                                                     ),
+                                               $request);
+    }
+
+    /**
      * Users overview.
      *
      */

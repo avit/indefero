@@ -1,0 +1,72 @@
+{extends "idf/gadmin/projects/base.html"}
+{block body}
+{if $form.errors}
+<div class="px-message-error">
+<p>{trans 'The form contains some errors. Please correct them to delete the project.'}</p>
+{if $form.get_top_errors}
+{$form.render_top_errors|unsafe}
+{/if}
+</div>
+{/if}
+
+<h2{if !$form.get_top_errors} class="top"{/if}>{trans 'Project Statistics'}</h2>
+
+<table summary=" " class="recent-issues minsize">
+<thead>
+<tr><th><span class="px-header-title">{trans 'Tab'}</span></th><th><span class="px-header-title">{trans 'Number'}</span></th></tr>
+</thead>
+<tbody>
+<tr><td class="right">{trans 'Downloads'}</td><td class="a-c">{$stats['downloads']}</td></tr>
+<tr><td class="right">{trans 'Code reviews'}</td><td class="a-c">{$stats['reviews']}</td></tr>
+<tr><td class="right">{trans 'Commits'}</td><td class="a-c">{$stats['commits']}</td></tr>
+<tr><td class="right">{trans 'Issues'}</td><td class="a-c">{$stats['issues']}</td></tr>
+<tr><td class="right">{trans 'Documentation pages'}</td><td class="a-c">{$stats['docpages']}</td></tr>
+
+</tbody>
+</table>
+
+<h2>{trans 'Delete Project'}</h2>
+
+<form method="post" action=".">
+<table class="form" summary="">
+<tr>
+<td>&nbsp;</td>
+<td>
+{blocktrans}Confirmation code to confirm the deletion of the project: 
+<em>{$code}</em>.{/blocktrans}<br />
+<br />
+<strong>{$form.f.code.labelTag}:</strong>
+{if $form.f.code.errors}{$form.f.code.fieldErrors}{/if}
+{$form.f.code|unsafe}
+</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>
+{if $form.f.agree.errors}{$form.f.agree.fieldErrors}{/if}
+{$form.f.agree|unsafe} <strong>{$form.f.agree.labelTag}</strong>
+</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>
+<input type="submit" value="{trans 'Delete Project'}" name="submit" /> 
+| <a href="{url 'IDF_Views_Admin::projects'}">{trans 'Cancel'}</a>{if $stats['total'] > 200}<br />
+<span class="helptext">{trans 'For large projects, the suppression can take a while, please be patient.'}</span>{/if}
+</td>
+</tr>
+</table>
+</form>
+{/block}
+{block context}
+<div class="issue-submit-info">
+<p>{blocktrans}
+<strong>Attention!</strong> Deleting a project is a one second operation
+with the consequences that <strong>all the data</strong> related to the 
+project <strong>will be deleted</strong>.
+{/blocktrans}</p>
+</div>
+{/block}
+
+
+
