@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: InDefero\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-27 10:51+0100\n"
-"PO-Revision-Date: 2009-02-27 10:58+0100\n"
+"POT-Creation-Date: 2009-02-27 11:09+0100\n"
+"PO-Revision-Date: 2009-02-27 11:10+0100\n"
 "Last-Translator: Loïc d'Anterroches <titoo@users.sourceforge.net>\n"
 "Language-Team: Translation team <titoo@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -576,6 +576,7 @@ msgstr "Suppression de la vieille version de %s"
 #: IDF/Views/Wiki.php:316
 #: IDF/Views/Admin.php:90
 #: IDF/Views/Admin.php:241
+#: IDF/Views/Admin.php:242
 #, php-format
 msgid "Update %s"
 msgstr "Mise à jour de %s"
@@ -1042,6 +1043,7 @@ msgstr "Nom court"
 #: IDF/Views/Admin.php:202
 #: IDF/Form/Admin/ProjectCreate.php:48
 #: IDF/Form/Admin/ProjectUpdate.php:42
+#: IDF/Views/Admin.php:203
 msgid "Name"
 msgstr "Nom"
 
@@ -1070,58 +1072,71 @@ msgid "The project has been deleted."
 msgstr "Le projet a été supprimé."
 
 #: IDF/Views/Admin.php:190
+#: IDF/Views/Admin.php:191
 msgid "Not Validated User List"
 msgstr "Liste des utilisateurs non confirmés"
 
 #: IDF/Views/Admin.php:193
 #: IDF/gettexttemplates/idf/gadmin/users/base.html.php:3
+#: IDF/Views/Admin.php:194
 msgid "User List"
 msgstr "Liste des utilisateurs"
 
 #: IDF/Views/Admin.php:196
+#: IDF/Views/Admin.php:197
 msgid "This table shows the users in the forge."
 msgstr "Ce tableau montre les utilisateurs de la forge."
 
 #: IDF/Views/Admin.php:201
+#: IDF/Views/Admin.php:202
 msgid "login"
 msgstr "identifiant"
 
 #: IDF/Views/Admin.php:203
 #: IDF/Form/Admin/UserUpdate.php:99
+#: IDF/Views/Admin.php:204
 msgid "Staff"
 msgstr "Staff"
 
 #: IDF/Views/Admin.php:204
+#: IDF/Views/Admin.php:205
 msgid "Admin"
 msgstr "Admin"
 
 #: IDF/Views/Admin.php:205
 #: IDF/Form/Admin/UserUpdate.php:110
+#: IDF/Views/Admin.php:206
 msgid "Active"
 msgstr "Actif"
 
 #: IDF/Views/Admin.php:206
+#: IDF/Views/Admin.php:207
 msgid "Last Login"
 msgstr "Dernier login"
 
 #: IDF/Views/Admin.php:211
+#: IDF/Views/Admin.php:212
 msgid "No users were found."
 msgstr "Aucun utilisateur trouvé."
 
 #: IDF/Views/Admin.php:248
+#: IDF/Views/Admin.php:249
 msgid "You do not have the rights to update this user."
 msgstr "Vous n'avez pas les droits pour mettre à jour cet utilisateur."
 
 #: IDF/Views/Admin.php:264
+#: IDF/Views/Admin.php:265
 msgid "The user has been updated."
 msgstr "L'utilisateur a été mis à jour."
 
 #: IDF/Views/Admin.php:283
 #: IDF/gettexttemplates/idf/login_form.html.php:7
+#: IDF/Views/Admin.php:284
 msgid "Yes"
 msgstr "Oui"
 
 #: IDF/Views/Admin.php:283
+#: IDF/Views/Admin.php:284
 msgid "No"
 msgstr "Non"
 
@@ -3438,4 +3453,8 @@ msgstr "Moi"
 #: IDF/Template/Markdown.php:61
 msgid "Create this documentation page"
 msgstr "Créer cette page de documentation"
+
+#: IDF/gettexttemplates/idf/gadmin/projects/base.html.php:5
+msgid "Change Project Details"
+msgstr "Changer les détails du projet"
 

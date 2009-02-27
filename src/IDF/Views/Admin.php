@@ -167,6 +167,7 @@ class IDF_Views_Admin
         }
         return Pluf_Shortcuts_RenderToResponse('idf/gadmin/projects/delete.html',
                                                array(
+                                                     'project' => $project,
                                                      'page_title' => $title,
                                                      'form' => $form,
                                                      'stats' => $project->getStats(),

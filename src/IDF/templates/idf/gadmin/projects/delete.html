@@ -51,7 +51,7 @@
 <td>&nbsp;</td>
 <td>
 <input type="submit" value="{trans 'Delete Project'}" name="submit" /> 
-| <a href="{url 'IDF_Views_Admin::projects'}">{trans 'Cancel'}</a>{if $stats['total'] > 200}<br />
+| <a href="{url 'IDF_Views_Admin::projectUpdate', array($project.id)}">{trans 'Cancel'}</a>{if $stats['total'] > 200}<br />
 <span class="helptext">{trans 'For large projects, the suppression can take a while, please be patient.'}</span>{/if}
 </td>
 </tr>

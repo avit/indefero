@@ -2,5 +2,5 @@
 {block tabprojects} class="active"{/block}
 {block subtabs}
 <a {if $inIndex}class="active" {/if}href="{url 'IDF_Views_Admin::projects'}">{trans 'Project List'}</a> |
-<a {if $inCreate}class="active" {/if}href="{url 'IDF_Views_Admin::projectCreate'}">{trans 'Create Project'}</a> 
+<a {if $inCreate}class="active" {/if}href="{url 'IDF_Views_Admin::projectCreate'}">{trans 'Create Project'}</a> {if $project} | <a href="{url 'IDF_Views_Project::admin', array($project.shortname)}">{trans 'Change Project Details'}</a>{/if}
 {/block}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-27 10:51+0100\n"
+"POT-Creation-Date: 2009-02-27 11:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -512,6 +512,7 @@ msgid "Delete Old Revision of %s"
 msgstr ""
 
 #: IDF/Views/Wiki.php:316 IDF/Views/Admin.php:90 IDF/Views/Admin.php:241
+#: IDF/Views/Admin.php:242
 #, php-format
 msgid "Update %s"
 msgstr ""
@@ -944,6 +945,7 @@ msgstr ""
 
 #: IDF/Views/Admin.php:66 IDF/Views/Admin.php:202
 #: IDF/Form/Admin/ProjectCreate.php:48 IDF/Form/Admin/ProjectUpdate.php:42
+#: IDF/Views/Admin.php:203
 msgid "Name"
 msgstr ""
 
@@ -971,56 +973,60 @@ msgstr ""
 msgid "The project has been deleted."
 msgstr ""
 
-#: IDF/Views/Admin.php:190
+#: IDF/Views/Admin.php:190 IDF/Views/Admin.php:191
 msgid "Not Validated User List"
 msgstr ""
 
 #: IDF/Views/Admin.php:193
 #: IDF/gettexttemplates/idf/gadmin/users/base.html.php:3
+#: IDF/Views/Admin.php:194
 msgid "User List"
 msgstr ""
 
-#: IDF/Views/Admin.php:196
+#: IDF/Views/Admin.php:196 IDF/Views/Admin.php:197
 msgid "This table shows the users in the forge."
 msgstr ""
 
-#: IDF/Views/Admin.php:201
+#: IDF/Views/Admin.php:201 IDF/Views/Admin.php:202
 msgid "login"
 msgstr ""
 
 #: IDF/Views/Admin.php:203 IDF/Form/Admin/UserUpdate.php:99
+#: IDF/Views/Admin.php:204
 msgid "Staff"
 msgstr ""
 
-#: IDF/Views/Admin.php:204
+#: IDF/Views/Admin.php:204 IDF/Views/Admin.php:205
 msgid "Admin"
 msgstr ""
 
 #: IDF/Views/Admin.php:205 IDF/Form/Admin/UserUpdate.php:110
+#: IDF/Views/Admin.php:206
 msgid "Active"
 msgstr ""
 
-#: IDF/Views/Admin.php:206
+#: IDF/Views/Admin.php:206 IDF/Views/Admin.php:207
 msgid "Last Login"
 msgstr ""
 
-#: IDF/Views/Admin.php:211
+#: IDF/Views/Admin.php:211 IDF/Views/Admin.php:212
 msgid "No users were found."
 msgstr ""
 
-#: IDF/Views/Admin.php:248
+#: IDF/Views/Admin.php:248 IDF/Views/Admin.php:249
 msgid "You do not have the rights to update this user."
 msgstr ""
 
-#: IDF/Views/Admin.php:264
+#: IDF/Views/Admin.php:264 IDF/Views/Admin.php:265
 msgid "The user has been updated."
 msgstr ""
 
 #: IDF/Views/Admin.php:283 IDF/gettexttemplates/idf/login_form.html.php:7
+#: IDF/Views/Admin.php:284
 msgid "Yes"
 msgstr ""
 
-#: IDF/Views/Admin.php:283
+#: IDF/Views/Admin.php:283 IDF/Views/Admin.php:284
 msgid "No"
 msgstr ""
 
@@ -3301,4 +3307,8 @@ msgstr ""
 
 #: IDF/Template/Markdown.php:61
 msgid "Create this documentation page"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/projects/base.html.php:5
+msgid "Change Project Details"
 msgstr ""
