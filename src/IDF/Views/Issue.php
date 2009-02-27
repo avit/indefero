@@ -88,19 +88,38 @@ class IDF_Views_Issue
     {
         $prj = $request->project;
         $otags = $prj->getTagIdsByStatus('open');
+        $ctags = $prj->getTagIdsByStatus('closed');
         if (count($otags) == 0) $otags[] = 0;
-        if ($match[2] == 'submit') {
+        if (count($ctags) == 0) $ctags[] = 0;
+        switch ($match[2]) {
+        case 'submit':
             $title = sprintf(__('My Submitted %s Issues'), (string) $prj);
             $f_sql = new Pluf_SQL('project=%s AND submitter=%s AND status IN ('.implode(', ', $otags).')', array($prj->id, $request->user->id));
-        } else {
+            break;
+        case 'submitclosed':
+            $title = sprintf(__('My Closed Submitted %s Issues'), (string) $prj);
+            $f_sql = new Pluf_SQL('project=%s AND submitter=%s AND status IN ('.implode(', ', $ctags).')', array($prj->id, $request->user->id));
+            break;
+        case 'ownerclosed':
+            $title = sprintf(__('My Closed Working %s Issues'), (string) $prj);
+            $f_sql = new Pluf_SQL('project=%s AND owner=%s AND status IN ('.implode(', ', $ctags).')', array($prj->id, $request->user->id));
+            break;
+        default:
             $title = sprintf(__('My Working %s Issues'), (string) $prj);
             $f_sql = new Pluf_SQL('project=%s AND owner=%s AND status IN ('.implode(', ', $otags).')', array($prj->id, $request->user->id));
+            break;
         }
         // Get stats about the issues
         $sql = new Pluf_SQL('project=%s AND submitter=%s AND status IN ('.implode(', ', $otags).')', array($prj->id, $request->user->id));
         $nb_submit = Pluf::factory('IDF_Issue')->getCount(array('filter'=>$sql->gen()));
         $sql = new Pluf_SQL('project=%s AND owner=%s AND status IN ('.implode(', ', $otags).')', array($prj->id, $request->user->id));
         $nb_owner = Pluf::factory('IDF_Issue')->getCount(array('filter'=>$sql->gen()));
+        // Closed issues
+        $sql = new Pluf_SQL('project=%s AND submitter=%s AND status IN ('.implode(', ', $ctags).')', array($prj->id, $request->user->id));
+        $nb_submit_closed = Pluf::factory('IDF_Issue')->getCount(array('filter'=>$sql->gen()));
+        $sql = new Pluf_SQL('project=%s AND owner=%s AND status IN ('.implode(', ', $ctags).')', array($prj->id, $request->user->id));
+        $nb_owner_closed = Pluf::factory('IDF_Issue')->getCount(array('filter'=>$sql->gen()));
+
         // Paginator to paginate the issues
         $pag = new Pluf_Paginator(new IDF_Issue());
         $pag->class = 'recent-issues';
@@ -128,6 +147,8 @@ class IDF_Views_Issue
                                                      'page_title' => $title,
                                                      'nb_submit' => $nb_submit,
                                                      'nb_owner' => $nb_owner,
+                                                     'nb_submit_closed' => $nb_submit_closed,
+                                                     'nb_owner_closed' => $nb_owner_closed,
                                                      'issues' => $pag,
                                                      ),
                                                $request);
