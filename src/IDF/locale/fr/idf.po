@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: InDefero\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-27 15:04+0100\n"
-"PO-Revision-Date: 2009-02-27 15:07+0100\n"
+"POT-Creation-Date: 2009-02-27 15:21+0100\n"
+"PO-Revision-Date: 2009-02-27 15:25+0100\n"
 "Last-Translator: Loïc d'Anterroches <titoo@users.sourceforge.net>\n"
 "Language-Team: Translation team <titoo@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -138,9 +138,8 @@ msgstr "Résumé :"
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:7
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:14
 #: IDF/gettexttemplates/idf/issues/view.html.php:11
-#: IDF/gettexttemplates/idf/issues/view.html.php:19
-#: IDF/gettexttemplates/idf/issues/issue-created-email.txt.php:7
 #: IDF/gettexttemplates/idf/issues/view.html.php:21
+#: IDF/gettexttemplates/idf/issues/issue-created-email.txt.php:7
 msgid "Status:"
 msgstr "Statut :"
 
@@ -148,7 +147,6 @@ msgstr "Statut :"
 #: IDF/IssueComment.php:211
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:15
 #: IDF/gettexttemplates/idf/issues/view.html.php:12
-#: IDF/gettexttemplates/idf/issues/view.html.php:20
 #: IDF/gettexttemplates/idf/issues/view.html.php:22
 msgid "Owner:"
 msgstr "Propriétaire :"
@@ -166,12 +164,11 @@ msgstr "Propriétaire :"
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:10
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:16
 #: IDF/gettexttemplates/idf/issues/view.html.php:13
-#: IDF/gettexttemplates/idf/issues/view.html.php:22
+#: IDF/gettexttemplates/idf/issues/view.html.php:24
 #: IDF/gettexttemplates/idf/issues/issue-created-email.txt.php:9
 #: IDF/gettexttemplates/idf/downloads/view.html.php:15
 #: IDF/gettexttemplates/idf/downloads/delete.html.php:11
 #: IDF/gettexttemplates/idf/downloads/download-created-email.txt.php:7
-#: IDF/gettexttemplates/idf/issues/view.html.php:24
 msgid "Labels:"
 msgstr "Étiquettes :"
 
@@ -507,10 +504,10 @@ msgstr "Titre"
 #: IDF/Views/Review.php:58
 #: IDF/Views/User.php:83
 #: IDF/Views/Issue.php:61
-#: IDF/Views/Issue.php:118
-#: IDF/Views/Issue.php:225
-#: IDF/Views/Issue.php:415
-#: IDF/Views/Issue.php:473
+#: IDF/Views/Issue.php:137
+#: IDF/Views/Issue.php:249
+#: IDF/Views/Issue.php:442
+#: IDF/Views/Issue.php:500
 #: IDF/Views/Download.php:65
 #: IDF/Views/Download.php:272
 #: IDF/Form/Upload.php:40
@@ -518,10 +515,6 @@ msgstr "Titre"
 #: IDF/Form/IssueCreate.php:50
 #: IDF/Form/IssueUpdate.php:45
 #: IDF/Form/ReviewCreate.php:45
-#: IDF/Views/Issue.php:137
-#: IDF/Views/Issue.php:249
-#: IDF/Views/Issue.php:442
-#: IDF/Views/Issue.php:500
 msgid "Summary"
 msgstr "Résumé"
 
@@ -582,7 +575,6 @@ msgstr "Suppression de la vieille version de %s"
 
 #: IDF/Views/Wiki.php:316
 #: IDF/Views/Admin.php:90
-#: IDF/Views/Admin.php:241
 #: IDF/Views/Admin.php:242
 #, php-format
 msgid "Update %s"
@@ -713,10 +705,6 @@ msgstr "Ce tableau montre les dernières revues de code."
 #: IDF/Views/Review.php:57
 #: IDF/Views/User.php:81
 #: IDF/Views/Issue.php:60
-#: IDF/Views/Issue.php:117
-#: IDF/Views/Issue.php:224
-#: IDF/Views/Issue.php:414
-#: IDF/Views/Issue.php:472
 #: IDF/Views/Issue.php:136
 #: IDF/Views/Issue.php:248
 #: IDF/Views/Issue.php:441
@@ -727,27 +715,19 @@ msgstr "Id"
 #: IDF/Views/Review.php:59
 #: IDF/Views/User.php:84
 #: IDF/Views/Issue.php:62
-#: IDF/Views/Issue.php:119
-#: IDF/Views/Issue.php:226
-#: IDF/Views/Issue.php:416
-#: IDF/Views/Issue.php:474
-#: IDF/Form/IssueCreate.php:92
-#: IDF/Form/IssueUpdate.php:88
-#: IDF/Form/ReviewCreate.php:101
 #: IDF/Views/Issue.php:138
 #: IDF/Views/Issue.php:250
 #: IDF/Views/Issue.php:443
 #: IDF/Views/Issue.php:501
+#: IDF/Form/IssueCreate.php:92
+#: IDF/Form/IssueUpdate.php:88
+#: IDF/Form/ReviewCreate.php:101
 msgid "Status"
 msgstr "Statut"
 
 #: IDF/Views/Review.php:60
 #: IDF/Views/User.php:85
 #: IDF/Views/Issue.php:63
-#: IDF/Views/Issue.php:120
-#: IDF/Views/Issue.php:227
-#: IDF/Views/Issue.php:417
-#: IDF/Views/Issue.php:475
 #: IDF/Views/Issue.php:139
 #: IDF/Views/Issue.php:251
 #: IDF/Views/Issue.php:444
@@ -796,7 +776,6 @@ msgstr "Votre dashboard - Tickets soumis"
 
 #: IDF/Views/User.php:75
 #: IDF/Views/Issue.php:51
-#: IDF/Views/Issue.php:110
 #: IDF/Views/Issue.php:129
 msgid "This table shows the open issues."
 msgstr "Ce tableau montre les tickets ouverts."
@@ -871,10 +850,6 @@ msgid "%s Open Issues"
 msgstr "Tickets ouverts de %s"
 
 #: IDF/Views/Issue.php:67
-#: IDF/Views/Issue.php:124
-#: IDF/Views/Issue.php:231
-#: IDF/Views/Issue.php:421
-#: IDF/Views/Issue.php:479
 #: IDF/Views/Issue.php:143
 #: IDF/Views/Issue.php:255
 #: IDF/Views/Issue.php:448
@@ -882,110 +857,101 @@ msgstr "Tickets ouverts de %s"
 msgid "No issues were found."
 msgstr "Aucun ticket n'a été trouvé."
 
-#: IDF/Views/Issue.php:93
 #: IDF/Views/Issue.php:96
 #, php-format
 msgid "My Submitted %s Issues"
 msgstr "Mes tickets soumis pour %s"
 
-#: IDF/Views/Issue.php:96
+#: IDF/Views/Issue.php:100
+#, php-format
+msgid "My Closed Submitted %s Issues"
+msgstr "Mes tickets soumis et fermés pour %s"
+
+#: IDF/Views/Issue.php:104
+#, php-format
+msgid "My Closed Working %s Issues"
+msgstr "Mes tickets fermés pour %s"
+
 #: IDF/Views/Issue.php:108
 #, php-format
 msgid "My Working %s Issues"
 msgstr "Mes tickets en cours pour %s"
 
-#: IDF/Views/Issue.php:141
 #: IDF/Views/Issue.php:162
 msgid "Submit a new issue"
 msgstr "Soumettre un nouveau ticket"
 
-#: IDF/Views/Issue.php:155
 #: IDF/Views/Issue.php:178
 #, php-format
 msgid "<a href=\"%s\">Issue %d</a> has been created."
 msgstr "Le <a href=\"%s\">ticket %d</a> a été créé."
 
-#: IDF/Views/Issue.php:174
 #: IDF/Views/Issue.php:197
 #, php-format
 msgid "Issue %s - %s (%s)"
 msgstr "Ticket %s - %s (%s)"
 
-#: IDF/Views/Issue.php:208
 #: IDF/Views/Issue.php:232
 #, php-format
 msgid "Search Issues - %s"
 msgstr "Recherche de tickets - %s"
 
-#: IDF/Views/Issue.php:220
 #: IDF/Views/Issue.php:244
 msgid "This table shows the found issues."
 msgstr "Ce tableau montre les tickets trouvés."
 
-#: IDF/Views/Issue.php:250
 #: IDF/Views/Issue.php:274
 #, php-format
 msgid "Issue <a href=\"%s\">%d</a>: %s"
 msgstr "Ticket <a href=\"%s\">%d</a> : %s"
 
-#: IDF/Views/Issue.php:272
 #: IDF/Views/Issue.php:298
 #, php-format
 msgid "<a href=\"%s\">Issue %d</a> has been updated."
 msgstr "Le <a href=\"%s\">ticket %d</a> a été mise à jour."
 
-#: IDF/Views/Issue.php:303
 #: IDF/Views/Issue.php:329
 #, php-format
 msgid "Updated Issue %s - %s (%s)"
 msgstr "Mise à jour ticket %s - %s (%s)"
 
-#: IDF/Views/Issue.php:375
 #: IDF/Views/Issue.php:402
 #, php-format
 msgid "View %s"
 msgstr "Voir %s"
 
-#: IDF/Views/Issue.php:395
 #: IDF/Views/Issue.php:422
 #, php-format
 msgid "%s Closed Issues"
 msgstr "Tickets fermés de %s"
 
-#: IDF/Views/Issue.php:405
 #: IDF/Views/Issue.php:432
 msgid "This table shows the closed issues."
 msgstr "Ce tableau montre les tickets fermés."
 
-#: IDF/Views/Issue.php:447
 #: IDF/Views/Issue.php:474
 #, php-format
 msgid "%1$s Issues with Label %2$s"
 msgstr "%1$s tickets avec l'étiquette %2$s"
 
-#: IDF/Views/Issue.php:450
 #: IDF/Views/Issue.php:477
 #, php-format
 msgid "%1$s Closed Issues with Label %2$s"
 msgstr "Tickets fermés de %1$s avec l'étiquette %2$s"
 
-#: IDF/Views/Issue.php:463
 #: IDF/Views/Issue.php:490
 #, php-format
 msgid "This table shows the issues with label %s."
 msgstr "Ce tableau montre les tickets avec l'étiquette %s."
 
-#: IDF/Views/Issue.php:512
 #: IDF/Views/Issue.php:539
 msgid "The issue has been removed from your watch list."
 msgstr "Le ticket a été supprimé de votre liste de surveillance."
 
-#: IDF/Views/Issue.php:515
 #: IDF/Views/Issue.php:542
 msgid "The issue has been added to your watch list."
 msgstr "Le ticket a été ajouté à votre liste de surveillance."
 
-#: IDF/Views/Issue.php:593
 #: IDF/Views/Issue.php:620
 msgid "On your watch list."
 msgstr "Dans votre liste de surveillance."
@@ -1083,10 +1049,9 @@ msgid "Short Name"
 msgstr "Nom court"
 
 #: IDF/Views/Admin.php:66
-#: IDF/Views/Admin.php:202
+#: IDF/Views/Admin.php:203
 #: IDF/Form/Admin/ProjectCreate.php:48
 #: IDF/Form/Admin/ProjectUpdate.php:42
-#: IDF/Views/Admin.php:203
 msgid "Name"
 msgstr "Nom"
 
@@ -1114,71 +1079,58 @@ msgstr "Supprimer le projet %s"
 msgid "The project has been deleted."
 msgstr "Le projet a été supprimé."
 
-#: IDF/Views/Admin.php:190
 #: IDF/Views/Admin.php:191
 msgid "Not Validated User List"
 msgstr "Liste des utilisateurs non confirmés"
 
-#: IDF/Views/Admin.php:193
-#: IDF/gettexttemplates/idf/gadmin/users/base.html.php:3
 #: IDF/Views/Admin.php:194
+#: IDF/gettexttemplates/idf/gadmin/users/base.html.php:3
 msgid "User List"
 msgstr "Liste des utilisateurs"
 
-#: IDF/Views/Admin.php:196
 #: IDF/Views/Admin.php:197
 msgid "This table shows the users in the forge."
 msgstr "Ce tableau montre les utilisateurs de la forge."
 
-#: IDF/Views/Admin.php:201
 #: IDF/Views/Admin.php:202
 msgid "login"
 msgstr "identifiant"
 
-#: IDF/Views/Admin.php:203
-#: IDF/Form/Admin/UserUpdate.php:99
 #: IDF/Views/Admin.php:204
+#: IDF/Form/Admin/UserUpdate.php:99
 msgid "Staff"
 msgstr "Staff"
 
-#: IDF/Views/Admin.php:204
 #: IDF/Views/Admin.php:205
 msgid "Admin"
 msgstr "Admin"
 
-#: IDF/Views/Admin.php:205
-#: IDF/Form/Admin/UserUpdate.php:110
 #: IDF/Views/Admin.php:206
+#: IDF/Form/Admin/UserUpdate.php:110
 msgid "Active"
 msgstr "Actif"
 
-#: IDF/Views/Admin.php:206
 #: IDF/Views/Admin.php:207
 msgid "Last Login"
 msgstr "Dernier login"
 
-#: IDF/Views/Admin.php:211
 #: IDF/Views/Admin.php:212
 msgid "No users were found."
 msgstr "Aucun utilisateur trouvé."
 
-#: IDF/Views/Admin.php:248
 #: IDF/Views/Admin.php:249
 msgid "You do not have the rights to update this user."
 msgstr "Vous n'avez pas les droits pour mettre à jour cet utilisateur."
 
-#: IDF/Views/Admin.php:264
 #: IDF/Views/Admin.php:265
 msgid "The user has been updated."
 msgstr "L'utilisateur a été mis à jour."
 
-#: IDF/Views/Admin.php:283
-#: IDF/gettexttemplates/idf/login_form.html.php:7
 #: IDF/Views/Admin.php:284
+#: IDF/gettexttemplates/idf/login_form.html.php:7
 msgid "Yes"
 msgstr "Oui"
 
-#: IDF/Views/Admin.php:283
 #: IDF/Views/Admin.php:284
 msgid "No"
 msgstr "Non"
@@ -1797,7 +1749,6 @@ msgid "Folder %1$s not found in commit %2$s."
 msgstr "Répertoire %1$s non trouvé dans le commit %2$s."
 
 #: IDF/Scm/Mercurial.php:140
-#: IDF/Scm/Git.php:183
 #: IDF/Scm/Git.php:187
 #, php-format
 msgid "Not a valid tree: %s."
@@ -2233,13 +2184,11 @@ msgstr "Mise à jour"
 #: IDF/gettexttemplates/idf/register/index.html.php:7
 #: IDF/gettexttemplates/idf/review/view.html.php:38
 #: IDF/gettexttemplates/idf/review/create.html.php:12
-#: IDF/gettexttemplates/idf/issues/view.html.php:16
-#: IDF/gettexttemplates/idf/issues/create.html.php:12
+#: IDF/gettexttemplates/idf/issues/view.html.php:18
+#: IDF/gettexttemplates/idf/issues/create.html.php:14
 #: IDF/gettexttemplates/idf/downloads/view.html.php:7
 #: IDF/gettexttemplates/idf/downloads/delete.html.php:7
 #: IDF/gettexttemplates/idf/downloads/submit.html.php:8
-#: IDF/gettexttemplates/idf/issues/view.html.php:18
-#: IDF/gettexttemplates/idf/issues/create.html.php:14
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -2405,6 +2354,10 @@ msgstr "Supprimer le projet"
 #: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:22
 msgid "For large projects, the suppression can take a while, please be patient."
 msgstr "Pour de gros projets, la suppression peut durer un moment, merci de votre patience."
+
+#: IDF/gettexttemplates/idf/gadmin/projects/base.html.php:5
+msgid "Change Project Details"
+msgstr "Changer les détails du projet"
 
 #: IDF/gettexttemplates/idf/gadmin/projects/create.html.php:3
 msgid "You can select the type of repository you want. In the case of subversion, you can use optionally a remote repository instead of the local one."
@@ -2578,19 +2531,17 @@ msgstr "Supprimer cette version"
 #: IDF/gettexttemplates/idf/wiki/view.html.php:13
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:11
 #: IDF/gettexttemplates/idf/review/view.html.php:23
-#: IDF/gettexttemplates/idf/issues/view.html.php:17
-#: IDF/gettexttemplates/idf/issues/attachment.html.php:7
 #: IDF/gettexttemplates/idf/issues/view.html.php:19
+#: IDF/gettexttemplates/idf/issues/attachment.html.php:7
 msgid "Created:"
 msgstr "Créé :"
 
 #: IDF/gettexttemplates/idf/wiki/view.html.php:14
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:12
 #: IDF/gettexttemplates/idf/review/view.html.php:24
-#: IDF/gettexttemplates/idf/issues/view.html.php:18
+#: IDF/gettexttemplates/idf/issues/view.html.php:20
 #: IDF/gettexttemplates/idf/downloads/view.html.php:13
 #: IDF/gettexttemplates/idf/downloads/delete.html.php:9
-#: IDF/gettexttemplates/idf/issues/view.html.php:20
 msgid "Updated:"
 msgstr "Mis à jour :"
 
@@ -2878,13 +2829,11 @@ msgid "<a href=\"%%url%%\">See your public profile</a>."
 msgstr "<a href=\"%%url%%\">Voir votre profil public</a>."
 
 #: IDF/gettexttemplates/idf/user/dashboard.html.php:5
-#: IDF/gettexttemplates/idf/issues/my-issues.html.php:5
 #: IDF/gettexttemplates/idf/issues/my-issues.html.php:7
 msgid "Working issues:"
 msgstr "Tickets en cours:"
 
 #: IDF/gettexttemplates/idf/user/dashboard.html.php:6
-#: IDF/gettexttemplates/idf/issues/my-issues.html.php:4
 #: IDF/gettexttemplates/idf/issues/my-issues.html.php:6
 msgid "Submitted issues:"
 msgstr "Tickets soumis :"
@@ -3252,11 +3201,24 @@ msgid "Select the commit against which you created your patch to be sure it appl
 msgstr "Sélectionnez le commit correspondant à votre patch pour être certain qu'il puisse s'appliquer correctement."
 
 #: IDF/gettexttemplates/idf/issues/my-issues.html.php:3
+#, php-format
+msgid "See the <a href=\"%%submit_closed_url%%\">%%nb_submit_closed%% closed</a>."
+msgid_plural "See the <a href=\"%%submit_closed_url%%\">%%nb_submit_closed%% closed</a>."
+msgstr[0] "Voir le <a href=\"%%submit_closed_url%%\">ticket fermé</a>."
+msgstr[1] "Voir les <a href=\"%%submit_closed_url%%\">%%nb_submit_closed%% fermés</a>."
+
+#: IDF/gettexttemplates/idf/issues/my-issues.html.php:4
+#, php-format
+msgid "See the <a href=\"%%owner_closed_url%%\">%%nb_owner_closed%% closed</a>."
+msgid_plural "See the <a href=\"%%owner_closed_url%%\">%%nb_owner_closed%% closed</a>."
+msgstr[0] "Voir le <a href=\"%%owner_closed_url%%\">ticket fermé</a>."
+msgstr[1] "Voir les <a href=\"%%owner_closed_url%%\">%%nb_owner_closed%% fermés</a>."
+
+#: IDF/gettexttemplates/idf/issues/my-issues.html.php:5
 #: IDF/gettexttemplates/idf/issues/base.html.php:4
 #: IDF/gettexttemplates/idf/issues/index.html.php:5
 #: IDF/gettexttemplates/idf/issues/search.html.php:3
 #: IDF/gettexttemplates/idf/issues/by-label.html.php:6
-#: IDF/gettexttemplates/idf/issues/my-issues.html.php:5
 msgid "New Issue"
 msgstr "Nouveau ticket"
 
@@ -3314,27 +3276,19 @@ msgstr[1] "%%interested%%  personnes"
 msgid "The form contains some errors. Please correct them to change the issue."
 msgstr "Le formulaire contient des erreurs. Merci de les corriger pour mettre à jour ce ticket."
 
-#: IDF/gettexttemplates/idf/issues/view.html.php:15
 #: IDF/gettexttemplates/idf/issues/view.html.php:16
 msgid "Submit Changes"
 msgstr "Soumettre les changements"
 
-#: IDF/gettexttemplates/idf/issues/view.html.php:21
 #: IDF/gettexttemplates/idf/issues/view.html.php:23
 msgid "Followed by:"
 msgstr "Suivi par :"
 
-#: IDF/gettexttemplates/idf/issues/view.html.php:23
-#: IDF/gettexttemplates/idf/issues/create.html.php:13
 #: IDF/gettexttemplates/idf/issues/view.html.php:25
 #: IDF/gettexttemplates/idf/issues/create.html.php:15
 msgid "Attach file"
 msgstr "Attacher un fichier"
 
-#: IDF/gettexttemplates/idf/issues/view.html.php:24
-#: IDF/gettexttemplates/idf/issues/view.html.php:25
-#: IDF/gettexttemplates/idf/issues/create.html.php:14
-#: IDF/gettexttemplates/idf/issues/create.html.php:15
 #: IDF/gettexttemplates/idf/issues/view.html.php:26
 #: IDF/gettexttemplates/idf/issues/view.html.php:27
 #: IDF/gettexttemplates/idf/issues/create.html.php:16
@@ -3417,7 +3371,6 @@ msgstr ""
 msgid "The form contains some errors. Please correct them to submit the issue."
 msgstr "Le formulaire contient des erreurs. Corrigez s'il vous plaît ces erreurs pour soumettre le ticket."
 
-#: IDF/gettexttemplates/idf/issues/create.html.php:11
 #: IDF/gettexttemplates/idf/issues/create.html.php:12
 msgid "Submit Issue"
 msgstr "Soumettre le ticket"
@@ -3517,46 +3470,4 @@ msgstr "Moi"
 #: IDF/Template/Markdown.php:61
 msgid "Create this documentation page"
 msgstr "Créer cette page de documentation"
-
-#: IDF/gettexttemplates/idf/gadmin/projects/base.html.php:5
-msgid "Change Project Details"
-msgstr "Changer les détails du projet"
-
-#: IDF/Views/Issue.php:100
-#, php-format
-msgid "My Closed Submitted %s Issues"
-msgstr "Mes tickets soumis et fermés pour %s"
-
-#: IDF/Views/Issue.php:104
-#, php-format
-msgid "My Closed Working %s Issues"
-msgstr "Mes tickets fermés pour %s"
-
-#: IDF/gettexttemplates/idf/issues/my-issues.html.php:3
-#, fuzzy, php-format
-msgid "<a href=\"%%submit_closed_url%%\">%%nb_submit_closed%% closed</a>"
-msgid_plural "<a href=\"%%submit_closed_url%%\">%%nb_submit_closed%% closed</a>"
-msgstr[0] "<a href=\"%%submit_closed_url%%\">%%nb_submit_closed%% fermés</a>"
-msgstr[1] "<a href=\"%%submit_closed_url%%\">%%nb_submit_closed%% fermés</a>"
-
-#: IDF/gettexttemplates/idf/issues/my-issues.html.php:4
-#, php-format
-msgid "<a href=\"%%owner_closed_url%%\">%%nb_owner_closed%% closed"
-msgid_plural "<a href=\"%%owner_closed_url%%\">%%nb_owner_closed%% closed"
-msgstr[0] "<a href=\"%%owner_closed_url%%\">%%nb_owner_closed%% closed"
-msgstr[1] "<a href=\"%%owner_closed_url%%\">%%nb_owner_closed%% closed"
-
-#: IDF/gettexttemplates/idf/issues/my-issues.html.php:3
-#, php-format
-msgid "%%nb_submit_closed%% closed"
-msgid_plural "%%nb_submit_closed%% closed"
-msgstr[0] "%%nb_submit_closed%% fermé"
-msgstr[1] "%%nb_submit_closed%% fermés"
-
-#: IDF/gettexttemplates/idf/issues/my-issues.html.php:4
-#, php-format
-msgid "%%nb_owner_closed%% closed"
-msgid_plural "%%nb_owner_closed%% closed"
-msgstr[0] "%%nb_owner_closed%% closed"
-msgstr[1] "%%nb_owner_closed%% fermés"
 
