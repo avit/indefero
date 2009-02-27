@@ -12,7 +12,7 @@
 {aurl 'submit_url', 'IDF_Views_Issue::myIssues', array($project.shortname, 'submit')}
 {aurl 'owner_closed_url', 'IDF_Views_Issue::myIssues', array($project.shortname, 'ownerclosed')}
 {aurl 'submit_closed_url', 'IDF_Views_Issue::myIssues', array($project.shortname, 'submitclosed')}
-<p><strong>{trans 'Submitted issues:'}</strong> <a href="{$submit_url}">{$nb_submit}</a> {if $nb_submit_closed}<span class="nobrk">(<a href="{$submit_closed_url}">{blocktrans $nb_submit_closed}{$nb_submit_closed} closed{plural}{$nb_submit_closed} closed{/blocktrans}</a>)</span>{/if}</p>
+<p><strong>{trans 'Submitted issues:'}</strong> <span class="nobrk"><a href="{$submit_url}">{$nb_submit}</a> {if $nb_submit_closed}(<a href="{$submit_closed_url}">{blocktrans $nb_submit_closed}{$nb_submit_closed} closed{plural}{$nb_submit_closed} closed{/blocktrans}</a>){/if}</span></p>
 {if $nb_owner > 0}
-<p><strong>{trans 'Working issues:'}</strong> <a href="{$owner_url}">{$nb_owner}</a> {if $nb_owner_closed}<span class="nobrk">(<a href="{$owner_closed_url}">{blocktrans $nb_owner_closed}{$nb_owner_closed} closed{plural}{$nb_owner_closed} closed{/blocktrans}</a>)</span>{/if}</p>{/if}
+<p><strong>{trans 'Working issues:'}</strong> <span class="nobrk"><a href="{$owner_url}">{$nb_owner}</a> {if $nb_owner_closed}(<a href="{$owner_closed_url}">{blocktrans $nb_owner_closed}{$nb_owner_closed} closed{plural}{$nb_owner_closed} closed{/blocktrans}</a>){/if}</span></p>{/if}
 {/block}
