@@ -174,7 +174,8 @@ class IDF_Views_Source
             return new Pluf_HTTP_Response_Redirect($fburl);
         }
         if ($request_file_info->type != 'tree') {
-            $info = self::getMimeType($request_file_info->file);
+            $info = self::getRequestedFileMimeType($request_file_info, 
+                                                   $commit, $scm);
             if (!self::isText($info)) {
                 $rep = new Pluf_HTTP_Response($scm->getBlob($request_file_info, $commit),
                                               $info[0]);
@@ -374,7 +375,8 @@ class IDF_Views_Source
                                                   $branches[0]));
             return new Pluf_HTTP_Response_Redirect($url);
         }
-        $info = self::getMimeType($request_file_info->file);
+        $info = self::getRequestedFileMimeType($request_file_info, 
+                                                   $commit, $scm);
         $rep = new Pluf_HTTP_Response($scm->getBlob($request_file_info, $commit),
                                       $info[0]);
         $rep->headers['Content-Disposition'] = 'attachment; filename="'.$info[1].'"';
@@ -405,6 +407,55 @@ class IDF_Views_Source
         $rep->headers['Content-Disposition'] = 'attachment; filename="'.$base.'.zip"';
         return $rep;
     }
+
+
+    /**
+     * Find the mime type of a requested file.
+     *
+     * @param stdClass Request file info
+     * @param string Commit at which we want the file
+     * @param IDF_Scm SCM object
+     * @param array  Mime type found or 'application/octet-stream', basename, extension
+     */
+    public static function getRequestedFileMimeType($file_info, $commit, $scm)
+    {
+        $mime = self::getMimeType($file_info->file);
+        if ('application/octet-stream' != $mime[0]) {
+            return $mime;
+        }
+        return self::getMimeTypeFromContent($file_info->file,
+                                            $scm->getBlob($file_info, $commit));
+    }
+
+     /**
+      * Find the mime type of a file using the fileinfo class.
+      *
+      * @param string Filename/Filepath
+      * @param string File content
+      * @return array Mime type found or 'application/octet-stream', basename, extension
+      */
+    public static function getMimeTypeFromContent($file, $filedata)
+    {
+        $info = pathinfo($file);
+        $res = array('application/octet-stream', 
+                     $info['basename'],
+                     isset($info['extension']) ? $info['extension'] : 'bin');
+        if (function_exists('finfo_open')) {
+            $finfo = finfo_open(FILEINFO_MIME);
+            $mime = finfo_buffer($finfo, $filedata);
+            finfo_close($finfo);
+            if ($mime) {
+                $res[0] = $mime;
+            }
+            if (!isset($info['extension']) && $mime) {
+                $res[2] = (0 === strpos($mime, 'text/')) ? 'txt' : 'bin';
+            } elseif (!isset($info['extension'])) {
+                $res[2] = 'bin';
+            }
+        }
+        return $res;
+    }
+
 
     /**
      * Find the mime type of a file.
