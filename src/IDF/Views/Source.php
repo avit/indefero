@@ -27,10 +27,13 @@ Pluf::loadFunction('Pluf_Shortcuts_GetObjectOr404');
 Pluf::loadFunction('Pluf_Shortcuts_GetFormForModel');
 
 /**
- * View git repository.
+ * View SCM repository.
  */
 class IDF_Views_Source
 {
+    /**
+     * Extension supported by the syntax highlighter.
+     */
     public static $supportedExtenstions = array('c', 'cc', 'cpp', 'cs', 'css', 
                                                 'cyc', 'java', 'bsh', 'csh', 
                                                 'sh', 'cv', 'py', 'perl', 'php',
@@ -524,9 +527,10 @@ class IDF_Views_Source
     }
 
     /**
-     * @param string the extension to test
-     * 
-     * @return 
+     * Test if an extension is supported by the syntax highlighter.
+     *
+     * @param string The extension to test
+     * @return bool
      */
     public static function isSupportedExtension($extension)
     {
