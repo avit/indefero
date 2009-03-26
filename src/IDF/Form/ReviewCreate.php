@@ -59,8 +59,10 @@ class IDF_Form_ReviewCreate extends Pluf_Form
                                                        'rows' => 7,
                                                                     ),
                                             ));
+        $sql = new Pluf_SQL('project=%s', array($this->project->id));
         $commits = Pluf::factory('IDF_Commit')->getList(array('order' => 'creation_dtime DESC',
-                                                              'nb' => 10));
+                                                              'nb' => 10,
+                                                              'filter' => $sql->gen()));
         $choices = array();
         foreach ($commits as $c) {
             $id = (strlen($c->scm_id) > 10) ? substr($c->scm_id, 0, 10) : $c->scm_id;
