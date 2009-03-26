@@ -18,7 +18,7 @@ and provide the following confirmation key:
 If you are not interested any longer in taking
 part in the life of the software project or if
 you can't remember having requested the creation
-of an accout, please excuse us and simply ignore
+of an account, please excuse us and simply ignore
 this email. 
 
 Yours faithfully,
