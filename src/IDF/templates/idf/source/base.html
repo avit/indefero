@@ -4,7 +4,8 @@
 <div id="sub-tabs">
 <a {if $inSourceTree}class="active" {/if}href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $project.getScmRoot())}">{trans 'Source Tree'}</a> |
 <a {if $inChangeLog}class="active" {/if}href="{url 'IDF_Views_Source::changeLog', array($project.shortname, $project.getScmRoot())}">{trans 'Change Log'}</a>
-{if $inCommit}| {trans 'Commit'}{/if}
+{if $inCommit}| {trans 'Commit'}{/if} |
+<a {if $inHelp}class="active" {/if}href="{url 'IDF_Views_Source::help', array($project.shortname)}">{trans 'How To Get The Code'}</a>
 </div>
 {/block}
 {block title}{$title}{/block}
