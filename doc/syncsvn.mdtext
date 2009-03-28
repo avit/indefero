@@ -4,6 +4,8 @@ The SyncSvn plugin allow the direct creation and synchronisation of
 subversion repositories with the InDefero database. This requires
 giving access to the repositories using the DAV_SVN module of Apache2.
 
+You need at least Subversion 1.4.6.
+
 ## To Contact the Author
 
     Baptiste Michaud
