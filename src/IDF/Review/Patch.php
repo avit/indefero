@@ -24,6 +24,10 @@
 /**
  * A patch to be reviewed.
  *
+ * A patch can be marked as being directly the commit, in that case
+ * the patch does not store the diff file as it can be retrieved from
+ * the backend.
+ *
  */
 class IDF_Review_Patch extends Pluf_Model
 {

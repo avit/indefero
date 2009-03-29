@@ -32,6 +32,15 @@ Pluf::loadFunction('Pluf_Template_dateAgo');
  *
  * The real content of the review is in the IDF_Review_Patch which
  * contains a given patch and associated comments from reviewers.
+ *
+ * Basically the hierarchy of the models is:
+ * - Review > Patch > Comment > Comment on file
+ * 
+ * For each review, one can have several patches. Each patch, is
+ * getting a series of comments. A comment is tracking the state
+ * change in the review (like the issue comments). For each comment,
+ * we have a series of file comments. The file comments are associated
+ * to the a given modified file in the patch.
  */
 class IDF_Review extends Pluf_Model
 {
@@ -71,12 +80,12 @@ class IDF_Review extends Pluf_Model
                                   'verbose' => __('submitter'),
                                   'relate_name' => 'submitted_review',
                                   ),
-                            'reviewers' => 
+                            'interested' => 
                             array(
                                   'type' => 'Pluf_DB_Field_Manytomany',
                                   'model' => 'Pluf_User',
                                   'blank' => true,
-                                  'help_text' => 'Reviewers will get an email notification when the review is changed.',
+                                  'help_text' => 'Interested users will get an email notification when the review is changed.',
                                   ),
                             'tags' =>
                             array(

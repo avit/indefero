@@ -161,8 +161,8 @@ $cfg['db_database'] = 'website'; # put absolute path to the db if you
                                  # are using SQLite. 
 #
 # The extension of the downloads are limited. You can add extra
-# extensions here.
-# $cfg['idf_extra_upload_ext'] = 'ext1 ext2';
+# extensions here. It must start with a space.
+# $cfg['idf_extra_upload_ext'] = ' ext1 ext2';
 #
 # By default, the size of the downloads is limited to 2MB.
 # $cfg['max_upload_size'] = 2097152; // Size in bytes
