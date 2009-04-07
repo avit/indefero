@@ -302,6 +302,7 @@ h1.project-title {
   z-index: 100;
   text-align: right;
   padding-right: 5px;
+  margin-bottom: 0;
 }
 
 .note { 
