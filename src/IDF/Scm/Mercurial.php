@@ -145,6 +145,7 @@ class IDF_Scm_Mercurial
         $res = array();
         IDF_Scm::exec($cmd, $out);
         $out_hack = array();
+        $tmp_hack = array();
         foreach ($out as $line) {
             list($hash, $perm, $exec, $file) = preg_split('/ |\t/', $line, 4);
             $file = trim($file);
@@ -155,8 +156,10 @@ class IDF_Scm_Mercurial
                     $tmp .= '/';
                 }
                 $tmp .= $dir[$i];
-                if (!in_array("empty\t000\t\t$tmp/", $out_hack))
+                if (!isset($tmp_hack["empty\t000\t\t$tmp/"])) {
                     $out_hack[] = "empty\t000\t\t$tmp/";
+                    $tmp_hack["empty\t000\t\t$tmp/"] = 1;
+                }
             }
             $out_hack[] = "$hash\t$perm\t$exec\t$file";
         }
@@ -201,6 +204,7 @@ class IDF_Scm_Mercurial
         $res = array();
         IDF_Scm::exec($cmd, $out);
         $out_hack = array();
+        $tmp_hack =array();
         foreach ($out as $line) {
             list($hash, $perm, $exec, $file) = preg_split('/ |\t/', $line, 4);
             $file = trim($file);
@@ -211,13 +215,13 @@ class IDF_Scm_Mercurial
                     $tmp .= '/';
                 }
                 $tmp .= $dir[$i];
-                if (!in_array("empty\t000\t\t$tmp/", $out_hack)) {
-                    $out_hack[] = "emtpy\t000\t\t$tmp/";
+                if (!isset($tmp_hack["empty\t000\t\t$tmp/"])) {
+                    $out_hack[] = "empty\t000\t\t$tmp/";
+                    $tmp_hack["empty\t000\t\t$tmp/"] = 1;
                 }
             }
             $out_hack[] = "$hash\t$perm\t$exec\t$file";
         }
-
         foreach ($out_hack as $line) {
             list($hash, $perm, $exec, $file) = preg_split('/ |\t/', $line, 4);
             $file = trim ($file);
@@ -233,7 +237,6 @@ class IDF_Scm_Mercurial
                                       'file' => $file,
                                       'commit' => $commit
                                       );
-
             }
         }
         return false;
