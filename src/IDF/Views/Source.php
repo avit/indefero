@@ -505,15 +505,16 @@ class IDF_Views_Source
         if (0 === strpos($fileinfo[0], 'text/')) {
             return true;
         }
-        $ext = 'mdtext php js cpp php-dist h gitignore sh py pl rb diff patch'
+        $ext = 'mdtext php-dist h gitignore diff patch'
             .Pluf::f('idf_extra_text_ext', '');
-        return (in_array($fileinfo[2], explode(' ', $ext)));
+        $ext = array_merge(self::$supportedExtenstions, explode(' ' , $ext));
+        return (in_array($fileinfo[2], $ext));
     }
 
     public static function highLight($fileinfo, $content)
     {
         $pretty = '';
-        if (IDF_Views_Source::isSupportedExtension($fileinfo[2])) {
+        if (self::isSupportedExtension($fileinfo[2])) {
             $pretty = ' prettyprint';
         }
         $table = array();
@@ -534,7 +535,7 @@ class IDF_Views_Source
      */
     public static function isSupportedExtension($extension)
     {
-        return in_array($extension, IDF_Views_Source::$supportedExtenstions);
+        return in_array($extension, self::$supportedExtenstions);
     }
 
     /**
