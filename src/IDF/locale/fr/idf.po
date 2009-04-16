@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: InDefero\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-27 15:21+0100\n"
-"PO-Revision-Date: 2009-04-07 10:35+0100\n"
+"POT-Creation-Date: 2009-04-16 13:36+0200\n"
+"PO-Revision-Date: 2009-04-16 13:39+0100\n"
 "Last-Translator: Loïc d'Anterroches <titoo@users.sourceforge.net>\n"
 "Language-Team: Translation team <titoo@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -35,6 +35,7 @@ msgstr "projet"
 #: IDF/Upload.php:79
 #: IDF/WikiPage.php:78
 #: IDF/WikiRevision.php:79
+#: IDF/Review/Comment.php:69
 #: IDF/Review/FileComment.php:69
 msgid "submitter"
 msgstr "auteur"
@@ -62,6 +63,7 @@ msgstr "changements"
 #: IDF/WikiPage.php:100
 #: IDF/WikiRevision.php:92
 #: IDF/Review/Patch.php:83
+#: IDF/Review/Comment.php:83
 #: IDF/Review/FileComment.php:76
 msgid "creation date"
 msgstr "date de création"
@@ -73,7 +75,7 @@ msgstr "Nouveau commit %s - %s (%s)"
 
 #: IDF/Commit.php:205
 #: IDF/Commit.php:232
-#: IDF/Form/ReviewCreate.php:72
+#: IDF/Form/ReviewCreate.php:74
 #: IDF/gettexttemplates/idf/source/base.html.php:5
 #: IDF/gettexttemplates/idf/source/changelog.html.php:5
 msgid "Commit"
@@ -82,9 +84,10 @@ msgstr "Commit"
 #: IDF/Commit.php:205
 #: IDF/IssueComment.php:173
 #: IDF/Issue.php:196
-#: IDF/Upload.php:185
+#: IDF/Upload.php:186
 #: IDF/WikiPage.php:199
 #: IDF/WikiRevision.php:189
+#: IDF/Review/Comment.php:177
 #: IDF/gettexttemplates/idf/source/changelog.html.php:6
 msgid "by"
 msgstr "par"
@@ -98,32 +101,39 @@ msgid "value"
 msgstr "valeur"
 
 #: IDF/IssueComment.php:51
+#: IDF/Review/Comment.php:55
 msgid "issue"
 msgstr "ticket"
 
 #: IDF/IssueComment.php:58
 #: IDF/IssueFile.php:49
+#: IDF/Review/Comment.php:62
 #: IDF/Review/FileComment.php:62
 msgid "comment"
 msgstr "commentaire"
 
 #: IDF/IssueComment.php:72
 #: IDF/WikiRevision.php:85
+#: IDF/Review/Comment.php:76
 msgid "changes"
 msgstr "changements"
 
 #: IDF/IssueComment.php:73
+#: IDF/Review/Comment.php:77
 msgid "Serialized array of the changes in the issue."
 msgstr "Tableau sérialisé des changements du ticket."
 
 #: IDF/IssueComment.php:143
 #: IDF/Issue.php:194
+#: IDF/Review/Comment.php:147
 #, php-format
 msgid "<a href=\"%1$s\" class=\"%2$s\" title=\"View issue\">Issue %3$d</a>, %4$s"
 msgstr "<a href=\"%1$s\" class=\"%2$s\" title=\"Voir le ticket\">Ticket %3$d</a>, %4$s"
 
 #: IDF/IssueComment.php:151
 #: IDF/IssueComment.php:207
+#: IDF/Review/Comment.php:155
+#: IDF/Review/Comment.php:211
 #: IDF/gettexttemplates/idf/wiki/wiki-updated-email.txt.php:6
 #: IDF/gettexttemplates/idf/wiki/wiki-updated-email.txt.php:11
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:13
@@ -133,6 +143,8 @@ msgstr "Résumé :"
 
 #: IDF/IssueComment.php:153
 #: IDF/IssueComment.php:209
+#: IDF/Review/Comment.php:157
+#: IDF/Review/Comment.php:213
 #: IDF/gettexttemplates/idf/review/review-created-email.txt.php:6
 #: IDF/gettexttemplates/idf/review/review-updated-email.txt.php:9
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:7
@@ -145,6 +157,8 @@ msgstr "Statut :"
 
 #: IDF/IssueComment.php:155
 #: IDF/IssueComment.php:211
+#: IDF/Review/Comment.php:159
+#: IDF/Review/Comment.php:215
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:15
 #: IDF/gettexttemplates/idf/issues/view.html.php:12
 #: IDF/gettexttemplates/idf/issues/view.html.php:22
@@ -154,6 +168,8 @@ msgstr "Propriétaire :"
 #: IDF/IssueComment.php:157
 #: IDF/IssueComment.php:213
 #: IDF/WikiRevision.php:175
+#: IDF/Review/Comment.php:161
+#: IDF/Review/Comment.php:217
 #: IDF/gettexttemplates/idf/wiki/view.html.php:15
 #: IDF/gettexttemplates/idf/wiki/wiki-created-email.txt.php:7
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:13
@@ -173,11 +189,13 @@ msgid "Labels:"
 msgstr "Étiquettes :"
 
 #: IDF/IssueComment.php:173
+#: IDF/Review/Comment.php:177
 #, php-format
 msgid "Comment on <a href=\"%s\" class=\"%s\">issue&nbsp;%d</a>"
 msgstr "Commentaire sur le <a href=\"%s\" class=\"%s\">ticket&nbsp;%d</a>"
 
 #: IDF/IssueComment.php:195
+#: IDF/Review/Comment.php:199
 #, php-format
 msgid "%s: Comment on issue %d - %s"
 msgstr "%s: Commentaire sur le ticket %d - %s"
@@ -328,17 +346,17 @@ msgstr "taille du fichier en octets"
 msgid "number of downloads"
 msgstr "nombre de téléchargements"
 
-#: IDF/Upload.php:182
+#: IDF/Upload.php:183
 #, php-format
 msgid "<a href=\"%1$s\" title=\"View download\">Download %2$d</a>, %3$s"
 msgstr "<a href=\"%1$s\" title=\"Voir le téléchargement\">Téléchargement %2$d</a>, %3$s"
 
-#: IDF/Upload.php:185
+#: IDF/Upload.php:186
 #, php-format
 msgid "Addition of <a href=\"%s\">download&nbsp;%d</a>"
 msgstr "Création du <a href=\"%s\">téléchargement&nbsp;%d</a>"
 
-#: IDF/Upload.php:203
+#: IDF/Upload.php:204
 #, php-format
 msgid "%s: Download %d added - %s"
 msgstr "%s: Ajout du téléchargement %d - %s"
@@ -721,7 +739,7 @@ msgstr "Id"
 #: IDF/Views/Issue.php:501
 #: IDF/Form/IssueCreate.php:92
 #: IDF/Form/IssueUpdate.php:88
-#: IDF/Form/ReviewCreate.php:101
+#: IDF/Form/ReviewCreate.php:103
 msgid "Status"
 msgstr "Statut"
 
@@ -817,29 +835,29 @@ msgstr "Confirmez le changement d'adresse"
 msgid "Your new email address \"%s\" has been validated. Thank you!"
 msgstr "Votre nouvelle adresse email \"%s\" a été validée. Merci !"
 
-#: IDF/Views/Source.php:46
+#: IDF/Views/Source.php:49
 #, php-format
 msgid "%s Source Help"
 msgstr "Aide des sources de %s"
 
-#: IDF/Views/Source.php:61
+#: IDF/Views/Source.php:64
 #, php-format
 msgid "%1$s %2$s Change Log"
 msgstr "Changements %2$s de %1$s"
 
-#: IDF/Views/Source.php:102
-#: IDF/Views/Source.php:151
-#: IDF/Views/Source.php:312
+#: IDF/Views/Source.php:105
+#: IDF/Views/Source.php:154
+#: IDF/Views/Source.php:316
 #, php-format
 msgid "%1$s %2$s Source Tree"
 msgstr "Arbre des sources %2$s de %1$s"
 
-#: IDF/Views/Source.php:265
+#: IDF/Views/Source.php:269
 #, php-format
 msgid "%s Commit Details"
 msgstr "Détails d'un commit de %s"
 
-#: IDF/Views/Source.php:266
+#: IDF/Views/Source.php:270
 #, php-format
 msgid "%s Commit Details - %s"
 msgstr "Détails d'un commit de %s - %s"
@@ -1163,7 +1181,7 @@ msgstr "Nous sommes désolés mais cette clef de confirmation est invalide. Vous
 #: IDF/Form/ReviewFileComment.php:77
 #: IDF/Form/WikiCreate.php:167
 #: IDF/Form/MembersConf.php:64
-#: IDF/Form/ReviewCreate.php:185
+#: IDF/Form/ReviewCreate.php:187
 msgid "Cannot save the model from an invalid form."
 msgstr "Ne peut pas sauvegarder le modèle depuis un formulaire invalide."
 
@@ -1374,8 +1392,8 @@ msgid "Shortname"
 msgstr "Nom court"
 
 #: IDF/Form/Admin/ProjectCreate.php:63
-msgid "It must be unique for each project and composed only of letters and digits."
-msgstr "Il doit être unique pour chaque projet et ne doit contenir que des lettres et des chiffres."
+msgid "It must be unique for each project and composed only of letters, digits and dash (-) like \"my-project\"."
+msgstr "Il doit être unique pour chaque projet et ne doit contenir que des lettres, des chiffres et le tiret (-) comme \"mon-projet\"."
 
 #: IDF/Form/Admin/ProjectCreate.php:68
 msgid "Repository type"
@@ -1414,8 +1432,8 @@ msgid "Only a remote repository available throught http or https are allowed. Fo
 msgstr "Only a remote repository available throught http or https are allowed. For example \"http://somewhere.com/svn/trunk\"."
 
 #: IDF/Form/Admin/ProjectCreate.php:153
-msgid "This shortname contains illegal characters, please use only letters and digits."
-msgstr "Ce nom court contient des caractères non autorisés, il ne doit être composé que de lettres et de chiffres."
+msgid "This shortname contains illegal characters, please use only letters, digits and dash (-)."
+msgstr "Ce nom court contient des caractères non autorisés, il ne doit être composé que de lettres, de chiffres et du tiret (-)."
 
 #: IDF/Form/Admin/ProjectCreate.php:156
 msgid "The shortname cannot start with the dash (-) character."
@@ -1640,7 +1658,7 @@ msgstr "Création de la page"
 
 #: IDF/Form/IssueCreate.php:69
 #: IDF/Form/IssueUpdate.php:65
-#: IDF/Form/ReviewCreate.php:81
+#: IDF/Form/ReviewCreate.php:83
 msgid "The \"upload_issue_path\" configuration variable was not set."
 msgstr "La variable de configuration \"upload_issue_path\" n'a pas été définie."
 
@@ -1664,7 +1682,7 @@ msgid "You need to provide a description of the issue."
 msgstr "Vous devez fournir une description du problème."
 
 #: IDF/Form/IssueCreate.php:203
-#: IDF/Form/ReviewCreate.php:157
+#: IDF/Form/ReviewCreate.php:159
 msgid "You provided an invalid status."
 msgstr "Vous avez fourni un statut invalide."
 
@@ -1721,23 +1739,23 @@ msgstr "Étiquettes prédéfinies des tickets"
 msgid "Each issue may have at most one label with each of these classes"
 msgstr "Chaque ticket ne peut avoir qu'une seule étiquette pour chacune de ces classes."
 
-#: IDF/Form/ReviewCreate.php:90
+#: IDF/Form/ReviewCreate.php:92
 msgid "Patch"
 msgstr "Patch"
 
-#: IDF/Form/ReviewCreate.php:117
+#: IDF/Form/ReviewCreate.php:119
 msgid "We were not able to parse your patch. Please provide a valid patch."
 msgstr "Nous n'avons pas réussi à interpréter votre patch. Merci de fournir un patch valid."
 
-#: IDF/Form/ReviewCreate.php:126
+#: IDF/Form/ReviewCreate.php:128
 msgid "You provided an invalid commit."
 msgstr "Vous avez fourni un commit invalide."
 
-#: IDF/Form/ReviewCreate.php:200
+#: IDF/Form/ReviewCreate.php:202
 msgid "Initial patch to be reviewed."
 msgstr "Patch initial à discuter."
 
-#: IDF/Form/ReviewCreate.php:220
+#: IDF/Form/ReviewCreate.php:222
 #, php-format
 msgid "New Code Review %s - %s (%s)"
 msgstr "Nouvelle revue de code %s - %s (%s)"
@@ -1922,6 +1940,10 @@ msgstr "Arbre des sources"
 #: IDF/gettexttemplates/idf/source/base.html.php:4
 msgid "Change Log"
 msgstr "Liste des changements"
+
+#: IDF/gettexttemplates/idf/source/base.html.php:6
+msgid "How To Get The Code"
+msgstr "Comment obtenir le code"
 
 #: IDF/gettexttemplates/idf/source/mercurial/file.html.php:3
 #: IDF/gettexttemplates/idf/source/mercurial/tree.html.php:3
@@ -3030,7 +3052,7 @@ msgid ""
 "If you are not interested any longer in taking\n"
 "part in the life of the software project or if\n"
 "you can't remember having requested the creation\n"
-"of an accout, please excuse us and simply ignore\n"
+"of an account, please excuse us and simply ignore\n"
 "this email. \n"
 "\n"
 "Yours faithfully,\n"
@@ -3060,7 +3082,7 @@ msgstr ""
 "message. \n"
 "\n"
 "Très cordialement,\n"
-"L'équipe de développement.\n"
+"l'équipe de développement.\n"
 
 #: IDF/gettexttemplates/idf/review/view.html.php:4
 #, php-format
