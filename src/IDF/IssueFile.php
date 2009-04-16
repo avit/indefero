@@ -123,4 +123,9 @@ class IDF_IssueFile extends Pluf_Model
         }
         $this->modif_dtime = gmdate('Y-m-d H:i:s');
     }
+
+    function preDelete()
+    {
+        @unlink(Pluf::f('upload_issue_path').'/'.$this->attachment);
+    }
 }

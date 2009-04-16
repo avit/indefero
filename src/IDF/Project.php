@@ -541,4 +541,20 @@ class IDF_Project extends Pluf_Model
         Pluf_Signal::send('IDF_Project::created',
                           'IDF_Project', $params);
     }
+
+    /**
+     * The delete() call do not like circular references and the
+     * IDF_Tag is creating some. We predelete to solve these issues.
+     */
+    public function preDelete()
+    {
+        $what = array('IDF_Upload', 'IDF_Review', 'IDF_Issue',
+                      'IDF_WikiPage', 'IDF_Commit',
+                      );
+        foreach ($what as $m) {
+            foreach (Pluf::factory($m)->getList(array('filter' => 'project='.(int)$this->id)) as $item) {
+                $item->delete();
+            }
+        }
+    }
 }

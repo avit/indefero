@@ -160,6 +160,7 @@ class IDF_Upload extends Pluf_Model
     function preDelete()
     {
         IDF_Timeline::remove($this);
+        @unlink(Pluf::f('upload_path').'/'.$this->project->shortname.'/files/'.$this->file);
     }
 
     /**
