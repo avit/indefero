@@ -221,7 +221,9 @@ div.issue-comment-first {
 
 div.issue-comment-signin { 
   -moz-border-radius: 0 0 3px 3px;
-  -webkit-border-radius: 0 0 3px 3px;
+  -webkit-border-radius: 3px;
+  -webkit-border-top-left-radius: 0;
+  -webkit-border-top-right-radius: 0;
   background-color: #d3d7cf;
   padding: 4px;
 }
@@ -336,7 +338,9 @@ div.container {
 #main-tabs a { 
   background-color: #d3d7cf;
   -moz-border-radius: 3px 3px 0 0;
-  -webkit-border-radius: 3px 3px 0 0;
+  -webkit-border-radius: 3px;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
   padding: 4px 4px 0 4px; 
   text-decoration: none;
   color: #2e3436;
@@ -350,7 +354,8 @@ div.container {
 #sub-tabs { 
   background-color: #a5e26a;
   -moz-border-radius: 0 3px 3px 3px;
-  -webkit-border-radius: 0 3px 3px 3px;
+  -webkit-border-radius: 3px;
+  -webkit-border-top-left-radius: 0;
   padding: 4px;
 }
 
@@ -679,7 +684,9 @@ div.deprecated-page {
   padding-left: 0px;
   background-color: #eeeeec; 
   -moz-border-radius: 3px 0 0 3px;
-  -webkit-border-radius: 3px 0 0 3px;
+  -webkit-border-radius: 3px;
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
   color: #888a85;
   clear: both;
   background-image: url("../img/ceondo.png");
