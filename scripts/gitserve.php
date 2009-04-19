@@ -37,5 +37,5 @@ set_include_path(get_include_path()
 require 'Pluf.php';
 Pluf::start(dirname(__FILE__).'/../src/IDF/conf/idf.php');
 Pluf_Dispatcher::loadControllers(Pluf::f('idf_views'));
-IDF_Plugin_SyncGit_Serve::main($argv, $_ENV);
+IDF_Plugin_SyncGit_Serve::main($argv, array_merge($_SERVER, $_ENV));
 
