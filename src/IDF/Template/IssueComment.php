@@ -48,8 +48,8 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
                                           array($this, 'callbackIssues'), $text);
         }
         if ($request->rights['hasSourceAccess']) {
-            $text = preg_replace_callback('#(commit\s+)([0-9a-f]{1,40})#im',
-                                          array($this, 'callbackCommit'), $text);
+            $text = preg_replace_callback('#(commits?\s+)([0-9a-f]{1,40}(?:(?:\s+and|\s+or|,)\s+[0-9a-f]{1,40})*)\b#i',
+                                          array($this, 'callbackCommits'), $text);
             $text = preg_replace_callback('#(src:)([^\s\(\)]+)#im',
                                           array($this, 'callbackSource'), $text);
         }
@@ -96,13 +96,47 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
         }
     }
 
+     /**
+      * General call back to convert commits to HTML links.
+      *
+      * @param array $m Single regex match.
+      * @return string Content with converted commits.
+      */
+    function callbackCommits($m)
+    {
+        $keyword = rtrim($m[1]);
+        if ('commits' === $keyword) {
+            // Multiple commits like 'commits 6e030e6, a25bfc1 and
+            // 3c094f8'.
+            return $m[1].preg_replace_callback('#\b[0-9a-f]{4,40}\b#i', array($this, 'callbackCommit'), $m[2]);
+        } else if ('commit' === $keyword) {
+            // Single commit like 'commit 6e030e6'.
+            return $m[1].call_user_func(array($this, 'callbackCommit'), array($m[2]));
+        }
+        return $m[0];
+    }
+
+    /**
+     * Convert plaintext commit to HTML link. Called from callbackCommits.
+     *
+     * Regex callback for {@link IDF_Template_IssueComment::callbackCommits()}.
+     *
+     * @param array Single regex match.
+     * @return string HTML A element with commit.
+     */
     function callbackCommit($m)
     {
-        if ($this->scm->testHash($m[2]) != 'commit') {
-            return $m[0];
+        try {
+            if ('commit' != $this->scm->testHash($m[0])) {
+                return $m[0]; // not a commit.
+            }
+        } catch (IDF_Scm_Exception $e) {
+            return $m[0]; // commit not found.
         }
-        $co = $this->scm->getCommit($m[2]);
-        return '<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Source::commit', array($this->project->shortname, $co->commit)).'">'.$m[1].$m[2].'</a>';
+        $co = $this->scm->getCommit($m[0]);
+        return '<a href="'
+            .Pluf_HTTP_URL_urlForView('IDF_Views_Source::commit', array($this->project->shortname, $co->commit))
+            .'">'.$m[0].'</a>';
     }
 
     function callbackSource($m)
