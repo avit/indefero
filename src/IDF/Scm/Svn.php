@@ -33,6 +33,7 @@ class IDF_Scm_Svn
     private $assoc = array('dir' => 'tree',
                            'file' => 'blob');
 
+    private $commit=array();
 
     public function __construct($repo, $username='', $password='')
     {
@@ -190,6 +191,7 @@ class IDF_Scm_Svn
      */
     private function getCommitMessage($file, $rev='HEAD')
     {
+        if (isset($commit[$rev])) return $commit[$rev];
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' log --xml --limit 1 --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
@@ -197,6 +199,7 @@ class IDF_Scm_Svn
                        escapeshellarg($rev));
         $xmlLog = IDF_Scm::shell_exec($cmd);
         $xml = simplexml_load_string($xmlLog);
+        $commit[$rev]=(string) $xml->logentry->msg;
         return (string) $xml->logentry->msg;
     }
 
@@ -273,7 +276,7 @@ class IDF_Scm_Svn
     public function getCommit($rev='HEAD', $getdiff=false)
     {
         $res = array();
-        $cmd = sprintf(Pluf::f('svn_path', 'svn').' log --xml -v --username=%s --password=%s %s@%s',
+        $cmd = sprintf(Pluf::f('svn_path', 'svn').' log --xml --limit 1 -v --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo),
