@@ -29,12 +29,6 @@ class IDF_Scm_Git extends IDF_Scm
 {
     public $mediumtree_fmt = 'commit %H%nAuthor: %an <%ae>%nTree: %T%nDate: %ai%n%n%s%n%n%b';
     
-
-    public function __construct($repo)
-    {
-        $this->repo = $repo;
-    }
-
     /* ============================================== *
      *                                                *
      *   Common Methods Implemented By All The SCMs   *
@@ -190,7 +184,7 @@ class IDF_Scm_Git extends IDF_Scm
     public static function factory($project)
     {
         $rep = sprintf(Pluf::f('git_repositories'), $project->shortname);
-        return new IDF_Scm_Git($rep);
+        return new IDF_Scm_Git($rep, $project);
     }
 
     /**
@@ -633,28 +627,9 @@ class IDF_Scm_Git extends IDF_Scm
      */
     public function getCachedBlobInfo($hashes)
     {
-        $res = array();
-        $cache = Pluf::f('tmp_folder').'/IDF_Scm_Git-'.md5($this->repo).'.cache.db';
-        if (!file_exists($cache)) {
-            return $res;
-        }
-        $data = file_get_contents($cache);
-        if (false === $data) {
-            return $res;
-        }
-        $data = split(chr(30), $data);
-        foreach ($data as $rec) {
-            if (isset($hashes[substr($rec, 0, 40)])) {
-                //$tmp = split(chr(31), gzinflate(substr($rec, 40)), 3);
-                $tmp = split(chr(31), substr($rec, 40), 3);
-                $res[substr($rec, 0, 40)] = 
-                    (object) array('hash' => substr($rec, 0, 40),
-                                   'date' => $tmp[0],
-                                   'title' => $tmp[2],
-                                   'author' => $tmp[1]);
-            }
-        }
-        return $res;
+        $cache = new IDF_Scm_Cache_Git();
+        $cache->_project = $this->project;
+        return $cache->retrieve(array_keys($hashes));
     }
 
     /**
@@ -667,10 +642,49 @@ class IDF_Scm_Git extends IDF_Scm
      */
     public function cacheBlobInfo($info)
     {
+        $cache = new IDF_Scm_Cache_Git();
+        $cache->_project = $this->project;
+        return $cache->store($info);
+    }
+
+    public function getFileCachedBlobInfo($hashes)
+    {
+        $res = array();
+        $cache = Pluf::f('tmp_folder').'/IDF_Scm_Git-'.md5($this->repo).'.cache.db';
+        if (!file_exists($cache)) {
+            return $res;
+        }
+        $data = file_get_contents($cache);
+        if (false === $data) {
+            return $res;
+        }
+        $data = split(chr(30), $data);
+        foreach ($data as $rec) {
+            if (isset($hashes[substr($rec, 0, 40)])) {
+                $tmp = split(chr(31), substr($rec, 40), 3);
+                $res[substr($rec, 0, 40)] = 
+                    (object) array('hash' => substr($rec, 0, 40),
+                                   'date' => $tmp[0],
+                                   'title' => $tmp[2],
+                                   'author' => $tmp[1]);
+            }
+        }
+        return $res;
+    }
+
+    /**
+     * File cache blob info.
+     * 
+     * Given a series of blob info, cache them.
+     *
+     * @param array Blob info
+     * @return bool Success
+     */
+    public function fileCacheBlobInfo($info)
+    {
         // Prepare the data
         $data = array();
         foreach ($info as $file) {
-            //$data[] = $file->hash.gzdeflate($file->date.chr(31).$file->author.chr(31).$file->title, 9);
             $data[] = $file->hash.$file->date.chr(31).$file->author.chr(31).$file->title;
         }
         $data = implode(chr(30), $data).chr(30);

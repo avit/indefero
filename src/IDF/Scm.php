@@ -56,6 +56,11 @@ class IDF_Scm
     public $repo = '';
 
     /**
+     * Corresponding project object.
+     */
+    public $project = null;
+
+    /**
      * Cache storage. 
      *
      * It must only be used to store data for the lifetime of the
@@ -63,6 +68,15 @@ class IDF_Scm
      * several functions, better to try to get from the cache first.
      */
     protected $cache = array();
+
+    /**
+     * Default constructor.
+     */
+    public function __construct($repo, $project=null)
+    {
+        $this->repo = $repo;
+        $this->project = $project;
+    }
 
     /**
      * Returns an instance of the correct scm backend object.
