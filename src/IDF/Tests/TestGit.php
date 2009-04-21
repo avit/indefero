@@ -39,4 +39,13 @@ class IDF_Tests_TestGit extends UnitTestCase
         $this->assertEqual('Fixed the middleware to correctly return a 404 error if the project is', $log[0]->title);
 
     }
+
+    public function testGitCache()
+    {
+        $repo = substr(dirname(__FILE__), 0, -strlen('src/IDF/Tests')).'/.git';
+        $repo = '/home/loa/Vendors/linux-git/.git';
+        $git = new IDF_Scm_Git($repo);
+        $git->buildBlobInfoCache();
+        //$git->getCachedBlobInfo(array());
+    }
 }

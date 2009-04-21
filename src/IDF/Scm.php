@@ -22,10 +22,47 @@
 # ***** END LICENSE BLOCK ***** */
 
 /**
- * Manage differents SCM systems
+ * Manage differents SCM systems.
+ *
+ * This is the base class with the different required methods to be
+ * implemented by the SCMs. Each SCM backend need to extend this
+ * class. We are not using an interface because this is not really
+ * needed.
+ *
+ * The philosophy behind the interface is not to provide a wrapper
+ * around the different SCMs but to provide methods to retrieve in the
+ * most efficient way the informations to be displayed/needed in the
+ * web interface. This means that each SCM can use the best options,
+ * including caching to retrieve the informations.
+ *
+ * Note on caching: You must not cache ephemeral information like the
+ * changelog, but you can cache the commit info (except with
+ * subversion where you can change commit info...).
+ *
+ * All the output of the methods must be serializable. This means that
+ * if you are parsing XML you need to correctly cast the results as
+ * string when needed.
  */
 class IDF_Scm
 {
+    /**
+     * String template for consistent error messages.
+     */
+    public $error_tpl = 'Error command "%s" returns code %d and output: %s';
+
+    /**
+     * Path to the repository.
+     */
+    public $repo = '';
+
+    /**
+     * Cache storage. 
+     *
+     * It must only be used to store data for the lifetime of the
+     * object. For example if you need to get the list of branches in
+     * several functions, better to try to get from the cache first.
+     */
+    protected $cache = array();
 
     /**
      * Returns an instance of the correct scm backend object.
@@ -41,6 +78,134 @@ class IDF_Scm
         $scms = Pluf::f('allowed_scm');
         return call_user_func(array($scms[$scm], 'factory'), $project);
     }
+
+    /**
+     * Check if the backend is available for display.
+     *
+     * @return bool Available
+     */
+    public function isAvailable()
+    {
+        throw new Pluf_Exception_NotImplemented();
+    }
+
+    /**
+     * Returns the list of branches.
+     *
+     * @return array For example array('trunk', '1.0branch')
+     */
+    public function getBranches()
+    {
+        throw new Pluf_Exception_NotImplemented();
+    }
+
+    /**
+     * Returns the list of tags.
+     *
+     * @return array For example array('v0.9', 'v1.0')
+     */
+    public function getTags()
+    {
+        throw new Pluf_Exception_NotImplemented();
+    }
+
+    /**
+     * Returns the main branch.
+     *
+     * The main branch is the one displayed by default. For example
+     * master, trunk or tip.
+     *
+     * @return string
+     */
+    public function getMainBranch()
+    {
+        throw new Pluf_Exception_NotImplemented();
+    }
+
+    /**
+     * Returns the list of files in a given folder.
+     *
+     * The list is an array of standard class objects with attributes
+     * for each file/directory/external element.
+     *
+     * This is the most important method of the SCM backend as this is
+     * the one conveying the speed feeling of the application. All the
+     * dirty optimization tricks are allowed there.
+     *
+     * @param string Revision or commit
+     * @param string Folder ('/')
+     * @param string Branch (null)
+     * @return array 
+     */
+    public function getTree($rev, $folder='/', $branch=null)
+    {
+        throw new Pluf_Exception_NotImplemented();
+    }
+
+    /**
+     * Get commit details.
+     *
+     * @param string Commit or revision number
+     * @param bool Get commit diff (false)
+     * @return stdClass
+     */
+    public function getCommit($commit, $getdiff=false)
+    {
+        throw new Pluf_Exception_NotImplemented();
+    }
+
+    /**
+     * Get latest changes.
+     *
+     * It default to the main branch. If possible you should code in a
+     * way to avoid repetitive calls to getCommit. Try to be
+     * efficient.
+     *
+     * @param string Branch (null)
+     * @param int Number of changes (25)
+     * @return array List of commits
+     */
+    public function getChangeLog($branch=null, $n=10)
+    {
+        throw new Pluf_Exception_NotImplemented();
+    }
+
+    /**
+     * Given the string describing the author from the log find the
+     * author in the database.
+     *
+     * If the input is an array, it will return an array of results.
+     *
+     * @param mixed string/array Author
+     * @return mixed Pluf_User or null or array
+     */
+    public function findAuthor($author)
+    {
+        throw new Pluf_Exception_NotImplemented();
+    }
+
+    /**
+     * Given a revision and a file path, retrieve the file content.
+     *
+     * The third parameter is to only request the command that is used
+     * to get the file content. This is used when downloading a file
+     * at a given revision as it can be passed to a
+     * Pluf_HTTP_Response_CommandPassThru reponse. This allows to
+     * stream a large response without buffering it in memory.
+     *
+     * The file definition can be a hash or a path depending on the
+     * SCM.
+     *
+     * @param string File definition
+     * @param string Revision ('')
+     * @param bool Returns command only (false)
+     * @return string File content
+     */
+    public function getFile($def, $rev='', $cmd_only=false)
+    {
+        throw new Pluf_Exception_NotImplemented();
+    }
+
 
     /**
      * Equivalent to exec but with caching.
