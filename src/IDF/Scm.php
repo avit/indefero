@@ -37,7 +37,9 @@
  *
  * Note on caching: You must not cache ephemeral information like the
  * changelog, but you can cache the commit info (except with
- * subversion where you can change commit info...).
+ * subversion where you can change commit info...). It is ok to do
+ * some caching for the lifetime of the IDF_Scm object, for example
+ * not to retrieve several times the list of branches, etc.
  *
  * All the output of the methods must be serializable. This means that
  * if you are parsing XML you need to correctly cast the results as
@@ -84,13 +86,36 @@ class IDF_Scm
      * @param IDF_Project
      * @return Object
      */
-    public static function get($project=null)
+    public static function get($project)
     {
         // Get scm type from project conf ; defaults to git
         // We will need to cache the factory
         $scm = $project->getConf()->getVal('scm', 'git');
         $scms = Pluf::f('allowed_scm');
         return call_user_func(array($scms[$scm], 'factory'), $project);
+    }
+
+    /**
+     * Returns the URL of the git daemon.
+     *
+     * @param IDF_Project
+     * @return string URL
+     */
+    public static function getAnonymousAccessUrl($project)
+    {
+        throw new Pluf_Exception_NotImplemented();
+    }
+
+    /**
+     * Returns the URL for SSH access
+     *
+     * @param IDF_Project
+     * @param Pluf_User
+     * @return string URL
+     */
+    public static function getAuthAccessUrl($project, $user)
+    {
+        throw new Pluf_Exception_NotImplemented();
     }
 
     /**
@@ -104,9 +129,57 @@ class IDF_Scm
     }
 
     /**
+     * Check if a revision or commit is valid.
+     *
+     * @param string Revision or commit
+     * @return bool 
+     */
+    public function isValidRevision($rev)
+    {
+        throw new Pluf_Exception_NotImplemented();
+    }
+
+    /**
+     * Returns in which branches a commit/path is.
+     *
+     * A commit can be in several branches and some of the SCMs are
+     * managing branches using subfolders (like Subversion).
+     *
+     * This means that to know in which branch we are at the moment,
+     * one needs to have both the path and the commit.
+     *
+     * @param string Commit
+     * @param string Path
+     * @return array Branches
+     */
+    public function inBranches($commit, $path)
+    {
+        throw new Pluf_Exception_NotImplemented();
+    }
+
+    /**
      * Returns the list of branches.
      *
-     * @return array For example array('trunk', '1.0branch')
+     * The return value must be a branch indexed array with the
+     * optional path to access the branch as value. For example with
+     * git you would get (note that some people are using / in the
+     * name of their git branches):
+     *
+     * <pre>
+     * array('master' => '',
+     *       'foo-branch' => '',
+     *       'design/feature1' => '')
+     * </pre>
+     *
+     * But with Subversion, as the branches are managed as subfolder
+     * with a special folder for trunk, you would get something like:
+     *
+     * <pre>
+     * array('trunk' => 'trunk',
+     *       'foo-branch' => 'branches/foo-branch',)
+     * </pre>
+     *
+     * @return array Branches 
      */
     public function getBranches()
     {
@@ -116,7 +189,11 @@ class IDF_Scm
     /**
      * Returns the list of tags.
      *
-     * @return array For example array('v0.9', 'v1.0')
+     * The format is the same as for the branches.
+     *
+     * @see self::getBranches()
+     *
+     * @return array Tags
      */
     public function getTags()
     {
@@ -201,67 +278,59 @@ class IDF_Scm
     /**
      * Given a revision and a file path, retrieve the file content.
      *
-     * The third parameter is to only request the command that is used
-     * to get the file content. This is used when downloading a file
-     * at a given revision as it can be passed to a
+     * The $cmd_only parameter is to only request the command that is
+     * used to get the file content. This is used when downloading a
+     * file at a given revision as it can be passed to a
      * Pluf_HTTP_Response_CommandPassThru reponse. This allows to
      * stream a large response without buffering it in memory.
      *
-     * The file definition can be a hash or a path depending on the
-     * SCM.
+     * The file definition is coming from getPathInfo().
      *
-     * @param string File definition
-     * @param string Revision ('')
+     * @see self::getPathInfo()
+     *
+     * @param stdClass File definition
      * @param bool Returns command only (false)
      * @return string File content
      */
-    public function getFile($def, $rev='', $cmd_only=false)
+    public function getFile($def, $cmd_only=false)
     {
         throw new Pluf_Exception_NotImplemented();
     }
 
-
     /**
-     * Equivalent to exec but with caching.
+     * Get information about a file or a path.
      *
-     * @param string Command
-     * @param &array Output
-     * @param &int Return value
-     * @return string Last line of the output
+     * @param string File or path
+     * @param string Revision (null)
+     * @return mixed False or stdClass with info
      */
-    public static function exec($command, &$output=array(), &$return=0)
+    public function getPathInfo($file, $rev=null)
     {
-        $command = Pluf::f('idf_exec_cmd_prefix', '').$command;
-        $key = md5($command);
-        $cache = Pluf_Cache::factory();
-        if (null === ($res=$cache->get($key))) {
-            $ll = exec($command, $output, $return);
-            if ($return != 0 and Pluf::f('debug_scm', false)) {
-                throw new IDF_Scm_Exception(sprintf('Error when running command: "%s", return code: %d', $command, $return));
-            }
-            $cache->set($key, array($ll, $return, $output));
-        } else {
-            list($ll, $return, $output) = $res;
-        }
-        return $ll;
+        throw new Pluf_Exception_NotImplemented();
     }
 
     /**
-     * Equivalent to shell_exec but with caching.
+     * Given a revision and possible path returns additional properties.
      *
-     * @param string Command
-     * @return string Output of the command
+     * @param string Revision
+     * @param string Path ('')
+     * @return mixed null or array of properties
      */
-    public static function shell_exec($command)
+    public function getProperties($rev, $path='')
     {
-        $command = Pluf::f('idf_exec_cmd_prefix', '').$command;
-        $key = md5($command);
-        $cache = Pluf_Cache::factory();
-        if (null === ($res=$cache->get($key))) {
-            $res = shell_exec($command);
-            $cache->set($key, $res);
-        } 
-        return $res;
+        return null;
+    }
+
+    /**
+     * Generate the command to create a zip archive at a given commit.
+     *
+     * @param string Commit
+     * @param string Prefix ('repository/')
+     * @return string Command
+     */
+    public function getArchiveCommand($commit, $prefix='repository/')
+    {
+        throw new Pluf_Exception_NotImplemented();
     }
 
     /**

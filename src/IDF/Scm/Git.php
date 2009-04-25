@@ -61,7 +61,7 @@ class IDF_Scm_Git extends IDF_Scm
         }
         $res = array();
         foreach ($out as $b) {
-            $res[] = substr($b, 2);
+            $res[substr($b, 2)] = '';
         }
         $this->cache['branches'] = $res;
         return $res;
@@ -69,8 +69,28 @@ class IDF_Scm_Git extends IDF_Scm
 
     public function getMainBranch()
     {
-        return 'master';
+        $possible = array('master', 'main', 'trunk', 'local');
+        $branches = array_keys($this->getBranches());
+        foreach ($possible as $p) {
+            if (in_array($p, $branches)) {
+                return $p;
+            }
+        }
+        return $branches[0];
     }
+
+    /**
+     * Note: Running the `git branch --contains $commit` is
+     * theoritically the best way to do it, until you figure out that
+     * you cannot cache the result and that it takes several seconds
+     * to execute on a big tree.
+     */
+    public function inBranches($commit, $path)
+    {
+        return (in_array($commit, array_keys($this->getBranches()))) 
+                ? array($commit) : array();
+    }
+
 
     /**
      * Git "tree" is not the same as the tree we get here.
@@ -152,25 +172,12 @@ class IDF_Scm_Git extends IDF_Scm
         return ($users->count() > 0) ? $users[0] : null;
     }
 
-
-    /**
-     * Returns the URL of the git daemon.
-     *
-     * @param IDF_Project
-     * @return string URL
-     */
-    public static function getRemoteAccessUrl($project)
+    public static function getAnonymousAccessUrl($project)
     {
         return sprintf(Pluf::f('git_remote_url'), $project->shortname);
     }
 
-    /**
-     * Returns the URL for SSH access
-     *
-     * @param IDF_Project
-     * @return string URL
-     */
-    public static function getWriteRemoteAccessUrl($project)
+    public static function getAuthAccessUrl($project, $user)
     {
         return sprintf(Pluf::f('git_write_remote_url'), $project->shortname);
     }
@@ -187,20 +194,25 @@ class IDF_Scm_Git extends IDF_Scm
         return new IDF_Scm_Git($rep, $project);
     }
 
+
+    public function isValidRevision($commit)
+    {
+        return ('commit' == $this->testHash($commit));
+    }
+
     /**
      * Test a given object hash.
      *
      * @param string Object hash.
-     * @param null to be svn client compatible
      * @return mixed false if not valid or 'blob', 'tree', 'commit'
      */
-    public function testHash($hash, $dummy=null)
+    public function testHash($hash)
     {
         $cmd = sprintf('GIT_DIR=%s '.Pluf::f('git_path', 'git').' cat-file -t %s',
                        escapeshellarg($this->repo),
                        escapeshellarg($hash));
         $ret = 0; $out = array();
-        IDF_Scm::exec($cmd, $out, $ret);
+        exec($cmd, $out, $ret);
         if ($ret != 0) return false;
         return trim($out[0]);
     }
@@ -257,14 +269,14 @@ class IDF_Scm_Git extends IDF_Scm
      * @param string Commit ('HEAD')
      * @return false Information
      */
-    public function getFileInfo($totest, $commit='HEAD')
+    public function getPathInfo($totest, $commit='HEAD')
     {
         $cmd_tmpl = 'GIT_DIR=%s '.Pluf::f('git_path', 'git').' ls-tree -r -t -l %s';
         $cmd = sprintf($cmd_tmpl, 
                        escapeshellarg($this->repo), 
                        escapeshellarg($commit));
         $out = array();
-        IDF_Scm::exec($cmd, $out);
+        exec($cmd, $out);
         foreach ($out as $line) {
             list($perm, $type, $hash, $size, $file) = preg_split('/ |\t/', $line, 5, PREG_SPLIT_NO_EMPTY);
             if ($totest == $file) {
@@ -276,19 +288,13 @@ class IDF_Scm_Git extends IDF_Scm
         return false;
     }
 
-    /**
-     * Get a blob.
-     *
-     * @param string request_file_info
-     * @param null to be svn client compatible
-     * @return string Raw blob
-     */
-    public function getBlob($request_file_info, $dummy=null)
+    public function getFile($def, $cmd_only=false)
     {
-        return shell_exec(sprintf(Pluf::f('idf_exec_cmd_prefix', '').
-                                  'GIT_DIR=%s '.Pluf::f('git_path', 'git').' cat-file blob %s',
-                                  escapeshellarg($this->repo), 
-                                  escapeshellarg($request_file_info->hash)));
+        $cmd = sprintf(Pluf::f('idf_exec_cmd_prefix', '').
+                       'GIT_DIR=%s '.Pluf::f('git_path', 'git').' cat-file blob %s',
+                       escapeshellarg($this->repo), 
+                       escapeshellarg($def->hash));
+        return ($cmd_only) ? $cmd : shell_exec($cmd);
     }
 
 
@@ -345,7 +351,7 @@ class IDF_Scm_Git extends IDF_Scm
                        "'commit %H%n'", 
                        escapeshellarg($commit));
         $out = array();
-        IDF_Scm::exec($cmd, $out);
+        exec($cmd, $out);
         $affected = count($out) - 2;
         $added = 0;
         $removed = 0;
@@ -377,7 +383,7 @@ class IDF_Scm_Git extends IDF_Scm
                        escapeshellarg($this->repo), $n, $this->mediumtree_fmt, 
                        escapeshellarg($commit));
         $out = array();
-        IDF_Scm::exec($cmd, $out);
+        exec($cmd, $out);
         return self::parseLog($out, 4);
     }
 
@@ -436,14 +442,7 @@ class IDF_Scm_Git extends IDF_Scm
         return $res;
     }
 
-    /**
-     * Generate the command to create a zip archive at a given commit.
-     *
-     * @param string Commit
-     * @param string Prefix ('git-repo-dump')
-     * @return string Command
-     */
-    public function getArchiveCommand($commit, $prefix='git-repo-dump/')
+    public function getArchiveCommand($commit, $prefix='repository/')
     {
         return sprintf(Pluf::f('idf_exec_cmd_prefix', '').
                        'GIT_DIR=%s '.Pluf::f('git_path', 'git').' archive --format=zip --prefix=%s %s',
@@ -471,11 +470,11 @@ class IDF_Scm_Git extends IDF_Scm
     {
         $file->type = 'extern';
         $file->extern = '';
-        $info = $this->getFileInfo('.gitmodules', $commit);
+        $info = $this->getPathInfo('.gitmodules', $commit);
         if ($info == false) {
             return $file;
         }
-        $gitmodules = $this->getBlob($info);
+        $gitmodules = $this->getFile($info);
         if (preg_match('#\[submodule\s+\"'.$file->fullpath.'\"\]\s+path\s=\s(\S+)\s+url\s=\s(\S+)#mi', $gitmodules, $matches)) {
             $file->extern = $matches[2];
         }

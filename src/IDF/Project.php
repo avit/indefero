@@ -358,7 +358,7 @@ class IDF_Project extends Pluf_Model
         $conf = $this->getConf();
         $scm = $conf->getVal('scm', 'git');
         $scms = Pluf::f('allowed_scm');
-        return call_user_func(array($scms[$scm], 'getRemoteAccessUrl'),
+        return call_user_func(array($scms[$scm], 'getAnonymousAccessUrl'),
                               $this);
     }
 
@@ -369,13 +369,13 @@ class IDF_Project extends Pluf_Model
      * same as the one to read. For example, you do a checkout with
      * git-daemon and push with SSH.
      */
-    public function getWriteRemoteAccessUrl()
+    public function getWriteRemoteAccessUrl($user)
     {
         $conf = $this->getConf();
         $scm = $conf->getVal('scm', 'git');
         $scms = Pluf::f('allowed_scm');
-        return call_user_func(array($scms[$scm], 'getWriteRemoteAccessUrl'),
-                              $this);
+        return call_user_func(array($scms[$scm], 'getAuthAccessUrl'),
+                              $this, $user);
     }
 
     /**

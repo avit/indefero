@@ -66,7 +66,7 @@ class IDF_Views_Source
         $scm = IDF_Scm::get($request->project);
         $branches = $scm->getBranches();
         $commit = $match[2];
-        if ('commit' != $scm->testHash($commit)) {
+        if (!$scm->isValidRevision($commit)) {
             if (count($branches) == 0) {
                 // Redirect to the project source help
                 $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::help',
@@ -119,6 +119,7 @@ class IDF_Views_Source
             return new Pluf_HTTP_Response_Redirect($url);
         }
         $branches = $scm->getBranches();
+        $in_branches = $scm->inBranches($commit, '');
         $cache = Pluf_Cache::factory();
         $key = sprintf('Project:%s::IDF_Views_Source::treeBase:%s::',
                        $request->project->id, $commit);
@@ -126,13 +127,9 @@ class IDF_Views_Source
             $res = new Pluf_Template_ContextVars($scm->getTree($commit));
             $cache->set($key, $res);
         }
-
-        $tree_in = in_array($commit, $branches);
+        //$tree_in = in_array($commit, $branches);
         $scmConf = $request->conf->getVal('scm', 'git');
-        $props = null;
-        if ($scmConf === 'svn') {
-            $props = $scm->getProperties($commit);
-        }
+        $props = $scm->getProperties($commit);
         return Pluf_Shortcuts_RenderToResponse('idf/source/'.$scmConf.'/tree.html',
                                                array(
                                                      'page_title' => $title,
@@ -140,7 +137,7 @@ class IDF_Views_Source
                                                      'files' => $res,
                                                      'cobject' => $cobject,
                                                      'commit' => $commit,
-                                                     'tree_in' => $tree_in,
+                                                     'tree_in' => $in_branches,
                                                      'branches' => $branches,
                                                      'props' => $props,
                                                      ),
@@ -174,12 +171,12 @@ class IDF_Views_Source
             return new Pluf_HTTP_Response_Redirect($url, 301);
         }
 
-        if ('commit' != $scm->testHash($commit, $request_file)) {
+        if (!$scm->isValidRevision($commit, $request_file)) {
             // Redirect to the first branch
             return new Pluf_HTTP_Response_Redirect($fburl);
         }
 
-        $request_file_info = $scm->getFileInfo($request_file, $commit);
+        $request_file_info = $scm->getPathInfo($request_file, $commit);
         if (!$request_file_info) {
             // Redirect to the first branch
             return new Pluf_HTTP_Response_Redirect($fburl);
@@ -190,7 +187,7 @@ class IDF_Views_Source
                                                    $commit, $scm);
             if (!self::isText($info)) {
 
-                $rep = new Pluf_HTTP_Response($scm->getBlob($request_file_info, $commit),
+                $rep = new Pluf_HTTP_Response($scm->getFile($request_file_info),
                                               $info[0]);
                 $rep->headers['Content-Disposition'] = 'attachment; filename="'.$info[1].'"';
                 return $rep;
@@ -210,7 +207,7 @@ class IDF_Views_Source
 
         $page_title = $bc.' - '.$title;
         $cobject = $scm->getCommit($commit);
-        $tree_in = in_array($commit, $branches);
+        $in_branches = $scm->inBranches($commit, $request_file);
         try {
             $cache = Pluf_Cache::factory();
             $key = sprintf('Project:%s::IDF_Views_Source::tree:%s::%s',
@@ -243,7 +240,7 @@ class IDF_Views_Source
                                                      'cobject' => $cobject,
                                                      'base' => $request_file_info->file,
                                                      'prev' => $previous,
-                                                     'tree_in' => $tree_in,
+                                                     'tree_in' => $in_branches,
                                                      'branches' => $branches,
                                                      'props' => $props,
                                                      ),
@@ -273,7 +270,7 @@ class IDF_Views_Source
         $scm = IDF_Scm::get($request->project);
         $commit = $match[2];
         $branches = $scm->getBranches();
-        if ('commit' != $scm->testHash($commit)) {
+        if (!$scm->isValidRevision($commit)) {
             // Redirect to the first branch
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
                                             array($request->project->shortname,
@@ -309,7 +306,7 @@ class IDF_Views_Source
         $scm = IDF_Scm::get($request->project);
         $commit = $match[2];
         $branches = $scm->getBranches();
-        if ('commit' != $scm->testHash($commit)) {
+        if (!$scm->isValidRevision($commit)) {
             // Redirect to the first branch
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
                                             array($request->project->shortname,
@@ -347,7 +344,7 @@ class IDF_Views_Source
         if ($scmConf === 'svn') {
             $props = $scm->getProperties($commit, $request_file);
         }
-        $content = self::highLight($extra['mime'], $scm->getBlob($request_file_info, $commit));
+        $content = self::highLight($extra['mime'], $scm->getFile($request_file_info));
         return Pluf_Shortcuts_RenderToResponse('idf/source/'.$scmConf.'/file.html',
                                                array(
                                                      'page_title' => $page_title,
@@ -377,14 +374,14 @@ class IDF_Views_Source
         $branches = $scm->getBranches();
         $commit = $match[2];
         $request_file = $match[3];
-        if ('commit' != $scm->testHash($commit, $request_file)) {
+        if (!$scm->isValidRevision($commit)) {
             // Redirect to the first branch
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
                                             array($request->project->shortname,
                                                   $branches[0]));
             return new Pluf_HTTP_Response_Redirect($url);
         }
-        $request_file_info = $scm->getFileInfo($request_file, $commit);
+        $request_file_info = $scm->getPathInfo($request_file, $commit);
         if (!$request_file_info or $request_file_info->type == 'tree') {
             // Redirect to the first branch
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
@@ -394,7 +391,7 @@ class IDF_Views_Source
         }
         $info = self::getRequestedFileMimeType($request_file_info, 
                                                    $commit, $scm);
-        $rep = new Pluf_HTTP_Response($scm->getBlob($request_file_info, $commit),
+        $rep = new Pluf_HTTP_Response($scm->getFile($request_file_info),
                                       $info[0]);
         $rep->headers['Content-Disposition'] = 'attachment; filename="'.$info[1].'"';
         return $rep;
@@ -410,7 +407,7 @@ class IDF_Views_Source
         $commit = trim($match[2]);
         $scm = IDF_Scm::get($request->project);
         $branches = $scm->getBranches();
-        if ('commit' != $scm->testHash($commit)) {
+        if (!$scm->isValidRevision($commit)) {
             // Redirect to the first branch
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
                                             array($request->project->shortname,
@@ -441,7 +438,7 @@ class IDF_Views_Source
             return $mime;
         }
         return self::getMimeTypeFromContent($file_info->file,
-                                            $scm->getBlob($file_info, $commit));
+                                            $scm->getFile($file_info));
     }
 
      /**
@@ -451,7 +448,7 @@ class IDF_Views_Source
       * @param string File content
       * @return array Mime type found or 'application/octet-stream', basename, extension
       */
-    public static function getMimeTypeFromContent($file, $filedata)
+    public static function getMimeTypeFromContent($file, &$filedata)
     {
         $info = pathinfo($file);
         $res = array('application/octet-stream', 
