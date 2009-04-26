@@ -25,7 +25,7 @@
  * SVN utils.
  *
  */
-class IDF_Scm_Svn
+class IDF_Scm_Svn extends IDF_Scm
 {
     public $repo = '';
     public $username = '';
@@ -40,6 +40,11 @@ class IDF_Scm_Svn
         $this->repo = $repo;
         $this->username = $username;
         $this->password = $password;
+    }
+
+    public function isAvailable()
+    {
+        return true;
     }
 
     /**
@@ -62,7 +67,7 @@ class IDF_Scm_Svn
      * @param IDF_Project
      * @return string URL
      */
-    public static function getRemoteAccessUrl($project)
+    public static function getAnonymousAccessUrl($project)
     {
         $conf = $project->getConf();
         if (false !== ($url=$conf->getVal('svn_remote_url', false)) 
@@ -96,6 +101,24 @@ class IDF_Scm_Svn
     }
 
     /**
+     * Subversion revisions are either a number or 'HEAD'.
+     */
+    public function isValidRevision($rev)
+    {
+        if ($rev == 'HEAD') {
+            return true;
+        }
+        $cmd = sprintf(Pluf::f('svn_path', 'svn').' info --username=%s --password=%s %s@%s',
+                       escapeshellarg($this->username),
+                       escapeshellarg($this->password),
+                       escapeshellarg($this->repo),
+                       escapeshellarg($rev));
+        exec($cmd, $out, $ret);
+        return (0 == $ret);
+    }
+
+
+    /**
      * Test a given object hash.
      *
      * @param string Object hash.
@@ -114,7 +137,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$path),
                        escapeshellarg($rev));
-        $xmlInfo = IDF_Scm::shell_exec($cmd);
+        $xmlInfo = shell_exec($cmd);
 
         // If exception is thrown, return false
         try {
@@ -133,26 +156,14 @@ class IDF_Scm_Svn
         return 'commit';
     }
 
-
-    /**
-     * Given a commit hash returns an array of files in it.
-     *
-     * A file is a class with the following properties:
-     *
-     * 'perm', 'type', 'size', 'hash', 'file'
-     *
-     * @param string Commit ('HEAD')
-     * @param string Base folder ('')
-     * @return array
-     */
-    public function filesAtCommit($rev='HEAD', $folder='')
+    public function getTree($rev='HEAD', $folder='')
     {
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' ls --xml --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$folder),
                        escapeshellarg($rev));
-        $xmlLs = IDF_Scm::shell_exec($cmd);
+        $xmlLs = shell_exec($cmd);
         $xml = simplexml_load_string($xmlLs);
         $res = array();
         $folder = (strlen($folder)) ? $folder.'/' : '';
@@ -176,7 +187,6 @@ class IDF_Scm_Svn
             $file['perm'] = '';
             $res[] = (object) $file;
         }
-
         return $res;
     }
 
@@ -197,31 +207,25 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($file),
                        escapeshellarg($rev));
-        $xmlLog = IDF_Scm::shell_exec($cmd);
+        $xmlLog = shell_exec($cmd);
         $xml = simplexml_load_string($xmlLog);
         $commit[$rev]=(string) $xml->logentry->msg;
         return (string) $xml->logentry->msg;
     }
 
-
     /**
-     * Get the file info.
-     *
-     * @param string File
-     * @param string Commit ('HEAD')
-     * @return false Information
+     * FIXME: Need to check the case of an inexisting file.
      */
-    public function getFileInfo($totest, $rev='HEAD')
+    public function getPathInfo($totest, $rev='HEAD')
     {
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' info --xml --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$totest),
                        escapeshellarg($rev));
-        $xmlInfo = IDF_Scm::shell_exec($cmd);
+        $xmlInfo = shell_exec($cmd);
         $xml = simplexml_load_string($xmlInfo);
         $entry = $xml->entry;
-
         $file = array();
         $file['fullpath'] = $totest;
         $file['hash'] = (string) $entry->repository->uuid;
@@ -236,33 +240,65 @@ class IDF_Scm_Svn
         return (object) $file;
     }
 
-
-    /**
-     * Get a blob.
-     *
-     * @param string request_file_info
-     * @return string Raw blob
-     */
-    public function getBlob($request_file_info, $rev)
+    public function getFile($def)
     {
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' cat --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
-                       escapeshellarg($this->repo.'/'.$request_file_info->fullpath),
-                       escapeshellarg($rev));
-        return IDF_Scm::shell_exec($cmd);
+                       escapeshellarg($this->repo.'/'.$def->fullpath),
+                       escapeshellarg($def->rev));
+        return shell_exec($cmd);
     }
 
-
     /**
-     * Get the branches.
+     * Subversion branches are repository based. 
      *
-     * @return array Branches.
+     * One need to list the folder to know them.
      */
     public function getBranches()
     {
-        $res = array('HEAD');
+        if (isset($this->cache['branches'])) {
+            return $this->cache['branches'];
+        }
+        $cmd = sprintf(Pluf::f('svn_path', 'svn').' ls --username=%s --password=%s %s@HEAD',
+                       escapeshellarg($this->username),
+                       escapeshellarg($this->password),
+                       escapeshellarg($this->repo.'/branches'));
+        exec($cmd, $out, $ret);
+        if ($ret == 0) {
+            foreach ($out as $entry) {
+                if (substr(trim($entry), -1) == '/') {
+                    $branch = substr(trim($entry), 0, -1);
+                    $res[$branch] = 'branches/'.$branch;
+                }
+            }
+        }
+        ksort($res);
+        $cmd = sprintf(Pluf::f('svn_path', 'svn').' info --username=%s --password=%s %s@HEAD',
+                       escapeshellarg($this->username),
+                       escapeshellarg($this->password),
+                       escapeshellarg($this->repo.'/trunk'));
+        exec($cmd, $out, $ret);
+        if ($ret == 0) {
+            $res = array_merge(array('trunk' => 'trunk'), $res);
+        }
+        $this->cache['branches'] = $res;
         return $res;
+    }
+
+    public function getMainBranch()
+    {
+        return 'HEAD';
+    }
+
+    public function inBranches($commit, $path)
+    {
+        foreach ($this->getBranches() as $branch => $bpath) {
+            if ($bpath and 0 === strpos($path, $bpath)) {
+                return array($branch);
+            }
+        }
+        return array();
     }
 
 
@@ -281,7 +317,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo),
                        escapeshellarg($rev));
-        $xmlRes = IDF_Scm::shell_exec($cmd);
+        $xmlRes = shell_exec($cmd);
         $xml = simplexml_load_string($xmlRes);
         $res['author'] = (string) $xml->logentry->author;
         $res['date'] = gmdate('Y-m-d H:i:s', strtotime((string) $xml->logentry->date));
@@ -309,7 +345,7 @@ class IDF_Scm_Svn
         $cmd = sprintf(Pluf::f('svnlook_path', 'svnlook').' changed -r %s %s',
                        escapeshellarg($commit),
                        escapeshellarg($repo));
-        $out = IDF_Scm::shell_exec($cmd);
+        $out = shell_exec($cmd);
         $lines = preg_split("/\015\012|\015|\012/", $out);
         return (count($lines) > 100);
     }
@@ -322,7 +358,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo));
-        return IDF_Scm::shell_exec($cmd);
+        return shell_exec($cmd);
     }
 
 
@@ -343,7 +379,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo),
                        escapeshellarg($rev));
-        $xmlRes = IDF_Scm::shell_exec($cmd);
+        $xmlRes = shell_exec($cmd);
         $xml = simplexml_load_string($xmlRes);
 
         $res = array();
@@ -363,20 +399,6 @@ class IDF_Scm_Svn
 
 
     /**
-     * Generate the command to create a zip archive at a given commit.
-     * Unsupported feature in subversion
-     *
-     * @param string dummy
-     * @param string dummy
-     * @return Exception
-     */
-    public function getArchiveCommand($commit, $prefix='git-repo-dump/')
-    {
-        throw new Exception('Unsupported feature.');
-    }
-
-
-    /**
      * Get additionnals properties on path and revision
      *
      * @param string File
@@ -391,7 +413,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$path),
                        escapeshellarg($rev));
-        $xmlProps = IDF_Scm::shell_exec($cmd);
+        $xmlProps = shell_exec($cmd);
         $props = simplexml_load_string($xmlProps);
 
         // No properties, returns an empty array
@@ -426,7 +448,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$path),
                        escapeshellarg($rev));
-        $xmlProp = IDF_Scm::shell_exec($cmd);
+        $xmlProp = shell_exec($cmd);
         $prop = simplexml_load_string($xmlProp);
 
         return (string) $prop->target->property;
@@ -448,7 +470,7 @@ class IDF_Scm_Svn
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo),
                        escapeshellarg($rev));
-        $xmlInfo = IDF_Scm::shell_exec($cmd);
+        $xmlInfo = shell_exec($cmd);
 
         $xml = simplexml_load_string($xmlInfo);
         return (string) $xml->entry->commit['revision'];

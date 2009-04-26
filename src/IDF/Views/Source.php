@@ -219,7 +219,6 @@ class IDF_Views_Source
 
         } catch (Exception $e) {
             throw $e;
-            //            return new Pluf_HTTP_Response_Redirect($fburl);
         }
         // try to find the previous level if it exists.
         $prev = split('/', $request_file);
