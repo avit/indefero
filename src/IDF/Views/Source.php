@@ -150,16 +150,15 @@ class IDF_Views_Source
         $title = sprintf(__('%1$s %2$s Source Tree'), 
                          $request->project, $this->getScmType($request));
         $scm = IDF_Scm::get($request->project);
+        $commit = $match[2];
+        $request_file = $match[3];
+
         if (!$scm->isAvailable()) {
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::help',
                                             array($request->project->shortname));
-
             return new Pluf_HTTP_Response_Redirect($url);
         }
-
         $branches = $scm->getBranches();
-        $commit = $match[2];
-        $request_file = $match[3];
         $fburl = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
                                           array($request->project->shortname,
                                                 $scm->getMainBranch()));
@@ -170,18 +169,15 @@ class IDF_Views_Source
                                                   $request_file));
             return new Pluf_HTTP_Response_Redirect($url, 301);
         }
-
         if (!$scm->isValidRevision($commit, $request_file)) {
             // Redirect to the first branch
             return new Pluf_HTTP_Response_Redirect($fburl);
         }
-
         $request_file_info = $scm->getPathInfo($request_file, $commit);
         if (!$request_file_info) {
             // Redirect to the first branch
             return new Pluf_HTTP_Response_Redirect($fburl);
         }
-
         if ($request_file_info->type != 'tree') {
             $info = self::getRequestedFileMimeType($request_file_info, 
                                                    $commit, $scm);

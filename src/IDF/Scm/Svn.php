@@ -22,8 +22,14 @@
 # ***** END LICENSE BLOCK ***** */
 
 /**
- * SVN utils.
- *
+ * Subversion backend.
+ * When a branch is not a branch.
+ * 
+ * Contrary to most other SCMs, Subversion is using folders to manage
+ * the branches and so what is either the commit or the branch in
+ * other SCMs is the revision number with Subversion. So, do not be
+ * surprised if you have the feeling that the methods are not really
+ * returning what could be expected from their names.
  */
 class IDF_Scm_Svn extends IDF_Scm
 {
@@ -40,6 +46,7 @@ class IDF_Scm_Svn extends IDF_Scm
         $this->repo = $repo;
         $this->username = $username;
         $this->password = $password;
+        $this->cache['commitmess'] = array();
     }
 
     public function isAvailable()
@@ -163,8 +170,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$folder),
                        escapeshellarg($rev));
-        $xmlLs = shell_exec($cmd);
-        $xml = simplexml_load_string($xmlLs);
+        $xml = simplexml_load_string(shell_exec($cmd));
         $res = array();
         $folder = (strlen($folder)) ? $folder.'/' : '';
         foreach ($xml->list->entry as $entry) {
@@ -175,10 +181,7 @@ class IDF_Scm_Svn extends IDF_Scm
             $file['date'] = gmdate('Y-m-d H:i:s',
                                    strtotime((string) $entry->commit->date));
             $file['rev'] = (string) $entry->commit['revision'];
-            // Get commit message
-            $currentReposFile = $this->repo.'/'.$folder.$file['file'];
-            $file['log'] = $this->getCommitMessage($currentReposFile, $rev);
-
+            $file['log'] = $this->getCommitMessage($file['rev']);
             // Get the size if the type is blob
             if ($file['type'] == 'blob') {
                 $file['size'] = (string) $entry->size;
@@ -192,25 +195,24 @@ class IDF_Scm_Svn extends IDF_Scm
 
 
     /**
-     * Get a commit message for given file and revision.
+     * Get the commit message of a revision revision.
      *
-     * @param string File
      * @param string Commit ('HEAD')
-     *
      * @return String commit message
      */
-    private function getCommitMessage($file, $rev='HEAD')
+    private function getCommitMessage($rev='HEAD')
     {
-        if (isset($commit[$rev])) return $commit[$rev];
+        if (isset($this->cache['commitmess'][$rev])) {
+            return $this->cache['commitmess'][$rev];
+        }
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' log --xml --limit 1 --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
-                       escapeshellarg($file),
+                       escapeshellarg($this->repo),
                        escapeshellarg($rev));
-        $xmlLog = shell_exec($cmd);
-        $xml = simplexml_load_string($xmlLog);
-        $commit[$rev]=(string) $xml->logentry->msg;
-        return (string) $xml->logentry->msg;
+        $xml = simplexml_load_string(shell_exec($cmd));
+        $this->cache['commitmess'][$rev] = (string) $xml->logentry->msg;
+        return $this->cache['commitmess'][$rev];
     }
 
     /**
@@ -223,20 +225,18 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$totest),
                        escapeshellarg($rev));
-        $xmlInfo = shell_exec($cmd);
-        $xml = simplexml_load_string($xmlInfo);
+        $xml = simplexml_load_string(shell_exec($cmd));
         $entry = $xml->entry;
         $file = array();
         $file['fullpath'] = $totest;
         $file['hash'] = (string) $entry->repository->uuid;
         $file['type'] = $this->assoc[(string) $entry['kind']];
         $file['file'] = $totest;
-        $file['rev'] = (string) $entry->commit['revision'];
+        $file['rev'] = $rev; 
         $file['author'] = (string) $entry->author;
         $file['date'] = gmdate('Y-m-d H:i:s', strtotime((string) $entry->commit->date));
         $file['size'] = (string) $entry->size;
         $file['log'] = '';
-
         return (object) $file;
     }
 
@@ -280,7 +280,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->repo.'/trunk'));
         exec($cmd, $out, $ret);
         if ($ret == 0) {
-            $res = array_merge(array('trunk' => 'trunk'), $res);
+            $res = array('trunk' => 'trunk') + $res;
         }
         $this->cache['branches'] = $res;
         return $res;
