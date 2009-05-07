@@ -179,12 +179,12 @@ class IDF_Form_Admin_UserUpdate  extends Pluf_Form
     function clean_first_name()
     {
         $first_name = trim($this->cleaned_data['first_name']);
+        if ($first_name == '---') {
+            throw new Pluf_Form_Invalid(__('--- is not a valid first name.'));
+        }
         if ($first_name == mb_strtoupper($first_name)) {
             $first_name = mb_convert_case(mb_strtolower($first_name), 
                                           MB_CASE_TITLE, 'UTF-8');
-        }
-        if ($first_name == '---') {
-            throw new Pluf_Form_Invalid(__('--- is not a valid first name.'));
         }
         return $first_name;
     }
