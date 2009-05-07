@@ -213,7 +213,7 @@ class IDF_Commit extends Pluf_Model
 </tr>
 <tr class="extra">
 <td colspan="2">
-<div class="helptext right">'.__('Commit').'&nbsp;<a href="'.$url.'" class="mono">'.$this->scm_id.'</a>, '.__('by').' '.$user.'</div></td></tr>'; 
+<div class="helptext right">'.sprintf(__('Commit&nbsp;%s, by %s'), '<a href="'.$url.'" class="mono">'.$this->scm_id.'</a>', $user).'</div></td></tr>'; 
         return Pluf_Template::markSafe($out);
     }
 
