@@ -148,8 +148,19 @@ class IDF_Commit extends Pluf_Model
         $commit = new IDF_Commit();
         $commit->project = $project;
         $commit->scm_id = $change->commit;
-        $commit->summary = $change->title;
-        $commit->fullmessage = $change->full_message;
+        if (Pluf_Text_UTF8::check($change->title)) {
+            $commit->summary = $change->title;
+            $commit->fullmessage = $change->full_message;
+        } else {
+            // Not in utf8, so we try to detect the encoding and
+            // convert accordingly.
+            $encoding = mb_detect_encoding($change->title, mb_detect_order(), true);
+            if ($encoding == false) {
+                $encoding = Pluf_Text_UTF8::detect_cyr_charset($change->title);
+            }
+            $commit->summary = mb_convert_encoding($change->title, 'UTF-8', $encoding);
+            $commit->fullmessage = mb_convert_encoding($change->full_message, 'UTF-8', $encoding);
+        }
         $commit->author = $scm->findAuthor($change->author);
         $commit->origauthor = $change->author;
         $commit->creation_dtime = $change->date;
