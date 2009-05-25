@@ -343,7 +343,7 @@ class IDF_Scm
         $key = 'IDF_Scm:'.$project->shortname.':lastsync'; 
         if (null === ($res=$cache->get($key))) {
             $scm = IDF_Scm::get($project);
-            foreach ($scm->getBranches() as $branche) {
+            foreach ($scm->getBranches() as $branche => $path) {
                 foreach ($scm->getChangeLog($branche, 25) as $change) {
                     IDF_Commit::getOrAdd($change, $project);
                 }

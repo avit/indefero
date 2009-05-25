@@ -437,7 +437,7 @@ class IDF_Scm_Git extends IDF_Scm
                 continue;
             }
         }
-        $c['full_message'] = trim($c['full_message']);
+        $c['full_message'] = !empty($c['full_message']) ? trim($c['full_message']) : '';
         $res[] = (object) $c;
         return $res;
     }
