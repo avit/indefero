@@ -25,22 +25,19 @@
  * Mercurial utils.
  *
  */
-class IDF_Scm_Mercurial
+class IDF_Scm_Mercurial extends IDF_Scm
 {
-    public $repo = '';
-    
-    public function __construct($repo)
+    public static function factory($project)
     {
-        $this->repo = $repo;
+        $rep = sprintf(Pluf::f('mercurial_repositories'), $project->shortname);
+        return new IDF_Scm_Mercurial($rep, $project);
     }
 
-    /**
-     * Given the string describing the author from the log find the
-     * author in the database.
-     *
-     * @param string Author
-     * @return mixed Pluf_User or null
-     */
+    public function isAvailable()
+    {
+        return true;
+    }
+
     public function findAuthor($author)
     {
         // We extract the email.
@@ -53,27 +50,28 @@ class IDF_Scm_Mercurial
         return ($users->count() > 0) ? $users[0] : null;
     }
 
-    /**
-     * Returns the URL of the git daemon.
-     *
-     * @param IDF_Project
-     * @return string URL
-     */
-    public static function getRemoteAccessUrl($project)
+    public function getMainBranch()
+    {
+        return 'tip';
+    }
+
+    public static function getAnonymousAccessUrl($project)
     {
         return sprintf(Pluf::f('mercurial_remote_url'), $project->shortname);
     }
 
-    /**
-     * Returns this object correctly initialized for the project.
-     *
-     * @param IDF_Project
-     * @return IDF_Scm_Git
-     */
-    public static function factory($project)
+    public static function getAuthAccessUrl($project, $user)
     {
-        $rep = sprintf(Pluf::f('mercurial_repositories'), $project->shortname);
-        return new IDF_Scm_Mercurial($rep);
+        return sprintf(Pluf::f('mercurial_remote_url'), $project->shortname);
+    }
+
+    public function isValidRevision($rev)
+    {
+        $cmd = sprintf(Pluf::f('hg_path', 'hg').' log -R %s -r %s',
+                       escapeshellarg($this->repo),
+                       escapeshellarg($rev));
+        exec($cmd, $out, $ret);
+        return ($ret == 0);
     }
 
     /**
@@ -90,24 +88,14 @@ class IDF_Scm_Mercurial
                        escapeshellarg($hash));
         $ret = 0; 
         $out = array();
-        IDF_Scm::exec($cmd, $out, $ret);
+        exec($cmd, $out, $ret);
         return ($ret != 0) ? false : 'commit'; 
     }
 
-    /**
-     * Given a commit hash returns an array of files in it.
-     *
-     * A file is a class with the following properties:
-     *
-     * 'perm', 'type', 'size', 'hash', 'file'
-     *
-     * @param string Commit ('HEAD')
-     * @param string Base folder ('')
-     * @return array 
-     */
-    public function filesAtCommit($commit='tip', $folder='')
+    public function getTree($commit, $folder='/', $branch=null)
     {
         // now we grab the info about this commit including its tree.
+        $folder = ($folder == '/') ? '' : $folder;
         $co = $this->getCommit($commit);
         if ($folder) {
             // As we are limiting to a given folder, we need to find
@@ -143,29 +131,23 @@ class IDF_Scm_Mercurial
         $cmd = sprintf($cmd_tmpl, escapeshellarg($this->repo), $tree, ($recurse) ? '' : ''); 
         $out = array();
         $res = array();
-        IDF_Scm::exec($cmd, $out);
-        $out_hack = array();
+        exec($cmd, $out);
         $tmp_hack = array();
-        foreach ($out as $line) {
+        while (null !== ($line = array_pop($out))) {
             list($hash, $perm, $exec, $file) = preg_split('/ |\t/', $line, 4);
             $file = trim($file);
             $dir = explode('/', $file, -1);
             $tmp = '';
-            for ($i=0; $i < count($dir); $i++) {
+            for ($i=0, $n=count($dir); $i<$n; $i++) {
                 if ($i > 0) {
                     $tmp .= '/';
                 }
                 $tmp .= $dir[$i];
                 if (!isset($tmp_hack["empty\t000\t\t$tmp/"])) {
-                    $out_hack[] = "empty\t000\t\t$tmp/";
+                    $out[] = "empty\t000\t\t$tmp/";
                     $tmp_hack["empty\t000\t\t$tmp/"] = 1;
                 }
             }
-            $out_hack[] = "$hash\t$perm\t$exec\t$file";
-        }
-        foreach ($out_hack as $line) {
-            list($hash, $perm, $exec, $file) = preg_split('/ |\t/', $line, 4);
-            $file = trim($file);
             if (preg_match('/^(.*)\/$/', $file, $match)) {
                 $type = 'tree';
                 $file = $match[1];
@@ -190,46 +172,51 @@ class IDF_Scm_Mercurial
         return $res;
     }
 
-    /**
-     * Get the file info.
-     *
-     * @param string Commit ('HEAD')
-     * @return false Information
-     */
-    public function getFileInfo($totest, $commit='tip')
+    public function getPathInfo($totest, $commit='tip')
     {
         $cmd_tmpl = Pluf::f('hg_path', 'hg').' manifest -R %s --debug -r %s';
         $cmd = sprintf($cmd_tmpl, escapeshellarg($this->repo), $commit); 
         $out = array();
-        $res = array();
-        IDF_Scm::exec($cmd, $out);
-        $out_hack = array();
-        $tmp_hack =array();
-        foreach ($out as $line) {
+        exec($cmd, $out);
+        $tmp_hack = array();
+        while (null !== ($line = array_pop($out))) {
             list($hash, $perm, $exec, $file) = preg_split('/ |\t/', $line, 4);
             $file = trim($file);
             $dir = explode('/', $file, -1);
             $tmp = '';
-            for ($i=0; $i < count($dir); $i++) {
+            for ($i=0, $n=count($dir); $i<$n; $i++) {
                 if ($i > 0) {
                     $tmp .= '/';
                 }
                 $tmp .= $dir[$i];
+                if ($tmp == $totest) {
+                    return (object) array('perm' => '000', 'type' => 'tree', 
+                                          'hash' => $hash, 
+                                          'file' => $totest,
+                                          'commit' => $commit
+                                          );
+                }
                 if (!isset($tmp_hack["empty\t000\t\t$tmp/"])) {
-                    $out_hack[] = "empty\t000\t\t$tmp/";
+                    $out[] = "empty\t000\t\t$tmp/";
                     $tmp_hack["empty\t000\t\t$tmp/"] = 1;
                 }
             }
-            $out_hack[] = "$hash\t$perm\t$exec\t$file";
-        }
-        foreach ($out_hack as $line) {
-            list($hash, $perm, $exec, $file) = preg_split('/ |\t/', $line, 4);
-            $file = trim ($file);
             if (preg_match('/^(.*)\/$/', $file, $match)) {
                 $type = 'tree';
                 $file = $match[1];
             } else {
                 $type = 'blob';
+            }
+            if (!$root and !$folder and preg_match('/^.*\/.*$/', $file)) {
+                continue;
+            }
+            if ($folder) {
+                preg_match('|^'.$folder.'[/]?([^/]+)?$|', $file,$match);
+                if (count($match) > 1) {
+                    $file = $match[1];
+                } else {
+                    continue;
+                }
             }
             if ($totest == $file) {
                 return (object) array('perm' => $perm, 'type' => $type, 
@@ -251,7 +238,7 @@ class IDF_Scm_Mercurial
      */
     public function getBlob($request_file_info, $dummy=null)
     {
-        return IDF_Scm::shell_exec(sprintf(Pluf::f('hg_path', 'hg').' cat -R %s -r %s %s',
+        return shell_exec(sprintf(Pluf::f('hg_path', 'hg').' cat -R %s -r %s %s',
                                            escapeshellarg($this->repo), 
                                            $dummy,
                                            escapeshellarg($this->repo . '/' . $request_file_info->file)));
@@ -264,15 +251,25 @@ class IDF_Scm_Mercurial
      */
     public function getBranches()
     {
+        if (isset($this->cache['branches'])) {
+            return $this->cache['branches'];
+        }
         $out = array();
-        IDF_Scm::exec(sprintf(Pluf::f('hg_path', 'hg').' branches -R %s', 
+        exec(sprintf(Pluf::f('hg_path', 'hg').' branches -R %s', 
                               escapeshellarg($this->repo)), $out);
         $res = array();
         foreach ($out as $b) {
             preg_match('/(\S+).*\S+:(\S+)/', $b, $match);
-            $res[] = $match[1];
+            $res[$match[1]] = '';
         }
+        $this->cache['branches'] = $res;
         return $res;
+    }
+
+    public function inBranches($commit, $path)
+    {
+        return (in_array($commit, array_keys($this->getBranches()))) 
+                ? array($commit) : array();
     }
 
     /**
@@ -289,7 +286,7 @@ class IDF_Scm_Mercurial
         $cmd = sprintf($tmpl, 
                        escapeshellarg($commit), escapeshellarg($this->repo));
         $out = array();
-        IDF_Scm::exec($cmd, $out);
+        exec($cmd, $out);
         $log = array();
         $change = array();
         $inchange = false;
@@ -330,7 +327,7 @@ class IDF_Scm_Mercurial
     {
         $cmd = sprintf(Pluf::f('hg_path', 'hg').' log -R %s -l%s ', escapeshellarg($this->repo), $n, $commit);
         $out = array();
-        IDF_Scm::exec($cmd, $out);
+        exec($cmd, $out);
         return self::parseLog($out, 6);
     }
 

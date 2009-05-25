@@ -221,10 +221,7 @@ class IDF_Views_Source
         $l = array_pop($prev);
         $previous = substr($request_file, 0, -strlen($l.' '));
         $scmConf = $request->conf->getVal('scm', 'git');
-        $props = null;
-        if ($scmConf === 'svn') {
-            $props = $scm->getProperties($commit, $request_file);
-        }
+        $props = $scm->getProperties($commit, $request_file);
         return Pluf_Shortcuts_RenderToResponse('idf/source/'.$scmConf.'/tree.html',
                                                array(
                                                      'page_title' => $page_title,
@@ -335,10 +332,7 @@ class IDF_Views_Source
         $l = array_pop($prev);
         $previous = substr($request_file, 0, -strlen($l.' '));
         $scmConf = $request->conf->getVal('scm', 'git');
-        $props = null;
-        if ($scmConf === 'svn') {
-            $props = $scm->getProperties($commit, $request_file);
-        }
+        $props = $scm->getProperties($commit, $request_file);
         $content = self::highLight($extra['mime'], $scm->getFile($request_file_info));
         return Pluf_Shortcuts_RenderToResponse('idf/source/'.$scmConf.'/file.html',
                                                array(
