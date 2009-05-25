@@ -186,7 +186,7 @@ class IDF_WikiRevision extends Pluf_Model
         }
         $out .= '</td></tr>';
         $out .= "\n".'<tr class="extra"><td colspan="2">
-<div class="helptext right">'.sprintf(__('Change of <a href="%s">%s</a>'), $url, Pluf_esc($page->title)).', '.__('by').' '.$user.'</div></td></tr>'; 
+<div class="helptext right">'.sprintf(__('Change of <a href="%s">%s</a>, by %s'), $url, Pluf_esc($page->title), $user).'</div></td></tr>'; 
         return Pluf_Template::markSafe($out);
     }
 
