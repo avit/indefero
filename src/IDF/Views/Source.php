@@ -204,17 +204,12 @@ class IDF_Views_Source
         $page_title = $bc.' - '.$title;
         $cobject = $scm->getCommit($commit);
         $in_branches = $scm->inBranches($commit, $request_file);
-        try {
-            $cache = Pluf_Cache::factory();
-            $key = sprintf('Project:%s::IDF_Views_Source::tree:%s::%s',
-                           $request->project->id, $commit, $request_file);
-            if (null === ($res=$cache->get($key))) {
-                $res = new Pluf_Template_ContextVars($scm->getTree($commit, $request_file));
-                $cache->set($key, $res);
-            }
-
-        } catch (Exception $e) {
-            throw $e;
+        $cache = Pluf_Cache::factory();
+        $key = sprintf('Project:%s::IDF_Views_Source::tree:%s::%s',
+                       $request->project->id, $commit, $request_file);
+        if (null === ($res=$cache->get($key))) {
+            $res = new Pluf_Template_ContextVars($scm->getTree($commit, $request_file));
+            $cache->set($key, $res);
         }
         // try to find the previous level if it exists.
         $prev = split('/', $request_file);
@@ -326,7 +321,7 @@ class IDF_Views_Source
         $bc = self::makeBreadCrumb($request->project, $commit, $request_file_info->file);
         $page_title = $bc.' - '.$title;
         $cobject = $scm->getCommit($commit);
-        $tree_in = in_array($commit, $branches);
+        $in_branches = $scm->inBranches($commit, $request_file);
         // try to find the previous level if it exists.
         $prev = split('/', $request_file);
         $l = array_pop($prev);
@@ -345,7 +340,7 @@ class IDF_Views_Source
                                                      'fullpath' => $request_file,
                                                      'base' => $request_file_info->file,
                                                      'prev' => $previous,
-                                                     'tree_in' => $tree_in,
+                                                     'tree_in' => $in_branches,
                                                      'branches' => $branches,
                                                      'props' => $props,
                                                      ),
@@ -437,7 +432,7 @@ class IDF_Views_Source
       * @param string File content
       * @return array Mime type found or 'application/octet-stream', basename, extension
       */
-    public static function getMimeTypeFromContent($file, &$filedata)
+    public static function getMimeTypeFromContent($file, $filedata)
     {
         $info = pathinfo($file);
         $res = array('application/octet-stream', 

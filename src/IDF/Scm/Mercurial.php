@@ -207,17 +207,6 @@ class IDF_Scm_Mercurial extends IDF_Scm
             } else {
                 $type = 'blob';
             }
-            if (!$root and !$folder and preg_match('/^.*\/.*$/', $file)) {
-                continue;
-            }
-            if ($folder) {
-                preg_match('|^'.$folder.'[/]?([^/]+)?$|', $file,$match);
-                if (count($match) > 1) {
-                    $file = $match[1];
-                } else {
-                    continue;
-                }
-            }
             if ($totest == $file) {
                 return (object) array('perm' => $perm, 'type' => $type, 
                                       'hash' => $hash, 
@@ -229,19 +218,13 @@ class IDF_Scm_Mercurial extends IDF_Scm
         return false;
     }
       
-    /**
-     * Get a blob.
-     *
-     * @param string request_file_info
-     * @param null to be svn client compatible
-     * @return string Raw blob
-     */
-    public function getBlob($request_file_info, $dummy=null)
+    public function getFile($def, $cmd_only=false)
     {
-        return shell_exec(sprintf(Pluf::f('hg_path', 'hg').' cat -R %s -r %s %s',
-                                           escapeshellarg($this->repo), 
-                                           $dummy,
-                                           escapeshellarg($this->repo . '/' . $request_file_info->file)));
+        $cmd = sprintf(Pluf::f('hg_path', 'hg').' cat -R %s -r %s %s',
+                       escapeshellarg($this->repo), 
+                       escapeshellarg($def->commit), 
+                       escapeshellarg($this->repo.'/'.$def->file));
+        return ($cmd_only) ? $cmd : shell_exec($cmd);
     }
 
     /**

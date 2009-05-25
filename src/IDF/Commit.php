@@ -148,19 +148,7 @@ class IDF_Commit extends Pluf_Model
         $commit = new IDF_Commit();
         $commit->project = $project;
         $commit->scm_id = $change->commit;
-        if (Pluf_Text_UTF8::check($change->title)) {
-            $commit->summary = $change->title;
-            $commit->fullmessage = $change->full_message;
-        } else {
-            // Not in utf8, so we try to detect the encoding and
-            // convert accordingly.
-            $encoding = mb_detect_encoding($change->title, mb_detect_order(), true);
-            if ($encoding == false) {
-                $encoding = Pluf_Text_UTF8::detect_cyr_charset($change->title);
-            }
-            $commit->summary = mb_convert_encoding($change->title, 'UTF-8', $encoding);
-            $commit->fullmessage = mb_convert_encoding($change->full_message, 'UTF-8', $encoding);
-        }
+        list($commit->summary, $commit->fullmessage) = self::toUTF8(array($change->title, $change->full_message));
         $commit->author = $scm->findAuthor($change->author);
         $commit->origauthor = $change->author;
         $commit->creation_dtime = $change->date;
@@ -185,6 +173,38 @@ class IDF_Commit extends Pluf_Model
         }
         
         return $commit;
+    }
+
+    /**
+     * Convert encoding to UTF8.
+     *
+     * If an array is given, the encoding is detected only on the
+     * first value and then used to convert all the strings.
+     *
+     * @param mixed String or array of string to be converted
+     * @return mixed String or array of string
+     */
+    public static function toUTF8($text)
+    {
+        $ref = $text;
+        if (is_array($text)) {
+            $ref = $text[0];
+        }
+        if (Pluf_Text_UTF8::check($ref)) {
+            return $text;
+        }
+        $encoding = mb_detect_encoding($ref, mb_detect_order(), true);
+        if ($encoding == false) {
+            $encoding = Pluf_Text_UTF8::detect_cyr_charset($ref);
+        }
+        if (is_array($text)) {
+            foreach ($text as $t) {
+                $res[] = mb_convert_encoding($t, 'UTF-8', $encoding);
+            }
+            return $res;
+        } else {
+            return mb_convert_encoding($text, 'UTF-8', $encoding);
+        }
     }
 
     /**
