@@ -319,7 +319,10 @@ class IDF_Scm_Git extends IDF_Scm
                            escapeshellarg($commit));
         }
         $out = array();
-        exec($cmd, $out);
+        exec($cmd, $out, $ret);
+        if ($ret != 0) {
+            return false;
+        }
         $log = array();
         $change = array();
         $inchange = false;
