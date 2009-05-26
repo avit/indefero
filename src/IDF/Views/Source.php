@@ -274,6 +274,7 @@ class IDF_Views_Source
         $diff = new IDF_Diff($cobject->changes);
         $diff->parse();
         $scmConf = $request->conf->getVal('scm', 'git');
+        $in_branches = $scm->inBranches($commit, '');
         return Pluf_Shortcuts_RenderToResponse('idf/source/commit.html',
                                                array(
                                                      'page_title' => $page_title,
@@ -282,6 +283,7 @@ class IDF_Views_Source
                                                      'cobject' => $cobject,
                                                      'commit' => $commit,
                                                      'branches' => $branches,
+                                                     'tree_in' => $in_branches,
                                                      'scm' => $scmConf,
                                                      'rcommit' => $rcommit,
                                                      'large_commit' => $large,
