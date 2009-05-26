@@ -926,7 +926,7 @@ msgstr "Ticket <a href=\"%s\">%d</a> : %s"
 #: IDF/Views/Issue.php:298
 #, php-format
 msgid "<a href=\"%s\">Issue %d</a> has been updated."
-msgstr "Le <a href=\"%s\">ticket %d</a> a été mise à jour."
+msgstr "Le <a href=\"%s\">ticket %d</a> a été mis à jour."
 
 #: IDF/Views/Issue.php:329
 #, php-format
