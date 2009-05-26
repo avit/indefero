@@ -171,11 +171,8 @@ class IDF_Views_Issue
                                              $params);
             if (!isset($request->POST['preview']) and $form->isValid()) {
                 $issue = $form->save();
-                $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::index',
-                                                array($prj->shortname));
-                $urlissue = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view',
-                                         array($prj->shortname, $issue->id));
-                $request->user->setMessage(sprintf(__('<a href="%s">Issue %d</a> has been created.'), $urlissue, $issue->id));
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view',
+                                                array($prj->shortname, $issue->id));
                 $to_emails = array();
                 if (null != $issue->get_owner() and $issue->owner != $issue->submitter) {
                     $to_emails[] = $issue->get_owner()->email;
@@ -201,6 +198,7 @@ class IDF_Views_Issue
                     $email->sendMail();
                 }
                 if ($api) return $issue;
+                $request->user->setMessage(sprintf(__('<a href="%s">Issue %d</a> has been created.'), $url, $issue->id));
                 return new Pluf_HTTP_Response_Redirect($url);
             }
         } else {
@@ -291,11 +289,8 @@ class IDF_Views_Issue
                                                  $params);
                 if (!isset($request->POST['preview']) && $form->isValid()) {
                     $issue = $form->save();
-                    $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::index',
-                                                    array($prj->shortname));
-                    $urlissue = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view',
-                                                         array($prj->shortname, $issue->id));
-                    $request->user->setMessage(sprintf(__('<a href="%s">Issue %d</a> has been updated.'), $urlissue, $issue->id));
+                    $comments = $issue->get_comments_list(array('order' => 'id DESC'));
+                    $url .= '#ic' . $comments[0]->id;
                     // Get the list of interested person + owner + submitter
                     if (!Pluf_Model_InArray($issue->get_submitter(), $interested)) {
                         $interested[] = $issue->get_submitter();
@@ -304,15 +299,13 @@ class IDF_Views_Issue
                         !Pluf_Model_InArray($issue->get_owner(), $interested)) {
                         $interested[] = $issue->get_owner();
                     }
-                    $comments = $issue->get_comments_list(array('order' => 'id DESC'));
                     $context = new Pluf_Template_Context(
                             array(
                                   'issue' => $issue,
                                   'comments' => $comments,
                                   'project' => $prj,
                                   'url_base' => Pluf::f('url_base'),
-                                  )
-                                                         );
+                                  ));
                     $tmpl = new Pluf_Template('idf/issues/issue-updated-email.txt');
                     $text_email = $tmpl->render($context);
                     $email = new Pluf_Mail_Batch(Pluf::f('from_email'));
@@ -334,6 +327,7 @@ class IDF_Views_Issue
                         $email->sendMail();
                     }
                     $email->close();
+                    $request->user->setMessage(sprintf(__('<a href="%s">Issue %d</a> has been updated.'), $url, $issue->id));
                     return new Pluf_HTTP_Response_Redirect($url);
                 }
             } else {
