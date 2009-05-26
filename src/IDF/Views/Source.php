@@ -88,6 +88,7 @@ class IDF_Views_Source
         }
         $rchanges = new Pluf_Template_ContextVars($rchanges);
         $scmConf = $request->conf->getVal('scm', 'git');
+        $in_branches = $scm->inBranches($commit, '');
         return Pluf_Shortcuts_RenderToResponse('idf/source/changelog.html',
                                                array(
                                                      'page_title' => $title,
@@ -95,6 +96,7 @@ class IDF_Views_Source
                                                      'changes' => $rchanges,
                                                      'commit' => $commit,
                                                      'branches' => $branches,
+                                                     'tree_in' => $in_branches,
                                                      'scm' => $scmConf,
                                                      ),
                                                $request);
@@ -128,7 +130,6 @@ class IDF_Views_Source
             $res = new Pluf_Template_ContextVars($scm->getTree($commit));
             $cache->set($key, $res);
         }
-        //$tree_in = in_array($commit, $branches);
         $scmConf = $request->conf->getVal('scm', 'git');
         $props = $scm->getProperties($commit);
         return Pluf_Shortcuts_RenderToResponse('idf/source/'.$scmConf.'/tree.html',

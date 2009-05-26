@@ -126,14 +126,10 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
      */
     function callbackCommit($m)
     {
-        try {
-            if ('commit' != $this->scm->testHash($m[0])) {
-                return $m[0]; // not a commit.
-            }
-        } catch (IDF_Scm_Exception $e) {
-            return $m[0]; // commit not found.
-        }
         $co = $this->scm->getCommit($m[0]);
+        if (!$co) {
+            return $m[0]; // not a commit.
+        }
         return '<a href="'
             .Pluf_HTTP_URL_urlForView('IDF_Views_Source::commit', array($this->project->shortname, $co->commit))
             .'">'.$m[0].'</a>';
@@ -141,18 +137,14 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
 
     function callbackSource($m)
     {
-        $branches = $this->scm->getBranches();
-        if (count($branches) == 0) return $m[0];
+        if (!$this->scm->isAvailable()) return $m[0];
         $file = $m[2];
-        if ('commit' != $this->scm->testHash($branches[0], $file)) {
-            return $m[0];
-        }
-        $request_file_info = $this->scm->getFileInfo($file, $branches[0]);
+        $request_file_info = $this->scm->getPathInfo($file);
         if (!$request_file_info) {
             return $m[0];
         }
         if ($request_file_info->type != 'tree') {
-            return $m[1].'<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Source::tree', array($this->project->shortname, $branches[0], $file)).'">'.$m[2].'</a>';
+            return $m[1].'<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Source::tree', array($this->project->shortname, $this->scm->getMainBranch(), $file)).'">'.$m[2].'</a>';
         }
         return $m[0];
     }
