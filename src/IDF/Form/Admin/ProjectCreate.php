@@ -133,6 +133,16 @@ class IDF_Form_Admin_ProjectCreate extends Pluf_Form
                           'IDF_Form_Admin_ProjectCreate', $params);
     }
 
+    public function clean_owners()
+    {
+        return IDF_Form_MembersConf::checkBadLogins($this->cleaned_data['owners']);
+    }
+
+    public function clean_members()
+    {
+        return IDF_Form_MembersConf::checkBadLogins($this->cleaned_data['members']);
+    }
+
     public function clean_svn_remote_url()
     {
         $this->cleaned_data['svn_remote_url'] = (!empty($this->cleaned_data['svn_remote_url'])) ? $this->cleaned_data['svn_remote_url'] : '';
