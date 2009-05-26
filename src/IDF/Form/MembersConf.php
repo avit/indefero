@@ -80,8 +80,7 @@ class IDF_Form_MembersConf extends Pluf_Form
     /**
      * From the input, find the bad logins.
      *
-     * Throw a Pluf_Form_Invalid exception when bad logins are found.
-     *
+     * @throws Pluf_Form_Invalid exception when bad logins are found
      * @param string Comma, new line delimited list of logins
      * @return string Comma, new line delimited list of logins
      */
