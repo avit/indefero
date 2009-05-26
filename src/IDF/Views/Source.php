@@ -38,7 +38,8 @@ class IDF_Views_Source
                                                 'cyc', 'java', 'bsh', 'csh', 
                                                 'sh', 'cv', 'py', 'perl', 'php',
                                                 'pl', 'pm', 'rb', 'js', 'html',
-                                                'html', 'xhtml', 'xml', 'xsl');
+                                                'html', 'vala', 'xhtml', 'xml',
+                                                'xsl');
 
     /**
      * Display help on how to checkout etc.
