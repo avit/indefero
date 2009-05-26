@@ -260,6 +260,7 @@ class IDF_Scm_Svn extends IDF_Scm
         if (isset($this->cache['branches'])) {
             return $this->cache['branches'];
         }
+        $res = array();
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' ls --username=%s --password=%s %s@HEAD',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
@@ -365,13 +366,17 @@ class IDF_Scm_Svn extends IDF_Scm
     /**
      * Get latest changes.
      *
-     * @param string Commit ('HEAD').
+     * @param string Revision or ('HEAD').
      * @param int Number of changes (10).
      *
      * @return array Changes.
      */
     public function getChangeLog($rev='HEAD', $n=10)
     {
+        if ($rev != 'HEAD' and !preg_match('/^\d+$/', $rev)) {
+            // we accept only revisions or HEAD
+            $rev = 'HEAD';
+        }
         $res = array();
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' log --xml -v --limit %s --username=%s --password=%s %s@%s',
                        escapeshellarg($n),
@@ -381,8 +386,6 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($rev));
         $xmlRes = shell_exec($cmd);
         $xml = simplexml_load_string($xmlRes);
-
-        $res = array();
         foreach ($xml->logentry as $entry) {
             $log = array();
             $log['author'] = (string) $entry->author;
@@ -393,7 +396,6 @@ class IDF_Scm_Svn extends IDF_Scm
 
             $res[] = (object) $log;
         }
-
         return $res;
     }
 
