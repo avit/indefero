@@ -375,7 +375,6 @@ class IDF_Project extends Pluf_Model
         $conf = $this->getConf();
         $scm = $conf->getVal('scm', 'git');
         $scms = Pluf::f('allowed_scm');
-        Pluf::loadClass($scms[$scm]);
         return call_user_func(array($scms[$scm], 'getAuthAccessUrl'),
                               $this, $user);
     }

@@ -33,20 +33,16 @@
  */
 class IDF_Scm_Svn extends IDF_Scm
 {
-    public $repo = '';
+
     public $username = '';
     public $password = '';
     private $assoc = array('dir' => 'tree',
                            'file' => 'blob');
 
-    private $commit=array();
-
-    public function __construct($repo, $project=null, $username='', $password='')
+    public function __construct($repo, $project=null)
     {
         $this->repo = $repo;
         $this->project = $project;
-        $this->username = $username;
-        $this->password = $password;
         $this->cache['commitmess'] = array();
     }
 
@@ -116,9 +112,9 @@ class IDF_Scm_Svn extends IDF_Scm
         if (false !== ($rep=$conf->getVal('svn_remote_url', false)) 
             && !empty($rep)) {
             // Remote repository
-            return new IDF_Scm_Svn($rep, $project,
-                                   $conf->getVal('svn_username'),
-                                   $conf->getVal('svn_password'));
+            $scm = new IDF_Scm_Svn($rep, $project);
+            $scm->username = $conf->getVal('svn_username');
+            $scm->password = $conf->getVal('svn_password');
         } else {
             $rep = sprintf(Pluf::f('svn_repositories'), $project->shortname);
             return new IDF_Scm_Svn($rep, $project);
@@ -181,7 +177,7 @@ class IDF_Scm_Svn extends IDF_Scm
         return 'commit';
     }
 
-    public function getTree($rev='HEAD', $folder='')
+    public function getTree($commit, $folder='/', $branch=null)
     {
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' ls --xml --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
@@ -236,20 +232,20 @@ class IDF_Scm_Svn extends IDF_Scm
     /**
      * FIXME: Need to check the case of an inexisting file.
      */
-    public function getPathInfo($totest, $rev='HEAD')
+    public function getPathInfo($file, $rev=null)
     {
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' info --xml --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
-                       escapeshellarg($this->repo.'/'.$totest),
+                       escapeshellarg($this->repo.'/'.$file),
                        escapeshellarg($rev));
         $xml = simplexml_load_string(shell_exec($cmd));
         $entry = $xml->entry;
         $file = array();
-        $file['fullpath'] = $totest;
+        $file['fullpath'] = $file;
         $file['hash'] = (string) $entry->repository->uuid;
         $file['type'] = $this->assoc[(string) $entry['kind']];
-        $file['file'] = $totest;
+        $file['file'] = $file;
         $file['rev'] = $rev; 
         $file['author'] = (string) $entry->author;
         $file['date'] = gmdate('Y-m-d H:i:s', strtotime((string) $entry->commit->date));
@@ -258,14 +254,14 @@ class IDF_Scm_Svn extends IDF_Scm
         return (object) $file;
     }
 
-    public function getFile($def)
+    public function getFile($def, $cmd_only=false)
     {
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' cat --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$def->fullpath),
                        escapeshellarg($def->rev));
-        return shell_exec($cmd);
+        return ($cmd_only) ? $cmd : shell_exec($cmd);
     }
 
     /**
@@ -324,11 +320,11 @@ class IDF_Scm_Svn extends IDF_Scm
     /**
      * Get commit details.
      *
-     * @param string Commit ('HEAD')
+     * @param string Commit
      * @param bool Get commit diff (false)
      * @return array Changes
      */
-    public function getCommit($rev='HEAD', $getdiff=false)
+    public function getCommit($commit, $getdiff=false)
     {
         $res = array();
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' log --xml --limit 1 -v --username=%s --password=%s %s@%s',
@@ -389,11 +385,11 @@ class IDF_Scm_Svn extends IDF_Scm
      *
      * @return array Changes.
      */
-    public function getChangeLog($rev='HEAD', $n=10)
+    public function getChangeLog($branch=null, $n=10)
     {
-        if ($rev != 'HEAD' and !preg_match('/^\d+$/', $rev)) {
+        if ($branch != 'HEAD' and !preg_match('/^\d+$/', $branch)) {
             // we accept only revisions or HEAD
-            $rev = 'HEAD';
+            $branch = 'HEAD';
         }
         $res = array();
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' log --xml -v --limit %s --username=%s --password=%s %s@%s',
@@ -401,7 +397,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo),
-                       escapeshellarg($rev));
+                       escapeshellarg($branch));
         $xmlRes = shell_exec($cmd);
         $xml = simplexml_load_string($xmlRes);
         foreach ($xml->logentry as $entry) {
