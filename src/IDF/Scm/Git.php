@@ -38,11 +38,11 @@ class IDF_Scm_Git extends IDF_Scm
     public function isAvailable()
     {
         try {
-            $this->getBranches();
+            $branches = $this->getBranches();
         } catch (IDF_Scm_Exception $e) {
             return false;
         }
-        return true;
+        return (count($branches) > 0);
     }
 
     public function getBranches()
