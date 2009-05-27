@@ -1,7 +1,7 @@
 {extends "idf/base.html"}
 {block tabsource} class="active"{/block}
 {block subtabs}
-{if array_key_exists($commit, $branches)}{assign $currentCommit =  $commit}{else}{assign $currentCommit = $project.getScmRoot()}{/if}
+{if !$inHelp and array_key_exists($commit, $branches)}{assign $currentCommit =  $commit}{else}{assign $currentCommit = $project.getScmRoot()}{/if}
 <div id="sub-tabs">
 <a {if $inSourceTree}class="active" {/if}href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $currentCommit)}">{trans 'Source Tree'}</a> |
 <a {if $inChangeLog}class="active" {/if}href="{url 'IDF_Views_Source::changeLog', array($project.shortname, $currentCommit)}">{trans 'Change Log'}</a>
