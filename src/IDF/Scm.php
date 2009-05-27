@@ -343,10 +343,12 @@ class IDF_Scm
         $key = 'IDF_Scm:'.$project->shortname.':lastsync'; 
         if (null === ($res=$cache->get($key))) {
             $scm = IDF_Scm::get($project);
-            foreach ($scm->getChangeLog($scm->getMainBranch(), 25) as $change) {
-                IDF_Commit::getOrAdd($change, $project);
+            if ($scm->isAvailable()) {
+                foreach ($scm->getChangeLog($scm->getMainBranch(), 25) as $change) {
+                    IDF_Commit::getOrAdd($change, $project);
+                }
+                $cache->set($key, true, (int)(Pluf::f('cache_timeout', 300)/2));
             }
-            $cache->set($key, true, (int)(Pluf::f('cache_timeout', 300)/2));
         }
     }
 }
