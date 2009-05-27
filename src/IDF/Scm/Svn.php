@@ -86,6 +86,23 @@ class IDF_Scm_Svn extends IDF_Scm
     }
 
     /**
+     * Returns the URL of the subversion repository.
+     *
+     * @param IDF_Project
+     * @return string URL
+     */
+    public static function getAuthAccessUrl($project, $user)
+    {
+        $conf = $project->getConf();
+        if (false !== ($url=$conf->getVal('svn_remote_url', false)) 
+            && !empty($url)) {
+            // Remote repository
+            return $url;
+        }
+        return sprintf(Pluf::f('svn_remote_url'), $project->shortname);
+    }
+
+    /**
      * Returns this object correctly initialized for the project.
      *
      * @param IDF_Project
