@@ -76,7 +76,7 @@ class IDF_Scm_Git extends IDF_Scm
                 return $p;
             }
         }
-        return $branches[0];
+        return (isset($branches[0])) ? $branches[0] : 'master';
     }
 
     /**
