@@ -41,9 +41,10 @@ class IDF_Scm_Svn extends IDF_Scm
 
     private $commit=array();
 
-    public function __construct($repo, $username='', $password='')
+    public function __construct($repo, $project=null, $username='', $password='')
     {
         $this->repo = $repo;
+        $this->project = $project;
         $this->username = $username;
         $this->password = $password;
         $this->cache['commitmess'] = array();
@@ -115,12 +116,12 @@ class IDF_Scm_Svn extends IDF_Scm
         if (false !== ($rep=$conf->getVal('svn_remote_url', false)) 
             && !empty($rep)) {
             // Remote repository
-            return new IDF_Scm_Svn($rep,
+            return new IDF_Scm_Svn($rep, $project,
                                    $conf->getVal('svn_username'),
                                    $conf->getVal('svn_password'));
         } else {
             $rep = sprintf(Pluf::f('svn_repositories'), $project->shortname);
-            return new IDF_Scm_Svn($rep);
+            return new IDF_Scm_Svn($rep, $project);
         }
     }
 

@@ -71,14 +71,6 @@ class IDF_Scm
      */
     protected $cache = array();
 
-    /**
-     * Default constructor.
-     */
-    public function __construct($repo, $project=null)
-    {
-        $this->repo = $repo;
-        $this->project = $project;
-    }
 
     /**
      * Returns an instance of the correct scm backend object.

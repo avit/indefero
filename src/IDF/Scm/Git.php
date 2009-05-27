@@ -35,6 +35,12 @@ class IDF_Scm_Git extends IDF_Scm
      *                                                *
      * ============================================== */ 
 
+    public function __construct($repo, $project=null)
+    {
+        $this->repo = $repo;
+        $this->project = $project;
+    }
+
     public function isAvailable()
     {
         try {

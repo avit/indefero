@@ -27,6 +27,12 @@
  */
 class IDF_Scm_Mercurial extends IDF_Scm
 {
+    public function __construct($repo, $project=null)
+    {
+        $this->repo = $repo;
+        $this->project = $project;
+    }
+
     public static function factory($project)
     {
         $rep = sprintf(Pluf::f('mercurial_repositories'), $project->shortname);
