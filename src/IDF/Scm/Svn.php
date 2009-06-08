@@ -183,7 +183,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$folder),
-                       escapeshellarg($rev));
+                       escapeshellarg($commit));
         $xml = simplexml_load_string(shell_exec($cmd));
         $res = array();
         $folder = (strlen($folder)) ? $folder.'/' : '';
@@ -232,20 +232,23 @@ class IDF_Scm_Svn extends IDF_Scm
     /**
      * FIXME: Need to check the case of an inexisting file.
      */
-    public function getPathInfo($file, $rev=null)
+    public function getPathInfo($filename, $rev=null)
     {
+        if ($rev == null) {
+            $rev = 'HEAD';
+        }
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' info --xml --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
-                       escapeshellarg($this->repo.'/'.$file),
+                       escapeshellarg($this->repo.'/'.$filename),
                        escapeshellarg($rev));
         $xml = simplexml_load_string(shell_exec($cmd));
         $entry = $xml->entry;
         $file = array();
-        $file['fullpath'] = $file;
+        $file['fullpath'] = $filename;
         $file['hash'] = (string) $entry->repository->uuid;
         $file['type'] = $this->assoc[(string) $entry['kind']];
-        $file['file'] = $file;
+        $file['file'] = $filename;
         $file['rev'] = $rev; 
         $file['author'] = (string) $entry->author;
         $file['date'] = gmdate('Y-m-d H:i:s', strtotime((string) $entry->commit->date));
@@ -331,7 +334,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo),
-                       escapeshellarg($rev));
+                       escapeshellarg($commit));
         $xmlRes = shell_exec($cmd);
         $xml = simplexml_load_string($xmlRes);
         $res['author'] = (string) $xml->logentry->author;

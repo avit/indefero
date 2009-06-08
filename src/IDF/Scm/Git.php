@@ -288,6 +288,7 @@ class IDF_Scm_Git extends IDF_Scm
             if ($totest == $file) {
                 return (object) array('perm' => $perm, 'type' => $type, 
                                       'size' => $size, 'hash' => $hash, 
+                                      'fullpath' => $file,
                                       'file' => $file);
             }
         }
