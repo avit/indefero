@@ -341,7 +341,7 @@ class IDF_Scm_Svn extends IDF_Scm
         $res['date'] = gmdate('Y-m-d H:i:s', strtotime((string) $xml->logentry->date));
         $res['title'] = (string) $xml->logentry->msg;
         $res['commit'] = (string) $xml->logentry['revision'];
-        $res['changes'] = ($getdiff) ? $this->getDiff($rev) : '';
+        $res['changes'] = ($getdiff) ? $this->getDiff($commit) : '';
         $res['tree'] = '';
         return (object) $res;
     }
