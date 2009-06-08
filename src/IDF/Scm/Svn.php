@@ -186,7 +186,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($commit));
         $xml = simplexml_load_string(shell_exec($cmd));
         $res = array();
-        $folder = (strlen($folder)) ? $folder.'/' : '';
+        $folder = (strlen($folder) and ($folder != '/')) ? $folder.'/' : '';
         foreach ($xml->list->entry as $entry) {
             $file = array();
             $file['type'] = $this->assoc[(string) $entry['kind']];
@@ -229,9 +229,6 @@ class IDF_Scm_Svn extends IDF_Scm
         return $this->cache['commitmess'][$rev];
     }
 
-    /**
-     * FIXME: Need to check the case of an inexisting file.
-     */
     public function getPathInfo($filename, $rev=null)
     {
         if ($rev == null) {
@@ -243,6 +240,9 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->repo.'/'.$filename),
                        escapeshellarg($rev));
         $xml = simplexml_load_string(shell_exec($cmd));
+        if (!isset($xml->entry)) {
+            return false;
+        }
         $entry = $xml->entry;
         $file = array();
         $file['fullpath'] = $filename;
