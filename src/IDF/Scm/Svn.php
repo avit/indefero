@@ -407,10 +407,10 @@ class IDF_Scm_Svn extends IDF_Scm
             $log = array();
             $log['author'] = (string) $entry->author;
             $log['date'] = gmdate('Y-m-d H:i:s', strtotime((string) $entry->date));
-            $log['title'] = (string) $entry->msg;
+            $split = split("[\n\r]", (string) $entry->msg, 2);
+            $log['title'] = $split[0];
             $log['commit'] = (string) $entry['revision'];
-            $log['full_message'] = '';
-
+            $log['full_message'] = (isset($split[1])) ? trim($split[1]) : '';
             $res[] = (object) $log;
         }
         return $res;

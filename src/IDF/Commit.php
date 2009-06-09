@@ -144,6 +144,9 @@ class IDF_Commit extends Pluf_Model
         if ($r->count() > 0) {
             return $r[0];
         }
+        if (!isset($change->full_message)) {
+            $change->full_message = '';
+        }
         $scm = IDF_Scm::get($project);
         $commit = new IDF_Commit();
         $commit->project = $project;
