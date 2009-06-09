@@ -77,7 +77,7 @@ class IDF_Views_Source
             // Redirect to the first branch
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::changeLog',
                                             array($request->project->shortname,
-                                                  $branches[0]));
+                                                  $scm->getMainBranch()));
             return new Pluf_HTTP_Response_Redirect($url);
         }
         $changes = $scm->getChangeLog($commit, 25);
@@ -263,7 +263,7 @@ class IDF_Views_Source
             // Redirect to the first branch
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
                                             array($request->project->shortname,
-                                                  $branches[0]));
+                                                  $scm->getMainBranch()));
             return new Pluf_HTTP_Response_Redirect($url);
         }
         $title = sprintf(__('%s Commit Details'), (string) $request->project);
@@ -301,7 +301,7 @@ class IDF_Views_Source
             // Redirect to the first branch
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
                                             array($request->project->shortname,
-                                                  $branches[0]));
+                                                  $scm->getMainBranch()));
             return new Pluf_HTTP_Response_Redirect($url);
         }
         $cobject = $scm->getCommit($commit, true);
@@ -366,7 +366,7 @@ class IDF_Views_Source
             // Redirect to the first branch
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
                                             array($request->project->shortname,
-                                                  $branches[0]));
+                                                  $scm->getMainBranch()));
             return new Pluf_HTTP_Response_Redirect($url);
         }
         $request_file_info = $scm->getPathInfo($request_file, $commit);
@@ -374,7 +374,7 @@ class IDF_Views_Source
             // Redirect to the first branch
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
                                             array($request->project->shortname,
-                                                  $branches[0]));
+                                                  $scm->getMainBranch()));
             return new Pluf_HTTP_Response_Redirect($url);
         }
         $info = self::getRequestedFileMimeType($request_file_info, 
@@ -399,7 +399,7 @@ class IDF_Views_Source
             // Redirect to the first branch
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
                                             array($request->project->shortname,
-                                                  $branches[0]));
+                                                  $scm->getMainBranch()));
             return new Pluf_HTTP_Response_Redirect($url);
         }
         $base = $request->project->shortname.'-'.$commit;
