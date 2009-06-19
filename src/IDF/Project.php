@@ -350,8 +350,27 @@ class IDF_Project extends Pluf_Model
     }
 
     /**
+     * Get the access url to the repository.
+     *
+     * This will return the right url based on the user.
+     *
+     * @param Pluf_User The user (null)
+     */
+    public function getSourceAccessUrl($user=null)
+    {
+        $right = $this->getConf()->getVal('source_access_rights', 'all');
+        if (($user == null or $user->isAnonymous()) 
+            and  $right == 'all' and !$this->private) {
+            return $this->getRemoteAccessUrl();
+        }
+        return $this->getWriteRemoteAccessUrl($user);
+    }
+
+
+    /**
      * Get the remote access url to the repository.
      *
+     * This will always return the anonymous access url.
      */
     public function getRemoteAccessUrl()
     {
