@@ -224,21 +224,6 @@ class IDF_Scm_Git extends IDF_Scm
     }
 
     /**
-     * Given a commit hash returns an array of files in it.
-     *
-     * A file is a class with the following properties:
-     *
-     * 'perm', 'type', 'size', 'hash', 'file'
-     *
-     * @param string Commit ('HEAD')
-     * @param string Base folder ('')
-     * @return array 
-     */
-    public function filesAtCommit($commit='HEAD', $folder='')
-    {
-    }
-
-    /**
      * Get the tree info.
      *
      * @param string Tree hash 
@@ -286,10 +271,11 @@ class IDF_Scm_Git extends IDF_Scm
         foreach ($out as $line) {
             list($perm, $type, $hash, $size, $file) = preg_split('/ |\t/', $line, 5, PREG_SPLIT_NO_EMPTY);
             if ($totest == $file) {
+                $pathinfo = pathinfo($file);
                 return (object) array('perm' => $perm, 'type' => $type, 
                                       'size' => $size, 'hash' => $hash, 
                                       'fullpath' => $file,
-                                      'file' => $file);
+                                      'file' => $pathinfo['basename']);
             }
         }
         return false;

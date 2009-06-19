@@ -196,9 +196,11 @@ class IDF_Scm_Mercurial extends IDF_Scm
                 }
                 $tmp .= $dir[$i];
                 if ($tmp == $totest) {
+                    $pathinfo = pathinfo($totest);
                     return (object) array('perm' => '000', 'type' => 'tree', 
                                           'hash' => $hash, 
-                                          'file' => $totest,
+                                          'fullpath' => $totest,
+                                          'file' => $pathinfo['basename'],
                                           'commit' => $commit
                                           );
                 }
@@ -214,9 +216,11 @@ class IDF_Scm_Mercurial extends IDF_Scm
                 $type = 'blob';
             }
             if ($totest == $file) {
+                $pathinfo = pathinfo($totest);
                 return (object) array('perm' => $perm, 'type' => $type, 
                                       'hash' => $hash, 
-                                      'file' => $file,
+                                      'fullpath' => $totest,
+                                      'file' => $pathinfo['basename'],
                                       'commit' => $commit
                                       );
             }

@@ -248,7 +248,8 @@ class IDF_Scm_Svn extends IDF_Scm
         $file['fullpath'] = $filename;
         $file['hash'] = (string) $entry->repository->uuid;
         $file['type'] = $this->assoc[(string) $entry['kind']];
-        $file['file'] = $filename;
+        $pathinfo = pathinfo($filename);
+        $file['file'] = $pathinfo['basename'];
         $file['rev'] = $rev; 
         $file['author'] = (string) $entry->author;
         $file['date'] = gmdate('Y-m-d H:i:s', strtotime((string) $entry->commit->date));

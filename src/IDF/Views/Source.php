@@ -201,7 +201,7 @@ class IDF_Views_Source
             }
         }
 
-        $bc = self::makeBreadCrumb($request->project, $commit, $request_file_info->file);
+        $bc = self::makeBreadCrumb($request->project, $commit, $request_file_info->fullpath);
 
         $page_title = $bc.' - '.$title;
         $cobject = $scm->getCommit($commit);
@@ -322,7 +322,7 @@ class IDF_Views_Source
         $commit = $extra['commit'];
         $request_file = $extra['request_file'];
         $request_file_info = $extra['request_file_info'];
-        $bc = self::makeBreadCrumb($request->project, $commit, $request_file_info->file);
+        $bc = self::makeBreadCrumb($request->project, $commit, $request_file_info->fullpath);
         $page_title = $bc.' - '.$title;
         $cobject = $scm->getCommit($commit);
         $in_branches = $scm->inBranches($commit, $request_file);
