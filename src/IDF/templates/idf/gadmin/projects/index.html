@@ -8,13 +8,15 @@
 
 {block context}
 <div class="issue-submit-info">
+<p><strong>{trans 'Space Usage Statistics'}</strong></p>
 <ul>
-<li>{trans 'Repository size:'} {$size['repositories']|size}</li>
-<li>{trans 'Attachment size:'} {$size['attachments']|size}</li> 
-<li>{trans 'Download size:'} {$size['downloads']|size}</li>
-<li>{trans 'Forge size:'} {$size['total']|size}</li>
+<li>{trans 'Repositories:'} {$size['repositories']|size}</li>
+<li>{trans 'Attachments:'} {$size['attachments']|size}</li> 
+<li>{trans 'Downloads:'} {$size['downloads']|size}</li>
+<li>{trans 'Database:'} {$size['database']|size}</li>
+<li><strong>{trans 'Total Forge:'} {$size['total']|size}</strong></li>
 </ul>
-<p>{trans 'The forge size does not include the database space yet.'}</p>
+
 </div>
 {/block}
 

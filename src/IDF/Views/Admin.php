@@ -327,8 +327,8 @@ function IDF_Views_Admin_getForgeSize()
         .escapeshellarg(Pluf::f('upload_issue_path'));
     $out = split(' ', shell_exec($cmd), 2);
     $res['attachments'] = $out[0]*1024;
-    $res['total'] = $res['repositories'] + $res['downloads'] + $res['attachments'];
-    // TODO: now we need the db
+    $res['database'] = IDF_Views_Admin_getForgeDbSize();
+    $res['total'] = $res['repositories'] + $res['downloads'] + $res['attachments'] + $res['database'];
     return $res;
 }
 
@@ -339,9 +339,36 @@ function IDF_Views_Admin_getForgeSize()
  */
 function IDF_Views_Admin_getForgeDbSize()
 {
-    
-    // MySQL: SHOW TABLE STATUS FROM database; 
-    //        then sum Data_length and Index_length for each table
-    // PostgreSQL: 
-    // Directly stats the database file
+    $db = Pluf::db();
+    if (Pluf::f('db_engine') == 'SQLite') {
+        return filesize(Pluf::f('db_database'));
+    }
+    switch (Pluf::f('db_engine')) {
+    case 'PostgreSQL':
+        $sql = 'SELECT relname, pg_total_relation_size(relname) AS size FROM pg_class AS pgc, pg_namespace AS pgn 
+     WHERE pg_table_is_visible(pgc.oid) IS TRUE AND relkind = \'r\'
+     AND pgc.relnamespace = pgn.oid
+     AND pgn.nspname NOT IN (\'information_schema\', \'pg_catalog\')';
+        break;
+    case 'MySQL':
+    default:
+        $sql = 'SHOW TABLE STATUS FROM '.Pluf::f('db_database');
+        break;
+    }
+    $rs = $db->select($sql);
+    $total = 0;
+    switch (Pluf::f('db_engine')) {
+    case 'PostgreSQL':
+        foreach ($rs as $table) {
+            $total += $table['size'];
+        }
+        break;
+    case 'MySQL':
+    default:
+        foreach ($rs as $table) {
+            $total += $table['Data_length'] + $table['Index_length'];
+        }
+        break;
+    }
+    return $total;
 }
