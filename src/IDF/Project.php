@@ -350,6 +350,24 @@ class IDF_Project extends Pluf_Model
     }
 
     /**
+     * Get the repository size.
+     *
+     * @param bool Force to skip the cache (false)
+     * @return int Size in byte or -1 if not available
+     */
+    public function getRepositorySize($force=false)
+    {
+        $last_eval = $this->getConf()->getVal('repository_size_check_date', 0);
+        if (!$force and $last_eval > time()-86400) {
+            return $this->getConf()->getVal('repository_size', -1);
+        }
+        $scm = IDF_Scm::get($this);
+        $this->getConf()->setVal('repository_size', $scm->getRepositorySize());
+        $this->getConf()->setVal('repository_size_check_date', time());
+        return $this->getConf()->getVal('repository_size', -1);
+    }
+
+    /**
      * Get the access url to the repository.
      *
      * This will return the right url based on the user.

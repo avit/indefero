@@ -510,6 +510,7 @@ class IDF_Views_Project
                                                      'remote_svn' => $remote_svn,
                                                      'repository_access' => $prj->getRemoteAccessUrl(),
                                                      'repository_type' => $repository_type,
+                                                     'repository_size' => $prj->getRepositorySize(),
                                                      'page_title' => $title,
                                                      'form' => $form,
                                                      ),

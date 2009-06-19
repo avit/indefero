@@ -41,6 +41,14 @@ class IDF_Scm_Git extends IDF_Scm
         $this->project = $project;
     }
 
+    public function getRepositorySize()
+    {
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -bs '
+            .escapeshellarg($this->repo);
+        $out = split(' ', shell_exec($cmd), 2);
+        return (int) $out[0];
+    }
+
     public function isAvailable()
     {
         try {

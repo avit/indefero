@@ -51,6 +51,17 @@ class IDF_Scm_Svn extends IDF_Scm
         return true;
     }
 
+    public function getRepositorySize()
+    {
+        if (strpos($this->repo, 'file://') !== 0) {
+            return -1;
+        }
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -bs '
+            .escapeshellarg(substr($this->repo, 7));
+        $out = split(' ', shell_exec($cmd), 2);
+        return (int) $out[0];
+    }
+
     /**
      * Given the string describing the author from the log find the
      * author in the database.

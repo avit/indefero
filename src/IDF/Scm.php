@@ -88,6 +88,16 @@ class IDF_Scm
     }
 
     /**
+     * Return the size of the repository in bytes.
+     *
+     * @return int Size in byte, -1 if the size cannot be evaluated.
+     */
+    public function getRepositorySize()
+    {
+        return -1;
+    }
+
+    /**
      * Returns the URL of the git daemon.
      *
      * @param IDF_Project
