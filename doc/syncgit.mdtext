@@ -70,6 +70,9 @@ folder. Here is a configuration example:
     $cfg['idf_plugin_syncgit_path_gitserve'] = '/home/www/indefero/scripts/gitserve.py'; # yes .py
     $cfg['idf_plugin_syncgit_path_authorized_keys'] = '/home/git/.ssh/authorized_keys';
     $cfg['idf_plugin_syncgit_sync_file'] = '/tmp/SYNC-GIT';
+    # Remove the git repositories which do not have a corresponding project
+    # This is run at cron time
+    $cfg['idf_plugin_syncgit_remove_orphans'] = false;
 
 When someone will change his SSH key or add a new one, the
 `/tmp/SYNC-GIT` file will be created. The cron job

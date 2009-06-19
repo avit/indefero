@@ -70,6 +70,44 @@ class IDF_Plugin_SyncGit_Cron
     }
 
     /**
+     * Remove orphan repositories.
+     */
+    public static function removeOrphanRepositories()
+    {
+        $path = Pluf::f('idf_plugin_syncgit_base_repositories', '/home/git/repositories');
+        if (!is_dir($path) || is_link($path)) {
+            throw new Pluf_Exception_SettingError(sprintf(
+                'Directory %s does not exist! Setting "idf_plugin_syncgit_base_repositories not set.',
+                $path));
+        }
+        if (!is_writable($path)) {
+            throw new Exception(sprintf('Repository %s is not writable.', $path));
+        }
+        $projects = array();
+        foreach (Pluf::factory('IDF_Project')->getList() as $project) {
+            $projects[] = $project->shortname;
+        }
+        unset($project);
+        $it = new DirectoryIterator($path);
+        $orphans = array();
+        while ($it->valid()) {
+            if (!$it->isDot() && $it->isDir() && !in_array(basename($it->getFileName(), '.git'), $projects)) {
+                $orphans[] = $it->getPathName();
+            }
+            $it->next();
+        }
+        if (count($orphans)) {
+            $cmd = Pluf::f('idf_exec_cmd_prefix', '').'rm -rf '.implode(' ', $orphans);
+            exec($cmd);
+            while (list(, $project) = each($orphans)) {
+                if (is_dir($project)) {
+                    throw new Exception(sprintf('Cannot remove %s directory.', $project));
+                }
+            }
+        }
+    }
+
+    /**
      * Check if a sync is needed.
      *
      */
@@ -79,6 +117,9 @@ class IDF_Plugin_SyncGit_Cron
             @unlink(Pluf::f('idf_plugin_syncgit_sync_file'));
             self::sync();
             self::markExport();
+            if (Pluf::f('idf_plugin_syncgit_remove_orphans', false)) {
+                self::removeOrphanRepositories();
+            }
         }
     }
 }
