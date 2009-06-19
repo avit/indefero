@@ -35,10 +35,10 @@ class IDF_Scm_Mercurial extends IDF_Scm
 
     public function getRepositorySize()
     {
-        $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -bs '
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -sk '
             .escapeshellarg($this->repo);
         $out = split(' ', shell_exec($cmd), 2);
-        return (int) $out[0];
+        return (int) $out[0]*1024;
     }
 
     public static function factory($project)

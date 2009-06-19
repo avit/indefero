@@ -319,14 +319,14 @@ function IDF_Views_Admin_getForgeSize()
             $res['repositories'] += $size;
         }
     }
-    $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -bs '
+    $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -sk '
         .escapeshellarg(Pluf::f('upload_path'));
     $out = split(' ', shell_exec($cmd), 2);
-    $res['downloads'] = $out[0];
-    $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -bs '
+    $res['downloads'] = $out[0]*1024;
+    $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -sk '
         .escapeshellarg(Pluf::f('upload_issue_path'));
     $out = split(' ', shell_exec($cmd), 2);
-    $res['attachments'] = $out[0];
+    $res['attachments'] = $out[0]*1024;
     $res['total'] = $res['repositories'] + $res['downloads'] + $res['attachments'];
     // TODO: now we need the db
     return $res;
