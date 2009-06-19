@@ -335,6 +335,10 @@ div.container {
 /**
  * Tabs
  */
+#main-tabs { 
+  line-height: normal;
+}
+
 #main-tabs a { 
   background-color: #d3d7cf;
   -moz-border-radius: 3px 3px 0 0;
