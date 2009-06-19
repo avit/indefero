@@ -1,8 +1,21 @@
 {extends "idf/gadmin/projects/base.html"}
 
-{block docclass}yui-t2{assign $inIndex=true}{/block}
+{block docclass}yui-t3{assign $inIndex=true}{/block}
 
 {block body}
 {$projects.render}
 {/block}
+
+{block context}
+<div class="issue-submit-info">
+<ul>
+<li>{trans 'Repository size:'} {$size['repositories']|size}</li>
+<li>{trans 'Attachment size:'} {$size['attachments']|size}</li> 
+<li>{trans 'Download size:'} {$size['downloads']|size}</li>
+<li>{trans 'Forge size:'} {$size['total']|size}</li>
+</ul>
+<p>{trans 'The forge size does not include the database space yet.'}</p>
+</div>
+{/block}
+
 

@@ -64,9 +64,11 @@ class IDF_Views_Admin
         $list_display = array(
              'shortname' => __('Short Name'),
              'name' => __('Name'),
+             array('id', 'IDF_Views_Admin_projectSize', __('Repository Size')),
                               );
         $pag->configure($list_display, array(), 
                         array('shortname'));
+        $pag->extra_classes = array('', '', 'right');
         $pag->items_per_page = 25;
         $pag->no_results_text = __('No projects were found.');
         $pag->setFromRequest($request);
@@ -74,6 +76,7 @@ class IDF_Views_Admin
                                                array(
                                                      'page_title' => $title,
                                                      'projects' => $pag,
+                                                     'size' => IDF_Views_Admin_getForgeSize(),
                                                      ),
                                                $request);
     }
@@ -283,4 +286,62 @@ function IDF_Views_Admin_bool($field, $item)
     $img = ($item->$field) ? 'day' : 'night';
     $text = ($item->$field) ? __('Yes') : __('No');
     return sprintf('<img src="'.Pluf::f('url_media').'/idf/img/%s.png" alt="%s" /> ', $img, $text);
+}
+
+/**
+ * Display the size of the project.
+ *
+ * @param string Field 
+ * @param IDF_Project
+ * @return string
+ */
+function IDF_Views_Admin_projectSize($field, $project)
+{
+    $size = $project->getRepositorySize();
+    if ($size == -1) {
+        return '';
+    }
+    return Pluf_Utils::prettySize($size);
+}
+
+/**
+ * Get a forge size.
+ *
+ * @return array Associative array with the size of each element
+ */
+function IDF_Views_Admin_getForgeSize()
+{
+    $res = array();
+    $res['repositories'] = 0;
+    foreach (Pluf::factory('IDF_Project')->getList() as $prj) {
+        $size = $prj->getRepositorySize();
+        if ($size != -1) {
+            $res['repositories'] += $size;
+        }
+    }
+    $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -bs '
+        .escapeshellarg(Pluf::f('upload_path'));
+    $out = split(' ', shell_exec($cmd), 2);
+    $res['downloads'] = $out[0];
+    $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -bs '
+        .escapeshellarg(Pluf::f('upload_issue_path'));
+    $out = split(' ', shell_exec($cmd), 2);
+    $res['attachments'] = $out[0];
+    $res['total'] = $res['repositories'] + $res['downloads'] + $res['attachments'];
+    // TODO: now we need the db
+    return $res;
+}
+
+/**
+ * Get the database size as given by the database.
+ *
+ * @return int Database size
+ */
+function IDF_Views_Admin_getForgeDbSize()
+{
+    
+    // MySQL: SHOW TABLE STATUS FROM database; 
+    //        then sum Data_length and Index_length for each table
+    // PostgreSQL: 
+    // Directly stats the database file
 }
