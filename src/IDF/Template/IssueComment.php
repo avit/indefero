@@ -44,7 +44,7 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
                                  '<a href="\1">\1</a>', $text);
         }
         if ($request->rights['hasIssuesAccess']) {
-            $text = preg_replace_callback('#(issues?|bugs?|tickets?)\s+(\d+)((\s+and|\s+or|,)\s+(\d+)){0,}#im',
+            $text = preg_replace_callback('#(issues?|bugs?|tickets?)\s+(\d+)(\#ic\d*){0,1}((\s+and|\s+or|,)\s+(\d+)(\#ic\d*){0,1}){0,}#im',
                                           array($this, 'callbackIssues'), $text);
         }
         if ($request->rights['hasSourceAccess']) {
@@ -66,10 +66,14 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
      */
     function callbackIssues($m)
     {
-        if (count($m) == 3) {
+        if (count($m) == 3 || count($m) == 4) {
             $issue = new IDF_Issue($m[2]);
             if ($issue->id > 0 and $issue->project == $this->project->id) {
-                return $this->linkIssue($issue, $m[1].' '.$m[2]);
+                if (count($m) == 3) {
+                	return $this->linkIssue($issue, $m[1].' '.$m[2]);
+                } else {
+                    return $this->linkIssue($issue, $m[1].' '.$m[2], $m[3]);
+                }
             } else {
                 return $m[0]; // not existing issue.
             }
@@ -156,10 +160,10 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
      * @param string Name of the link.
      * @return string Linked issue.
      */
-    public function linkIssue($issue, $title)
+    public function linkIssue($issue, $title, $anchor='')
     {
         $ic = (in_array($issue->status, $this->project->getTagIdsByStatus('closed'))) ? 'issue-c' : 'issue-o';
         return '<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view', 
-                                                    array($this->project->shortname, $issue->id)).'" class="'.$ic.'" title="'.Pluf_esc($issue->summary).'">'.Pluf_esc($title).'</a>';
+                                                    array($this->project->shortname, $issue->id)).$anchor.'" class="'.$ic.'" title="'.Pluf_esc($issue->summary).'">'.Pluf_esc($title).'</a>';
     }
 }
