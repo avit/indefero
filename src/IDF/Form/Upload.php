@@ -44,6 +44,16 @@ class IDF_Form_Upload extends Pluf_Form
                                                        'size' => 67,
                                                                     ),
                                             ));
+        $this->fields['changelog'] = new Pluf_Form_Field_Varchar(
+                                      array('required' => false,
+                                            'label' => __('Description'),
+                                            'initial' => '',
+                                            'widget' => 'Pluf_Form_Widget_TextareaInput',
+                                            'widget_attrs' => array(
+                                                       'cols' => 58,
+                                                       'rows' => 13,
+                                                                    ),
+                                            ));
         $this->fields['file'] = new Pluf_Form_Field_File(
                                       array('required' => true,
                                             'label' => __('File'),
@@ -155,6 +165,7 @@ class IDF_Form_Upload extends Pluf_Form
         $upload->project = $this->project;
         $upload->submitter = $this->user;
         $upload->summary = trim($this->cleaned_data['summary']);
+        $upload->changelog = trim($this->cleaned_data['changelog']);
         $upload->file = $this->cleaned_data['file'];
         $upload->filesize = filesize(Pluf::f('upload_path').'/'.$this->project->shortname.'/files/'.$this->cleaned_data['file']);
         $upload->downloads = 0;

@@ -46,6 +46,16 @@ class IDF_Form_UpdateUpload extends Pluf_Form
                                                        'size' => 67,
                                                                     ),
                                             ));
+        $this->fields['changelog'] = new Pluf_Form_Field_Varchar(
+                                      array('required' => false,
+                                            'label' => __('Description'),
+                                            'initial' => $this->upload->changelog,
+                                            'widget' => 'Pluf_Form_Widget_TextareaInput',
+                                            'widget_attrs' => array(
+                                                       'cols' => 58,
+                                                       'rows' => 13,
+                                                                    ),
+                                            ));
         $tags = $this->upload->get_tags_list();
         for ($i=1;$i<7;$i++) {
             $initial = '';
@@ -132,6 +142,7 @@ class IDF_Form_UpdateUpload extends Pluf_Form
         }
         // Create the upload
         $this->upload->summary = trim($this->cleaned_data['summary']);
+        $this->upload->changelog = trim($this->cleaned_data['changelog']);
         $this->upload->modif_dtime = gmdate('Y-m-d H:i:s');
         $this->upload->update();
         $this->upload->batchAssoc('IDF_Tag', $tags);

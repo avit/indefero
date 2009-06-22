@@ -56,6 +56,12 @@ class IDF_Upload extends Pluf_Model
                                   'size' => 250,
                                   'verbose' => __('summary'),
                                   ),
+                            'changelog' =>
+                            array(
+                                  'type' => 'Pluf_DB_Field_Text',
+                                  'blank' => true,
+                                  'verbose' => __('changes'),
+                                  ),
                             'file' =>
                             array(
                                   'type' => 'Pluf_DB_Field_File',

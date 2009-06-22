@@ -626,11 +626,15 @@ div.download-file {
   background-repeat: no-repeat;
   background-position: 1em 1em;
   font-size: 140%;
-  margin-bottom: 3em;
+  margin-bottom: 1.5em;
   background-color: #bbe394;
   width: 40%;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
+}
+
+table.download { 
+  margin-top: 1.5em;
 }
 
 /**

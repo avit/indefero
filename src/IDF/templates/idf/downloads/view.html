@@ -6,7 +6,11 @@
 {if $deprecated}<p class="smaller">{blocktrans}<strong>Attention!</strong> This file is marked as deprecated, download it only if you are sure you need this specific version.{/blocktrans}</p>{/if}
 <a href="{url 'IDF_Views_Download::download', array($project.shortname, $file.id)}">{$file}</a> - {$file.filesize|size}
 </div>
+{if $file.changelog}
+<h2 class="changes">{trans 'Changes'}</h2>
 
+{markdown $file.changelog, $request}
+{/if}
 
 {if $form}
 {if $form.errors}
@@ -19,11 +23,17 @@
 {/if}
 
 <form method="post" enctype="multipart/form-data" action=".">
-<table class="form" summary="">
+<table class="form download" summary="">
 <tr>
 <th><strong>{$form.f.summary.labelTag}:</strong></th>
 <td>{if $form.f.summary.errors}{$form.f.summary.fieldErrors}{/if}
 {$form.f.summary|unsafe}
+</td>
+</tr>
+<tr>
+<th>{$form.f.changelog.labelTag}:</th>
+<td>{if $form.f.changelog.errors}{$form.f.changelog.fieldErrors}{/if}
+{$form.f.changelog|unsafe}
 </td>
 </tr>
 <tr>
