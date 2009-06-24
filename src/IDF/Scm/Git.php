@@ -134,7 +134,9 @@ class IDF_Scm_Git extends IDF_Scm
     {
         $folder = ($folder == '/') ? '' : $folder;
         // now we grab the info about this commit including its tree.
-        $co = $this->getCommit($commit);
+        if (false == ($co = $this->getCommit($commit))) {
+            return false;
+        }
         if ($folder) {
             // As we are limiting to a given folder, we need to find
             // the tree corresponding to this folder.
@@ -321,7 +323,7 @@ class IDF_Scm_Git extends IDF_Scm
         }
         $out = array();
         exec($cmd, $out, $ret);
-        if ($ret != 0) {
+        if ($ret != 0 or count($out) == 0) {
             return false;
         }
         $log = array();
