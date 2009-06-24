@@ -126,6 +126,7 @@ class IDF_Scm_Svn extends IDF_Scm
             $scm = new IDF_Scm_Svn($rep, $project);
             $scm->username = $conf->getVal('svn_username');
             $scm->password = $conf->getVal('svn_password');
+            return $scm;
         } else {
             $rep = sprintf(Pluf::f('svn_repositories'), $project->shortname);
             return new IDF_Scm_Svn($rep, $project);
