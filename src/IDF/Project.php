@@ -586,6 +586,28 @@ class IDF_Project extends Pluf_Model
      */
     public function preDelete()
     {
+        /**
+         * [signal]
+         *
+         * IDF_Project::preDelete
+         *
+         * [sender]
+         *
+         * IDF_Project
+         *
+         * [description]
+         *
+         * This signal allows an application to perform special
+         * operations at the deletion of a project.
+         *
+         * [parameters]
+         *
+         * array('project' => $project)
+         *
+         */
+        $params = array('project' => $this);
+        Pluf_Signal::send('IDF_Project::preDelete',
+                          'IDF_Project', $params);
         $what = array('IDF_Upload', 'IDF_Review', 'IDF_Issue',
                       'IDF_WikiPage', 'IDF_Commit',
                       );

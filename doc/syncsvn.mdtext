@@ -66,6 +66,8 @@ need to put the following in your configuration file:
     $cfg['idf_plugin_syncsvn_authz_file'] = '/home/svn/dav_svn.authz';
     $cfg['idf_plugin_syncsvn_passwd_file'] = '/home/svn/dav_svn.passwd';
     $cfg['idf_plugin_syncsvn_svn_path'] = '/home/svn/repositories'; 
+    // Delete the corresponding repository when deleting the project
+    $cfg['idf_plugin_syncsvn_remove_orphans'] = false;
 
 You can have more control over the permissions given to the owners,
 members, extra authorized users and anonymous users if you want with
