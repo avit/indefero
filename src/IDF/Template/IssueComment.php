@@ -37,7 +37,6 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
         $this->project = $request->project;
         $this->request = $request;
         $this->scm = IDF_Scm::get($request->project);
-        if ($wordwrap) $text = wordwrap($text, 69, "\n", true);
         if ($esc) $text = Pluf_esc($text);
         if ($autolink) {
             $text = preg_replace('#([a-z]+://[^\s\(\)]+)#i',
@@ -53,6 +52,7 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
             $text = preg_replace_callback('#(src:)([^\s\(\)]+)#im',
                                           array($this, 'callbackSource'), $text);
         }
+        if ($wordwrap) $text = Pluf_Text::wrapHtml($text, 69, "\n");
         if ($nl2br) $text = nl2br($text);
         if ($echo) {
             echo $text;
