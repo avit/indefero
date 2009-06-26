@@ -65,6 +65,11 @@ class IDF_Views_Source
         $title = sprintf(__('%1$s %2$s Change Log'), (string) $request->project,
                          $this->getScmType($request));
         $scm = IDF_Scm::get($request->project);
+        if (!$scm->isAvailable()) {
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::help',
+                                            array($request->project->shortname));
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
         $branches = $scm->getBranches();
         $commit = $match[2];
         if (!$scm->isValidRevision($commit)) {
