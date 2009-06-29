@@ -107,16 +107,19 @@ $(document).ready(function(){
     $("#form-show-0").click(function(){
         $("#form-attachment-1").show();
         $("#form-block-0").hide();
+        return false;
     });
     $("#form-attachment-1 td").append("<span id=\"form-block-1\"><a id=\"form-show-1\" href=\"#\">{/literal}{trans 'Attach another file'}{literal}</a></span>");
     $("#form-show-1").click(function(){
             $("#form-attachment-2").show();
             $("#form-block-1").hide();
+            return false;
         });
     $("#form-attachment-2 td").append("<span id=\"form-block-2\"><a id=\"form-show-2\" href=\"#\">{/literal}{trans 'Attach another file'}{literal}</a></span>");
     $("#form-show-2").click(function(){
             $("#form-attachment-3").show();
             $("#form-block-2").hide();
+            return false;
         });
     var j=0;
     for (j=1;j<4;j=j+1) {
