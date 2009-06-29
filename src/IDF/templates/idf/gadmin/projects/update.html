@@ -35,8 +35,9 @@
 <tr>
 <td>&nbsp;</td>
 <td> {aurl 'url', 'IDF_Views_Admin::projectDelete', array($project.id)}
-<input type="submit" value="{trans 'Update Project'}" name="submit" /> 
-| <a href="{url 'IDF_Views_Admin::projects'}">{trans 'Cancel'}</a> {if $isAdmin}
+{* float left is a fix for Firefox < 3.5 *}
+<span style="float: left;"><input type="submit" value="{trans 'Update Project'}" name="submit" /> 
+| <a href="{url 'IDF_Views_Admin::projects'}">{trans 'Cancel'}</a></span> {if $isAdmin}
  <span class="dellink"><a href="{$url}" title="{trans 'Delete this project'}"><img src="{media '/idf/img/trash.png'}" style="vertical-align: text-bottom;" alt="{trans 'Trash'}" /></a> <a href="{$url}" title="{trans 'Delete this project'}">{trans 'Delete this project'}</a><br /><span class="note helptext">{trans 'You will be ask to confirm.'}</span></span>{/if}
 </td>
 </tr>

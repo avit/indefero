@@ -49,7 +49,8 @@
 </tr>
 <tr>
 <td>&nbsp;</td>{aurl 'url', 'IDF_Views_Download::delete', array($project.shortname, $file.id)}
-<td><input type="submit" value="{trans 'Update File'}" name="submit" /> | <a href="{url 'IDF_Views_Download::index', array($project.shortname)}">{trans 'Cancel'}</a> <span class="dellink"><a href="{$url}" title="{trans 'Remove this file'}"><img src="{media '/idf/img/trash.png'}" style="vertical-align: text-bottom;" alt="{trans 'Trash'}" /></a> <a href="{$url}" title="{trans 'Remove this file'}">{trans 'Delete this file'}</a></span>
+<td>{* float left is a fix for Firefox < 3.5 *}
+<span style="float: left;"><input type="submit" value="{trans 'Update File'}" name="submit" /> | <a href="{url 'IDF_Views_Download::index', array($project.shortname)}">{trans 'Cancel'}</a></span> <span class="dellink"><a href="{$url}" title="{trans 'Remove this file'}"><img src="{media '/idf/img/trash.png'}" style="vertical-align: text-bottom;" alt="{trans 'Trash'}" /></a> <a href="{$url}" title="{trans 'Remove this file'}">{trans 'Delete this file'}</a></span>
 </td>
 </tr>
 </table>

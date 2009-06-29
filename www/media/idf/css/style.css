@@ -54,7 +54,6 @@ a:active{
 .dellink { 
   float: right; 
   position: relative; 
-  margin-top: -1.6em;
 }
 
 .dellink a { 
