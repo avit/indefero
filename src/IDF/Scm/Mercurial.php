@@ -84,6 +84,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
         $cmd = sprintf(Pluf::f('hg_path', 'hg').' log -R %s -r %s',
                        escapeshellarg($this->repo),
                        escapeshellarg($rev));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec($cmd, $out, $ret);
         return ($ret == 0);
     }
@@ -102,6 +103,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
                        escapeshellarg($hash));
         $ret = 0; 
         $out = array();
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec($cmd, $out, $ret);
         return ($ret != 0) ? false : 'commit'; 
     }
@@ -145,6 +147,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
         $cmd = sprintf($cmd_tmpl, escapeshellarg($this->repo), $tree, ($recurse) ? '' : ''); 
         $out = array();
         $res = array();
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec($cmd, $out);
         $tmp_hack = array();
         while (null !== ($line = array_pop($out))) {
@@ -191,6 +194,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
         $cmd_tmpl = Pluf::f('hg_path', 'hg').' manifest -R %s --debug -r %s';
         $cmd = sprintf($cmd_tmpl, escapeshellarg($this->repo), $commit); 
         $out = array();
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec($cmd, $out);
         $tmp_hack = array();
         while (null !== ($line = array_pop($out))) {
@@ -242,6 +246,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
                        escapeshellarg($this->repo), 
                        escapeshellarg($def->commit), 
                        escapeshellarg($this->repo.'/'.$def->file));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         return ($cmd_only) ? $cmd : shell_exec($cmd);
     }
 
@@ -256,6 +261,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
             return $this->cache['branches'];
         }
         $out = array();
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec(sprintf(Pluf::f('hg_path', 'hg').' branches -R %s', 
                               escapeshellarg($this->repo)), $out);
         $res = array();
@@ -287,6 +293,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
         $cmd = sprintf($tmpl, 
                        escapeshellarg($commit), escapeshellarg($this->repo));
         $out = array();
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec($cmd, $out);
         $log = array();
         $change = array();
@@ -328,6 +335,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
     {
         $cmd = sprintf(Pluf::f('hg_path', 'hg').' log -R %s -l%s ', escapeshellarg($this->repo), $n, $commit);
         $out = array();
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec($cmd, $out);
         return self::parseLog($out, 6);
     }

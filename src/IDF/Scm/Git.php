@@ -28,6 +28,7 @@
 class IDF_Scm_Git extends IDF_Scm
 {
     public $mediumtree_fmt = 'commit %H%nAuthor: %an <%ae>%nTree: %T%nDate: %ai%n%n%s%n%n%b';
+    public $date_fmt = 
     
     /* ============================================== *
      *                                                *
@@ -228,6 +229,7 @@ class IDF_Scm_Git extends IDF_Scm
                        escapeshellarg($this->repo),
                        escapeshellarg($hash));
         $ret = 0; $out = array();
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec($cmd, $out, $ret);
         if ($ret != 0) return false;
         return trim($out[0]);
@@ -277,6 +279,7 @@ class IDF_Scm_Git extends IDF_Scm
                        escapeshellarg($this->repo), 
                        escapeshellarg($commit));
         $out = array();
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec($cmd, $out);
         foreach ($out as $line) {
             list($perm, $type, $hash, $size, $file) = preg_split('/ |\t/', $line, 5, PREG_SPLIT_NO_EMPTY);
@@ -322,6 +325,7 @@ class IDF_Scm_Git extends IDF_Scm
                            escapeshellarg($commit));
         }
         $out = array();
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec($cmd, $out, $ret);
         if ($ret != 0 or count($out) == 0) {
             return false;
@@ -357,6 +361,7 @@ class IDF_Scm_Git extends IDF_Scm
                        "'commit %H%n'", 
                        escapeshellarg($commit));
         $out = array();
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec($cmd, $out);
         $affected = count($out) - 2;
         $added = 0;
@@ -389,6 +394,7 @@ class IDF_Scm_Git extends IDF_Scm
                        escapeshellarg($this->repo), $n, $this->mediumtree_fmt, 
                        escapeshellarg($commit));
         $out = array();
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec($cmd, $out);
         return self::parseLog($out, 4);
     }

@@ -146,6 +146,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo),
                        escapeshellarg($rev));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec($cmd, $out, $ret);
         return (0 == $ret);
     }
@@ -170,6 +171,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$path),
                        escapeshellarg($rev));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $xmlInfo = shell_exec($cmd);
 
         // If exception is thrown, return false
@@ -196,6 +198,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$folder),
                        escapeshellarg($commit));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $xml = simplexml_load_string(shell_exec($cmd));
         $res = array();
         $folder = (strlen($folder) and ($folder != '/')) ? $folder.'/' : '';
@@ -236,6 +239,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo),
                        escapeshellarg($rev));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $xml = simplexml_load_string(shell_exec($cmd));
         $this->cache['commitmess'][$rev] = (string) $xml->logentry->msg;
         return $this->cache['commitmess'][$rev];
@@ -251,6 +255,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$filename),
                        escapeshellarg($rev));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $xml = simplexml_load_string(shell_exec($cmd));
         if (!isset($xml->entry)) {
             return false;
@@ -277,6 +282,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$def->fullpath),
                        escapeshellarg($def->rev));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         return ($cmd_only) ? $cmd : shell_exec($cmd);
     }
 
@@ -295,6 +301,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/branches'));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec($cmd, $out, $ret);
         if ($ret == 0) {
             foreach ($out as $entry) {
@@ -309,6 +316,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/trunk'));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec($cmd, $out, $ret);
         if ($ret == 0) {
             $res = array('trunk' => 'trunk') + $res;
@@ -348,6 +356,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo),
                        escapeshellarg($commit));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $xmlRes = shell_exec($cmd);
         $xml = simplexml_load_string($xmlRes);
         $res['author'] = (string) $xml->logentry->author;
@@ -376,6 +385,7 @@ class IDF_Scm_Svn extends IDF_Scm
         $cmd = sprintf(Pluf::f('svnlook_path', 'svnlook').' changed -r %s %s',
                        escapeshellarg($commit),
                        escapeshellarg($repo));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $out = shell_exec($cmd);
         $lines = preg_split("/\015\012|\015|\012/", $out);
         return (count($lines) > 100);
@@ -389,6 +399,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         return shell_exec($cmd);
     }
 
@@ -414,6 +425,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo),
                        escapeshellarg($branch));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $xmlRes = shell_exec($cmd);
         $xml = simplexml_load_string($xmlRes);
         foreach ($xml->logentry as $entry) {
@@ -445,6 +457,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$path),
                        escapeshellarg($rev));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $xmlProps = shell_exec($cmd);
         $props = simplexml_load_string($xmlProps);
 
@@ -480,6 +493,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo.'/'.$path),
                        escapeshellarg($rev));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $xmlProp = shell_exec($cmd);
         $prop = simplexml_load_string($xmlProp);
 
@@ -502,6 +516,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($this->password),
                        escapeshellarg($this->repo),
                        escapeshellarg($rev));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $xmlInfo = shell_exec($cmd);
 
         $xml = simplexml_load_string($xmlInfo);
