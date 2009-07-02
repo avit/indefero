@@ -28,7 +28,6 @@
 class IDF_Scm_Git extends IDF_Scm
 {
     public $mediumtree_fmt = 'commit %H%nAuthor: %an <%ae>%nTree: %T%nDate: %ai%n%n%s%n%n%b';
-    public $date_fmt = 
     
     /* ============================================== *
      *                                                *
