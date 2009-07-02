@@ -73,6 +73,10 @@ folder. Here is a configuration example:
     # Remove the git repositories which do not have a corresponding project
     # This is run at cron time
     $cfg['idf_plugin_syncgit_remove_orphans'] = false;
+    # git account home dir
+    $cfg['idf_plugin_syncgit_git_home_dir'] = '/home/git'; 
+    # where are going to be the git repositories
+    $cfg['idf_plugin_sncgit_base_repositories'] = '/home/git/repositories'; 
 
 When someone will change his SSH key or add a new one, the
 `/tmp/SYNC-GIT` file will be created. The cron job
