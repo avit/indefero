@@ -402,14 +402,12 @@ class IDF_Scm_Git extends IDF_Scm
      * Parse the log lines of a --pretty=medium log output.
      *
      * @param array Lines.
-     * @param int Number of lines in the headers (3)
      * @return array Change log.
      */
-    public static function parseLog($lines, $hdrs=3)
+    public static function parseLog($lines)
     {
         $res = array();
         $c = array();
-        $hdrs += 2;
         $inheads = true;
         $next_is_title = false;
         foreach ($lines as $line) {

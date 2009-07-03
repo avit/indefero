@@ -189,6 +189,7 @@ class IDF_Commit extends Pluf_Model
      */
     public static function toUTF8($text)
     {
+        $enc = 'ASCII, UTF-8, ISO-8859-1, JIS, EUC-JP, SJIS';
         $ref = $text;
         if (is_array($text)) {
             $ref = $text[0];
@@ -196,7 +197,7 @@ class IDF_Commit extends Pluf_Model
         if (Pluf_Text_UTF8::check($ref)) {
             return $text;
         }
-        $encoding = mb_detect_encoding($ref, mb_detect_order(), true);
+        $encoding = mb_detect_encoding($ref, $enc, true);
         if ($encoding == false) {
             $encoding = Pluf_Text_UTF8::detect_cyr_charset($ref);
         }

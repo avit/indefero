@@ -40,12 +40,22 @@ class IDF_Tests_TestGit extends UnitTestCase
 
     }
 
-    public function testGitCache()
+    /**
+     * parse a log encoded in iso 8859-1
+     */
+    public function testParseIsoLog()
     {
-        $repo = substr(dirname(__FILE__), 0, -strlen('src/IDF/Tests')).'/.git';
-        $repo = '/home/loa/Vendors/linux-git/.git';
-        $git = new IDF_Scm_Git($repo);
-        $git->buildBlobInfoCache();
-        //$git->getCachedBlobInfo(array());
+        $log_lines = preg_split("/\015\012|\015|\012/", file_get_contents(dirname(__FILE__).'/data/git-log-iso-8859-1.txt'));
+        $log = IDF_Scm_Git::parseLog($log_lines);
+        $titles = array(
+                        'Quick Profiler entfernt',
+                        'Anwendungsmenu Divider eingefügt',
+                        'Anwendungen aufäumen'
+                        );
+        foreach ($log as $change) {
+            $this->assertEqual(array_shift($titles),
+                               IDF_Commit::toUTF8($change->title));
+        }
+
     }
 }
