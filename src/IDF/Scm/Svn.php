@@ -350,6 +350,9 @@ class IDF_Scm_Svn extends IDF_Scm
      */
     public function getCommit($commit, $getdiff=false)
     {
+        if (!$this->isValidRevision($commit)) {
+            return false;
+        }
         $res = array();
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' log --xml --limit 1 -v --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
