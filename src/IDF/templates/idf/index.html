@@ -10,7 +10,7 @@
 <p><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/add.png'}" alt="+" align="bottom" /></a> <a href="{$url}">{trans 'Create Project'}</a></p>{/if}
 {else}
 <ul>{foreach $projects as $p}
-<li><a href="{url 'IDF_Views_Project::home', array($p.shortname)}">{$p}</a>{if $p.shortdesc}, {$p.shortdesc}{/if}</li>
+<li>{if $p.private}<img style="vertical-align: text-bottom;" src="{media '/idf/img/lock.png'}" alt="{trans 'Private project'}" /> {/if}<a href="{url 'IDF_Views_Project::home', array($p.shortname)}">{$p}</a>{if $p.shortdesc}, {$p.shortdesc}{/if}</li>
 {/foreach}</ul>
 {/if}
 {/block}
