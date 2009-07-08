@@ -75,7 +75,12 @@ class IDF_Scm_Git extends IDF_Scm
         }
         $res = array();
         foreach ($out as $b) {
-            $res[substr($b, 2)] = '';
+            $b = substr($b, 2);
+            if (false !== strpos($b, '/')) {
+                $res[$this->getCommit($b)->commit] = $b;
+            } else {
+                $res[$b] = '';
+            }
         }
         $this->cache['branches'] = $res;
         return $res;

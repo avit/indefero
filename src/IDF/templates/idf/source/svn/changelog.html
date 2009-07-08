@@ -1,0 +1,11 @@
+{extends "idf/source/changelog.html"}
+{block context}
+<form class="star" action="{url 'IDF_Views_Source_Svn::changelogRev', array($project.shortname)}" method="get">
+<p><strong>{trans 'Revision:'}</strong> {$commit}</p>
+<p>
+    <input accesskey="4" type="text" value="{$commit}" name="rev" size="5" />
+    <input type="submit" name="s" value="{trans 'Go to revision'}" />
+</p>
+</form>
+{/block}
+

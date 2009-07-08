@@ -94,7 +94,7 @@ class IDF_Views_Source
         $rchanges = new Pluf_Template_ContextVars($rchanges);
         $scmConf = $request->conf->getVal('scm', 'git');
         $in_branches = $scm->inBranches($commit, '');
-        return Pluf_Shortcuts_RenderToResponse('idf/source/changelog.html',
+        return Pluf_Shortcuts_RenderToResponse('idf/source/'.$scmConf.'/changelog.html',
                                                array(
                                                      'page_title' => $title,
                                                      'title' => $title,
