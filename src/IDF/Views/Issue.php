@@ -55,6 +55,7 @@ class IDF_Views_Issue
         $pag->action = array('IDF_Views_Issue::index', array($prj->shortname));
         $pag->sort_order = array('modif_dtime', 'ASC'); // will be reverted
         $pag->sort_reverse_order = array('modif_dtime');
+        $pag->sort_link_title = true;
         $pag->extra_classes = array('a-c', '', 'a-c', '');
         $list_display = array(
              'id' => __('Id'),
@@ -62,7 +63,7 @@ class IDF_Views_Issue
              array('status', 'IDF_Views_Issue_ShowStatus', __('Status')),
              array('modif_dtime', 'Pluf_Paginator_DateAgo', __('Last Updated')),
                               );
-        $pag->configure($list_display, array(), array('status', 'modif_dtime'));
+        $pag->configure($list_display, array(), array('id', 'status', 'modif_dtime'));
         $pag->items_per_page = 10;
         $pag->no_results_text = __('No issues were found.');
         $pag->setFromRequest($request);
@@ -131,6 +132,7 @@ class IDF_Views_Issue
         $pag->action = array('IDF_Views_Issue::myIssues', array($prj->shortname, $match[2]));
         $pag->sort_order = array('modif_dtime', 'ASC'); // will be reverted
         $pag->sort_reverse_order = array('modif_dtime');
+        $pag->sort_link_title = true;
         $pag->extra_classes = array('a-c', '', 'a-c', '');
         $list_display = array(
              'id' => __('Id'),
@@ -138,7 +140,7 @@ class IDF_Views_Issue
              array('status', 'IDF_Views_Issue_ShowStatus', __('Status')),
              array('modif_dtime', 'Pluf_Paginator_DateAgo', __('Last Updated')),
                               );
-        $pag->configure($list_display, array(), array('status', 'modif_dtime'));
+        $pag->configure($list_display, array(), array('id', 'status', 'modif_dtime'));
         $pag->items_per_page = 10;
         $pag->no_results_text = __('No issues were found.');
         $pag->setFromRequest($request);
@@ -430,6 +432,7 @@ class IDF_Views_Issue
         $pag->action = array('IDF_Views_Issue::listStatus', array($prj->shortname, $status));
         $pag->sort_order = array('modif_dtime', 'ASC'); // will be reverted
         $pag->sort_reverse_order = array('modif_dtime');
+        $pag->sort_link_title = true;
         $pag->extra_classes = array('a-c', '', 'a-c', '');
         $list_display = array(
              'id' => __('Id'),
@@ -437,7 +440,7 @@ class IDF_Views_Issue
              array('status', 'IDF_Views_Issue_ShowStatus', __('Status')),
              array('modif_dtime', 'Pluf_Paginator_DateAgo', __('Last Updated')),
                               );
-        $pag->configure($list_display, array(), array('status', 'modif_dtime'));
+        $pag->configure($list_display, array(), array('id', 'status', 'modif_dtime'));
         $pag->items_per_page = 10;
         $pag->no_results_text = __('No issues were found.');
         $pag->setFromRequest($request);
@@ -488,6 +491,7 @@ class IDF_Views_Issue
         $pag->action = array('IDF_Views_Issue::listLabel', array($prj->shortname, $tag->id, $status));
         $pag->sort_order = array('modif_dtime', 'ASC'); // will be reverted
         $pag->sort_reverse_order = array('modif_dtime');
+        $pag->sort_link_title = true;
         $pag->extra_classes = array('a-c', '', 'a-c', '');
         $list_display = array(
              'id' => __('Id'),
@@ -495,7 +499,7 @@ class IDF_Views_Issue
              array('status', 'IDF_Views_Issue_ShowStatus', __('Status')),
              array('modif_dtime', 'Pluf_Paginator_DateAgo', __('Last Updated')),
                               );
-        $pag->configure($list_display, array(), array('status', 'modif_dtime'));
+        $pag->configure($list_display, array(), array('id', 'status', 'modif_dtime'));
         $pag->items_per_page = 10;
         $pag->no_results_text = __('No issues were found.');
         $pag->setFromRequest($request);
