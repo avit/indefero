@@ -191,6 +191,10 @@ span.px-header-title {
   white-space: nowrap;  
 }
 
+span.px-header-title a, span.px-header-title a:link, span.px-header-title a:visited, span.px-header-title a:active { 
+  color: #000;
+}
+
 /**
  * Issue
  */
