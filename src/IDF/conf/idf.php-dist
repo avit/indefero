@@ -167,7 +167,13 @@ $cfg['db_database'] = 'website'; # put absolute path to the db if you
 # By default, the size of the downloads is limited to 2MB.
 # $cfg['max_upload_size'] = 2097152; // Size in bytes
 
-# -- From this point you should not need to update anything. --
+#
+# Time zone
+# http://www.php.net/manual/en/timezones.php
+#
+# $cfg['time_zone'] = 'Europe/Berlin';
+
+
 $cfg['pear_path'] = '/usr/share/php';
 
 $cfg['login_success_url'] = $cfg['url_base'].$cfg['idf_base'];
