@@ -53,6 +53,15 @@
 </td>
 </tr>
 <tr>
+<td>&nbsp;</td>
+<td colspan="2" class="helptext">
+{blocktrans}
+Only project members and admins have write access to the source.<br />
+If you restrict the access to the source, anonymous access is<br /> 
+not provided and the users must authenticate themselves with their<br />
+password or SSH key.{/blocktrans}
+</td></tr>
+<tr>
 <th><strong>{$form.f.review_access_rights.labelTag}:</strong></th>
 <td>{if $form.f.review_access_rights.errors}{$form.f.review_access_rights.fieldErrors}{/if}
 {$form.f.review_access_rights|unsafe}
