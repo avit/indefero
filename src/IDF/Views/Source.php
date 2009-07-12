@@ -271,10 +271,17 @@ class IDF_Views_Source
                                                   $scm->getMainBranch()));
             return new Pluf_HTTP_Response_Redirect($url);
         }
-        $title = sprintf(__('%s Commit Details'), (string) $request->project);
-        $page_title = sprintf(__('%s Commit Details - %s'), (string) $request->project, $commit);
         $large = $scm->isCommitLarge($commit);
         $cobject = $scm->getCommit($commit, !$large);
+        if (!$cobject) {
+            // Redirect to the first branch
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
+                                            array($request->project->shortname,
+                                                  $scm->getMainBranch()));
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
+        $title = sprintf(__('%s Commit Details'), (string) $request->project);
+        $page_title = sprintf(__('%s Commit Details - %s'), (string) $request->project, $commit);
         $rcommit = IDF_Commit::getOrAdd($cobject, $request->project);
         $diff = new IDF_Diff($cobject->changes);
         $diff->parse();
