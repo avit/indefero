@@ -40,7 +40,7 @@ class IDF_Plugin_SyncGit_Cron
         $cmd = Pluf::f('idf_plugin_syncgit_path_gitserve', '/dev/null');
         $authorized_keys = Pluf::f('idf_plugin_syncgit_path_authorized_keys', false);
         if (false == $authorized_keys) {
-            throw new Pluf_Exception_SettingError('Setting git_path_authorized_keys not set.');
+            throw new Pluf_Exception_SettingError('Setting idf_plugin_syncgit_path_authorized_keys not set.');
         }
         if (!is_writable($authorized_keys)) {
             throw new Exception('Cannot create file: '.$authorized_keys);
