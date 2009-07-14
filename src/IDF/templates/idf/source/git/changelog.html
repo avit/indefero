@@ -2,7 +2,7 @@
 {block context}
 <p><strong>{trans 'Branches:'}</strong><br />
 {foreach $branches as $branch => $path}
-{aurl 'url', 'IDF_Views_Source::treeBase', array($project.shortname, $branch)}
+{aurl 'url', 'IDF_Views_Source::changeLog', array($project.shortname, $branch)}
 <span class="label{if in_array($branch, $tree_in)} active{/if}"><a href="{$url}" class="label">{if $path}{$path}{else}{$branch}{/if}</a></span><br />
 {/foreach}
 </p>
