@@ -1,0 +1,19 @@
+commit 11531a9dbc64a65150f2f38fbea7cef9d478a123
+Author: unknown <a@(none)>
+Date:   Fri Jul 3 01:44:11 2009 +0200
+
+    Quick Profiler entfernt
+
+commit 11531a9dbc64a65150f2f38fbea7cef9d478a123
+Author: unknown <a@(none)>
+Date:   Wed Jul 1 15:51:22 2009 +0200
+
+    Anwendungsmenu Divider eingefügt
+
+commit 11531a9dbc64a65150f2f38fbea7cef9d478a123
+Author: unknown <a@(none)>
+Date:   Wed Jul 1 15:05:41 2009 +0200
+
+    Anwendungen aufäumen
+
+

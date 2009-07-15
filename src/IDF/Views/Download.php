@@ -226,7 +226,7 @@ class IDF_Views_Download
         $conf = new IDF_Conf();
         $conf->setProject($project);
         $st = preg_split("/\015\012|\015|\012/", 
-                         $conf->getVal('labels_downloads_predefined', IDF_Form_UploadConf::init_predefined), -1, PREG_SPLIT_NO_EMPTY);
+                         $conf->getVal('labels_download_predefined', IDF_Form_UploadConf::init_predefined), -1, PREG_SPLIT_NO_EMPTY);
         $auto = '';
         foreach ($st as $s) {
             $v = '';
@@ -298,7 +298,7 @@ class IDF_Views_Download
      */
     public static function getDownloadTags($project)
     {
-        return $project->getTagsFromConfig('labels_downloads_predefined',
+        return $project->getTagsFromConfig('labels_download_predefined',
                                            IDF_Form_UploadConf::init_predefined);
 
     }

@@ -19,6 +19,12 @@
 </td>
 </tr>
 <tr>
+<th>{$form.f.changelog.labelTag}:</th>
+<td>{if $form.f.changelog.errors}{$form.f.changelog.fieldErrors}{/if}
+{$form.f.changelog|unsafe}
+</td>
+</tr>
+<tr>
 <th><strong>{$form.f.file.labelTag}:</strong></th>
 <td>{if $form.f.file.errors}{$form.f.file.fieldErrors}{/if}
 {$form.f.file|unsafe}
@@ -50,6 +56,8 @@
 <p>{blocktrans}Each file must have a distinct name and file contents
 cannot be changed, so be sure to include release numbers in each file
 name.{/blocktrans}</p>
+{assign $url = 'http://daringfireball.net/projects/markdown/syntax'}
+<p>{blocktrans}You can use the <a href="{$url}">Markdown syntax</a> for the description.{/blocktrans}</p>
 </div>
 {/block}
 {block javascript}

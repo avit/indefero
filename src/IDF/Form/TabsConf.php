@@ -86,6 +86,11 @@ class IDF_Form_TabsConf extends Pluf_Form
                                             ));
     }
 
+    public function clean_authorized_users()
+    {
+        return IDF_Form_MembersConf::checkBadLogins($this->cleaned_data['authorized_users']);
+    }
+
     public function save($commit=true)
     {
         if (!$this->isValid()) {

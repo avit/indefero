@@ -144,12 +144,14 @@ class IDF_Commit extends Pluf_Model
         if ($r->count() > 0) {
             return $r[0];
         }
+        if (!isset($change->full_message)) {
+            $change->full_message = '';
+        }
         $scm = IDF_Scm::get($project);
         $commit = new IDF_Commit();
         $commit->project = $project;
         $commit->scm_id = $change->commit;
-        $commit->summary = $change->title;
-        $commit->fullmessage = $change->full_message;
+        list($commit->summary, $commit->fullmessage) = self::toUTF8(array($change->title, $change->full_message));
         $commit->author = $scm->findAuthor($change->author);
         $commit->origauthor = $change->author;
         $commit->creation_dtime = $change->date;
@@ -174,6 +176,39 @@ class IDF_Commit extends Pluf_Model
         }
         
         return $commit;
+    }
+
+    /**
+     * Convert encoding to UTF8.
+     *
+     * If an array is given, the encoding is detected only on the
+     * first value and then used to convert all the strings.
+     *
+     * @param mixed String or array of string to be converted
+     * @return mixed String or array of string
+     */
+    public static function toUTF8($text)
+    {
+        $enc = 'ASCII, UTF-8, ISO-8859-1, JIS, EUC-JP, SJIS';
+        $ref = $text;
+        if (is_array($text)) {
+            $ref = $text[0];
+        }
+        if (Pluf_Text_UTF8::check($ref)) {
+            return $text;
+        }
+        $encoding = mb_detect_encoding($ref, $enc, true);
+        if ($encoding == false) {
+            $encoding = Pluf_Text_UTF8::detect_cyr_charset($ref);
+        }
+        if (is_array($text)) {
+            foreach ($text as $t) {
+                $res[] = mb_convert_encoding($t, 'UTF-8', $encoding);
+            }
+            return $res;
+        } else {
+            return mb_convert_encoding($text, 'UTF-8', $encoding);
+        }
     }
 
     /**
@@ -202,7 +237,7 @@ class IDF_Commit extends Pluf_Model
 </tr>
 <tr class="extra">
 <td colspan="2">
-<div class="helptext right">'.__('Commit').'&nbsp;<a href="'.$url.'" class="mono">'.$this->scm_id.'</a>, '.__('by').' '.$user.'</div></td></tr>'; 
+<div class="helptext right">'.sprintf(__('Commit&nbsp;%s, by %s'), '<a href="'.$url.'" class="mono">'.$this->scm_id.'</a>', $user).'</div></td></tr>'; 
         return Pluf_Template::markSafe($out);
     }
 

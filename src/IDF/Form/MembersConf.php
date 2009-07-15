@@ -67,6 +67,45 @@ class IDF_Form_MembersConf extends Pluf_Form
         $this->project->membershipsUpdated();
     }
 
+    public function clean_owners()
+    {
+        return self::checkBadLogins($this->cleaned_data['owners']);
+    }
+
+    public function clean_members()
+    {
+        return self::checkBadLogins($this->cleaned_data['members']);
+    }
+
+    /**
+     * From the input, find the bad logins.
+     *
+     * @throws Pluf_Form_Invalid exception when bad logins are found
+     * @param string Comma, new line delimited list of logins
+     * @return string Comma, new line delimited list of logins
+     */
+    public static function checkBadLogins($logins)
+    {
+        $bad = array();
+        foreach (preg_split("/\015\012|\015|\012|\,/", $logins, -1, PREG_SPLIT_NO_EMPTY) as $login) {
+            $sql = new Pluf_SQL('login=%s', array(trim($login)));
+            try {
+                $user = Pluf::factory('Pluf_User')->getOne(array('filter'=>$sql->gen()));
+                if (null == $user) {
+                    $bad[] = $login;
+                }
+            } catch (Exception $e) {
+                $bad[] = $login;
+            }
+        }
+        $n = count($bad);
+        if ($n) {
+            $badlogins = Pluf_esc(implode(', ', $bad));
+            throw new Pluf_Form_Invalid(sprintf(_n('The following login is invalid: %s.', 'The following login are invalids: %s.', $n), $badlogins));
+        }
+        return $logins;
+    }
+
     /**
      * The update of the memberships is done in different places. This
      * avoids duplicating code.

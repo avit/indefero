@@ -172,6 +172,7 @@ class IDF_Diff
 
     public static function padLine($line)
     {
+        $line = str_replace("\t", '    ', $line);
         $n = strlen($line);
         for ($i=0;$i<$n;$i++) {
             if (substr($line, $i, 1) != ' ') {

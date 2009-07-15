@@ -24,7 +24,7 @@ body {
 }
 
 .top { 
-  margin-top: 0;
+  margin-top: 5px;
 }
 
 a:link { 
@@ -54,7 +54,6 @@ a:active{
 .dellink { 
   float: right; 
   position: relative; 
-  margin-top: -1.6em;
 }
 
 .dellink a { 
@@ -192,6 +191,10 @@ span.px-header-title {
   white-space: nowrap;  
 }
 
+span.px-header-title a, span.px-header-title a:link, span.px-header-title a:visited, span.px-header-title a:active { 
+  color: #000;
+}
+
 /**
  * Issue
  */
@@ -221,7 +224,9 @@ div.issue-comment-first {
 
 div.issue-comment-signin { 
   -moz-border-radius: 0 0 3px 3px;
-  -webkit-border-radius: 0 0 3px 3px;
+  -webkit-border-radius: 3px;
+  -webkit-border-top-left-radius: 0;
+  -webkit-border-top-right-radius: 0;
   background-color: #d3d7cf;
   padding: 4px;
 }
@@ -302,6 +307,7 @@ h1.project-title {
   z-index: 100;
   text-align: right;
   padding-right: 5px;
+  margin-bottom: 0;
 }
 
 .note { 
@@ -332,10 +338,16 @@ div.container {
 /**
  * Tabs
  */
+#main-tabs { 
+  line-height: normal;
+}
+
 #main-tabs a { 
   background-color: #d3d7cf;
   -moz-border-radius: 3px 3px 0 0;
-  -webkit-border-radius: 3px 3px 0 0;
+  -webkit-border-radius: 3px;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
   padding: 4px 4px 0 4px; 
   text-decoration: none;
   color: #2e3436;
@@ -349,7 +361,8 @@ div.container {
 #sub-tabs { 
   background-color: #a5e26a;
   -moz-border-radius: 0 3px 3px 3px;
-  -webkit-border-radius: 0 3px 3px 3px;
+  -webkit-border-radius: 3px;
+  -webkit-border-top-left-radius: 0;
   padding: 4px;
 }
 
@@ -616,11 +629,15 @@ div.download-file {
   background-repeat: no-repeat;
   background-position: 1em 1em;
   font-size: 140%;
-  margin-bottom: 3em;
+  margin-bottom: 1.5em;
   background-color: #bbe394;
   width: 40%;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
+}
+
+table.download { 
+  margin-top: 1.5em;
 }
 
 /**
@@ -678,7 +695,9 @@ div.deprecated-page {
   padding-left: 0px;
   background-color: #eeeeec; 
   -moz-border-radius: 3px 0 0 3px;
-  -webkit-border-radius: 3px 0 0 3px;
+  -webkit-border-radius: 3px;
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
   color: #888a85;
   clear: both;
   background-image: url("../img/ceondo.png");

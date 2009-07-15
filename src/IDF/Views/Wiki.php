@@ -222,7 +222,7 @@ class IDF_Views_Wiki
                             array($prj->id, $match[2]));
         $pages = Pluf::factory('IDF_WikiPage')->getList(array('filter'=>$sql->gen()));
         if ($pages->count() != 1) {
-            throw new Pluf_HTTP_Response_NotFound($request);
+            return new Pluf_HTTP_Response_NotFound($request);
         }
         $page = $pages[0];
         $oldrev = false;
@@ -231,7 +231,7 @@ class IDF_Views_Wiki
             $oldrev = Pluf_Shortcuts_GetObjectOr404('IDF_WikiRevision',
                                                     $request->GET['rev']);
             if ($oldrev->wikipage != $page->id or $oldrev->is_head == true) {
-                throw new Pluf_HTTP_Response_NotFound($request);
+                return new Pluf_HTTP_Response_NotFound($request);
             }
         }
         $ptags = self::getWikiTags($prj);
@@ -269,7 +269,7 @@ class IDF_Views_Wiki
         $page = $oldrev->get_wikipage();
         $prj->inOr404($page);
         if ($oldrev->is_head == true) {
-            throw new Pluf_HTTP_Error404($request);
+            return new Pluf_HTTP_Response_NotFound($request);
         }
         if ($request->method == 'POST') {
             $oldrev->delete();
@@ -310,7 +310,7 @@ class IDF_Views_Wiki
                             array($prj->id, $match[2]));
         $pages = Pluf::factory('IDF_WikiPage')->getList(array('filter'=>$sql->gen()));
         if ($pages->count() != 1) {
-            throw new Pluf_HTTP_Error404($request);
+            return new Pluf_HTTP_Response_NotFound($request);
         }
         $page = $pages[0];
         $title = sprintf(__('Update %s'), $page->title);

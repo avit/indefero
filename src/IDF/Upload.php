@@ -56,6 +56,12 @@ class IDF_Upload extends Pluf_Model
                                   'size' => 250,
                                   'verbose' => __('summary'),
                                   ),
+                            'changelog' =>
+                            array(
+                                  'type' => 'Pluf_DB_Field_Text',
+                                  'blank' => true,
+                                  'verbose' => __('changes'),
+                                  ),
                             'file' =>
                             array(
                                   'type' => 'Pluf_DB_Field_File',
@@ -160,6 +166,7 @@ class IDF_Upload extends Pluf_Model
     function preDelete()
     {
         IDF_Timeline::remove($this);
+        @unlink(Pluf::f('upload_path').'/'.$this->project->shortname.'/files/'.$this->file);
     }
 
     /**
@@ -182,7 +189,7 @@ class IDF_Upload extends Pluf_Model
         $out .= sprintf(__('<a href="%1$s" title="View download">Download %2$d</a>, %3$s'), $url, $this->id, Pluf_esc($this->summary)).'</td>';
         $out .= '</tr>';
         $out .= "\n".'<tr class="extra"><td colspan="2">
-<div class="helptext right">'.sprintf(__('Addition of <a href="%s">download&nbsp;%d</a>'), $url, $this->id).', '.__('by').' '.$user.'</div></td></tr>'; 
+<div class="helptext right">'.sprintf(__('Addition of <a href="%s">download&nbsp;%d</a>, by %s'), $url, $this->id, $user).'</div></td></tr>'; 
         return Pluf_Template::markSafe($out);
     }
 

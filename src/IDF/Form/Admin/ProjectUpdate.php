@@ -61,6 +61,16 @@ class IDF_Form_Admin_ProjectUpdate extends Pluf_Form
                                             ));
     }
 
+    public function clean_owners()
+    {
+        return IDF_Form_MembersConf::checkBadLogins($this->cleaned_data['owners']);
+    }
+
+    public function clean_members()
+    {
+        return IDF_Form_MembersConf::checkBadLogins($this->cleaned_data['members']);
+    }
+
     public function save($commit=true)
     {
         if (!$this->isValid()) {

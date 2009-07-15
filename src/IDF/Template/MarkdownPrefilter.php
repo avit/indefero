@@ -91,6 +91,7 @@ class IDF_Template_MarkdownPrefilter extends Pluf_Text_HTML_Filter
 
     public $allowed = array(
                             'a' => array('href', 'title', 'rel'),
+                            'abbr' => array('title'),
                             'address' => array(),
                             'b' => array(),
                             'blockquote' => array(),
@@ -102,9 +103,12 @@ class IDF_Template_MarkdownPrefilter extends Pluf_Text_HTML_Filter
                             'dl' => array(),
                             'dt' => array(),
                             'em' => array(),
-                            'h1' => array(),
-                            'h2' => array(),
-                            'h3' => array(),
+                            'h1' => array('id'),
+                            'h2' => array('id'),
+                            'h3' => array('id'),
+                            'h4' => array('id'),
+                            'h5' => array('id'),
+                            'h6' => array('id'),
                             'hr' => array(),
                             'i' => array(),
                             'img' => array('src', 'class', 'alt', 'height', 'width', 'style'),

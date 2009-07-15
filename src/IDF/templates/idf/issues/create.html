@@ -11,14 +11,14 @@
 {/if}
 
 {if $preview}
-<h2 class="top">{trans 'Preview'}</h2>
+<h2 id="preview" class="top">{trans 'Preview'}</h2>
 <div class="issue-comment issue-comment-first issue-comment-last">
 <br /><pre class="issue-comment-text">{issuetext $preview, $request}</pre>
 </div>
 <hr />
 {/if}
 
-<form method="post" enctype="multipart/form-data" action="{url 'IDF_Views_Issue::create', array($project.shortname)}" >
+<form method="post" enctype="multipart/form-data" action="{url 'IDF_Views_Issue::create', array($project.shortname)}#preview" >
 <table class="form" summary="">
 <tr>
 <th><strong>{$form.f.summary.labelTag}:</strong></th>
@@ -107,16 +107,19 @@ $(document).ready(function(){
     $("#form-show-0").click(function(){
         $("#form-attachment-1").show();
         $("#form-block-0").hide();
+        return false;
     });
     $("#form-attachment-1 td").append("<span id=\"form-block-1\"><a id=\"form-show-1\" href=\"#\">{/literal}{trans 'Attach another file'}{literal}</a></span>");
     $("#form-show-1").click(function(){
             $("#form-attachment-2").show();
             $("#form-block-1").hide();
+            return false;
         });
     $("#form-attachment-2 td").append("<span id=\"form-block-2\"><a id=\"form-show-2\" href=\"#\">{/literal}{trans 'Attach another file'}{literal}</a></span>");
     $("#form-show-2").click(function(){
             $("#form-attachment-3").show();
             $("#form-block-2").hide();
+            return false;
         });
     var j=0;
     for (j=1;j<4;j=j+1) {

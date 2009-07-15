@@ -124,7 +124,7 @@ class IDF_Views_User
         }
         $keys = $request->user->get_idf_key_list();
         if ($keys->count() > 0 and strlen($keys[0]->content) > 30) {
-            $ssh_key = Pluf_Template::markSafe('<span class="mono">'.Pluf_esc(substr($keys[0]->content, 0, 30)).'...</span><br /><span class="helptext">'.__('Troncated for security reasons.').'</span>');
+            $ssh_key = Pluf_Template::markSafe('<span class="mono">'.Pluf_esc(substr($keys[0]->content, 0, 30)).'...</span><br /><span class="helptext">'.__('Truncated for security reasons.').'</span>');
         } else {
             $ssh_key = __('You have not upload your public SSH key yet.');
         }

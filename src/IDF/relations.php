@@ -40,6 +40,7 @@ $m['IDF_Review_FileComment'] = array('relate_to' => array('IDF_Review_Patch', 'P
 $m['IDF_Key'] = array('relate_to' => array('Pluf_User'));
 $m['IDF_Conf'] = array('relate_to' => array('IDF_Project'));
 $m['IDF_Commit'] = array('relate_to' => array('IDF_Project', 'Pluf_User'));
+$m['IDF_Scm_Cache_Git'] = array('relate_to' => array('IDF_Project'));
 
 Pluf_Signal::connect('Pluf_Template_Compiler::construct_template_tags_modifiers',
                      array('IDF_Middleware', 'updateTemplateTagsModifiers'));
@@ -53,7 +54,8 @@ Pluf_Signal::connect('IDF_Project::created',
                      array('IDF_Plugin_SyncSvn', 'entry'));
 Pluf_Signal::connect('Pluf_User::passwordUpdated', 
                      array('IDF_Plugin_SyncSvn', 'entry'));
-
+Pluf_Signal::connect('IDF_Project::preDelete', 
+                     array('IDF_Plugin_SyncSvn', 'entry'));
 #
 # Mercurial synchronization
 Pluf_Signal::connect('IDF_Project::membershipsUpdated', 

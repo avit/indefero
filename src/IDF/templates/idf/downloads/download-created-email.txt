@@ -10,3 +10,8 @@
 {foreach $tags as $tag} {$tag.class|safe}:{$tag.name|safe}
 {/foreach}{/if}
 {trans 'Download:'} {$urlfile}
+{if $file.changelog}
+{trans 'Description:'}
+
+{$file.changelog}
+{/if}

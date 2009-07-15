@@ -55,6 +55,7 @@ class IDF_Views_Issue
         $pag->action = array('IDF_Views_Issue::index', array($prj->shortname));
         $pag->sort_order = array('modif_dtime', 'ASC'); // will be reverted
         $pag->sort_reverse_order = array('modif_dtime');
+        $pag->sort_link_title = true;
         $pag->extra_classes = array('a-c', '', 'a-c', '');
         $list_display = array(
              'id' => __('Id'),
@@ -62,7 +63,7 @@ class IDF_Views_Issue
              array('status', 'IDF_Views_Issue_ShowStatus', __('Status')),
              array('modif_dtime', 'Pluf_Paginator_DateAgo', __('Last Updated')),
                               );
-        $pag->configure($list_display, array(), array('status', 'modif_dtime'));
+        $pag->configure($list_display, array(), array('id', 'status', 'modif_dtime'));
         $pag->items_per_page = 10;
         $pag->no_results_text = __('No issues were found.');
         $pag->setFromRequest($request);
@@ -131,6 +132,7 @@ class IDF_Views_Issue
         $pag->action = array('IDF_Views_Issue::myIssues', array($prj->shortname, $match[2]));
         $pag->sort_order = array('modif_dtime', 'ASC'); // will be reverted
         $pag->sort_reverse_order = array('modif_dtime');
+        $pag->sort_link_title = true;
         $pag->extra_classes = array('a-c', '', 'a-c', '');
         $list_display = array(
              'id' => __('Id'),
@@ -138,7 +140,7 @@ class IDF_Views_Issue
              array('status', 'IDF_Views_Issue_ShowStatus', __('Status')),
              array('modif_dtime', 'Pluf_Paginator_DateAgo', __('Last Updated')),
                               );
-        $pag->configure($list_display, array(), array('status', 'modif_dtime'));
+        $pag->configure($list_display, array(), array('id', 'status', 'modif_dtime'));
         $pag->items_per_page = 10;
         $pag->no_results_text = __('No issues were found.');
         $pag->setFromRequest($request);
@@ -171,11 +173,8 @@ class IDF_Views_Issue
                                              $params);
             if (!isset($request->POST['preview']) and $form->isValid()) {
                 $issue = $form->save();
-                $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::index',
-                                                array($prj->shortname));
-                $urlissue = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view',
-                                         array($prj->shortname, $issue->id));
-                $request->user->setMessage(sprintf(__('<a href="%s">Issue %d</a> has been created.'), $urlissue, $issue->id));
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view',
+                                                array($prj->shortname, $issue->id));
                 $to_emails = array();
                 if (null != $issue->get_owner() and $issue->owner != $issue->submitter) {
                     $to_emails[] = $issue->get_owner()->email;
@@ -201,6 +200,7 @@ class IDF_Views_Issue
                     $email->sendMail();
                 }
                 if ($api) return $issue;
+                $request->user->setMessage(sprintf(__('<a href="%s">Issue %d</a> has been created.'), $url, $issue->id));
                 return new Pluf_HTTP_Response_Redirect($url);
             }
         } else {
@@ -291,11 +291,8 @@ class IDF_Views_Issue
                                                  $params);
                 if (!isset($request->POST['preview']) && $form->isValid()) {
                     $issue = $form->save();
-                    $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::index',
-                                                    array($prj->shortname));
-                    $urlissue = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view',
-                                                         array($prj->shortname, $issue->id));
-                    $request->user->setMessage(sprintf(__('<a href="%s">Issue %d</a> has been updated.'), $urlissue, $issue->id));
+                    $comments = $issue->get_comments_list(array('order' => 'id DESC'));
+                    $url .= '#ic' . $comments[0]->id;
                     // Get the list of interested person + owner + submitter
                     if (!Pluf_Model_InArray($issue->get_submitter(), $interested)) {
                         $interested[] = $issue->get_submitter();
@@ -304,15 +301,13 @@ class IDF_Views_Issue
                         !Pluf_Model_InArray($issue->get_owner(), $interested)) {
                         $interested[] = $issue->get_owner();
                     }
-                    $comments = $issue->get_comments_list(array('order' => 'id DESC'));
                     $context = new Pluf_Template_Context(
                             array(
                                   'issue' => $issue,
                                   'comments' => $comments,
                                   'project' => $prj,
                                   'url_base' => Pluf::f('url_base'),
-                                  )
-                                                         );
+                                  ));
                     $tmpl = new Pluf_Template('idf/issues/issue-updated-email.txt');
                     $text_email = $tmpl->render($context);
                     $email = new Pluf_Mail_Batch(Pluf::f('from_email'));
@@ -334,6 +329,7 @@ class IDF_Views_Issue
                         $email->sendMail();
                     }
                     $email->close();
+                    $request->user->setMessage(sprintf(__('<a href="%s">Issue %d</a> has been updated.'), $url, $issue->id));
                     return new Pluf_HTTP_Response_Redirect($url);
                 }
             } else {
@@ -436,6 +432,7 @@ class IDF_Views_Issue
         $pag->action = array('IDF_Views_Issue::listStatus', array($prj->shortname, $status));
         $pag->sort_order = array('modif_dtime', 'ASC'); // will be reverted
         $pag->sort_reverse_order = array('modif_dtime');
+        $pag->sort_link_title = true;
         $pag->extra_classes = array('a-c', '', 'a-c', '');
         $list_display = array(
              'id' => __('Id'),
@@ -443,7 +440,7 @@ class IDF_Views_Issue
              array('status', 'IDF_Views_Issue_ShowStatus', __('Status')),
              array('modif_dtime', 'Pluf_Paginator_DateAgo', __('Last Updated')),
                               );
-        $pag->configure($list_display, array(), array('status', 'modif_dtime'));
+        $pag->configure($list_display, array(), array('id', 'status', 'modif_dtime'));
         $pag->items_per_page = 10;
         $pag->no_results_text = __('No issues were found.');
         $pag->setFromRequest($request);
@@ -494,6 +491,7 @@ class IDF_Views_Issue
         $pag->action = array('IDF_Views_Issue::listLabel', array($prj->shortname, $tag->id, $status));
         $pag->sort_order = array('modif_dtime', 'ASC'); // will be reverted
         $pag->sort_reverse_order = array('modif_dtime');
+        $pag->sort_link_title = true;
         $pag->extra_classes = array('a-c', '', 'a-c', '');
         $list_display = array(
              'id' => __('Id'),
@@ -501,7 +499,7 @@ class IDF_Views_Issue
              array('status', 'IDF_Views_Issue_ShowStatus', __('Status')),
              array('modif_dtime', 'Pluf_Paginator_DateAgo', __('Last Updated')),
                               );
-        $pag->configure($list_display, array(), array('status', 'modif_dtime'));
+        $pag->configure($list_display, array(), array('id', 'status', 'modif_dtime'));
         $pag->items_per_page = 10;
         $pag->no_results_text = __('No issues were found.');
         $pag->setFromRequest($request);

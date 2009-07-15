@@ -75,15 +75,18 @@
 {include 'idf/js-hotkeys.html'}
 {block javascript}{/block}
 {if $project}
-<script type="text/javascript">{literal}
-<!-- //
- $(document).ready(function(){
+<script type="text/javascript" charset="utf-8">{literal}
+//<![CDATA[
+$(document).ready(function(){
 	var frag = location.hash;
-	if (frag.length > 3 && frag.substring(0, 3) == '#ic') {
+	if ($('#preview').length) {
+		location.hash = '#preview';
+	}
+	else if (frag.length > 3 && frag.substring(0, 3) == '#ic') {
 		$(frag).addClass("issue-comment-focus");
 	}
 });
-//  -->{/literal}
+//]]>{/literal}
 </script>{/if}
 </body>
 </html>

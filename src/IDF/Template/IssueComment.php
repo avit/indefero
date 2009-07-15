@@ -37,22 +37,22 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
         $this->project = $request->project;
         $this->request = $request;
         $this->scm = IDF_Scm::get($request->project);
-        if ($wordwrap) $text = wordwrap($text, 69, "\n", true);
         if ($esc) $text = Pluf_esc($text);
         if ($autolink) {
             $text = preg_replace('#([a-z]+://[^\s\(\)]+)#i',
                                  '<a href="\1">\1</a>', $text);
         }
         if ($request->rights['hasIssuesAccess']) {
-            $text = preg_replace_callback('#(issues?|bugs?|tickets?)\s+(\d+)((\s+and|\s+or|,)\s+(\d+)){0,}#im',
+            $text = preg_replace_callback('#(issues?|bugs?|tickets?)\s+(\d+)(\#ic\d*){0,1}((\s+and|\s+or|,)\s+(\d+)(\#ic\d*){0,1}){0,}#im',
                                           array($this, 'callbackIssues'), $text);
         }
         if ($request->rights['hasSourceAccess']) {
-            $text = preg_replace_callback('#(commit\s+)([0-9a-f]{1,40})#im',
-                                          array($this, 'callbackCommit'), $text);
+            $text = preg_replace_callback('#(commits?\s+)([0-9a-f]{1,40}(?:(?:\s+and|\s+or|,)\s+[0-9a-f]{1,40})*)\b#i',
+                                          array($this, 'callbackCommits'), $text);
             $text = preg_replace_callback('#(src:)([^\s\(\)]+)#im',
                                           array($this, 'callbackSource'), $text);
         }
+        if ($wordwrap) $text = Pluf_Text::wrapHtml($text, 69, "\n");
         if ($nl2br) $text = nl2br($text);
         if ($echo) {
             echo $text;
@@ -66,10 +66,14 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
      */
     function callbackIssues($m)
     {
-        if (count($m) == 3) {
+        if (count($m) == 3 || count($m) == 4) {
             $issue = new IDF_Issue($m[2]);
             if ($issue->id > 0 and $issue->project == $this->project->id) {
-                return $this->linkIssue($issue, $m[1].' '.$m[2]);
+                if (count($m) == 3) {
+                	return $this->linkIssue($issue, $m[1].' '.$m[2]);
+                } else {
+                    return $this->linkIssue($issue, $m[1].' '.$m[2], $m[3]);
+                }
             } else {
                 return $m[0]; // not existing issue.
             }
@@ -96,29 +100,55 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
         }
     }
 
+     /**
+      * General call back to convert commits to HTML links.
+      *
+      * @param array $m Single regex match.
+      * @return string Content with converted commits.
+      */
+    function callbackCommits($m)
+    {
+        $keyword = rtrim($m[1]);
+        if ('commits' === $keyword) {
+            // Multiple commits like 'commits 6e030e6, a25bfc1 and
+            // 3c094f8'.
+            return $m[1].preg_replace_callback('#\b[0-9a-f]{4,40}\b#i', array($this, 'callbackCommit'), $m[2]);
+        } else if ('commit' === $keyword) {
+            // Single commit like 'commit 6e030e6'.
+            return $m[1].call_user_func(array($this, 'callbackCommit'), array($m[2]));
+        }
+        return $m[0];
+    }
+
+    /**
+     * Convert plaintext commit to HTML link. Called from callbackCommits.
+     *
+     * Regex callback for {@link IDF_Template_IssueComment::callbackCommits()}.
+     *
+     * @param array Single regex match.
+     * @return string HTML A element with commit.
+     */
     function callbackCommit($m)
     {
-        if ($this->scm->testHash($m[2]) != 'commit') {
-            return $m[0];
+        $co = $this->scm->getCommit($m[0]);
+        if (!$co) {
+            return $m[0]; // not a commit.
         }
-        $co = $this->scm->getCommit($m[2]);
-        return '<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Source::commit', array($this->project->shortname, $co->commit)).'">'.$m[1].$m[2].'</a>';
+        return '<a href="'
+            .Pluf_HTTP_URL_urlForView('IDF_Views_Source::commit', array($this->project->shortname, $co->commit))
+            .'">'.$m[0].'</a>';
     }
 
     function callbackSource($m)
     {
-        $branches = $this->scm->getBranches();
-        if (count($branches) == 0) return $m[0];
+        if (!$this->scm->isAvailable()) return $m[0];
         $file = $m[2];
-        if ('commit' != $this->scm->testHash($branches[0], $file)) {
-            return $m[0];
-        }
-        $request_file_info = $this->scm->getFileInfo($file, $branches[0]);
+        $request_file_info = $this->scm->getPathInfo($file);
         if (!$request_file_info) {
             return $m[0];
         }
         if ($request_file_info->type != 'tree') {
-            return $m[1].'<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Source::tree', array($this->project->shortname, $branches[0], $file)).'">'.$m[2].'</a>';
+            return $m[1].'<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Source::tree', array($this->project->shortname, $this->scm->getMainBranch(), $file)).'">'.$m[2].'</a>';
         }
         return $m[0];
     }
@@ -130,10 +160,10 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
      * @param string Name of the link.
      * @return string Linked issue.
      */
-    public function linkIssue($issue, $title)
+    public function linkIssue($issue, $title, $anchor='')
     {
         $ic = (in_array($issue->status, $this->project->getTagIdsByStatus('closed'))) ? 'issue-c' : 'issue-o';
         return '<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view', 
-                                                    array($this->project->shortname, $issue->id)).'" class="'.$ic.'" title="'.Pluf_esc($issue->summary).'">'.Pluf_esc($title).'</a>';
+                                                    array($this->project->shortname, $issue->id)).$anchor.'" class="'.$ic.'" title="'.Pluf_esc($issue->summary).'">'.Pluf_esc($title).'</a>';
     }
 }

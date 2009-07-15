@@ -342,7 +342,7 @@ class IDF_Views_Project
                     $conf->setVal($key, $val);
                 }
                 $request->user->setMessage(__('The documentation configuration has been saved.'));
-                $url = Pluf_HTTP_URL_urlForView('IDF_Views_Project::adminDownloads',
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views_Project::adminWiki',
                                                 array($prj->shortname));
                 return new Pluf_HTTP_Response_Redirect($url);
             }
@@ -510,6 +510,7 @@ class IDF_Views_Project
                                                      'remote_svn' => $remote_svn,
                                                      'repository_access' => $prj->getRemoteAccessUrl(),
                                                      'repository_type' => $repository_type,
+                                                     'repository_size' => $prj->getRepositorySize(),
                                                      'page_title' => $title,
                                                      'form' => $form,
                                                      ),

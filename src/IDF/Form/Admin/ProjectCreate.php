@@ -60,7 +60,7 @@ class IDF_Form_Admin_ProjectCreate extends Pluf_Form
                                       array('required' => true,
                                             'label' => __('Shortname'),
                                             'initial' => '',
-                                            'help_text' => __('It must be unique for each project and composed only of letters and digits.'),
+                                            'help_text' => __('It must be unique for each project and composed only of letters, digits and dash (-) like "my-project".'),
                                             ));
 
         $this->fields['scm'] = new Pluf_Form_Field_Varchar(
@@ -133,6 +133,16 @@ class IDF_Form_Admin_ProjectCreate extends Pluf_Form
                           'IDF_Form_Admin_ProjectCreate', $params);
     }
 
+    public function clean_owners()
+    {
+        return IDF_Form_MembersConf::checkBadLogins($this->cleaned_data['owners']);
+    }
+
+    public function clean_members()
+    {
+        return IDF_Form_MembersConf::checkBadLogins($this->cleaned_data['members']);
+    }
+
     public function clean_svn_remote_url()
     {
         $this->cleaned_data['svn_remote_url'] = (!empty($this->cleaned_data['svn_remote_url'])) ? $this->cleaned_data['svn_remote_url'] : '';
@@ -150,7 +160,7 @@ class IDF_Form_Admin_ProjectCreate extends Pluf_Form
     {
         $shortname = $this->cleaned_data['shortname'];
         if (preg_match('/[^\-A-Za-z0-9]/', $shortname)) {
-            throw new Pluf_Form_Invalid(__('This shortname contains illegal characters, please use only letters and digits.'));
+            throw new Pluf_Form_Invalid(__('This shortname contains illegal characters, please use only letters, digits and dash (-).'));
         }
         if (mb_substr($shortname, 0, 1) == '-') {
             throw new Pluf_Form_Invalid(__('The shortname cannot start with the dash (-) character.'));

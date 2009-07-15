@@ -52,6 +52,9 @@ class IDF_Plugin_SyncSvn
         case 'Pluf_User::passwordUpdated':
             $plug->processSyncPasswd($params['user']);
             break;
+        case 'IDF_Project::preDelete':
+            $plug->processSvnDelete($params['project']);
+            break;
         }
     }
 
@@ -82,6 +85,31 @@ class IDF_Plugin_SyncSvn
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $ll = exec($cmd, $output, $return);
         return ($return == 0);
+    }
+
+    /**
+     * Remove the project from the drive and update the access rights.
+     *
+     * @param IDF_Project 
+     * @return bool Success
+     */
+    function processSvnDelete($project)
+    {
+        if (!Pluf::f('idf_plugin_syncsvn_remove_orphans', false)) {
+            return;
+        }
+        if ($project->getConf()->getVal('scm') != 'svn') {
+            return false;
+        }
+        $this->SyncAccess($project); // exclude $project
+        $shortname = $project->shortname;
+        if (false===($svn_path=Pluf::f('idf_plugin_syncsvn_svn_path',false))) {
+            throw new Pluf_Exception_SettingError("'idf_plugin_syncsvn_svn_path' must be defined in your configuration file.");
+        }
+        if (file_exists($svn_path.'/'.$shortname)) {
+            $cmd = Pluf::f('idf_exec_cmd_prefix', '').'rm -rf '.$svn_path.'/'.$shortname;
+            exec($cmd);
+        }
     }
     
     /**
@@ -156,8 +184,10 @@ class IDF_Plugin_SyncSvn
      * We rebuild the complete file each time. This is just to be sure
      * not to bork the rights when trying to just edit part of the
      * file.
+     *
+     * @param IDF_Project Possibly exclude a project (null)
      */
-    function SyncAccess()
+    function SyncAccess($exclude=null)
     {
         $authz_file = Pluf::f('idf_plugin_syncsvn_authz_file');
         $access_owners = Pluf::f('idf_plugin_syncsvn_access_owners', 'rw');
@@ -170,6 +200,9 @@ class IDF_Plugin_SyncSvn
         }
         $fcontent = '';
         foreach (Pluf::factory('IDF_Project')->getList() as $project) {
+            if ($exclude and $exclude->id == $project->id) {
+                continue;
+            }
             $conf = new IDF_Conf();
             $conf->setProject($project);
             if ($conf->getVal('scm') != 'svn' or 

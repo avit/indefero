@@ -39,4 +39,23 @@ class IDF_Tests_TestGit extends UnitTestCase
         $this->assertEqual('Fixed the middleware to correctly return a 404 error if the project is', $log[0]->title);
 
     }
+
+    /**
+     * parse a log encoded in iso 8859-1
+     */
+    public function testParseIsoLog()
+    {
+        $log_lines = preg_split("/\015\012|\015|\012/", file_get_contents(dirname(__FILE__).'/data/git-log-iso-8859-1.txt'));
+        $log = IDF_Scm_Git::parseLog($log_lines);
+        $titles = array(
+                        'Quick Profiler entfernt',
+                        'Anwendungsmenu Divider eingefügt',
+                        'Anwendungen aufäumen'
+                        );
+        foreach ($log as $change) {
+            $this->assertEqual(array_shift($titles),
+                               IDF_Commit::toUTF8($change->title));
+        }
+
+    }
 }

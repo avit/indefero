@@ -350,15 +350,53 @@ class IDF_Project extends Pluf_Model
     }
 
     /**
+     * Get the repository size.
+     *
+     * @param bool Force to skip the cache (false)
+     * @return int Size in byte or -1 if not available
+     */
+    public function getRepositorySize($force=false)
+    {
+        $last_eval = $this->getConf()->getVal('repository_size_check_date', 0);
+        if (!$force and $last_eval > time()-86400) {
+            return $this->getConf()->getVal('repository_size', -1);
+        }
+        $scm = IDF_Scm::get($this);
+        $this->getConf()->setVal('repository_size', $scm->getRepositorySize());
+        $this->getConf()->setVal('repository_size_check_date', time());
+        return $this->getConf()->getVal('repository_size', -1);
+    }
+
+    /**
+     * Get the access url to the repository.
+     *
+     * This will return the right url based on the user.
+     *
+     * @param Pluf_User The user (null)
+     */
+    public function getSourceAccessUrl($user=null)
+    {
+        $right = $this->getConf()->getVal('source_access_rights', 'all');
+        if (($user == null or $user->isAnonymous()) 
+            and  $right == 'all' and !$this->private) {
+            return $this->getRemoteAccessUrl();
+        }
+        return $this->getWriteRemoteAccessUrl($user);
+    }
+
+
+    /**
      * Get the remote access url to the repository.
      *
+     * This will always return the anonymous access url.
      */
     public function getRemoteAccessUrl()
     {
         $conf = $this->getConf();
         $scm = $conf->getVal('scm', 'git');
         $scms = Pluf::f('allowed_scm');
-        return call_user_func(array($scms[$scm], 'getRemoteAccessUrl'),
+        Pluf::loadClass($scms[$scm]);
+        return call_user_func(array($scms[$scm], 'getAnonymousAccessUrl'),
                               $this);
     }
 
@@ -369,13 +407,13 @@ class IDF_Project extends Pluf_Model
      * same as the one to read. For example, you do a checkout with
      * git-daemon and push with SSH.
      */
-    public function getWriteRemoteAccessUrl()
+    public function getWriteRemoteAccessUrl($user)
     {
         $conf = $this->getConf();
         $scm = $conf->getVal('scm', 'git');
         $scms = Pluf::f('allowed_scm');
-        return call_user_func(array($scms[$scm], 'getWriteRemoteAccessUrl'),
-                              $this);
+        return call_user_func(array($scms[$scm], 'getAuthAccessUrl'),
+                              $this, $user);
     }
 
     /**
@@ -540,5 +578,43 @@ class IDF_Project extends Pluf_Model
         $params = array('project' => $this);
         Pluf_Signal::send('IDF_Project::created',
                           'IDF_Project', $params);
+    }
+
+    /**
+     * The delete() call do not like circular references and the
+     * IDF_Tag is creating some. We predelete to solve these issues.
+     */
+    public function preDelete()
+    {
+        /**
+         * [signal]
+         *
+         * IDF_Project::preDelete
+         *
+         * [sender]
+         *
+         * IDF_Project
+         *
+         * [description]
+         *
+         * This signal allows an application to perform special
+         * operations at the deletion of a project.
+         *
+         * [parameters]
+         *
+         * array('project' => $project)
+         *
+         */
+        $params = array('project' => $this);
+        Pluf_Signal::send('IDF_Project::preDelete',
+                          'IDF_Project', $params);
+        $what = array('IDF_Upload', 'IDF_Review', 'IDF_Issue',
+                      'IDF_WikiPage', 'IDF_Commit',
+                      );
+        foreach ($what as $m) {
+            foreach (Pluf::factory($m)->getList(array('filter' => 'project='.(int)$this->id)) as $item) {
+                $item->delete();
+            }
+        }
     }
 }

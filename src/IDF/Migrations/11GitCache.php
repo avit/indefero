@@ -22,20 +22,31 @@
 # ***** END LICENSE BLOCK ***** */
 
 /**
- * This script is used to control the access to the git repositories
- * using a restricted shell access.
- *
- * The only argument must be the login of the user.
+ * Add the DB based Git cache.
  */
-// Set the include path to have Pluf and IDF in it.
-$indefero_path = dirname(__FILE__).'/../src';
-//$pluf_path = '/path/to/pluf/src';
-set_include_path(get_include_path()
-                 .PATH_SEPARATOR.$indefero_path
-//                 .PATH_SEPARATOR.$pluf_path
-                 );
-require 'Pluf.php';
-Pluf::start(dirname(__FILE__).'/../src/IDF/conf/idf.php');
-Pluf_Dispatcher::loadControllers(Pluf::f('idf_views'));
-IDF_Plugin_SyncGit_Serve::main($argv, array_merge($_SERVER, $_ENV));
 
+function IDF_Migrations_11GitCache_up($params=null)
+{
+    $models = array(
+                    'IDF_Scm_Cache_Git',
+                    );
+    $db = Pluf::db();
+    $schema = new Pluf_DB_Schema($db);
+    foreach ($models as $model) {
+        $schema->model = new $model();
+        $schema->createTables();
+    }
+}
+
+function IDF_Migrations_11GitCache_down($params=null)
+{
+    $models = array(
+                    'IDF_Scm_Cache_Git',
+                    );
+    $db = Pluf::db();
+    $schema = new Pluf_DB_Schema($db);
+    foreach ($models as $model) {
+        $schema->model = new $model();
+        $schema->dropTables();
+    }
+}

@@ -3,7 +3,7 @@
 {block body}
 
 {if $preview}
-<h2 class="top">{trans 'Preview of the Page'}</h2>
+<h2 id="preview" class="top">{trans 'Preview of the Page'}</h2>
 
 {markdown $preview, $request}
 {/if}

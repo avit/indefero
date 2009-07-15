@@ -20,7 +20,12 @@
 <th>{trans 'Repository access:'}</th>
 <td>{$repository_access}
 </td>
-</tr>{if $remote_svn}
+</tr>{if $repository_size != -1}
+<tr>
+<th>{trans 'Repository size:'}</th>
+<td>{$repository_size|size}
+</td>
+</tr>{/if}{if $remote_svn}
 <tr>
 <th>{$form.f.svn_username.labelTag}:</th>
 <td>{if $form.f.svn_username.errors}{$form.f.svn_username.fieldErrors}{/if}

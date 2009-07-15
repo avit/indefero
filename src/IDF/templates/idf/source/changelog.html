@@ -27,22 +27,3 @@
 </tbody>
 </table>
 {/block}
-{block context}
-{if $scm != 'svn'}
-<p><strong>{trans 'Branches:'}</strong><br />
-{foreach $branches as $branch}
-{aurl 'url', 'IDF_Views_Source::changeLog', array($project.shortname, $branch)}
-<span class="label{if $commit == $branch} active{/if}"><a href="{$url}" class="label">{$branch}</a></span><br />
-{/foreach}
-</p>
-{else}
-<form class="star" action="{url 'IDF_Views_Source_Svn::changelogRev', array($project.shortname)}" method="get">
-<p><strong>{trans 'Revision:'}</strong> {$commit}</p>
-<p>
-    <input accesskey="4" type="text" value="{$commit}" name="rev" size="5" />
-    <input type="submit" name="s" value="{trans 'Go to revision'}" />
-</p>
-</form>
-{/if}
-{/block}
-
