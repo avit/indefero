@@ -22,16 +22,23 @@
 # ***** END LICENSE BLOCK ***** */
 
 /**
- * A comment to a file affected by a patch.
+ * A comment set on a review.
  *
+ * A comment is associated to a patch as a review can have many
+ * patches associated to it. 
+ *
+ * A comment is also tracking the changes in the review in the same
+ * way the issue comment is tracking the changes in the issue.
+ *
+ * 
  */
-class IDF_Review_FileComment extends Pluf_Model
+class IDF_Review_Comment extends Pluf_Model
 {
     public $_model = __CLASS__;
 
     function init()
     {
-        $this->_a['table'] = 'idf_review_filecomments';
+        $this->_a['table'] = 'idf_review_comments';
         $this->_a['model'] = __CLASS__;
         $this->_a['cols'] = array(
                              // It is mandatory to have an "id" column.
@@ -40,33 +47,41 @@ class IDF_Review_FileComment extends Pluf_Model
                                   'type' => 'Pluf_DB_Field_Sequence',
                                   'blank' => true, 
                                   ),
-                            'comment' => 
+                            'patch' => 
                             array(
                                   'type' => 'Pluf_DB_Field_Foreignkey',
-                                  'model' => 'IDF_Review_Comment',
+                                  'model' => 'IDF_Review_Patch',
                                   'blank' => false,
-                                  'relate_name' => 'filecomments',
-                                  'verbose' => __('comment'),
-                                  ),
-                            'cfile' =>
-                            array(
-                                  'type' => 'Pluf_DB_Field_Varchar',
-                                  'blank' => false,
-                                  'size' => 250,
-                                  'help_text' => 'The changed file, for example src/foo/bar.txt, this is the path to access it in the repository.',
-                                  ),
-                            'cline' =>
-                            array(
-                                  'type' => 'Pluf_DB_Field_Integer',
-                                  'blank' => false,
-                                  'default' => 0,
-                                  'help_text' => 'The commented line, negative value is the old file, positive the new, 0 general comment.',
+                                  'verbose' => __('patch'),
+                                  'relate_name' => 'comments',
                                   ),
                             'content' =>
                             array(
                                   'type' => 'Pluf_DB_Field_Text',
-                                  'blank' => false,
+                                  'blank' => true, // if only commented on lines
                                   'verbose' => __('comment'),
+                                  ),
+                            'submitter' => 
+                            array(
+                                  'type' => 'Pluf_DB_Field_Foreignkey',
+                                  'model' => 'Pluf_User',
+                                  'blank' => false,
+                                  'verbose' => __('submitter'),
+                                  ),
+                            'changes' =>
+                            array(
+                                  'type' => 'Pluf_DB_Field_Serialized',
+                                  'blank' => true,
+                                  'verbose' => __('changes'),
+                                  'help_text' => 'Serialized array of the changes in the review.',
+                                  ),
+                            'vote' =>
+                            array(
+                                  'type' => 'Pluf_DB_Field_Integer',
+                                  'default' => 0,
+                                  'blank' => true,
+                                  'verbose' => __('vote'),
+                                  'help_text' => '1, 0 or -1 for positive, neutral or negative vote.',
                                   ),
                             'creation_dtime' =>
                             array(
@@ -78,13 +93,19 @@ class IDF_Review_FileComment extends Pluf_Model
                             );
     }
 
+    function changedReview()
+    {
+        return (is_array($this->changes) and count($this->changes) > 0);
+    }
+
     function _toIndex()
     {
-        return $this->cfile.' '.$this->content;
+        return $this->content;
     }
 
     function preDelete()
     {
+        IDF_Timeline::remove($this);
     }
 
     function preSave($create=false)
@@ -96,6 +117,18 @@ class IDF_Review_FileComment extends Pluf_Model
 
     function postSave($create=false)
     {
+        if (0 and $create) {
+            // Check if more than one comment for this patch. We do
+            // not want to insert the first comment in the timeline as
+            // the patch itself is inserted.
+            $sql = new Pluf_SQL('patch=%s', array($this->patch));
+            $co = Pluf::factory(__CLASS__)->getList(array('filter'=>$sql->gen()));
+            if ($co->count() > 1) {
+                IDF_Timeline::insert($this, $this->get_patch()->get_review()->get_project(), 
+                                     $this->get_submitter());
+            }
+        }
+        IDF_Search::index($this->get_patch()->get_review());
     }
 
     public function timelineFragment($request)

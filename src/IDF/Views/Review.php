@@ -160,11 +160,11 @@ class IDF_Views_Review
                 $url = Pluf_HTTP_URL_urlForView('IDF_Views_Review::index', 
                                                 array($prj->shortname));
                 // Get the list of reviewers + submitter
-                $reviewers = $review->get_reviewers_list();
+                $reviewers = $review->getReviewers();
                 if (!Pluf_Model_InArray($review->get_submitter(), $reviewers)) {
                     $reviewers[] = $review->get_submitter();
                 }
-                $comments = $patch->get_filecomments_list(array('order' => 'id DESC'));
+                $comments = $patch->getFileComments(array('order' => 'id DESC'));
                 $context = new Pluf_Template_Context(
                        array(
                              'review' => $review,
@@ -209,10 +209,10 @@ class IDF_Views_Review
         foreach ($diff->files as $filename => $def) {
             $fileinfo = $scm->getPathInfo($filename, $patch->get_commit()->scm_id);
             $sql = new Pluf_SQL('cfile=%s', array($filename));
-            $cts = $patch->get_filecomments_list(array('filter'=>$sql->gen(),
-                                                'order'=>'creation_dtime ASC'));
+            $cts = $patch->getFileComments(array('filter'=>$sql->gen(),
+                                                 'order'=>'creation_dtime ASC'));
             foreach ($cts as $ct) {
-                $reviewers[] = $ct->get_submitter();
+                $reviewers[] = $ct->get_comment()->get_submitter();
             }
             if (count($def['chunks'])) { 
                 $orig_file = ($fileinfo) ? $scm->getFile($fileinfo) : '';

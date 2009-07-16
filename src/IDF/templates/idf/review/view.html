@@ -82,7 +82,7 @@ to propose more contributions</strong>.
 {assign $nc = $comments.count()} 
 {assign $i = 1}
 {foreach $comments as $c}  
-<div class="issue-comment{if $i == 1} issue-comment-first{/if}{if $i == $nc} issue-comment-last{/if}" id="ic{$c.id}">{assign $who = $c.get_submitter()}{aurl 'whourl', 'IDF_Views_User::view', array($who.login)}
+<div class="issue-comment{if $i == 1} issue-comment-first{/if}{if $i == $nc} issue-comment-last{/if}" id="ic{$c.id}">{assign $who = $c.get_comment().get_submitter()}{aurl 'whourl', 'IDF_Views_User::view', array($who.login)}
 {aurl 'url', 'IDF_Views_Review::view', array($project.shortname, $review.id)}
 {assign $id = $c.id}
 {assign $url = $url~'#ic'~$c.id}

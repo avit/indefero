@@ -76,13 +76,17 @@ class IDF_Form_ReviewFileComment extends Pluf_Form
         if (!$this->isValid()) {
             throw new Exception(__('Cannot save the model from an invalid form.'));
         }
+        // create a base comment
+        $bc = new IDF_Review_Comment();
+        $bc->patch = $this->patch;
+        $bc->submitter = $this->user;
+        $bc->create();
         foreach ($this->files as $filename => $def) {
             if (!empty($this->cleaned_data[md5($filename)])) {
                 // Add a comment.
                 $c = new IDF_Review_FileComment();
-                $c->patch = $this->patch;
+                $c->comment = $bc;
                 $c->cfile = $filename;
-                $c->submitter = $this->user;
                 $c->content = $this->cleaned_data[md5($filename)];
                 $c->create();
             }

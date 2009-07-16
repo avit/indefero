@@ -126,9 +126,23 @@ class IDF_Review extends Pluf_Model
                               'join_tags' => 
                               array(
                                     'join' => 'LEFT JOIN '.$table
-                                    .' ON idf_issue_id=id',
+                                    .' ON idf_review_id=id',
                                     ),
                                    );
+    }
+
+    /**
+     * Iterate through the patches and comments to get the reviewers.
+     */
+    function getReviewers()
+    {
+        $rev = new ArrayObject();
+        foreach ($this->get_patches_list() as $p) {
+            foreach ($p->get_comments_list() as $c) {
+                $rev[] = $c->get_submitter();
+            }
+        }
+        return Pluf_Model_RemoveDuplicates($rev);
     }
 
     function __toString()
@@ -149,7 +163,7 @@ class IDF_Review extends Pluf_Model
 
     function preSave($create=false)
     {
-        if ($this->id == '') {
+        if ($create) {
             $this->creation_dtime = gmdate('Y-m-d H:i:s');
         }
         $this->modif_dtime = gmdate('Y-m-d H:i:s');

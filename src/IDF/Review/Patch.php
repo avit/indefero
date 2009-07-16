@@ -85,15 +85,28 @@ class IDF_Review_Patch extends Pluf_Model
                                   'type' => 'Pluf_DB_Field_Datetime',
                                   'blank' => true,
                                   'verbose' => __('creation date'),
+                                  'index' => true,
                                   ),
                             );
-        $this->_a['idx'] = array(                           
-                            'creation_dtime_idx' =>
-                            array(
-                                  'col' => 'creation_dtime',
-                                  'type' => 'normal',
-                                  ),
-                            );
+    }
+
+    /**
+     * Get the list of file comments.
+     *
+     * It will go through the patch comments and find for each the
+     * file comments.
+     *
+     * @param array Filter to apply to the file comment list (array())
+     */
+    function getFileComments($filter=array())
+    {
+        $files = new ArrayObject();
+        foreach ($this->get_comments_list(array('order'=>'creation_dtime ASC')) as $ct) {
+            foreach ($ct->get_filecomments_list($filter) as $fc) {
+                $files[] = $fc;
+            }
+        }
+        return $files;
     }
 
     function _toIndex()
@@ -107,7 +120,7 @@ class IDF_Review_Patch extends Pluf_Model
 
     function preSave($create=false)
     {
-        if ($this->id == '') {
+        if ($create) {
             $this->creation_dtime = gmdate('Y-m-d H:i:s');
         }
     }
@@ -118,6 +131,7 @@ class IDF_Review_Patch extends Pluf_Model
 
     public function timelineFragment($request)
     {
+        return '';
     }
 
     public function feedFragment($request)
