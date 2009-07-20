@@ -49,7 +49,7 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
         if ($request->rights['hasSourceAccess']) {
             $text = preg_replace_callback('#(commits?\s+)([0-9a-f]{1,40}(?:(?:\s+and|\s+or|,)\s+[0-9a-f]{1,40})*)\b#i',
                                           array($this, 'callbackCommits'), $text);
-            $text = preg_replace_callback('#(src:)([^\s\(\)]+)#im',
+            $text = preg_replace_callback('#(src:)([^\s\(\)\\\\]+(?:(\\\\)\s+[^\s\(\)\\\\]+){0,})+#im',
                                           array($this, 'callbackSource'), $text);
         }
         if ($wordwrap) $text = Pluf_Text::wrapHtml($text, 69, "\n");
@@ -143,12 +143,13 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
     {
         if (!$this->scm->isAvailable()) return $m[0];
         $file = $m[2];
+        if (!empty($m[3])) $file = str_replace($m[3], '', $file);
         $request_file_info = $this->scm->getPathInfo($file);
         if (!$request_file_info) {
             return $m[0];
         }
         if ($request_file_info->type != 'tree') {
-            return $m[1].'<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Source::tree', array($this->project->shortname, $this->scm->getMainBranch(), $file)).'">'.$m[2].'</a>';
+            return $m[1].'<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Source::tree', array($this->project->shortname, $this->scm->getMainBranch(), $file)).'">'.$file.'</a>';
         }
         return $m[0];
     }
