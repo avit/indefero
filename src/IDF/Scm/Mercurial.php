@@ -261,9 +261,10 @@ class IDF_Scm_Mercurial extends IDF_Scm
             return $this->cache['branches'];
         }
         $out = array();
+        $cmd = sprintf(Pluf::f('hg_path', 'hg').' branches -R %s', 
+                       escapeshellarg($this->repo));
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
-        exec(sprintf(Pluf::f('hg_path', 'hg').' branches -R %s', 
-                              escapeshellarg($this->repo)), $out);
+        exec($cmd, $out);
         $res = array();
         foreach ($out as $b) {
             preg_match('/(\S+).*\S+:(\S+)/', $b, $match);
