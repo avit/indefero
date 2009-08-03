@@ -39,8 +39,14 @@ class IDF_Template_Markdown extends Pluf_Template_Tag
         // Replace like in the issue text
         $tag = new IDF_Template_IssueComment();
         $text = $tag->start($text, $request, false, false, false, false);
+        // Replace [[[path/to/file.mdtext, commit]]] with embedding
+        // the content of the file into the wki page
+        if ($this->request->rights['hasSourceAccess']) {
+            $text = preg_replace_callback('#\[\[\[([^\,]+)(?:, ([^/]+))?\]\]\]#im',
+                                          array($this, 'callbackEmbeddedDoc'), 
+                                          $text);
+        }
         // Replace [[PageName]] with corresponding link to the page.
-        // if not the right to see the
         $text = preg_replace_callback('#\[\[([A-Za-z0-9\-]+)\]\]#im',
                                       array($this, 'callbackWikiPage'), 
                                       $text);
@@ -64,6 +70,26 @@ class IDF_Template_Markdown extends Pluf_Template_Tag
             return $m[1];
         }
         return '<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Wiki::view', array($this->project->shortname, $pages[0]->title)).'" title="'.Pluf_esc($pages[0]->summary).'">'.$m[1].'</a>';
+    }
+    
+    function callbackEmbeddedDoc($m)
+    {
+        $scm = IDF_Scm::get($this->request->project);
+        $view_source = new IDF_Views_Source();
+        $match = array('dummy', $this->request->project->shortname);
+        $match[] = (isset($m[2])) ? $m[2] : $scm->getMainBranch();
+        $match[] = $m[1];
+        $res = $view_source->getFile($this->request, $match);
+        if ($res->status_code != 200) {
+            return $m[0];
+        }
+        $info = pathinfo($m[1]);
+        $fileinfo = array($res->headers['Content-Type'], $m[1], 
+                          isset($info['extension']) ? $info['extension'] : 'bin');
+        if (!IDF_Views_Source::isText($fileinfo)) {
+            return $m[0];
+        }
+        return $res->content;
     }
 }
 
