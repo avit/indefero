@@ -165,6 +165,8 @@ $cfg['db_database'] = 'website'; # put absolute path to the db if you
 # $cfg['idf_extra_upload_ext'] = ' ext1 ext2';
 #
 # By default, the size of the downloads is limited to 2MB.
+# The php.ini upload_max_filesize configuration setting will 
+# always have precedence.
 # $cfg['max_upload_size'] = 2097152; // Size in bytes
 
 #
