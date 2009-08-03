@@ -233,6 +233,7 @@ class IDF_Views_Review
                                                      'files' => $files,
                                                      'diff' => $diff,
                                                      'patch' => $patch,
+                                                     'comments' => $patch->get_comments_list(array('sort' => 'id ASC')),
                                                      'form' => $form,
                                                      'reviewers' => $reviewers,
                                                      ),

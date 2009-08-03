@@ -26,7 +26,7 @@
 <th><strong>{trans 'Commit:'}</strong></th><td class="mono"><a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $patch.get_commit().scm_id)}" title="{trans 'View corresponding source tree'}">{$patch.get_commit().scm_id}</a></td>
 </tr>
 <tr>
-<th><strong>{trans 'Description:'}</strong></th><td>{issuetext $review.summary, $request}<br /><br />{issuetext $patch.summary, $request}</td>
+<th><strong>{trans 'Description:'}</strong></th><td>{issuetext $review.summary, $request}<br /><br />{issuetext $patch.description, $request}</td>
 </tr>
 <tr>
 <th><strong>{trans 'Reviewers:'}</strong></th><td>{if count($reviewers)}{foreach $reviewers as $r}{$r}, {/foreach}{else}{trans 'No reviewers at the moment.'}{/if}</td>
