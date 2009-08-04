@@ -119,6 +119,7 @@ class IDF_Template_MarkdownPrefilter extends Pluf_Text_HTML_Filter
                             'strong' => array(),
                             'table' => array('summary'),
                             'td' => array('style'),
+                            'th' => array(),
                             'tr' => array(),
                             'ul' => array(),
                             );
