@@ -162,6 +162,11 @@ this in your configuration file:
 
     $cfg['idf_mimetypes_db'] = '/home/mime.types';
 
+## FreeBSD Installation
+
+You need to install `/usr/ports/lang/php5-extensions` which contains
+the Standard PHP Library (SPL).
+
 ## Using a SMTP server with authentication
 
 If your SMTP server requires authentication, for example,
