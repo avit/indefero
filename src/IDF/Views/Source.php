@@ -210,6 +210,13 @@ class IDF_Views_Source
 
         $page_title = $bc.' - '.$title;
         $cobject = $scm->getCommit($commit);
+        if (!$cobject) {
+            // Redirect to the first branch
+            $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::treeBase',
+                                            array($request->project->shortname,
+                                                  $scm->getMainBranch()));
+            return new Pluf_HTTP_Response_Redirect($url);
+        }
         $in_branches = $scm->inBranches($commit, $request_file);
         $cache = Pluf_Cache::factory();
         $key = sprintf('Project:%s::IDF_Views_Source::tree:%s::%s',
