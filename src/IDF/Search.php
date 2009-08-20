@@ -59,7 +59,7 @@ class IDF_Search extends Pluf_Search
             $words_flat[] = $word;
         }
         $word_ids = self::getWordIds($words_flat);
-        if (in_array(null, $word_ids)) {
+        if (in_array(null, $word_ids) or count($word_ids) == 0) {
             return array();
         }
         return self::mySearchDocuments($word_ids, $project, $model);
