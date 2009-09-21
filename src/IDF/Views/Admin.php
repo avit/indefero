@@ -352,7 +352,7 @@ function IDF_Views_Admin_getForgeDbSize()
         break;
     case 'MySQL':
     default:
-        $sql = 'SHOW TABLE STATUS FROM '.Pluf::f('db_database');
+        $sql = 'SHOW TABLE STATUS FROM `'.Pluf::f('db_database').'`';
         break;
     }
     $rs = $db->select($sql);
