@@ -43,7 +43,7 @@ class IDF_Scm_Git extends IDF_Scm
 
     public function getRepositorySize()
     {
-        $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -sk '
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -skD '
             .escapeshellarg($this->repo);
         $out = split(' ', shell_exec($cmd), 2);
         return (int) $out[0]*1024;
