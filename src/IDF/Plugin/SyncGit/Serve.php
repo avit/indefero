@@ -91,7 +91,9 @@ class IDF_Plugin_SyncGit_Serve
             // the repository on the fly
             $p = explode(DIRECTORY_SEPARATOR, $fullpath);
             $mpath = implode(DIRECTORY_SEPARATOR, array_slice($p, 0, -1));
-            mkdir($mpath, 0750, true);
+            if (!file_exists($mpath)) {
+                mkdir($mpath, 0750, true);
+            }
             $this->initRepository($fullpath);
             $this->setGitExport($relpath, $fullpath);
         }
@@ -190,7 +192,9 @@ class IDF_Plugin_SyncGit_Serve
      */
     public function initRepository($fullpath)
     {
-        mkdir($fullpath, 0750, true);
+        if (!file_exists($fullpath)) {
+            mkdir($fullpath, 0750, true);
+        }
         exec(sprintf(Pluf::f('idf_exec_cmd_prefix', '').
                      Pluf::f('git_path', 'git').' --git-dir=%s init', escapeshellarg($fullpath)), 
              $out, $res);
