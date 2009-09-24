@@ -210,9 +210,9 @@ class IDF_Project extends Pluf_Model
         $conf = $this->getConf();
         $tags = array();
         foreach (preg_split("/\015\012|\015|\012/", $conf->getVal($cfg_key, $default), -1, PREG_SPLIT_NO_EMPTY) as $s) {
-            $_s = split('=', $s, 2);
+            $_s = explode('=', $s, 2);
             $v = trim($_s[0]);
-            $_v = split(':', $v, 2);
+            $_v = explode(':', $v, 2);
             if (count($_v) > 1) {
                 $class = trim($_v[0]);
                 $name = trim($_v[1]);

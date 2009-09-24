@@ -45,7 +45,7 @@ class IDF_Scm_Git extends IDF_Scm
     {
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -skD '
             .escapeshellarg($this->repo);
-        $out = split(' ', shell_exec($cmd), 2);
+        $out = explode(' ', shell_exec($cmd), 2);
         return (int) $out[0]*1024;
     }
 
@@ -671,10 +671,10 @@ class IDF_Scm_Git extends IDF_Scm
         if (false === $data) {
             return $res;
         }
-        $data = split(chr(30), $data);
+        $data = explode(chr(30), $data);
         foreach ($data as $rec) {
             if (isset($hashes[substr($rec, 0, 40)])) {
-                $tmp = split(chr(31), substr($rec, 40), 3);
+                $tmp = explode(chr(31), substr($rec, 40), 3);
                 $res[substr($rec, 0, 40)] = 
                     (object) array('hash' => substr($rec, 0, 40),
                                    'date' => $tmp[0],

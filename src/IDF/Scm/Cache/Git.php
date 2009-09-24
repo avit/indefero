@@ -84,7 +84,7 @@ class IDF_Scm_Cache_Git extends Pluf_Model
         $sql = new Pluf_SQL('project=%s AND githash IN ('.implode(', ', $hashes).')', 
                             array($this->_project->id));
         foreach (Pluf::factory(__CLASS__)->getList(array('filter' => $sql->gen())) as $blob) {
-            $tmp = split(chr(31), $blob->content, 3);
+            $tmp = explode(chr(31), $blob->content, 3);
 
             $res[$blob->githash] = (object) array(
                                                   'hash' => $blob->githash,

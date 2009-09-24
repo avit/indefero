@@ -58,7 +58,7 @@ class IDF_Scm_Svn extends IDF_Scm
         }
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -skD '
             .escapeshellarg(substr($this->repo, 7));
-        $out = split(' ', shell_exec($cmd), 2);
+        $out = explode(' ', shell_exec($cmd), 2);
         return (int) $out[0]*1024;
     }
 
@@ -435,7 +435,7 @@ class IDF_Scm_Svn extends IDF_Scm
             $log = array();
             $log['author'] = (string) $entry->author;
             $log['date'] = gmdate('Y-m-d H:i:s', strtotime((string) $entry->date));
-            $split = split("[\n\r]", (string) $entry->msg, 2);
+            $split = explode("[\n\r]", (string) $entry->msg, 2);
             $log['title'] = $split[0];
             $log['commit'] = (string) $entry['revision'];
             $log['full_message'] = (isset($split[1])) ? trim($split[1]) : '';

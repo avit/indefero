@@ -226,7 +226,7 @@ class IDF_Views_Source
             $cache->set($key, $res);
         }
         // try to find the previous level if it exists.
-        $prev = split('/', $request_file);
+        $prev = explode('/', $request_file);
         $l = array_pop($prev);
         $previous = substr($request_file, 0, -strlen($l.' '));
         $scmConf = $request->conf->getVal('scm', 'git');
@@ -250,7 +250,7 @@ class IDF_Views_Source
 
     public static function makeBreadCrumb($project, $commit, $file, $sep='/')
     {
-        $elts = split('/', $file);
+        $elts = explode('/', $file);
         $out = array();
         $stack = '';
         $i = 0;
@@ -346,7 +346,7 @@ class IDF_Views_Source
         $cobject = $scm->getCommit($commit);
         $in_branches = $scm->inBranches($commit, $request_file);
         // try to find the previous level if it exists.
-        $prev = split('/', $request_file);
+        $prev = explode('/', $request_file);
         $l = array_pop($prev);
         $previous = substr($request_file, 0, -strlen($l.' '));
         $scmConf = $request->conf->getVal('scm', 'git');

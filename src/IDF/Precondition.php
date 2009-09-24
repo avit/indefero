@@ -230,7 +230,7 @@ class IDF_Precondition
             return true; // no match in the hash, anonymous
         }
         $cr = new Pluf_Crypt(md5(Pluf::f('secret_key')));
-        list($userid, $projectid) = split(':', $cr->decrypt($encrypted), 2);
+        list($userid, $projectid) = explode(':', $cr->decrypt($encrypted), 2);
         if ($projectid != $request->project->id) {
            return true; // anonymous
         }

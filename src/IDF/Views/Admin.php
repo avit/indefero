@@ -321,11 +321,11 @@ function IDF_Views_Admin_getForgeSize()
     }
     $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -sk '
         .escapeshellarg(Pluf::f('upload_path'));
-    $out = split(' ', shell_exec($cmd), 2);
+    $out = explode(' ', shell_exec($cmd), 2);
     $res['downloads'] = $out[0]*1024;
     $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -sk '
         .escapeshellarg(Pluf::f('upload_issue_path'));
-    $out = split(' ', shell_exec($cmd), 2);
+    $out = explode(' ', shell_exec($cmd), 2);
     $res['attachments'] = $out[0]*1024;
     $res['database'] = IDF_Views_Admin_getForgeDbSize();
     $res['total'] = $res['repositories'] + $res['downloads'] + $res['attachments'] + $res['database'];

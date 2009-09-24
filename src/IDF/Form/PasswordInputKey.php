@@ -95,7 +95,7 @@ class IDF_Form_PasswordInputKey extends Pluf_Form
             return false;
         }
         $cr = new Pluf_Crypt(md5(Pluf::f('secret_key')));
-        $f = split(':', $cr->decrypt($encrypted), 3);
+        $f = explode(':', $cr->decrypt($encrypted), 3);
         if (count($f) != 3) {
             return false;
         }

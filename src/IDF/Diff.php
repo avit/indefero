@@ -187,10 +187,10 @@ class IDF_Diff
      */
     public static function getChunk($line)
     {
-        $elts = split(' ', $line);
+        $elts = explode(' ', $line);
         $res = array();
         for ($i=1;$i<3;$i++) {
-            $res[] = split(',', trim(substr($elts[$i], 1)));
+            $res[] = explode(',', trim(substr($elts[$i], 1)));
         }
         return $res;
     }

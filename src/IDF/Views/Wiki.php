@@ -397,7 +397,7 @@ class IDF_Views_Wiki
         foreach ($st as $s) {
             $v = '';
             $d = '';
-            $_s = split('=', $s, 2);
+            $_s = explode('=', $s, 2);
             if (count($_s) > 1) {
                 $v = trim($_s[0]);
                 $d = trim($_s[1]);
