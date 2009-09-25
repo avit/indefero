@@ -76,7 +76,7 @@ folder. Here is a configuration example:
     # git account home dir
     $cfg['idf_plugin_syncgit_git_home_dir'] = '/home/git'; 
     # where are going to be the git repositories
-    $cfg['idf_plugin_sncgit_base_repositories'] = '/home/git/repositories'; 
+    $cfg['idf_plugin_syncgit_base_repositories'] = '/home/git/repositories'; 
 
 When someone will change his SSH key or add a new one, the
 `/tmp/SYNC-GIT` file will be created. The cron job
