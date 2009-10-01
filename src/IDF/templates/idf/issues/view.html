@@ -15,7 +15,7 @@
 {/if}
 
 
-<pre class="issue-comment-text">{if strlen($c.content) > 0}{issuetext $c.content, $request}{else}<i>{trans '(No comments were given for this change.)'}</i>{/if}</pre>
+{if strlen($c.content) > 0}<pre class="issue-comment-text">{issuetext $c.content, $request}</pre>{/if}
 {assign $attachments = $c.get_attachment_list()}
 {if $attachments.count() > 0}
 <hr align="left" class="attach" />
