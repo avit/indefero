@@ -49,7 +49,7 @@
 {if $hasSourceAccess} <a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $project.getScmRoot())}"{block tabsource}{/block}>{trans 'Source'}</a>{/if}
 {if $hasReviewAccess} <a href="{url 'IDF_Views_Review::index', array($project.shortname)}"{block tabreview}{/block}>{trans 'Code Review'}</a>{/if}
 {if $isOwner}
-  <a href="{url 'IDF_Views_Project::admin', array($project.shortname)}"{block tabadmin}{/block}>{trans 'Administer'}</a>{/if}{/if}
+  <a href="{url 'IDF_Views_Project::admin', array($project.shortname)}"{block tabadmin}{/block}>{trans 'Project Management'}</a>{/if}{/if}
 </div>
 {block subtabs}{if $user.isAnonymous()} | {aurl 'url', 'IDF_Views::login'}{blocktrans}<a href="{$url}">Sign in or create your account</a> to create issues or add comments{/blocktrans}{/if}{/block}
 </div>

@@ -97,7 +97,7 @@ Here is the step-by-step installation procedure:
 * Open the `www/index.php` file and ensure that the path to Pluf and
   Indefero are correctly set for your configuration.
 * Now you can login with this user into the interface.
-* Click on the Administer link on top and create your first project.
+* Click on the Forge Management link on top and create your first project.
 
 ## Upgrade InDefero
 

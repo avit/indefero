@@ -39,7 +39,7 @@ class IDF_Views_Admin
     public $home_precond = array('Pluf_Precondition::staffRequired');
     public function home($request, $match)
     {
-        $title = __('Administer');
+        $title = __('Forge Management');
         return Pluf_Shortcuts_RenderToResponse('idf/gadmin/home.html',
                                                array(
                                                      'page_title' => $title,
