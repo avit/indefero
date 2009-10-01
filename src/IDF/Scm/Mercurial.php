@@ -49,7 +49,12 @@ class IDF_Scm_Mercurial extends IDF_Scm
 
     public function isAvailable()
     {
-        return true;
+        try {
+            $branches = $this->getBranches();
+        } catch (IDF_Scm_Exception $e) {
+            return false;
+        }
+        return (count($branches) > 0);
     }
 
     public function findAuthor($author)
@@ -86,7 +91,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
                        escapeshellarg($rev));
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec($cmd, $out, $ret);
-        return ($ret == 0);
+        return ($ret == 0) && (count($out) > 0);
     }
 
     /**
@@ -287,8 +292,11 @@ class IDF_Scm_Mercurial extends IDF_Scm
      * @param bool Get commit diff (false)
      * @return array Changes
      */
-    public function getCommit($commit='tip', $getdiff=false)
+    public function getCommit($commit, $getdiff=false)
     {
+        if (!$this->isValidRevision($commit)) {
+            return false;
+        }
         $tmpl = ($getdiff) ? 
             Pluf::f('hg_path', 'hg').' log -p -r %s -R %s' : Pluf::f('hg_path', 'hg').' log -r %s -R %s';
         $cmd = sprintf($tmpl, 
@@ -393,8 +401,8 @@ class IDF_Scm_Mercurial extends IDF_Scm
                 continue;
             }
         }
-        $c['tree'] = $c['commit'];
-        $c['full_message'] = trim($c['full_message']);
+        $c['tree'] = !empty($c['commit']) ? trim($c['commit']) : '';
+        $c['full_message'] = !empty($c['full_message']) ? trim($c['full_message']) : '';
         $res[] = (object) $c;
         return $res;
     }
