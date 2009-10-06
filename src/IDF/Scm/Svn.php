@@ -169,7 +169,7 @@ class IDF_Scm_Svn extends IDF_Scm
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' info --xml --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
-                       escapeshellarg($this->repo.'/'.$path),
+                       escapeshellarg($this->repo.'/'.urlencode($path)),
                        escapeshellarg($rev));
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $xmlInfo = shell_exec($cmd);
@@ -196,7 +196,7 @@ class IDF_Scm_Svn extends IDF_Scm
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' ls --xml --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
-                       escapeshellarg($this->repo.'/'.$folder),
+                       escapeshellarg($this->repo.'/'.urlencode($folder)),
                        escapeshellarg($commit));
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $xml = simplexml_load_string(shell_exec($cmd));
@@ -253,7 +253,7 @@ class IDF_Scm_Svn extends IDF_Scm
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' info --xml --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
-                       escapeshellarg($this->repo.'/'.$filename),
+                       escapeshellarg($this->repo.'/'.urlencode($filename)),
                        escapeshellarg($rev));
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $xml = simplexml_load_string(shell_exec($cmd));
@@ -280,7 +280,7 @@ class IDF_Scm_Svn extends IDF_Scm
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' cat --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
-                       escapeshellarg($this->repo.'/'.$def->fullpath),
+                       escapeshellarg($this->repo.'/'.urlencode($def->fullpath)),
                        escapeshellarg($def->rev));
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         return ($cmd_only) ? $cmd : shell_exec($cmd);
@@ -458,7 +458,7 @@ class IDF_Scm_Svn extends IDF_Scm
         $cmd = sprintf(Pluf::f('svn_path', 'svn').' proplist --xml --username=%s --password=%s %s@%s',
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
-                       escapeshellarg($this->repo.'/'.$path),
+                       escapeshellarg($this->repo.'/'.urlencode($path)),
                        escapeshellarg($rev));
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $xmlProps = shell_exec($cmd);
@@ -494,7 +494,7 @@ class IDF_Scm_Svn extends IDF_Scm
                        escapeshellarg($property),
                        escapeshellarg($this->username),
                        escapeshellarg($this->password),
-                       escapeshellarg($this->repo.'/'.$path),
+                       escapeshellarg($this->repo.'/'.urlencode($path)),
                        escapeshellarg($rev));
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $xmlProp = shell_exec($cmd);
