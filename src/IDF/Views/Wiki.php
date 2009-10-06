@@ -240,8 +240,7 @@ class IDF_Views_Wiki
         $dep = Pluf_Model_InArray($dtag, $tags);
         $title = $page->title;
         $revision = $page->get_current_revision();
-        $db = $page->getDbConnection();
-        $false = Pluf_DB_BooleanToDb(false, $db);
+        $false = Pluf_DB_BooleanToDb(false, $page->getDbConnection());
         $revs = $page->get_revisions_list(array('order' => 'creation_dtime DESC',
                                                 'filter' => 'is_head='.$false));
         return Pluf_Shortcuts_RenderToResponse('idf/wiki/view.html',
@@ -281,8 +280,7 @@ class IDF_Views_Wiki
 
         $title = sprintf(__('Delete Old Revision of %s'), $page->title);
         $revision = $page->get_current_revision();
-        $db = $page->getDbConnection();
-        $false = Pluf_DB_BooleanToDb(false, $db);
+        $false = Pluf_DB_BooleanToDb(false, $page->getDbConnection());
         $revs = $page->get_revisions_list(array('order' => 'creation_dtime DESC',
                                                 'filter' => 'is_head='.$false));
         return Pluf_Shortcuts_RenderToResponse('idf/wiki/delete.html',

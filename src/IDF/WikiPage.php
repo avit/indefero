@@ -146,8 +146,7 @@ class IDF_WikiPage extends Pluf_Model
 
     function get_current_revision() 
     {
-        $db = $this->getDbConnection();
-        $true = Pluf_DB_BooleanToDb(true, $db);
+        $true = Pluf_DB_BooleanToDb(true, $this->getDbConnection());
         $rev = $this->get_revisions_list(array('filter' => 'is_head='.$true,
                                                'nb' => 1));
         return ($rev->count() == 1) ? $rev[0] : null;
