@@ -345,7 +345,8 @@ function IDF_Views_Admin_getForgeDbSize()
     }
     switch (Pluf::f('db_engine')) {
     case 'PostgreSQL':
-        $sql = 'SELECT relname, pg_total_relation_size(relname) AS size FROM pg_class AS pgc, pg_namespace AS pgn 
+        $sql = 'SELECT relname, pg_total_relation_size(CAST(relname AS 
+TEXT)) AS size FROM pg_class AS pgc, pg_namespace AS pgn 
      WHERE pg_table_is_visible(pgc.oid) IS TRUE AND relkind = \'r\'
      AND pgc.relnamespace = pgn.oid
      AND pgn.nspname NOT IN (\'information_schema\', \'pg_catalog\')';
