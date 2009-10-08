@@ -120,7 +120,7 @@ class IDF_Views_Project
             $tags = IDF_Views_Wiki::getWikiTags($prj);
             $pages = $tags[0]->get_idf_wikipage_list(); 
         }
-        if (!$request->user->isAnonymous()) {
+        if (!$request->user->isAnonymous() and $prj->isRestricted()) {
             $feedurl = Pluf_HTTP_URL_urlForView('idf_project_timeline_feed_auth',
                                                 array($prj->shortname, 
                                                       IDF_Precondition::genFeedToken($prj, $request->user)));

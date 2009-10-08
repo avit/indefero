@@ -32,6 +32,14 @@ class IDF_Project extends Pluf_Model
     public $_model = __CLASS__;
     public $_extra_cache = array();
     protected $_pconf = null;
+    /**
+     * Check if the project as one restricted tab.
+     *
+     * This is the cached information.
+     *
+     * @see self::isRestricted
+     */
+    protected $_isRestricted = null; 
 
     function init()
     {
@@ -616,5 +624,38 @@ class IDF_Project extends Pluf_Model
                 $item->delete();
             }
         }
+    }
+
+    /**
+     * Check if the project has one restricted tab.
+     *
+     * @return bool
+     */
+    public function isRestricted()
+    {
+        if ($this->_isRestricted !== null) {
+            return $this->_isRestricted;
+        }
+        if ($this->private) {
+            $this->_isRestricted = true;
+            return true;
+        }
+        $tabs = array(
+                      'source_access_rights',
+                      'issues_access_rights',
+                      'downloads_access_rights',
+                      'wiki_access_rights',
+                      'review_access_rights'
+                      );
+        $conf = $this->getConf();
+        foreach ($tabs as $tab) {
+            if (!in_array($conf->getVal($tab, 'all'), 
+                          array('all', 'none'))) {
+                $this->_isRestricted = true;
+                return true;
+            }
+        }
+        $this->_isRestricted = false;
+        return false;
     }
 }
