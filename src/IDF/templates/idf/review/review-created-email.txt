@@ -3,6 +3,7 @@
 {blocktrans}The following review has been created:{/blocktrans}
 
 {$review.id} - {$review.summary|safe}
+
 {trans 'Project:'} {$project.name|safe}
 {trans 'Status:'} {$review.get_status.name}
 {trans 'Reported by:'} {$review.get_submitter|safe}

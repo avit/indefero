@@ -175,30 +175,7 @@ class IDF_Views_Issue
                 $issue = $form->save();
                 $url = Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view',
                                                 array($prj->shortname, $issue->id));
-                $to_emails = array();
-                if (null != $issue->get_owner() and $issue->owner != $issue->submitter) {
-                    $to_emails[] = $issue->get_owner()->email;
-                }
-                if ('' != $request->conf->getVal('issues_notification_email', '')) {
-                    $to_emails[] = $request->conf->getVal('issues_notification_email', '');
-                }
-                foreach ($to_emails as $oemail) {
-                    $comments = $issue->get_comments_list(array('order' => 'id ASC'));
-                    $context = new Pluf_Template_Context(
-                            array(
-                                  'issue' => $issue,
-                                  'comment' => $comments[0],
-                                  'project' => $prj,
-                                  'url_base' => Pluf::f('url_base'),
-                                  )
-                                                         );
-                    $email = new Pluf_Mail(Pluf::f('from_email'), $oemail,
-                                           sprintf(__('Issue %s - %s (%s)'),
-                                                   $issue->id, $issue->summary, $prj->shortname));
-                    $tmpl = new Pluf_Template('idf/issues/issue-created-email.txt');
-                    $email->addTextMessage($tmpl->render($context));
-                    $email->sendMail();
-                }
+                $issue->notify($request->conf);
                 if ($api) return $issue;
                 $request->user->setMessage(sprintf(__('<a href="%s">Issue %d</a> has been created.'), $url, $issue->id));
                 return new Pluf_HTTP_Response_Redirect($url);
@@ -290,45 +267,11 @@ class IDF_Views_Issue
                                                              $request->FILES),
                                                  $params);
                 if (!isset($request->POST['preview']) && $form->isValid()) {
-                    $issue = $form->save();
+                    $issue = $form->save(); // Note, should return the
+                                            // last comment
+                    $issue->notify($request->conf, false);
                     $comments = $issue->get_comments_list(array('order' => 'id DESC'));
                     $url .= '#ic' . $comments[0]->id;
-                    // Get the list of interested person + owner + submitter
-                    if (!Pluf_Model_InArray($issue->get_submitter(), $interested)) {
-                        $interested[] = $issue->get_submitter();
-                    }
-                    if (null != $issue->get_owner() and 
-                        !Pluf_Model_InArray($issue->get_owner(), $interested)) {
-                        $interested[] = $issue->get_owner();
-                    }
-                    $context = new Pluf_Template_Context(
-                            array(
-                                  'issue' => $issue,
-                                  'comments' => $comments,
-                                  'project' => $prj,
-                                  'url_base' => Pluf::f('url_base'),
-                                  ));
-                    $tmpl = new Pluf_Template('idf/issues/issue-updated-email.txt');
-                    $text_email = $tmpl->render($context);
-                    $email = new Pluf_Mail_Batch(Pluf::f('from_email'));
-                    $to_emails = array();
-                    foreach ($interested as $user) {
-                        if ($user->id != $request->user->id) {
-                            $to_emails[] = $user->email;
-                        }
-                    }
-                    if ('' != $request->conf->getVal('issues_notification_email', '')) {
-                        $to_emails[] = $request->conf->getVal('issues_notification_email');
-                    }
-                    foreach ($to_emails as $oemail) {
-                        $email->setSubject(sprintf(__('Updated Issue %s - %s (%s)'),
-                                                   $issue->id, $issue->summary, $prj->shortname));
-                        $email->setTo($oemail);
-                        $email->setReturnPath(Pluf::f('from_email'));
-                        $email->addTextMessage($text_email);
-                        $email->sendMail();
-                    }
-                    $email->close();
                     $request->user->setMessage(sprintf(__('<a href="%s">Issue %d</a> has been updated.'), $url, $issue->id));
                     return new Pluf_HTTP_Response_Redirect($url);
                 }

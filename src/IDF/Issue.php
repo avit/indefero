@@ -227,4 +227,93 @@ class IDF_Issue extends Pluf_Model
                                                'content' => $content,
                                                'date' => $date));
     }
+
+    /**
+     * Notification of change of the object.
+     *
+     * For the moment, only email, but one can add webhooks later.
+     *
+     * Usage:
+     * <pre>
+     * $this->notify($conf); // Notify the creation
+     * $this->notify($conf, false); // Notify the update of the object
+     * </pre>
+     *
+     * @param IDF_Conf Current configuration
+     * @param bool Creation (true)
+     */
+    public function notify($conf, $create=true)
+    {
+        $prj = $this->get_project();
+        $to_email = array();
+        if ('' != $conf->getVal('issues_notification_email', '')) {
+            $langs = Pluf::f('languages', array('en'));
+            $to_email[] = array($conf->getVal('issues_notification_email'),
+                                $langs[0]);
+        }
+        $current_locale = Pluf_Translation::getLocale();
+
+        if ($create) {
+            if (null != $this->get_owner() and $this->owner != $this->submitter) {                
+                $to_email[] = array($this->get_owner()->email, 
+                                    $this->get_owner()->language);
+            }
+            $comments = $this->get_comments_list(array('order' => 'id ASC'));
+            $context = new Pluf_Template_Context(
+                                   array(
+                                         'issue' => $this,
+                                         'comment' => $comments[0],
+                                         'project' => $prj,
+                                         'url_base' => Pluf::f('url_base'),
+                                         )
+                                                 );
+            foreach ($to_email as $email_lang) {
+                Pluf_Translation::loadSetLocale($email_lang[1]);
+                $email = new Pluf_Mail(Pluf::f('from_email'), $email_lang[0],
+                                       sprintf(__('Issue %s - %s (%s)'),
+                                               $this->id, $this->summary, $prj->shortname));
+                $tmpl = new Pluf_Template('idf/issues/issue-created-email.txt');
+                $email->addTextMessage($tmpl->render($context));
+                $email->sendMail();
+            }
+        } else {
+            $comments = $this->get_comments_list(array('order' => 'id DESC'));
+            foreach ($this->get_interested_list() as $interested) {
+                $email_lang = array($interested->email,
+                                    $interested->language);
+                if (!in_array($email_lang, $to_email)) {
+                    $to_email[] = $email_lang;
+                }
+            }
+            $email_lang = array($this->get_submitter()->email,
+                                $this->get_submitter()->language);
+            if (!in_array($email_lang, $to_email)) {
+                $to_email[] = $email_lang;
+            }
+            if (null != $this->get_owner()) {
+                $email_lang = array($this->get_owner()->email,
+                                    $this->get_owner()->language);
+                if (!in_array($email_lang, $to_email)) {
+                    $to_email[] = $email_lang;
+                }
+            }
+            $context = new Pluf_Template_Context(
+                            array(
+                                  'issue' => $this,
+                                  'comments' => $comments,
+                                  'project' => $prj,
+                                  'url_base' => Pluf::f('url_base'),
+                                  ));
+            foreach ($to_email as $email_lang) {
+                Pluf_Translation::loadSetLocale($email_lang[1]);
+                $email = new Pluf_Mail(Pluf::f('from_email'), $email_lang[0],
+                                       sprintf(__('Updated Issue %s - %s (%s)'),
+                                               $this->id, $this->summary, $prj->shortname));
+                $tmpl = new Pluf_Template('idf/issues/issue-updated-email.txt');
+                $email->addTextMessage($tmpl->render($context));
+                $email->sendMail();
+            }
+        }
+        Pluf_Translation::loadSetLocale($current_locale);
+    }
 }

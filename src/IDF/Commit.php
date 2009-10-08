@@ -156,25 +156,7 @@ class IDF_Commit extends Pluf_Model
         $commit->origauthor = $change->author;
         $commit->creation_dtime = $change->date;
         $commit->create();
-        // We notify the creation of the commit
-        if ('' != $project->getConf()->getVal('source_notification_email', '')) {
-            $context = new Pluf_Template_Context(
-                       array(
-                             'c' => $commit,
-                             'project' => $project,
-                             'url_base' => Pluf::f('url_base'),
-                             )
-                                                     );
-            $tmpl = new Pluf_Template('idf/source/commit-created-email.txt');
-            $text_email = $tmpl->render($context);
-            $email = new Pluf_Mail(Pluf::f('from_email'), 
-                       $project->getConf()->getVal('source_notification_email'),
-                       sprintf(__('New Commit %s - %s (%s)'),
-                               $commit->scm_id, $commit->summary, $project->shortname));
-            $email->addTextMessage($text_email);
-            $email->sendMail();
-        }
-        
+        $commit->notify($project->getConf());
         return $commit;
     }
 
@@ -271,5 +253,39 @@ class IDF_Commit extends Pluf_Model
  </entry>
 ';
         return $out;
+    }
+
+    /**
+     * Notification of change of the object.
+     *
+     * @param IDF_Conf Current configuration
+     * @param bool Creation (true)
+     */
+    public function notify($conf, $create=true)
+    {
+        if ('' == $conf->getVal('source_notification_email', '')) {
+            return;
+        }
+        $current_locale = Pluf_Translation::getLocale();
+        $langs = Pluf::f('languages', array('en'));
+        Pluf_Translation::loadSetLocale($langs[0]);        
+
+        $context = new Pluf_Template_Context(
+                       array(
+                             'c' => $this,
+                             'project' => $this->get_project(),
+                             'url_base' => Pluf::f('url_base'),
+                             )
+                                             );
+        $tmpl = new Pluf_Template('idf/source/commit-created-email.txt');
+        $text_email = $tmpl->render($context);
+        $email = new Pluf_Mail(Pluf::f('from_email'), 
+                               $conf->getVal('source_notification_email'),
+                               sprintf(__('New Commit %s - %s (%s)'),
+                                       $this->scm_id, $this->summary, 
+                                       $this->get_project()->shortname));
+        $email->addTextMessage($text_email);
+        $email->sendMail();
+        Pluf_Translation::loadSetLocale($current_locale);
     }
 }

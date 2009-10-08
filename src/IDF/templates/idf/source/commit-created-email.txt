@@ -3,6 +3,7 @@
 {blocktrans}A new commit has been created:{/blocktrans}
 
 {$c.summary|safe}
+
 {trans 'Commit:'} {$c.scm_id|safe}
 {trans 'Project:'} {$project.name|safe}
 {trans 'Created by:'} {$c.get_author|safe}

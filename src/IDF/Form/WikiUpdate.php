@@ -236,25 +236,7 @@ class IDF_Form_WikiUpdate extends Pluf_Form
         $rev->summary = $this->cleaned_data['comment'];
         $rev->changes = $changes;
         $rev->create();
-        // send the notification
-        if ('' != $this->project->getConf()->getVal('wiki_notification_email', '')) {
-            $context = new Pluf_Template_Context(
-                       array(
-                             'page' => $this->page,
-                             'rev' => $rev,
-                             'project' => $this->project,
-                             'url_base' => Pluf::f('url_base'),
-                             )
-                                                     );
-            $tmpl = new Pluf_Template('idf/wiki/wiki-updated-email.txt');
-            $text_email = $tmpl->render($context);
-            $email = new Pluf_Mail(Pluf::f('from_email'), 
-                       $this->project->getConf()->getVal('wiki_notification_email'),
-                       sprintf(__('Documentation Page Changed %s - %s (%s)'),
-                               $this->page->title, $this->page->summary, $this->project->shortname));
-            $email->addTextMessage($text_email);
-            $email->sendMail();
-        }
+        $rev->notify($this->project->getConf(), false);
         return $this->page;
     }
 }

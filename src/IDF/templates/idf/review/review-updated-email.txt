@@ -15,7 +15,6 @@
 {foreach $comments as $c}{assign $who = $c.get_comment().get_submitter()}# {blocktrans}By {$who|safe}, {$c.creation_dtime|date}, on file:
 {$c.cfile|safe}
 {/blocktrans}
-
 {$c.content|safe}
 
 {/foreach}

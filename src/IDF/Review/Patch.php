@@ -138,4 +138,35 @@ class IDF_Review_Patch extends Pluf_Model
     {
         return '';
     }
+
+    public function notify($conf, $create=true)
+    {
+        if ('' == $conf->getVal('review_notification_email', '')) {
+            return;
+        }
+        $current_locale = Pluf_Translation::getLocale();
+        $langs = Pluf::f('languages', array('en'));
+        Pluf_Translation::loadSetLocale($langs[0]);        
+
+        $context = new Pluf_Template_Context(
+                       array(
+                             'review' => $this->get_review(),
+                             'patch' => $this,
+                             'comments' => array(),
+                             'project' => $this->get_review()->get_project(),
+                             'url_base' => Pluf::f('url_base'),
+                             )
+                                                     );
+        $tmpl = new Pluf_Template('idf/review/review-created-email.txt');
+        $text_email = $tmpl->render($context);
+        $email = new Pluf_Mail(Pluf::f('from_email'), 
+                               $conf->getVal('review_notification_email'),
+                               sprintf(__('New Code Review %s - %s (%s)'),
+                                       $this->get_review()->id, 
+                                       $this->get_review()->summary, 
+                                       $this->get_review()->get_project()->shortname));
+        $email->addTextMessage($text_email);
+        $email->sendMail();
+        Pluf_Translation::loadSetLocale($current_locale);
+    }
 }

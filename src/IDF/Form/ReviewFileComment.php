@@ -93,6 +93,6 @@ class IDF_Form_ReviewFileComment extends Pluf_Form
         }
         $this->patch->get_review()->update(); // reindex and put up in
                                               // the list.
-        return $this->patch;
+        return $bc;
     }
 }

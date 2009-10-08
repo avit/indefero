@@ -218,4 +218,60 @@ class IDF_WikiRevision extends Pluf_Model
                                                'date' => $date));
     }
 
+
+    /**
+     * Notification of change of a WikiPage.
+     *
+     * The content of a WikiPage is in the IDF_WikiRevision object,
+     * this is why we send the notificatin from there. This means that
+     * when the create flag is set, this is for the creation of a
+     * wikipage and not, for the addition of a new revision.
+     *
+     * Usage:
+     * <pre>
+     * $this->notify($conf); // Notify the creation of a wiki page
+     * $this->notify($conf, false); // Notify the update of the page
+     * </pre>
+     *
+     * @param IDF_Conf Current configuration
+     * @param bool Creation (true)
+     */
+    public function notify($conf, $create=true)
+    {
+        if ('' == $conf->getVal('wiki_notification_email', '')) {
+            return;
+        }
+        $current_locale = Pluf_Translation::getLocale();
+        $langs = Pluf::f('languages', array('en'));
+        Pluf_Translation::loadSetLocale($langs[0]);        
+        $context = new Pluf_Template_Context(
+                       array(
+                             'page' => $this->get_wikipage(),
+                             'rev' => $this,
+                             'project' => $this->get_wikipage()->get_project(),
+                             'url_base' => Pluf::f('url_base'),
+                             )
+                                             );
+        if ($create) {
+            $template = 'idf/wiki/wiki-created-email.txt';
+            $title = sprintf(__('New Documentation Page %s - %s (%s)'),
+                             $this->get_wikipage()->title, 
+                             $this->get_wikipage()->summary, 
+                             $this->get_wikipage()->get_project()->shortname);
+        } else {
+            $template = 'idf/wiki/wiki-updated-email.txt';
+            $title = sprintf(__('Documentation Page Changed %s - %s (%s)'),
+                             $this->get_wikipage()->title, 
+                             $this->get_wikipage()->summary, 
+                             $this->get_wikipage()->get_project()->shortname);
+        }
+        $tmpl = new Pluf_Template($template);
+        $text_email = $tmpl->render($context);
+        $email = new Pluf_Mail(Pluf::f('from_email'), 
+                               $conf->getVal('wiki_notification_email'),
+                               $title);
+        $email->addTextMessage($text_email);
+        $email->sendMail();
+        Pluf_Translation::loadSetLocale($current_locale);
+    }
 }

@@ -218,4 +218,38 @@ class IDF_Upload extends Pluf_Model
                                                'content' => $content,
                                                'date' => $date));
     }
+
+    /**
+     * Notification of change of the object.
+     *
+     * @param IDF_Conf Current configuration
+     * @param bool Creation (true)
+     */
+    public function notify($conf, $create=true)
+    {
+        if ('' == $conf->getVal('downloads_notification_email', '')) {
+            return;
+        }
+        $current_locale = Pluf_Translation::getLocale();
+        $langs = Pluf::f('languages', array('en'));
+        Pluf_Translation::loadSetLocale($langs[0]);        
+
+        $context = new Pluf_Template_Context(
+            array('file' => $this,
+                  'urlfile' => $this->getAbsoluteUrl($this->get_project()),
+                  'project' => $this->get_project(),
+                  'tags' => $this->get_tags_list(),
+                  ));
+        $tmpl = new Pluf_Template('idf/downloads/download-created-email.txt');
+        $text_email = $tmpl->render($context);
+        $email = new Pluf_Mail(Pluf::f('from_email'), 
+                               $conf->getVal('downloads_notification_email'),
+                               sprintf(__('New download - %s (%s)'),
+                                       $this->summary, 
+                                       $this->get_project()->shortname));
+        $email->addTextMessage($text_email);
+        $email->sendMail();
+
+        Pluf_Translation::loadSetLocale($current_locale);
+    }
 }

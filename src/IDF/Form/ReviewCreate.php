@@ -204,26 +204,7 @@ class IDF_Form_ReviewCreate extends Pluf_Form
         $patch->commit = self::findCommit($this->cleaned_data['commit']);
         $patch->patch = $this->cleaned_data['patch'];
         $patch->create();
-        // Send create notification
-        if ('' != $this->project->getConf()->getVal('review_notification_email', '')) {
-            $context = new Pluf_Template_Context(
-                       array(
-                             'review' => $review,
-                             'patch' => $patch,
-                             'comments' => array(),
-                             'project' => $this->project,
-                             'url_base' => Pluf::f('url_base'),
-                             )
-                                                     );
-            $tmpl = new Pluf_Template('idf/review/review-created-email.txt');
-            $text_email = $tmpl->render($context);
-            $email = new Pluf_Mail(Pluf::f('from_email'), 
-                       $this->project->getConf()->getVal('review_notification_email'),
-                       sprintf(__('New Code Review %s - %s (%s)'),
-                               $review->id, $review->summary, $this->project->shortname));
-            $email->addTextMessage($text_email);
-            $email->sendMail();
-        }
+        $patch->notify($this->project->getConf());
         return $review;
     }
 

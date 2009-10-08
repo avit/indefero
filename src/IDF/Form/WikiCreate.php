@@ -199,25 +199,7 @@ Add your content here. Format your content with:
         $rev->submitter = $this->user;
         $rev->summary = __('Initial page creation');
         $rev->create();
-        // send the notification
-        if ('' != $this->project->getConf()->getVal('wiki_notification_email', '')) {
-            $context = new Pluf_Template_Context(
-                       array(
-                             'page' => $page,
-                             'rev' => $rev,
-                             'project' => $this->project,
-                             'url_base' => Pluf::f('url_base'),
-                             )
-                                                     );
-            $tmpl = new Pluf_Template('idf/wiki/wiki-created-email.txt');
-            $text_email = $tmpl->render($context);
-            $email = new Pluf_Mail(Pluf::f('from_email'), 
-                       $this->project->getConf()->getVal('wiki_notification_email'),
-                       sprintf(__('New Documentation Page %s - %s (%s)'),
-                               $page->title, $page->summary, $this->project->shortname));
-            $email->addTextMessage($text_email);
-            $email->sendMail();
-        }
+        $rev->notify($this->project->getConf());
         return $page;
     }
 }

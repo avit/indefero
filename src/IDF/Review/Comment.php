@@ -140,4 +140,58 @@ class IDF_Review_Comment extends Pluf_Model
     {
         return '';
     }
+
+    /**
+     * Notify of the update of the review.
+     *
+     *
+     * @param IDF_Conf Current configuration
+     * @param bool Creation (true)
+     */
+    public function notify($conf, $create=true)
+    {
+        $patch = $this->get_patch();
+        $review = $patch->get_review();
+        $prj = $review->get_project();
+        $to_email = array();
+        if ('' != $conf->getVal('review_notification_email', '')) {
+            $langs = Pluf::f('languages', array('en'));
+            $to_email[] = array($conf->getVal('issues_notification_email'),
+                                $langs[0]);
+        }
+        $current_locale = Pluf_Translation::getLocale();
+        $reviewers = $review->getReviewers();
+        if (!Pluf_Model_InArray($review->get_submitter(), $reviewers)) {
+            $reviewers[] = $review->get_submitter();
+        }
+        $comments = $patch->getFileComments(array('order' => 'id DESC'));
+        $context = new Pluf_Template_Context(
+                       array(
+                             'review' => $review,
+                             'patch' => $patch,
+                             'comments' => $comments,
+                             'project' => $prj,
+                             'url_base' => Pluf::f('url_base'),
+                             )
+                                             );
+        // build the list of emails and lang
+        foreach ($reviewers as $user) {
+            $email_lang = array($user->email,
+                                $user->language);
+            if (!in_array($email_lang, $to_email)) {
+                $to_email[] = $email_lang;
+            }
+        }
+        $tmpl = new Pluf_Template('idf/review/review-updated-email.txt');
+        foreach ($to_email as $email_lang) {
+            Pluf_Translation::loadSetLocale($email_lang[1]);
+            $email = new Pluf_Mail(Pluf::f('from_email'), $email_lang[0],
+                                   sprintf(__('Updated Code Review %s - %s (%s)'),
+                                           $review->id, $review->summary, $prj->shortname));
+
+            $email->addTextMessage($tmpl->render($context));
+            $email->sendMail();
+        }
+        Pluf_Translation::loadSetLocale($current_locale);
+    }
 }
