@@ -59,6 +59,8 @@ Here is the step-by-step installation procedure:
 * The InDefero installation folder is the folder containing this file INSTALL.mdtext.
 * Make a copy of `src/IDF/conf/idf.php-dist` as `src/IDF/conf/idf.php`.
 * Update the idf.php file to match your system.
+* Make a copy of `src/IDF/conf/path.php-dist` as `src/IDF/conf/path.php`.
+* Update the path.php file to match your installation paths. It should work out of the box if you followed the recommended file layout.
 * Open a terminal/shell and go into the `src` folder in the InDefero installation folder.
 
 **Command:**
@@ -73,8 +75,7 @@ Here is the step-by-step installation procedure:
 **Bootstrap script:**
 
     <?php
-    set_include_path(get_include_path().PATH_SEPARATOR.'/home/www/indefero/src');
-    set_include_path(get_include_path().PATH_SEPARATOR.'/home/www/pluf/src');
+    require '/home/www/indefero/src/IDF/conf/path.php';
     require 'Pluf.php';
     Pluf::start('/home/www/indefero/src/IDF/conf/idf.php');
     Pluf_Dispatcher::loadControllers(Pluf::f('idf_views'));
@@ -112,9 +113,9 @@ To upgrade:
 
 **Upgrade commands:**
 
+    $ cd /home/www/indefero/src
     $ php /home/www/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -d -u
     $ php /home/www/pluf/src/migrate.php --conf=IDF/conf/idf.php -a -d 
-
 
 
 ## Repository Synchronization

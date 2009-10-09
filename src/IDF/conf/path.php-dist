@@ -22,14 +22,17 @@
 # ***** END LICENSE BLOCK ***** */
 
 /**
- * This script is used to sync the SSH keys, mark the repositories for
- * export and prune the deleted repositories.
+ * This file define the paths to where the Pluf and InDefero libraries
+ * are installed. If you followed the recommended layout of the files
+ * in the installation procedure, they should work out of the box.
  *
+ * PLUF_PATH: path to the folder containing the Pluf.php file.
+ * IDF_PATH: path to the folder containing the IDF folder.
  */
+define('PLUF_PATH', dirname(__FILE__).'/../../../../pluf/src');
+define('IDF_PATH', dirname(__FILE__).'/../..');
 
-require dirname(__FILE__).'/../src/IDF/conf/path.php';
-require 'Pluf.php';
-Pluf::start(dirname(__FILE__).'/../src/IDF/conf/idf.php');
-Pluf_Dispatcher::loadControllers(Pluf::f('idf_views'));
-IDF_Plugin_SyncGit_Cron::main();
-
+set_include_path(get_include_path()
+                 .PATH_SEPARATOR.PLUF_PATH
+                 .PATH_SEPARATOR.IDF_PATH
+                 );

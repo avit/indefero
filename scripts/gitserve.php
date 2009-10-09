@@ -27,13 +27,8 @@
  *
  * The only argument must be the login of the user.
  */
-// Set the include path to have Pluf and IDF in it.
-$indefero_path = dirname(__FILE__).'/../src';
-//$pluf_path = '/path/to/pluf/src';
-set_include_path(get_include_path()
-                 .PATH_SEPARATOR.$indefero_path
-//                 .PATH_SEPARATOR.$pluf_path
-                 );
+
+require dirname(__FILE__).'/../src/IDF/conf/path.php';
 require 'Pluf.php';
 Pluf::start(dirname(__FILE__).'/../src/IDF/conf/idf.php');
 Pluf_Dispatcher::loadControllers(Pluf::f('idf_views'));
