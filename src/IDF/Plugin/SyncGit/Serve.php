@@ -213,7 +213,7 @@ class IDF_Plugin_SyncGit_Serve
     {
         $sql = new Pluf_SQL('shortname=%s', array($relpath));
         $projects = Pluf::factory('IDF_Project')->getList(array('filter'=>$sql->gen()));
-        if ($projects->count() != 1) {
+        if ($projects->count() != 1 and file_exists($fullpath)) {
             return $this->gitExportDeny($fullpath);
         }
         $project = $projects[0];
@@ -221,7 +221,8 @@ class IDF_Plugin_SyncGit_Serve
         $conf->setProject($project);
         $scm = $conf->getVal('scm', 'git');
         if ($scm == 'git' and !file_exists($fullpath)) {
-            $this->initRepository($fullpath);
+            // No repository yet, just skip
+            return false;
         }
         if ($scm != 'git' or $project->private) {
             return $this->gitExportDeny($fullpath);
