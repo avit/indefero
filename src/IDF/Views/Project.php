@@ -177,14 +177,21 @@ class IDF_Views_Project
         $params = array(
                         'filter' => $sql->gen(),
                         'order' => 'creation_dtime DESC',
-                        'nb' => 50,
+                        'nb' => 20,
                         );
         $items = Pluf::factory('IDF_Timeline')->getList($params);
         $set = new Pluf_Model_Set($items, 
                                   array('public_dtime' => 'public_dtime'));
         $out = array();
         foreach ($set as $item) {
-            $out[] = $item->feedFragment($request);
+            if ($item->id) {
+                $out[] = $item->feedFragment($request);
+            }
+        }
+        if ($items->count() > 0) {
+            $date = Pluf_Date::gmDateToGmString($items[0]->creation_dtime);
+        } else {
+            $date = gmdate('c');
         }
         $out = Pluf_Template::markSafe(implode("\n", $out));
         $tmpl = new Pluf_Template('idf/index.atom');
@@ -194,6 +201,7 @@ class IDF_Views_Project
                                             array($prj->shortname));
         $context = new Pluf_Template_Context_Request($request, 
                                                      array('body' => $out,
+                                                           'date' => $date,
                                                            'title' => $title,
                                                            'feedurl' => $feedurl,
                                                            'viewurl' => $viewurl));

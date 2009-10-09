@@ -1,0 +1,14 @@
+<entry>
+   <title>{$title}</title>
+   <link href="{$url}"/>
+   <id>{$url}</id>
+   <updated>{$date}</updated>
+   <author>{$file.get_submitter()}</author>
+   <content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+<p>{$file} - {$file.filesize|ssize}</p>
+{if $file.changelog}
+<h2>{trans 'Details'}</h2>
+{markdown $file.changelog, $request}
+{/if}
+</div></content>
+</entry>

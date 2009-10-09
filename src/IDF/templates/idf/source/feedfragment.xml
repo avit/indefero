@@ -1,0 +1,11 @@
+<entry>
+  <title>{blocktrans}{$cproject.name}: Commit {$c.scm_id}{/blocktrans}</title>
+  <link href="{$url}"/>
+  <author>{$author}</author>
+  <id>{$url}</id>
+  <updated>{$date}</updated>
+  <content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+{issuetext $c.summary, $request}{if $c.fullmessage}<br /><br />
+{issuetext $c.fullmessage, $request, true, false, true, true, true}{/if}
+  </div></content>
+ </entry>

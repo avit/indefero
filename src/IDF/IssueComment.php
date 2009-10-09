@@ -167,66 +167,33 @@ class IDF_IssueComment extends Pluf_Model
             $out .= '</div>';
         }
         $out .= '</td></tr>';
-
-
         $out .= "\n".'<tr class="extra"><td colspan="2">
 <div class="helptext right">'.sprintf(__('Comment on <a href="%s" class="%s">issue&nbsp;%d</a>, by %s'), $url, $ic, $issue->id, $user).'</div></td></tr>'; 
-
         return Pluf_Template::markSafe($out);
     }
 
     public function feedFragment($request)
     {
-        $base = '<entry>
-   <title>%%title%%</title>
-   <link href="%%url%%"/>
-   <id>%%url%%</id>
-   <updated>%%date%%</updated>
-   <content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
-   %%content%%
-   </div></content>
-</entry>';
         $issue = $this->get_issue();
         $url = Pluf::f('url_base')
             .Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view', 
                                       array($request->project->shortname,
                                             $issue->id));
-        $url .= '#ic'.$this->id;
         $title = sprintf(__('%s: Comment on issue %d - %s'),
                          Pluf_esc($request->project->name),
                          $issue->id, Pluf_esc($issue->summary));
-        $submitter = $this->get_submitter();
-        $tag = new IDF_Template_IssueComment();
-        $content = '<p><pre>'.$tag->start($this->content, $request, false).'</pre></p>';
-        if ($this->changedIssue()) {
-            $content .= '<p>';
-            foreach ($this->changes as $w => $v) {
-                $content .= '<strong>';
-                switch ($w) {
-                case 'su':
-                    $content .= __('Summary:'); break;
-                case 'st':
-                    $content .= __('Status:'); break;
-                case 'ow':
-                    $content .= __('Owner:'); break;
-                case 'lb':
-                    $content .= __('Labels:'); break;
-                }
-                $content .= '</strong> ';
-                if ($w == 'lb') {
-                    $content .= Pluf_esc(implode(', ', $v));
-                } else {
-                    $content .= Pluf_esc($v);
-                }
-                $content .= ' ';
-            }
-            $content .= '</p>';
-        }
+        $url .= '#ic'.$this->id;
         $date = Pluf_Date::gmDateToGmString($this->creation_dtime);
-        return Pluf_Translation::sprintf($base,
-                                         array('url' => $url,
-                                               'title' => $title,
-                                               'content' => $content,
-                                               'date' => $date));
+        $context = new Pluf_Template_Context_Request(
+                       $request,
+                       array('url' => $url,
+                             'author' => $issue->get_submitter(),
+                             'title' => $title,
+                             'c' => $this,
+                             'issue' => $issue,
+                             'date' => $date)
+                                                     );
+        $tmpl = new Pluf_Template('idf/issues/feedfragment.xml');
+        return $tmpl->render($context);
     }
 }

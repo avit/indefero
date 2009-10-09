@@ -201,29 +201,24 @@ class IDF_WikiPage extends Pluf_Model
 
     public function feedFragment($request)
     {
-        $base = '<entry>
-   <title>%%title%%</title>
-   <link href="%%url%%"/>
-   <id>%%url%%</id>
-   <updated>%%date%%</updated>
-   <content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
-   %%content%%
-   </div></content>
-</entry>';
         $url = Pluf::f('url_base')
             .Pluf_HTTP_URL_urlForView('IDF_Views_Wiki::view', 
                                       array($request->project->shortname,
                                             $this->title));
         $title = sprintf(__('%s: Documentation page %s added - %s'),
-                         Pluf_esc($request->project->name),
-                         Pluf_esc($this->title), Pluf_esc($this->summary));
-        $content = Pluf_esc($this->summary);
+                         $request->project->name,
+                         $this->title, $this->summary);
         $date = Pluf_Date::gmDateToGmString($this->creation_dtime);
-        return Pluf_Translation::sprintf($base,
-                                         array('url' => $url,
-                                               'title' => $title,
-                                               'content' => $content,
-                                               'date' => $date));
+        $context = new Pluf_Template_Context_Request(
+                       $request,
+                       array('url' => $url,
+                             'title' => $title,
+                             'page' => $this,
+                             'rev' => $this->get_current_revision(),
+                             'create' => true,
+                             'date' => $date)
+                                                     );
+        $tmpl = new Pluf_Template('idf/wiki/feedfragment.xml');
+        return $tmpl->render($context);
     }
-
 }
