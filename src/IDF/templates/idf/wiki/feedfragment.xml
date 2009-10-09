@@ -1,0 +1,11 @@
+<entry>
+   <title>{$title}</title>
+   <link href="{$url}"/>
+   <id>{$url}:{$rev.id}</id>
+   <updated>{$date}</updated>
+   <author>{$rev.get_submitter()}</author>
+   <content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+{if !$create}<p><strong>{trans 'Changes:'}</strong> {$rev.summary}:</p>{/if}
+{markdown $rev.content, $request}
+</div></content>
+</entry>

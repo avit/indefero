@@ -1,0 +1,21 @@
+<entry>
+   <title>{$title} - {$issue.get_status}</title>
+   <link href="{$url}"/>
+   <id>{$url}</id>
+   <updated>{$date}</updated>
+   <author>{$author}</author>
+   <content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+<pre>{issuetext $c.content, $request}</pre>
+{assign $attachments = $c.get_attachment_list()}
+{if $attachments.count() > 0}
+<hr align="left" class="attach" />
+<ul>
+{foreach $attachments as $a}<li><a href="{url 'IDF_Views_Issue::viewAttachment', array($project.shortname, $a.id, $a.filename)}">{$a.filename}</a> - {$a.filesize|ssize}</li>{/foreach} 
+</ul>{/if}
+{if $c.changes}
+{foreach $c.changes as $w => $v}
+<strong>{if $w == 'su'}{trans 'Summary:'}{/if}{if $w == 'st'}{trans 'Status:'}{/if}{if $w == 'ow'}{trans 'Owner:'}{/if}{if $w == 'lb'}{trans 'Labels:'}{/if}</strong> {if $w == 'lb'}{assign $l = implode(', ', $v)}{$l}{else}{$v}{/if}<br />
+{/foreach}
+{/if}
+</div></content>
+</entry>

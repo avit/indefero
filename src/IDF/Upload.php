@@ -195,28 +195,23 @@ class IDF_Upload extends Pluf_Model
 
     public function feedFragment($request)
     {
-        $base = '<entry>
-   <title>%%title%%</title>
-   <link href="%%url%%"/>
-   <id>%%url%%</id>
-   <updated>%%date%%</updated>
-   <content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
-   %%content%%
-   </div></content>
-</entry>';
-        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Download::view', 
-                                        array($request->project->shortname, 
-                                              $this->id));
+        $url = Pluf::f('url_base')
+            .Pluf_HTTP_URL_urlForView('IDF_Views_Download::view', 
+                                      array($request->project->shortname, 
+                                            $this->id));
         $title = sprintf(__('%s: Download %d added - %s'),
-                         Pluf_esc($request->project->name),
-                         $this->id, Pluf_esc($this->summary));
-        $content = Pluf_esc($this->summary);
+                         $request->project->name,
+                         $this->id, $this->summary);
         $date = Pluf_Date::gmDateToGmString($this->creation_dtime);
-        return Pluf_Translation::sprintf($base,
-                                         array('url' => $url,
-                                               'title' => $title,
-                                               'content' => $content,
-                                               'date' => $date));
+        $context = new Pluf_Template_Context_Request(
+                       $request,
+                       array('url' => $url,
+                             'title' => $title,
+                             'file' => $this,
+                             'date' => $date)
+                                                     );
+        $tmpl = new Pluf_Template('idf/downloads/feedfragment.xml');
+        return $tmpl->render($context);
     }
 
     /**

@@ -4,5 +4,6 @@
  <link href="{$feedurl}" rel="self"/>
  <link href="{$viewurl}"/>
  <id>{$feedurl}</id>
+ <updated>{$date}</updated>
 {$body}
 </feed>

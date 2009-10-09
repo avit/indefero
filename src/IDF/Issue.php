@@ -199,33 +199,27 @@ class IDF_Issue extends Pluf_Model
 
     public function feedFragment($request)
     {
-        $base = '<entry>
-   <title>%%title%%</title>
-   <link href="%%url%%"/>
-   <id>%%url%%</id>
-   <updated>%%date%%</updated>
-   <content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
-   <pre>%%content%%</pre>
-   </div></content>
-</entry>';
         $url = Pluf::f('url_base')
             .Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view', 
                                       array($request->project->shortname,
                                             $this->id));
         $title = sprintf(__('%s: Issue %d created - %s'),
-                         Pluf_esc($request->project->name),
-                         $this->id, Pluf_esc($this->summary));
-        // Get the first comment of this issue.
+                         $request->project->name,
+                         $this->id, $this->summary);
         $cts = $this->get_comments_list(array('order' => 'id ASC',
                                               'nb' => 1));
-        $tag = new IDF_Template_IssueComment();
-        $content = $tag->start($cts[0]->content, $request, false);
         $date = Pluf_Date::gmDateToGmString($this->creation_dtime);
-        return Pluf_Translation::sprintf($base,
-                                         array('url' => $url,
-                                               'title' => $title,
-                                               'content' => $content,
-                                               'date' => $date));
+        $context = new Pluf_Template_Context_Request(
+                       $request,
+                       array('url' => $url,
+                             'author' => $this->get_submitter(),
+                             'title' => $title,
+                             'c' => $cts[0],
+                             'issue' => $this,
+                             'date' => $date)
+                                                     );
+        $tmpl = new Pluf_Template('idf/issues/feedfragment.xml');
+        return $tmpl->render($context);
     }
 
     /**
