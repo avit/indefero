@@ -193,11 +193,18 @@ class IDF_WikiRevision extends Pluf_Model
     public function feedFragment($request)
     {
         $page = $this->get_wikipage();
-        $url = Pluf::f('url_base')
-            .Pluf_HTTP_URL_urlForView('IDF_Views_Wiki::view', 
-                                      array($request->project->shortname,
-                                            $page->title),
-                                      array('rev' => $this->id));
+        if (!$this->is_head) {
+            $url = Pluf::f('url_base')
+                .Pluf_HTTP_URL_urlForView('IDF_Views_Wiki::view', 
+                                          array($request->project->shortname,
+                                                $page->title),
+                                          array('rev' => $this->id));
+        } else {
+            $url = Pluf::f('url_base')
+                .Pluf_HTTP_URL_urlForView('IDF_Views_Wiki::view', 
+                                          array($request->project->shortname,
+                                                $page->title));
+        }
         $title = sprintf(__('%s: Documentation page %s updated - %s'),
                          $request->project->name,
                          $page->title, $page->summary);
