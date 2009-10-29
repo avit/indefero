@@ -171,6 +171,8 @@ class IDF_Review extends Pluf_Model
 
     function postSave($create=false)
     {
+        // At creation, we index after saving the associated patch.
+        if (!$create) IDF_Search::index($this);
     }
 
     /**

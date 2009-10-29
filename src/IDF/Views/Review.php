@@ -150,6 +150,7 @@ class IDF_Views_Review
                                                    array('files' => $diff->files,
                                                          'user' => $request->user,
                                                          'patch' => $patch,
+                                                         'project' => $prj,
                                                     ));
             if ($form->isValid()) {
                 $review_comment = $form->save();
@@ -166,6 +167,7 @@ class IDF_Views_Review
             $form = new IDF_Form_ReviewFileComment(null,
                                               array('files' => $diff->files,
                                                     'user' => $request->user,
+                                                    'project' => $prj,
                                                     'patch' => $patch,));
         }
         $scm = IDF_Scm::get($request->project);
@@ -192,6 +194,7 @@ class IDF_Views_Review
         }
         $reviewers = Pluf_Model_RemoveDuplicates($reviewers);
         return Pluf_Shortcuts_RenderToResponse('idf/review/view.html',
+                                               array_merge(
                                                array(
                                                      'page_title' => $title,
                                                      'review' => $review,
@@ -202,6 +205,8 @@ class IDF_Views_Review
                                                      'form' => $form,
                                                      'reviewers' => $reviewers,
                                                      ),
+                                               IDF_Views_Issue::autoCompleteArrays($prj)
+                                                           ),
                                                $request);
     }
 }

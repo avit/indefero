@@ -92,6 +92,10 @@ class IDF_Views_Project
             $rights[] = '\'IDF_WikiPage\'';
             $rights[] = '\'IDF_WikiRevision\'';
         }
+        if (true === IDF_Precondition::accessReview($request)) {
+            $rights[] = '\'IDF_Review_Comment\'';
+            $rights[] = '\'IDF_Review_Patch\'';
+        }
         if (count($rights) == 0) {
             $rights[] = '\'IDF_Dummy\'';
         }
@@ -168,6 +172,10 @@ class IDF_Views_Project
         if (true === IDF_Precondition::accessWiki($request)) {
             $rights[] = '\'IDF_WikiPage\'';
             $rights[] = '\'IDF_WikiRevision\'';
+        }
+        if (true === IDF_Precondition::accessReview($request)) {
+            $rights[] = '\'IDF_Review_Comment\'';
+            $rights[] = '\'IDF_Review_Patch\'';
         }
         if (count($rights) == 0) {
             $rights[] = '\'IDF_Dummy\'';

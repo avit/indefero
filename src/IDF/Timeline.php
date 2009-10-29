@@ -128,7 +128,7 @@ class IDF_Timeline extends Pluf_Model
         $t->model_id = $item->id;
         $t->model_class = $item->_model;
         $t->create();
-        return true;
+        return $t;
     }
 
     /**

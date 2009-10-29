@@ -1,0 +1,18 @@
+<entry>
+   <title>{$title} - {$review.get_status}</title>
+   <link href="{$url}"/>
+   <id>{$url}</id>
+   <updated>{$date}</updated>
+   <author>{$author}</author>
+   <content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+{if $c}
+<pre>{issuetext $c.content, $request}</pre>
+{if $c.changes}
+{foreach $c.changes as $w => $v}
+<strong>{if $w == 'su'}{trans 'Summary:'}{/if}{if $w == 'st'}{trans 'Status:'}{/if}{if $w == 'ow'}{trans 'Owner:'}{/if}{if $w == 'lb'}{trans 'Labels:'}{/if}</strong> {if $w == 'lb'}{assign $l = implode(', ', $v)}{$l}{else}{$v}{/if}<br />
+{/foreach}
+{/if}{else}
+<pre>{issuetext $p.description, $request}</pre>
+{/if}
+</div></content>
+</entry>

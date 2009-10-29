@@ -116,6 +116,7 @@ class IDF_Review_Patch extends Pluf_Model
 
     function preDelete()
     {
+        IDF_Timeline::remove($this);
     }
 
     function preSave($create=false)
@@ -127,16 +128,53 @@ class IDF_Review_Patch extends Pluf_Model
 
     function postSave($create=false)
     {
+        if ($create) {
+            IDF_Timeline::insert($this, 
+                                 $this->get_review()->get_project(), 
+                                 $this->get_review()->get_submitter());
+            IDF_Search::index($this->get_review());
+        }
     }
 
     public function timelineFragment($request)
     {
-        return '';
+        $review = $this->get_review();
+        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Review::view', 
+                                        array($request->project->shortname,
+                                              $review->id));
+        $out = '<tr class="log"><td><a href="'.$url.'">'.
+            Pluf_esc(Pluf_Template_dateAgo($this->creation_dtime, 'without')).
+            '</a></td><td>';
+        $stag = new IDF_Template_ShowUser();
+        $user = $stag->start($review->get_submitter(), $request, '', false);
+        $ic = (in_array($review->status, $request->project->getTagIdsByStatus('closed'))) ? 'issue-c' : 'issue-o';
+        $out .= sprintf(__('<a href="%1$s" class="%2$s" title="View review">Review %3$d</a>, %4$s'), $url, $ic, $review->id, Pluf_esc($review->summary)).'</td>';
+        $out .= "\n".'<tr class="extra"><td colspan="2">
+<div class="helptext right">'.sprintf(__('Creation of <a href="%s" class="%s">review&nbsp;%d</a>, by %s'), $url, $ic, $review->id, $user).'</div></td></tr>'; 
+        return Pluf_Template::markSafe($out);
     }
 
     public function feedFragment($request)
     {
-        return '';
+        $review = $this->get_review();
+        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Review::view', 
+                                        array($request->project->shortname,
+                                              $review->id));
+        $title = sprintf(__('%s: Creation of Review %d - %s'),
+                         Pluf_esc($request->project->name),
+                         $review->id, Pluf_esc($review->summary));
+        $date = Pluf_Date::gmDateToGmString($this->creation_dtime);
+        $context = new Pluf_Template_Context_Request(
+                       $request,
+                       array('url' => $url,
+                             'author' => $review->get_submitter(),
+                             'title' => $title,
+                             'p' => $this,
+                             'review' => $review,
+                             'date' => $date)
+                                                     );
+        $tmpl = new Pluf_Template('idf/review/feedfragment.xml');
+        return $tmpl->render($context);
     }
 
     public function notify($conf, $create=true)

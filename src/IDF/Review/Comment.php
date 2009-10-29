@@ -117,28 +117,53 @@ class IDF_Review_Comment extends Pluf_Model
 
     function postSave($create=false)
     {
-        if (0 and $create) {
-            // Check if more than one comment for this patch. We do
-            // not want to insert the first comment in the timeline as
-            // the patch itself is inserted.
-            $sql = new Pluf_SQL('patch=%s', array($this->patch));
-            $co = Pluf::factory(__CLASS__)->getList(array('filter'=>$sql->gen()));
-            if ($co->count() > 1) {
-                IDF_Timeline::insert($this, $this->get_patch()->get_review()->get_project(), 
-                                     $this->get_submitter());
-            }
+        if ($create) {
+            IDF_Timeline::insert($this, 
+                                 $this->get_patch()->get_review()->get_project(), 
+                                 $this->get_submitter());
         }
-        IDF_Search::index($this->get_patch()->get_review());
     }
 
     public function timelineFragment($request)
     {
-        return '';
+        $review = $this->get_patch()->get_review();
+        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Review::view', 
+                                        array($request->project->shortname,
+                                              $review->id));
+        $out = '<tr class="log"><td><a href="'.$url.'">'.
+            Pluf_esc(Pluf_Template_dateAgo($this->creation_dtime, 'without')).
+            '</a></td><td>';
+        $stag = new IDF_Template_ShowUser();
+        $user = $stag->start($this->get_submitter(), $request, '', false);
+        $ic = (in_array($review->status, $request->project->getTagIdsByStatus('closed'))) ? 'issue-c' : 'issue-o';
+        $out .= sprintf(__('<a href="%1$s" class="%2$s" title="View review">Review %3$d</a>, %4$s'), $url, $ic, $review->id, Pluf_esc($review->summary)).'</td>';
+        $out .= "\n".'<tr class="extra"><td colspan="2">
+<div class="helptext right">'.sprintf(__('Update of <a href="%s" class="%s">review&nbsp;%d</a>, by %s'), $url, $ic, $review->id, $user).'</div></td></tr>'; 
+        return Pluf_Template::markSafe($out);
     }
 
     public function feedFragment($request)
     {
-        return '';
+        $review = $this->get_patch()->get_review();
+        $url = Pluf_HTTP_URL_urlForView('IDF_Views_Review::view', 
+                                        array($request->project->shortname,
+                                              $review->id));
+        $title = sprintf(__('%s: Updated review %d - %s'),
+                         Pluf_esc($request->project->name),
+                         $review->id, Pluf_esc($review->summary));
+        $url .= '#ic'.$this->id;
+        $date = Pluf_Date::gmDateToGmString($this->creation_dtime);
+        $context = new Pluf_Template_Context_Request(
+                       $request,
+                       array('url' => $url,
+                             'author' => $this->get_submitter(),
+                             'title' => $title,
+                             'c' => $this,
+                             'review' => $review,
+                             'date' => $date)
+                                                     );
+        $tmpl = new Pluf_Template('idf/review/feedfragment.xml');
+        return $tmpl->render($context);
     }
 
     /**
@@ -165,11 +190,13 @@ class IDF_Review_Comment extends Pluf_Model
             $reviewers[] = $review->get_submitter();
         }
         $comments = $patch->getFileComments(array('order' => 'id DESC'));
+        $gcomments = $patch->get_comments_list(array('order' => 'id DESC'));
         $context = new Pluf_Template_Context(
                        array(
                              'review' => $review,
                              'patch' => $patch,
                              'comments' => $comments,
+                             'gcomments' => $gcomments,
                              'project' => $prj,
                              'url_base' => Pluf::f('url_base'),
                              )

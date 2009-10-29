@@ -30,12 +30,15 @@ class IDF_Form_ReviewFileComment extends Pluf_Form
     public $files = null;
     public $patch = null;
     public $user = null;
+    public $project = null;
 
     public function initFields($extra=array())
     {
         $this->files = $extra['files'];
         $this->patch = $extra['patch'];
         $this->user = $extra['user'];
+        $this->project = $extra['project'];
+
         foreach ($this->files as $filename => $def) {
             $this->fields[md5($filename)] = new Pluf_Form_Field_Varchar(
                                       array('required' => false,
@@ -45,6 +48,41 @@ class IDF_Form_ReviewFileComment extends Pluf_Form
                                             'widget_attrs' => array(
                                                        'cols' => 58,
                                                        'rows' => 9,
+                                                                    ),
+                                            ));
+        }
+        $this->fields['content'] = new Pluf_Form_Field_Varchar(
+                                      array('required' => true,
+                                            'label' => __('General comment'),
+                                            'initial' => '',
+                                            'widget' => 'Pluf_Form_Widget_TextareaInput',
+                                            'widget_attrs' => array(
+                                                       'cols' => 58,
+                                                       'rows' => 9,
+                                                                    ),
+                                            ));
+        if ($this->user->hasPerm('IDF.project-owner', $this->project)
+            or $this->user->hasPerm('IDF.project-member', $this->project)) {
+            $this->show_full = true;
+        }
+        if ($this->show_full) {
+            $this->fields['summary'] = new Pluf_Form_Field_Varchar(
+                                      array('required' => true,
+                                            'label' => __('Summary'),
+                                            'initial' => $this->patch->get_review()->summary,
+                                            'widget_attrs' => array(
+                                                       'maxlength' => 200,
+                                                       'size' => 67,
+                                                                    ),
+                                            ));
+
+            $this->fields['status'] = new Pluf_Form_Field_Varchar(
+                                      array('required' => true,
+                                            'label' => __('Status'),
+                                            'initial' => $this->patch->get_review()->get_status()->name,
+                                            'widget_attrs' => array(
+                                                       'maxlength' => 20,
+                                                       'size' => 15,
                                                                     ),
                                             ));
         }
@@ -64,6 +102,16 @@ class IDF_Form_ReviewFileComment extends Pluf_Form
         throw new Pluf_Form_Invalid(__('You need to provide comments on at least one file.'));
     }
 
+    function clean_content()
+    {
+        $content = trim($this->cleaned_data['content']);
+        if (!$this->show_full and strlen($content) == 0) {
+            throw new Pluf_Form_Invalid(__('You need to provide your general comment about the proposal.'));
+        }
+        return $content;
+    }
+
+
     /**
      * Save the model in the database.
      *
@@ -80,6 +128,24 @@ class IDF_Form_ReviewFileComment extends Pluf_Form
         $bc = new IDF_Review_Comment();
         $bc->patch = $this->patch;
         $bc->submitter = $this->user;
+        $bc->content = $this->cleaned_data['content'];
+        $review = $this->patch->get_review();
+        if ($this->show_full) {
+            // Compare between the old and the new data
+            // Status, summary 
+            $changes = array();
+            $status = IDF_Tag::add(trim($this->cleaned_data['status']), $this->project, 'Status');
+            if ($status->id != $this->patch->get_review()->status) {
+                $changes['st'] = $status->name;
+            }
+            if (trim($this->patch->get_review()->summary) != trim($this->cleaned_data['summary'])) {
+                $changes['su'] = trim($this->cleaned_data['summary']);
+            }
+            // Update the review
+            $review->summary = trim($this->cleaned_data['summary']);
+            $review->status = $status;
+            $bc->changes = $changes;
+        }
         $bc->create();
         foreach ($this->files as $filename => $def) {
             if (!empty($this->cleaned_data[md5($filename)])) {
@@ -91,8 +157,7 @@ class IDF_Form_ReviewFileComment extends Pluf_Form
                 $c->create();
             }
         }
-        $this->patch->get_review()->update(); // reindex and put up in
-                                              // the list.
+        $review->update(); // reindex and put up in the list.
         return $bc;
     }
 }
