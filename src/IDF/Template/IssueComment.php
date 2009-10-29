@@ -46,6 +46,10 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
             $text = preg_replace_callback('#(issues?|bugs?|tickets?)\s+(\d+)(\#ic\d*){0,1}((\s+and|\s+or|,)\s+(\d+)(\#ic\d*){0,1}){0,}#im',
                                           array($this, 'callbackIssues'), $text);
         }
+        if ($request->rights['hasReviewAccess']) {
+            $text = preg_replace_callback('#(reviews?\s+)(\d+(?:(?:\s+and|\s+or|,)\s+\d+)*)\b#i',
+                                          array($this, 'callbackReviews'), $text);
+        }
         if ($request->rights['hasSourceAccess']) {
             $text = preg_replace_callback('#(commits?\s+)([0-9a-f]{1,40}(?:(?:\s+and|\s+or|,)\s+[0-9a-f]{1,40})*)\b#i',
                                           array($this, 'callbackCommits'), $text);
@@ -139,6 +143,41 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
             .'">'.$m[0].'</a>';
     }
 
+     /**
+      * General call back to convert reviews to HTML links.
+      *
+      * @param array $m Single regex match.
+      * @return string Content with converted reviews.
+      */
+    function callbackReviews($m)
+    {
+        $keyword = rtrim($m[1]);
+        if ('reviews' === $keyword) {
+            return $m[1].preg_replace_callback('#\b(\d+)\b#i', array($this, 'callbackReview'), $m[2]);
+        } else if ('review' === $keyword) {
+            return $m[1].call_user_func(array($this, 'callbackReview'), array('', $m[2]));
+        }
+        return $m[0];
+    }
+
+    /**
+     * Convert plaintext commit to HTML link. Called from callbackReviews.
+     *
+     * Regex callback for {@link IDF_Template_IssueComment::callbackReviews()}.
+     *
+     * @param array Single regex match.
+     * @return string HTML A element with review.
+     */
+    function callbackReview($m)
+    {
+        $review = new IDF_Review($m[1]);
+        if ($review->id > 0 and $review->project == $this->project->id) {
+            return $this->linkReview($review, $m[1]);
+        } else {
+            return $m[0]; // not existing issue.
+        }
+    }
+
     function callbackSource($m)
     {
         if (!$this->scm->isAvailable()) return $m[0];
@@ -166,5 +205,19 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
         $ic = (in_array($issue->status, $this->project->getTagIdsByStatus('closed'))) ? 'issue-c' : 'issue-o';
         return '<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Issue::view', 
                                                     array($this->project->shortname, $issue->id)).$anchor.'" class="'.$ic.'" title="'.Pluf_esc($issue->summary).'">'.Pluf_esc($title).'</a>';
+    }
+
+    /**
+     * Generate the link to a review.
+     *
+     * @param IDF_Review Review.
+     * @param string Name of the link.
+     * @return string Linked review.
+     */
+    public function linkReview($review, $title, $anchor='')
+    {
+        $ic = (in_array($review->status, $this->project->getTagIdsByStatus('closed'))) ? 'issue-c' : 'issue-o';
+        return '<a href="'.Pluf_HTTP_URL_urlForView('IDF_Views_Review::view', 
+                                                    array($this->project->shortname, $review->id)).$anchor.'" class="'.$ic.'" title="'.Pluf_esc($review->summary).'">'.Pluf_esc($title).'</a>';
     }
 }
