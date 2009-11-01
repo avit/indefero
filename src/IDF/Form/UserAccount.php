@@ -155,11 +155,14 @@ class IDF_Form_UserAccount  extends Pluf_Form
         $keys = $this->user->get_idf_key_list();
         if ($keys->count() > 0) {
             $key = $keys[0];
+            if ('' !== $this->cleaned_data['ssh_key']) {
+                $key->content = $this->cleaned_data['ssh_key'];
+            }
         } else {
             $key = new IDF_Key();
             $key->user = $this->user;
+            $key->content = $this->cleaned_data['ssh_key'];
         }
-        $key->content = $this->cleaned_data['ssh_key'];
         if ($commit) {
             $this->user->update();
             if ($key->id != '') {
