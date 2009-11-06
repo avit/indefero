@@ -91,14 +91,15 @@ class IDF_Scm_Git extends IDF_Scm
 
     public function getMainBranch()
     {
-        $possible = array('master', 'main', 'trunk', 'local');
-        $branches = array_keys($this->getBranches());
-        foreach ($possible as $p) {
-            if (in_array($p, $branches)) {
-                return $p;
-            }
+        $branches = $this->getBranches();
+        if (array_key_exists('master', $branches))
+            return 'master';
+        static $possible = array('main', 'trunk', 'local');
+        for ($i = 0; 3 > $i; ++$i) {
+            if (array_key_exists($possible[$i], $branches))
+                return $possible[$i];
         }
-        return (isset($branches[0])) ? $branches[0] : 'master';
+        return key($branches);
     }
 
     /**
@@ -109,10 +110,75 @@ class IDF_Scm_Git extends IDF_Scm
      */
     public function inBranches($commit, $path)
     {
-        return (in_array($commit, array_keys($this->getBranches()))) 
-                ? array($commit) : array();
+        return $this->_inObject($commit, 'branch');
     }
 
+    /**
+     * @see IDF_Scm::getTags()
+     **/
+     public function getTags()
+     {
+         if (isset($this->cache['tags'])) {
+             return $this->cache['tags'];
+         }
+         $cmd = Pluf::f('idf_exec_cmd_prefix', '')
+             .sprintf('GIT_DIR=%s %s tag',
+                      escapeshellarg($this->repo),
+                      Pluf::f('git_path', 'git'));
+         exec($cmd, $out, $return);
+         if (0 != $return) {
+             throw new IDF_Scm_Exception(sprintf($this->error_tpl,
+                                                 $cmd,
+                                                 $return,
+                                                 implode("\n", $out)));
+         }
+         $res = array();
+         foreach ($out as $b) {
+             if (false !== strpos($b, '/')) {
+                 $res[$this->getCommit($b)->commit] = $b;
+             } else {
+                 $res[$b] = '';
+             }
+         }
+         $this->cache['tags'] = $res;
+         return $res;
+    }
+
+    /**
+     * @see IDF_Scm::inTags()
+     **/
+    public function inTags($commit, $path)
+    {
+        return $this->_inObject($commit, 'tag');
+    }
+
+    /**
+     * Returns in which branches or tags a commit is.
+     *
+     * @param string Commit
+     * @param string Object's type: 'branch' or 'tag'.
+     * @return array
+     */
+    private function _inObject($commit, $object)
+    {
+        $object = strtolower($object);
+        if ('branch' === $object) {
+            $objects = $this->getBranches();
+        } else if ('tag' === $object) {
+            $objects = $this->getTags();
+        } else {
+            throw new InvalidArgumentException(sprintf(__('Invalid value for the parameter %1$s: %2$s. Use %3$s.'),
+                                                       '$object',
+                                                       $object,
+                                                       '\'branch\' or \'tag\''));
+        }
+        unset($object);
+        $result = array();
+        if (array_key_exists($commit, $objects)) {
+            $result[] = $commit;
+        }
+        return $result;
+    }
 
     /**
      * Git "tree" is not the same as the tree we get here.
@@ -226,14 +292,15 @@ class IDF_Scm_Git extends IDF_Scm
 
     public function isValidRevision($commit)
     {
-        return ('commit' == $this->testHash($commit));
+        $type = $this->testHash($commit);
+        return ('commit' == $type || 'tag' == $type);
     }
 
     /**
      * Test a given object hash.
      *
      * @param string Object hash.
-     * @return mixed false if not valid or 'blob', 'tree', 'commit'
+     * @return mixed false if not valid or 'blob', 'tree', 'commit', 'tag'
      */
     public function testHash($hash)
     {
@@ -257,7 +324,7 @@ class IDF_Scm_Git extends IDF_Scm
      */
     public function getTreeInfo($tree, $folder='')
     {
-        if (!in_array($this->testHash($tree), array('tree', 'commit'))) {
+        if (!in_array($this->testHash($tree), array('tree', 'commit', 'tag'))) {
             throw new Exception(sprintf(__('Not a valid tree: %s.'), $tree));
         }
         $cmd_tmpl = 'GIT_DIR=%s '.Pluf::f('git_path', 'git').' ls-tree -l %s %s';
@@ -275,7 +342,6 @@ class IDF_Scm_Git extends IDF_Scm
         }
         return $res;
     }
-
 
     /**
      * Get the file info.
@@ -315,7 +381,6 @@ class IDF_Scm_Git extends IDF_Scm
         return ($cmd_only) ? $cmd : shell_exec($cmd);
     }
 
-
     /**
      * Get commit details.
      *
@@ -342,21 +407,26 @@ class IDF_Scm_Git extends IDF_Scm
         if ($ret != 0 or count($out) == 0) {
             return false;
         }
-        $log = array();
-        $change = array();
-        $inchange = false;
-        foreach ($out as $line) {
-            if (!$inchange and 0 === strpos($line, 'diff --git a')) {
-                $inchange = true;
+        if ($getdiff) {
+            $log = array();
+            $change = array();
+            $inchange = false;
+            foreach ($out as $line) {
+                if (!$inchange and 0 === strpos($line, 'diff --git a')) {
+                    $inchange = true;
+                }
+                if ($inchange) {
+                    $change[] = $line;
+                } else {
+                    $log[] = $line;
+                }
             }
-            if ($inchange) {
-                $change[] = $line;
-            } else {
-                $log[] = $line;
-            }
+            $out = self::parseLog($log);
+            $out[0]->changes = implode("\n", $change);
+        } else {
+            $out = self::parseLog($out);
+            $out[0]->changes = '';
         }
-        $out = self::parseLog($log, 4);
-        $out[0]->changes = implode("\n", $change);
         return $out[0];
     }
 
@@ -408,7 +478,7 @@ class IDF_Scm_Git extends IDF_Scm
         $out = array();
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         exec($cmd, $out);
-        return self::parseLog($out, 4);
+        return self::parseLog($out);
     }
 
     /**
@@ -478,7 +548,7 @@ class IDF_Scm_Git extends IDF_Scm
      *             Specific Git Commands
      * =====================================================
      */
-    
+
     /**
      * Get submodule details.
      *

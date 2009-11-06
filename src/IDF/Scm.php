@@ -203,6 +203,24 @@ class IDF_Scm
     }
 
     /**
+     * Returns in which tags a commit/path is.
+     *
+     * A commit can be in several tags and some of the SCMs are
+     * managing tags using subfolders (like Subversion).
+     *
+     * This means that to know in which tag we are at the moment,
+     * one needs to have both the path and the commit.
+     *
+     * @param string Commit
+     * @param string Path
+     * @return array Tags
+     */
+    public function inTags($commit, $path)
+    {
+        throw new Pluf_Exception_NotImplemented();
+    }
+
+    /**
      * Returns the main branch.
      *
      * The main branch is the one displayed by default. For example

@@ -1,5 +1,5 @@
 {extends "idf/source/base.html"}
-{block extraheader}<link rel="stylesheet" type="text/css" href="{media '/idf/css/prettify.css'}" />{/block}
+{block extraheader}<link rel="stylesheet" type="text/css" href="{media '/idf/css/prettify.css'}"/>{/block}
 {block docclass}yui-t1{assign $inCommit=true}{/block}
 {block body}
 <table class="commit" summary="">
@@ -13,7 +13,7 @@
 <th><strong>{trans 'Commit:'}</strong></th><td class="mono"><a href="{url 'IDF_Views_Source::treeBase', array($project.shortname, $commit)}" title="{trans 'View corresponding source tree'}">{$cobject.commit}</a></td>
 </tr>
 <tr>
-<th><strong>{trans 'Message:'}</strong></th><td>{issuetext $cobject.title, $request}{if isset($cobject.full_message)}<br /><br />{issuetext $cobject.full_message, $request, true, false, true, true, true}{/if}</td>
+<th><strong>{trans 'Message:'}</strong></th><td>{issuetext $cobject.title, $request}{if isset($cobject.full_message)}<br/><br/>{issuetext $cobject.full_message, $request, true, false, true, true, true}{/if}</td>
 </tr>
 {if count($diff.files)}
 <tr>
@@ -21,7 +21,7 @@
 <td>
 {foreach $diff.files as $filename=>$diffdef}
 {assign $ndiff = count($diffdef['chunks'])}
-<a href="{url 'IDF_Views_Source::tree', array($project.shortname, $commit, $filename)}">{$filename}</a> (<a href="#diff-{$filename|md5}">{blocktrans $ndiff}{$ndiff} diff{plural}{$ndiff} diffs{/blocktrans}</a>)<br />
+<a href="{url 'IDF_Views_Source::tree', array($project.shortname, $commit, $filename)}">{$filename}</a> (<a href="#diff-{$filename|md5}">{blocktrans $ndiff}{$ndiff} diff{plural}{$ndiff} diffs{/blocktrans}</a>)<br/>
 {/foreach}
 </td>
 </tr>
@@ -33,24 +33,32 @@
 {$diff.as_html()}
 {/if}{if count($diff.files) or $large_commit}
 {aurl 'url', 'IDF_Views_Source::downloadDiff', array($project.shortname, $commit)}
-<p class="right soft"><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/package-grey.png'}" alt="{trans 'Archive'}" align="bottom" /></a> <a href="{$url}">{trans 'Download the corresponding diff file'}</a></p>
+<p class="right soft"><a href="{$url}"><img style="vertical-align: text-bottom;" src="{media '/idf/img/package-grey.png'}" alt="{trans 'Archive'}" align="bottom"/></a> <a href="{$url}">{trans 'Download the corresponding diff file'}</a></p>
 {/if}
 
 {/block}
 {block context}
 {if $scm != 'svn'}
-<p><strong>{trans 'Branches:'}</strong><br />
+<p><strong>{trans 'Branches:'}</strong><br/>
 {foreach $branches as $branch => $path}
 {aurl 'url', 'IDF_Views_Source::treeBase', array($project.shortname, $branch)}
-<span class="label{if in_array($branch, $tree_in)} active{/if}"><a href="{$url}" class="label">{$branch}</a></span><br />
+<span class="label{if in_array($branch, $tree_in)} active{/if}"><a href="{$url}" class="label">{$branch}</a></span><br/>
 {/foreach}
 </p>
+{if $tags}
+<p><strong>{trans 'Tags:'}</strong><br/>
+{foreach $tags as $tag => $path}
+{aurl 'url', 'IDF_Views_Source::treeBase', array($project.shortname, $tag)}
+<span class="label{if in_array($tag, $tags_in)} active{/if}"><a href="{$url}" class="label">{if $path}{$path}{else}{$tag}{/if}</a></span><br/>
+{/foreach}
+</p>
+{/if}
 {else}
 <form class="star" action="{url 'IDF_Views_Source_Svn::changelogRev', array($project.shortname)}" method="get">
 <p><strong>{trans 'Revision:'}</strong> {$commit}</p>
 <p>
-    <input accesskey="4" type="text" value="{$commit}" name="rev" size="5" />
-    <input type="submit" name="s" value="{trans 'Go to revision'}" />
+    <input accesskey="4" type="text" value="{$commit}" name="rev" size="5"/>
+    <input type="submit" name="s" value="{trans 'Go to revision'}"/>
 </p>
 </form>
 {/if}
