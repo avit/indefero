@@ -6,5 +6,13 @@
 <span class="label{if in_array($branch, $tree_in)} active{/if}"><a href="{$url}" class="label">{$branch}</a></span><br />
 {/foreach}
 </p>
+{if $tags}
+<p><strong>{trans 'Tags:'}</strong><br/>
+{foreach $tags as $tag => $path}
+{aurl 'url', 'IDF_Views_Source::changeLog', array($project.shortname, $tag)}
+<span class="label{if in_array($tag, $tags_in)} active{/if}"><a href="{$url}" class="label">{$tag}</a></span><br/>
+{/foreach}
+</p>
+{/if}
 {/block}
 

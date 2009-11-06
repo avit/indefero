@@ -279,9 +279,39 @@ class IDF_Scm_Mercurial extends IDF_Scm
         return $res;
     }
 
+    /**
+     * Get the tags.
+     *
+     * @return array Tags.
+     */
+    public function getTags()
+    {
+        if (isset($this->cache['tags'])) {
+            return $this->cache['tags'];
+        }
+        $out = array();
+        $cmd = sprintf(Pluf::f('hg_path', 'hg').' tags -R %s', 
+                       escapeshellarg($this->repo));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
+        exec($cmd, $out);
+        $res = array();
+        foreach ($out as $b) {
+            preg_match('/(\S+).*\S+:(\S+)/', $b, $match);
+            $res[$match[1]] = '';
+        }
+        $this->cache['tags'] = $res;
+        return $res;
+    }
+
     public function inBranches($commit, $path)
     {
         return (in_array($commit, array_keys($this->getBranches()))) 
+                ? array($commit) : array();
+    }
+
+    public function inTags($commit, $path)
+    {
+        return (in_array($commit, array_keys($this->getTags()))) 
                 ? array($commit) : array();
     }
 

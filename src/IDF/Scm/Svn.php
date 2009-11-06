@@ -287,7 +287,7 @@ class IDF_Scm_Svn extends IDF_Scm
     }
 
     /**
-     * Subversion branches are repository based. 
+     * Subversion branches are folder based. 
      *
      * One need to list the folder to know them.
      */
@@ -325,6 +325,36 @@ class IDF_Scm_Svn extends IDF_Scm
         return $res;
     }
 
+    /**
+     * Subversion tags are folder based. 
+     *
+     * One need to list the folder to know them.
+     */
+    public function getTags()
+    {
+        if (isset($this->cache['tags'])) {
+            return $this->cache['tags'];
+        }
+        $res = array();
+        $cmd = sprintf(Pluf::f('svn_path', 'svn').' ls --username=%s --password=%s %s@HEAD',
+                       escapeshellarg($this->username),
+                       escapeshellarg($this->password),
+                       escapeshellarg($this->repo.'/tags'));
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
+        exec($cmd, $out, $ret);
+        if ($ret == 0) {
+            foreach ($out as $entry) {
+                if (substr(trim($entry), -1) == '/') {
+                    $tag = substr(trim($entry), 0, -1);
+                    $res[$tag] = 'tags/'.$tag;
+                }
+            }
+        }
+        ksort($res);
+        $this->cache['tags'] = $res;
+        return $res;
+    }
+
     public function getMainBranch()
     {
         return 'HEAD';
@@ -335,6 +365,16 @@ class IDF_Scm_Svn extends IDF_Scm
         foreach ($this->getBranches() as $branch => $bpath) {
             if ($bpath and 0 === strpos($path, $bpath)) {
                 return array($branch);
+            }
+        }
+        return array();
+    }
+
+    public function inTags($commit, $path)
+    {
+        foreach ($this->getTags() as $tag => $tpath) {
+            if ($tpath and 0 === strpos($path, $tpath)) {
+                return array($tag);
             }
         }
         return array();

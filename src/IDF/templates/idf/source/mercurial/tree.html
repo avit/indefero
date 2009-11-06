@@ -11,7 +11,7 @@
 <th>{trans 'Message'}</th>
 <th>{trans 'Size'}</th>
 </tr>
-</thead>{if !$tree_in}
+</thead>{if !$tree_in and !$tags_in}
 {aurl 'url', 'IDF_Views_Source::commit', array($project.shortname, $commit)} 
 <tfoot>
 <tr><th colspan="5">{blocktrans}Source at commit <a class="mono" href="{$url}">{$commit}</a> created {$cobject.date|dateago}.{/blocktrans}<br />
@@ -53,5 +53,11 @@
 <span class="label{if in_array($branch, $tree_in)} active{/if}"><a href="{$url}" class="label">{$branch}</a></span><br />
 {/foreach}
 </p>
+{if $tags}<p><strong>{trans 'Tags:'}</strong><br />
+{foreach $tags as $tag => $path}
+{aurl 'url', 'IDF_Views_Source::treeBase', array($project.shortname, $tag)}
+<span class="label{if in_array($tag, $tags_in)} active{/if}"><a href="{$url}" class="label">{$tag}</a></span><br />
+{/foreach}
+</p>{/if}
 {/block}
 
