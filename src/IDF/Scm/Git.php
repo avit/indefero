@@ -191,9 +191,14 @@ class IDF_Scm_Git extends IDF_Scm
         if (!preg_match('/<(.*)>/', $author, $match)) {
             return null;
         }
-        $sql = new Pluf_SQL('email=%s', array($match[1]));
-        $users = Pluf::factory('Pluf_User')->getList(array('filter'=>$sql->gen()));
-        return ($users->count() > 0) ? $users[0] : null;
+        foreach (array('email', 'login') as $what) {
+            $sql = new Pluf_SQL($what.'=%s', array($match[1]));
+            $users = Pluf::factory('Pluf_User')->getList(array('filter'=>$sql->gen()));
+            if ($users->count() > 0) {
+                return $users[0];
+            }
+        }
+        return null;
     }
 
     public static function getAnonymousAccessUrl($project)
