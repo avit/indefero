@@ -43,7 +43,7 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
                                  '<a href="\1">\1</a>', $text);
         }
         if ($request->rights['hasIssuesAccess']) {
-            $text = preg_replace_callback('#(issues?|bugs?|tickets?)\s+(\d+)(\#ic\d*){0,1}((\s+and|\s+or|,)\s+(\d+)(\#ic\d*){0,1}){0,}#im',
+            $text = preg_replace_callback('#((?:issue|bug|ticket)(s)?\s+|\s+\#)(\d+)(\#ic\d+)?(?(2)((?:[, \w]+(?:\s+\#)?)?\d+(?:\#ic\d+)?){0,})#im',
                                           array($this, 'callbackIssues'), $text);
         }
         if ($request->rights['hasReviewAccess']) {
@@ -70,22 +70,29 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
      */
     function callbackIssues($m)
     {
-        if (count($m) == 3 || count($m) == 4) {
-            $issue = new IDF_Issue($m[2]);
-            if ($issue->id > 0 and $issue->project == $this->project->id) {
-                if (count($m) == 3) {
-                	return $this->linkIssue($issue, $m[1].' '.$m[2]);
+        $c = count($m);
+        if (4 === $c || 5 === $c) {
+            $issue = new IDF_Issue($m[3]);
+            if (0 < $issue->id and $issue->project == $this->project->id) {
+                $m[1] = trim($m[1]);
+                $prefix = '';
+                if ('#' === $m[1]) {
+                    $title  = $m[1].$m[3];
+                    $prefix = mb_substr($m[0], 0, strpos($m[0], $m[1])); // fixes \n matches
                 } else {
-                    return $this->linkIssue($issue, $m[1].' '.$m[2], $m[3]);
+                    $title = $m[1].' '.$m[3];
                 }
-            } else {
-                return $m[0]; // not existing issue.
+                if (4 === $c) {
+                    return $prefix.$this->linkIssue($issue, $title);
+                } else {
+                    return $prefix.$this->linkIssue($issue, $title, $m[4]);
+                }
             }
-        } else {
-            return preg_replace_callback('/(\d+)/', 
-                                         array($this, 'callbackIssue'), 
-                                         $m[0]); 
+            return $m[0]; // not existing issue.
         }
+        return preg_replace_callback('#(\#)?(\d+)(\#ic\d+)?#',
+                                     array($this, 'callbackIssue'),
+                                     $m[0]);
     }
 
     /**
@@ -96,12 +103,14 @@ class IDF_Template_IssueComment extends Pluf_Template_Tag
      */
     function callbackIssue($m)
     {
-        $issue = new IDF_Issue($m[1]);
-        if ($issue->id > 0 and $issue->project == $this->project->id) {
-            return $this->linkIssue($issue, $m[1]);
-        } else {
-            return $m[0]; // not existing issue.
+        $issue = new IDF_Issue($m[2]);
+        if (0 < $issue->id and $issue->project == $this->project->id) {
+            if (4 === count($m)) {
+                return $this->linkIssue($issue, $m[1].$m[2], $m[3]);
+            }
+            return $this->linkIssue($issue, $m[1].$m[2]);
         }
+        return $m[0]; // not existing issue.
     }
 
      /**
