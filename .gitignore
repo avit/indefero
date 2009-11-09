@@ -5,3 +5,4 @@ www/test.php
 www/media/upload
 src/IDF/gettexttemplates
 indefero-*.zip
+src/IDF/conf/path.php
