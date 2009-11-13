@@ -113,7 +113,8 @@ class IDF_Views_User
             $form = new IDF_Form_UserAccount($request->POST, $params);
             if ($form->isValid()) {
                 $user = $form->save();
-                $url = Pluf_HTTP_URL_urlForView('IDF_Views::index');
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views_User::myAccount');
+                $request->session->setData('pluf_language', $user->language);
                 $request->user->setMessage(__('Your personal information have been updated.'));
                 return new Pluf_HTTP_Response_Redirect($url);
             }
