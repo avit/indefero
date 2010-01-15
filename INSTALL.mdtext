@@ -183,3 +183,25 @@ If your SMTP server requires authentication, for example,
 
 Check with your provider to get the right settings.
 
+## Git Daemon on Ubuntu Karmic
+
+If you have problems getting it to run, you can follow this procedure
+proposed by Mathias in ticket 369.
+
+1. Install git-daemon-run in addition to git-core
+2. Edit /etc/sv/git-daemon/run to look as follows:
+
+    #!/bin/sh
+    exec 2>&1
+    echo 'git-daemon starting.'
+    exec chpst -ugit:git \
+      /usr/lib/git-core/git-daemon \
+      --reuseaddr \
+      --syslog \
+      --verbose \
+      --base-path=/home/git/repositories \
+      /home/git/repositories
+
+3. Restart git-daemon-run
+
+    sv restart git-daemon
