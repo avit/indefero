@@ -250,7 +250,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
         $cmd = sprintf(Pluf::f('hg_path', 'hg').' cat -R %s -r %s %s',
                        escapeshellarg($this->repo), 
                        escapeshellarg($def->commit), 
-                       escapeshellarg($this->repo.'/'.$def->file));
+                       escapeshellarg($this->repo.'/'.$def->fullpath));
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         return ($cmd_only) ? $cmd : shell_exec($cmd);
     }
