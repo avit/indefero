@@ -371,5 +371,13 @@ class IDF_Scm
             }
         }
     }
+
+    /**
+     * Given a path, encode everything but the /
+     */
+    public static function smartEncode($path)
+    {
+        return str_replace('%2F', '/', rawurlencode($path));
+    }
 }
 

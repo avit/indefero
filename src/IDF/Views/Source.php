@@ -267,7 +267,7 @@ class IDF_Views_Source
         $stack = '';
         $i = 0;
         foreach ($elts as $elt) {
-            $stack .= ($i==0) ? $elt : '/'.$elt;
+            $stack .= ($i==0) ? rawurlencode($elt) : '/'.rawurlencode($elt);
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Source::tree',
                                             array($project->shortname,
                                                   $commit, $stack));
@@ -378,6 +378,7 @@ class IDF_Views_Source
                                                      'commit' => $commit,
                                                      'cobject' => $cobject,
                                                      'fullpath' => $request_file,
+                                                     'efullpath' => IDF_Scm::smartEncode($request_file),
                                                      'base' => $request_file_info->file,
                                                      'prev' => $previous,
                                                      'tree_in' => $in_branches,

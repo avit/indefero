@@ -40,7 +40,7 @@
     </tr>
     {/if}
     {foreach $files as $file}
-    {aurl 'url', 'IDF_Views_Source::tree', array($project.shortname, $commit, $file.fullpath)}
+    {aurl 'url', 'IDF_Views_Source::tree', array($project.shortname, $commit, $file.efullpath)}
     <tr>
       <td class="fileicon"><img src="{media '/idf/img/'~$file.type~'.png'}" alt="{$file.type}" /></td>
 

@@ -233,6 +233,7 @@ class IDF_Scm_Git extends IDF_Scm
                 $file->author = 'Unknown';
             }
             $file->fullpath = ($folder) ? $folder.'/'.$file->file : $file->file;
+            $file->efullpath = self::smartEncode($file->fullpath);
             if ($file->type == 'commit') {
                 // We have a submodule
                 $file = $this->getSubmodule($file, $commit);

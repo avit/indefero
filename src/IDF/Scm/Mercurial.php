@@ -187,9 +187,11 @@ class IDF_Scm_Mercurial extends IDF_Scm
                     continue;
                 }
             }
+            $fullpath = ($folder) ? $folder.'/'.$file : $file;
+            $efullpath = self::smartEncode($fullpath);
             $res[] = (object) array('perm' => $perm, 'type' => $type, 
-                                    'hash' => $hash, 'fullpath' => ($folder) ? $folder.'/'.$file : $file,
-                                    'file' => $file);
+                                    'hash' => $hash, 'fullpath' => $fullpath,
+                                    'efullpath' => $efullpath, 'file' => $file);
         }
         return $res;
     }
