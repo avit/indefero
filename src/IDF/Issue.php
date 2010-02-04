@@ -272,6 +272,10 @@ class IDF_Issue extends Pluf_Model
             }
         } else {
             $comments = $this->get_comments_list(array('order' => 'id DESC'));
+            $email_sender = '';
+            if (isset($comments[0])) {
+                $email_sender = $comments[0]->get_submitter()->email;
+            }
             foreach ($this->get_interested_list() as $interested) {
                 $email_lang = array($interested->email,
                                     $interested->language);
@@ -299,6 +303,10 @@ class IDF_Issue extends Pluf_Model
                                   'url_base' => Pluf::f('url_base'),
                                   ));
             foreach ($to_email as $email_lang) {
+                if ($email_lang[0] == $email_sender) {
+                    continue; // Do not notify the one having created
+                              // the comment
+                }
                 Pluf_Translation::loadSetLocale($email_lang[1]);
                 $email = new Pluf_Mail(Pluf::f('from_email'), $email_lang[0],
                                        sprintf(__('Updated Issue %s - %s (%s)'),
