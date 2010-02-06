@@ -67,6 +67,14 @@ You also need to provide the base definition of the hgrc file. For example:
                'extensions' => array(),
                                                   );
 
+If you are note using Apache but Nginx, you may need to create the
+passwords as plain text passwords (see ticket 391). You can configure
+the password storage with the format you want. The default is `sha`
+you can set it to `plain` for nginx.
+
+    $cfg['idf_plugin_syncmercurial_passwd_mode'] = 'sha';
+
+See the [`FILE_PASSWD_*` constants](http://euk1.php.net/package/File_Passwd/docs/latest/File_Passwd/_File_Passwd-1.1.7---Passwd.php.html) for more choices.
 
 ## Cron configuration
 
