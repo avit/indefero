@@ -42,7 +42,9 @@ class IDF_Form_Password extends Pluf_Form
     public function clean_account()
     {
         $account = mb_strtolower(trim($this->cleaned_data['account']));
-        $sql = new Pluf_SQL('email=%s OR login=%s',
+        $db =& Pluf::db();
+        $true = Pluf_DB_BooleanToDb(true, $db);
+        $sql = new Pluf_SQL('(email=%s OR login=%s) AND active='.$true,
                             array($account, $account));
         $users = Pluf::factory('Pluf_User')->getList(array('filter'=>$sql->gen()));
         if ($users->count() == 0) {

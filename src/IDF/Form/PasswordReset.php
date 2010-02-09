@@ -73,6 +73,9 @@ class IDF_Form_PasswordReset extends Pluf_Form
         if ($this->cleaned_data['password'] != $this->cleaned_data['password2']) {
             throw new Pluf_Form_Invalid(__('The two passwords must be the same.'));
         }
+        if (!$this->user->active) {
+            throw new Pluf_Form_Invalid(__('This account is not active. Please contact the forge administrator to activate it.'));
+        }
         return $this->cleaned_data;
     }
 
