@@ -127,9 +127,21 @@ class IDF_Search extends Pluf_Search
             if ($ids[$i] === null) {
                 $word = new Pluf_Search_Word();
                 $word->word = $words_flat[$i];
-                $word->create();
-                $ids[$i] = $word->id;
-                $new_words++;
+                try {
+                    $word->create();
+                    $new_words++;
+                    $ids[$i] = $word->id;
+                } catch (Exception $e) {
+                    // 100% of the time, the word has been created
+                    // by another process in the background.
+                    $r_ids = self::getWordIds(array($word->word));
+                    if ($r_ids[0]) {
+                        $ids[$i] = $r_ids[0];
+                    } else {
+                        // give up for this word
+                        continue;
+                    }
+                }
             }
             if (isset($done[$ids[$i]])) {
                 continue;
