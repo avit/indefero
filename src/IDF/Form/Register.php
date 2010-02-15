@@ -124,8 +124,14 @@ class IDF_Form_Register extends Pluf_Form
         $user->language = $this->request->language_code;
         $user->active = false;
         $user->create();
-        $from_email = Pluf::f('from_email');
+        self::sendVerificationEmail($user);
+        return $user;
+    }
+
+    public static function sendVerificationEmail($user)
+    {
         Pluf::loadFunction('Pluf_HTTP_URL_urlForView');
+        $from_email = Pluf::f('from_email');
         $cr = new Pluf_Crypt(md5(Pluf::f('secret_key')));
         $encrypted = trim($cr->encrypt($user->email.':'.$user->id), '~');
         $key = substr(md5(Pluf::f('secret_key').$encrypted), 0, 2).$encrypted;
@@ -144,6 +150,5 @@ class IDF_Form_Register extends Pluf_Form
                                __('Confirm the creation of your account.'));
         $email->addTextMessage($text_email);
         $email->sendMail();
-        return $user;
     }
 }

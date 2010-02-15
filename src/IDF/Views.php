@@ -183,6 +183,8 @@ class IDF_Views
      * email is available in the database, send an email with a key to
      * reset the password.
      *
+     * If the user is not yet confirmed, send the confirmation key one
+     * more time.
      */
     function passwordRecoveryAsk($request, $match)
     {
@@ -190,8 +192,7 @@ class IDF_Views
         if ($request->method == 'POST') {
             $form = new IDF_Form_Password($request->POST);
             if ($form->isValid()) {
-                $form->save();
-                $url = Pluf_HTTP_URL_urlForView('IDF_Views::passwordRecoveryInputCode');
+                $url = $form->save();
                 return new Pluf_HTTP_Response_Redirect($url);
             }
         } else {
