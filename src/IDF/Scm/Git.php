@@ -48,7 +48,9 @@ class IDF_Scm_Git extends IDF_Scm
         }
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -skD '
             .escapeshellarg($this->repo);
-        $out = explode(' ', shell_exec($cmd), 2);
+        $out = explode(' ', 
+                       self::shell_exec('IDF_Scm_Git::getRepositorySize', $cmd),
+                       2);
         return (int) $out[0]*1024;
     }
 
@@ -70,7 +72,8 @@ class IDF_Scm_Git extends IDF_Scm
         $cmd = Pluf::f('idf_exec_cmd_prefix', '')
             .sprintf('GIT_DIR=%s '.Pluf::f('git_path', 'git').' branch', 
                      escapeshellarg($this->repo));
-        exec($cmd, $out, $return);
+        self::exec('IDF_Scm_Git::getBranches', 
+                   $cmd, $out, $return);
         if ($return != 0) {
             throw new IDF_Scm_Exception(sprintf($this->error_tpl,
                                                 $cmd, $return, 
@@ -116,32 +119,31 @@ class IDF_Scm_Git extends IDF_Scm
     /**
      * @see IDF_Scm::getTags()
      **/
-     public function getTags()
-     {
-         if (isset($this->cache['tags'])) {
-             return $this->cache['tags'];
-         }
-         $cmd = Pluf::f('idf_exec_cmd_prefix', '')
-             .sprintf('GIT_DIR=%s %s tag',
-                      escapeshellarg($this->repo),
-                      Pluf::f('git_path', 'git'));
-         exec($cmd, $out, $return);
-         if (0 != $return) {
-             throw new IDF_Scm_Exception(sprintf($this->error_tpl,
-                                                 $cmd,
-                                                 $return,
-                                                 implode("\n", $out)));
-         }
-         $res = array();
-         foreach ($out as $b) {
-             if (false !== strpos($b, '/')) {
-                 $res[$this->getCommit($b)->commit] = $b;
-             } else {
-                 $res[$b] = '';
-             }
-         }
-         $this->cache['tags'] = $res;
-         return $res;
+    public function getTags()
+    {
+        if (isset($this->cache['tags'])) {
+            return $this->cache['tags'];
+        }
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '')
+            .sprintf('GIT_DIR=%s %s tag',
+                     escapeshellarg($this->repo),
+                     Pluf::f('git_path', 'git'));
+        self::exec('IDF_Scm_Git::getTags', $cmd, $out, $return);
+        if (0 != $return) {
+            throw new IDF_Scm_Exception(sprintf($this->error_tpl,
+                                                $cmd, $return,
+                                                implode("\n", $out)));
+        }
+        $res = array();
+        foreach ($out as $b) {
+            if (false !== strpos($b, '/')) {
+                $res[$this->getCommit($b)->commit] = $b;
+            } else {
+                $res[$b] = '';
+            }
+        }
+        $this->cache['tags'] = $res;
+        return $res;
     }
 
     /**
@@ -310,7 +312,7 @@ class IDF_Scm_Git extends IDF_Scm
                        escapeshellarg($hash));
         $ret = 0; $out = array();
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
-        exec($cmd, $out, $ret);
+        self::exec('IDF_Scm_Git::testHash', $cmd, $out, $ret);
         if ($ret != 0) return false;
         return trim($out[0]);
     }
@@ -334,7 +336,7 @@ class IDF_Scm_Git extends IDF_Scm
                      escapeshellarg($tree), escapeshellarg($folder));
         $out = array();
         $res = array();
-        exec($cmd, $out);
+        self::exec('IDF_Scm_Git::getTreeInfo', $cmd, $out);
         foreach ($out as $line) {
             list($perm, $type, $hash, $size, $file) = preg_split('/ |\t/', $line, 5, PREG_SPLIT_NO_EMPTY);
             $res[] = (object) array('perm' => $perm, 'type' => $type, 
@@ -359,7 +361,7 @@ class IDF_Scm_Git extends IDF_Scm
                        escapeshellarg($commit));
         $out = array();
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
-        exec($cmd, $out);
+        self::exec('IDF_Scm_Git::getPathInfo', $cmd, $out);
         foreach ($out as $line) {
             list($perm, $type, $hash, $size, $file) = preg_split('/ |\t/', $line, 5, PREG_SPLIT_NO_EMPTY);
             if ($totest == $file) {
@@ -379,7 +381,8 @@ class IDF_Scm_Git extends IDF_Scm
                        'GIT_DIR=%s '.Pluf::f('git_path', 'git').' cat-file blob %s',
                        escapeshellarg($this->repo), 
                        escapeshellarg($def->hash));
-        return ($cmd_only) ? $cmd : shell_exec($cmd);
+        return ($cmd_only) 
+            ? $cmd : self::shell_exec('IDF_Scm_Git::getFile', $cmd);
     }
 
     /**
@@ -404,7 +407,7 @@ class IDF_Scm_Git extends IDF_Scm
         }
         $out = array();
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
-        exec($cmd, $out, $ret);
+        self::exec('IDF_Scm_Git::getCommit', $cmd, $out, $ret);
         if ($ret != 0 or count($out) == 0) {
             return false;
         }
@@ -445,7 +448,7 @@ class IDF_Scm_Git extends IDF_Scm
                        escapeshellarg($commit));
         $out = array();
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
-        exec($cmd, $out);
+        self::exec('IDF_Scm_Git::isCommitLarge', $cmd, $out);
         $affected = count($out) - 2;
         $added = 0;
         $removed = 0;
@@ -478,7 +481,7 @@ class IDF_Scm_Git extends IDF_Scm
                        escapeshellarg($commit));
         $out = array();
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
-        exec($cmd, $out);
+        self::exec('IDF_Scm_Git::getChangeLog', $cmd, $out);
         return self::parseLog($out);
     }
 
@@ -636,7 +639,8 @@ class IDF_Scm_Git extends IDF_Scm
                      escapeshellarg($this->repo));
         $skip = 0;
         $res = array();
-        exec(sprintf($cmd, $skip), $rawlog);
+        self::exec('IDF_Scm_Git::appendBlobInfoCache',
+                   sprintf($cmd, $skip), $rawlog);
         while (count($rawlog) and count($blobs)) {
             $rawlog = implode("\n", array_reverse($rawlog));
             foreach ($blobs as $blob => $idx) {
@@ -665,7 +669,8 @@ class IDF_Scm_Git extends IDF_Scm
                 }
                 break;
             }
-            exec(sprintf($cmd, $skip), $rawlog);
+            self::exec('IDF_Scm_Git::appendBlobInfoCache',
+                       sprintf($cmd, $skip), $rawlog);
         }
         $this->cacheBlobInfo($res);
         return $res;
@@ -683,7 +688,8 @@ class IDF_Scm_Git extends IDF_Scm
             .sprintf('GIT_DIR=%s '.Pluf::f('git_path', 'git').' log --raw --abbrev=40 --pretty=oneline -500 --skip=%%s',
                      escapeshellarg($this->repo));
         $skip = 0;
-        exec(sprintf($cmd, $skip), $rawlog);
+        self::exec('IDF_Scm_Git::buildBlobInfoCache',
+                   sprintf($cmd, $skip), $rawlog);
         while (count($rawlog)) {
             $commit = '';
             $data = array();
@@ -701,7 +707,8 @@ class IDF_Scm_Git extends IDF_Scm
             $this->cacheBlobInfo($data);
             $rawlog = array();
             $skip += 500;
-            exec(sprintf($cmd, $skip), $rawlog);
+            self::exec('IDF_Scm_Git::buildBlobInfoCache',
+                       sprintf($cmd, $skip), $rawlog);
         }
     }
 

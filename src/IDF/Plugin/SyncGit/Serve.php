@@ -98,6 +98,7 @@ class IDF_Plugin_SyncGit_Serve
             $this->setGitExport($relpath, $fullpath);
         }
         $new_cmd = sprintf("%s '%s'", $verb, $fullpath);
+        Pluf_Log::info(array('IDF_Plugin_Git_Serve::serve', $username, $cmd, $new_cmd));
         return $new_cmd;
     }
 
@@ -199,8 +200,11 @@ class IDF_Plugin_SyncGit_Serve
                      Pluf::f('git_path', 'git').' --git-dir=%s init', escapeshellarg($fullpath)), 
              $out, $res);
         if ($res != 0) {
+            Pluf_Log::error(array('IDF_Plugin_Git_Serve::initRepository', $res, $fullpath));
             throw new Exception(sprintf('Init repository error, exit status %d.', $res));
         }
+        Pluf_Log::info(array('IDF_Plugin_Git_Serve::initRepository', 'success', $fullpath));
+
     }
 
     /**

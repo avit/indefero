@@ -88,6 +88,42 @@ class IDF_Scm
     }
 
     /**
+     * Run exec and log some information.
+     *
+     * @param $caller Calling method
+     * @param $cmd Command to run
+     * @param &$out Array of output
+     * @param &$return Return value
+     * @return string Last line of the command
+     */
+    public static function exec($caller, $cmd, &$out=null, &$return=null)
+    {
+        Pluf_Log::stime('timer');
+        $ret = exec($cmd, $out, $return);
+        Pluf_Log::perf(array($caller, $cmd, Pluf_Log::etime('timer', 'total_exec')));
+        Pluf_Log::debug(array($caller, $cmd, $out));
+        Pluf_Log::inc('exec_calls');
+        return $ret;
+    }
+
+    /**
+     * Run shell_exec and log some information.
+     *
+     * @param $caller Calling method
+     * @param $cmd Command to run
+     * @return string The output
+     */
+    public static function shell_exec($caller, $cmd)
+    {
+        Pluf_Log::stime('timer');
+        $ret = shell_exec($cmd);
+        Pluf_Log::perf(array($caller, $cmd, Pluf_Log::etime('timer', 'total_exec')));
+        Pluf_Log::debug(array($caller, $cmd, $ret));
+        Pluf_Log::inc('exec_calls');
+        return $ret;
+    }
+
+    /**
      * Return the size of the repository in bytes.
      *
      * @return int Size in byte, -1 if the size cannot be evaluated.

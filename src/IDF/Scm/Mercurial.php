@@ -37,7 +37,10 @@ class IDF_Scm_Mercurial extends IDF_Scm
     {
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -skD '
             .escapeshellarg($this->repo);
-        $out = explode(' ', shell_exec($cmd), 2);
+        $out = explode(' ', 
+                       self::shell_exec('IDF_Scm_Mercurial::getRepositorySize',
+                                        $cmd), 
+                       2);
         return (int) $out[0]*1024;
     }
 
@@ -90,7 +93,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
                        escapeshellarg($this->repo),
                        escapeshellarg($rev));
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
-        exec($cmd, $out, $ret);
+        self::exec('IDF_Scm_Mercurial::isValidRevision', $cmd, $out, $ret);
         return ($ret == 0) && (count($out) > 0);
     }
 
@@ -109,7 +112,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
         $ret = 0; 
         $out = array();
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
-        exec($cmd, $out, $ret);
+        self::exec('IDF_Scm_Mercurial::testHash', $cmd, $out, $ret);
         return ($ret != 0) ? false : 'commit'; 
     }
 
@@ -153,7 +156,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
         $out = array();
         $res = array();
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
-        exec($cmd, $out);
+        self::exec('IDF_Scm_Mercurial::getTreeInfo', $cmd, $out);
         $tmp_hack = array();
         while (null !== ($line = array_pop($out))) {
             list($hash, $perm, $exec, $file) = preg_split('/ |\t/', $line, 4);
@@ -202,7 +205,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
         $cmd = sprintf($cmd_tmpl, escapeshellarg($this->repo), $commit); 
         $out = array();
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
-        exec($cmd, $out);
+        self::exec('IDF_Scm_Mercurial::getPathInfo', $cmd, $out);
         $tmp_hack = array();
         while (null !== ($line = array_pop($out))) {
             list($hash, $perm, $exec, $file) = preg_split('/ |\t/', $line, 4);
@@ -254,7 +257,8 @@ class IDF_Scm_Mercurial extends IDF_Scm
                        escapeshellarg($def->commit), 
                        escapeshellarg($this->repo.'/'.$def->fullpath));
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
-        return ($cmd_only) ? $cmd : shell_exec($cmd);
+        return ($cmd_only) ? 
+            $cmd : self::shell_exec('IDF_Scm_Mercurial::getFile', $cmd);
     }
 
     /**
@@ -271,7 +275,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
         $cmd = sprintf(Pluf::f('hg_path', 'hg').' branches -R %s', 
                        escapeshellarg($this->repo));
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
-        exec($cmd, $out);
+        self::exec('IDF_Scm_Mercurial::getBranches', $cmd, $out);
         $res = array();
         foreach ($out as $b) {
             preg_match('/(\S+).*\S+:(\S+)/', $b, $match);
@@ -295,7 +299,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
         $cmd = sprintf(Pluf::f('hg_path', 'hg').' tags -R %s', 
                        escapeshellarg($this->repo));
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
-        exec($cmd, $out);
+        self::exec('IDF_Scm_Mercurial::getTags', $cmd, $out);
         $res = array();
         foreach ($out as $b) {
             preg_match('/(\S+).*\S+:(\S+)/', $b, $match);
@@ -335,7 +339,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
                        escapeshellarg($commit), escapeshellarg($this->repo));
         $out = array();
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
-        exec($cmd, $out);
+        self::exec('IDF_Scm_Mercurial::getCommit', $cmd, $out);
         $log = array();
         $change = array();
         $inchange = false;
@@ -377,7 +381,7 @@ class IDF_Scm_Mercurial extends IDF_Scm
         $cmd = sprintf(Pluf::f('hg_path', 'hg').' log -R %s -l%s ', escapeshellarg($this->repo), $n, $commit);
         $out = array();
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
-        exec($cmd, $out);
+        self::exec('IDF_Scm_Mercurial::getChangeLog', $cmd, $out);
         return self::parseLog($out, 6);
     }
 
