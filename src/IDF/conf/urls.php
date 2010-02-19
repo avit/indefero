@@ -224,6 +224,11 @@ $ctl[] = array('regex' => '#^/p/([\-\w]+)/doc/delrev/(\d+)/$#',
                'model' => 'IDF_Views_Wiki',
                'method' => 'deleteRev');
 
+$ctl[] = array('regex' => '#^/p/([\-\w]+)/doc/delete/(\d+)/$#',
+               'base' => $base,
+               'model' => 'IDF_Views_Wiki',
+               'method' => 'delete');
+
 $ctl[] = array('regex' => '#^/p/([\-\w]+)/page/(.*)/$#',
                'base' => $base,
                'model' => 'IDF_Views_Wiki',

@@ -347,6 +347,46 @@ class IDF_Views_Wiki
     }
 
     /**
+     * Delete a Wiki page.
+     */
+    public $delete_precond = array('IDF_Precondition::accessDownloads',
+                                   'IDF_Precondition::projectMemberOrOwner');
+    public function delete($request, $match)
+    {
+        $prj = $request->project;
+        $page = Pluf_Shortcuts_GetObjectOr404('IDF_WikiPage', $match[2]);
+        $prj->inOr404($page);
+        $params = array('page' => $page);
+        if ($request->method == 'POST') {
+            $form = new IDF_Form_WikiDelete($request->POST, $params);
+            if ($form->isValid()) {
+                $form->save();
+                $request->user->setMessage(__('The documentation page has been deleted.'));
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views_Wiki::index', 
+                                                array($prj->shortname));
+                return new Pluf_HTTP_Response_Redirect($url);
+            }
+        } else {
+            $form = new IDF_Form_WikiDelete(null, $params);
+        }
+        $title = sprintf(__('Delete Page %s'), $page->title);
+        $revision = $page->get_current_revision();
+        $false = Pluf_DB_BooleanToDb(false, $page->getDbConnection());
+        $revs = $page->get_revisions_list(array('order' => 'creation_dtime DESC',
+                                                'filter' => 'is_head='.$false));
+        return Pluf_Shortcuts_RenderToResponse('idf/wiki/deletepage.html',
+                                               array(
+                                                     'page_title' => $title,
+                                                     'page' => $page,
+                                                     'form' => $form,
+                                                     'rev' => $revision,
+                                                     'revs' => $revs,
+                                                     'tags' => $page->get_tags_list(),
+                                                     ),
+                                               $request);
+    }
+
+    /**
      * Get the wiki tags.
      *
      * @param IDF_Project

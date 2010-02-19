@@ -56,7 +56,10 @@
 </tr>{/if}
 <tr>
 <td>&nbsp;</td>
-<td><input type="submit" value="{trans 'Preview'}" name="preview" /> &nbsp; <input type="submit" value="{trans 'Update Page'}" name="submit" /> | <a href="{url 'IDF_Views_Wiki::view', array($project.shortname, $page.title)}">{trans 'Cancel'}</a>
+<td>{* float left is a fix for Firefox < 3.5 *}
+<span style="float: left;"><input type="submit" value="{trans 'Preview'}" name="preview" /> &nbsp; <input type="submit" value="{trans 'Update Page'}" name="submit" /> | <a href="{url 'IDF_Views_Wiki::view', array($project.shortname, $page.title)}">{trans 'Cancel'}</a></span>
+{aurl 'url', 'IDF_Views_Wiki::delete', array($project.shortname, $page.id)}
+<span class="dellink"><a href="{$url}" title="{trans 'Delete this page'}"><img src="{media '/idf/img/trash.png'}" style="vertical-align: text-bottom;" alt="{trans 'Trash'}" /></a> <a href="{$url}" title="{trans 'Delete this page'}">{trans 'Delete this page'}</a></span>
 </td>
 </tr>
 </table>
