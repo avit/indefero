@@ -162,7 +162,7 @@ class IDF_Plugin_SyncGit_Serve
         $request->user = $user;
         $request->conf = $conf;
         $request->project = $project;
-        if (true === IDF_Precondition::accessTabGeneric($request, 'source_access_rights')) {
+        if (true === IDF_Precondition::accessSource($request)) {
             if ($mode == 'readonly') {
                 return array(Pluf::f('idf_plugin_syncgit_base_repositories', '/home/git/repositories'),
                              $project->shortname);
