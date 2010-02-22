@@ -158,7 +158,7 @@ class IDF_Form_Admin_ProjectCreate extends Pluf_Form
 
     public function clean_shortname()
     {
-        $shortname = $this->cleaned_data['shortname'];
+        $shortname = mb_strtolower($this->cleaned_data['shortname']);
         if (preg_match('/[^\-A-Za-z0-9]/', $shortname)) {
             throw new Pluf_Form_Invalid(__('This shortname contains illegal characters, please use only letters, digits and dash (-).'));
         }
