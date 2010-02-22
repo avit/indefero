@@ -70,6 +70,11 @@ class IDF_Key extends Pluf_Model
                                    );
     }
 
+    function showCompact()
+    {
+        return Pluf_Template::markSafe(Pluf_esc(substr($this->content, 0, 25)).' [...] '.Pluf_esc(substr($this->content, -55)));
+    }
+
     function postSave($create=false)
     {
         /**
@@ -94,6 +99,32 @@ class IDF_Key extends Pluf_Model
          */
         $params = array('key' => $this, 'created' => $create);
         Pluf_Signal::send('IDF_Key::postSave',
+                          'IDF_Key', $params);
+    }
+
+    function preDelete()
+    {
+        /**
+         * [signal]
+         *
+         * IDF_Key::preDelete
+         *
+         * [sender]
+         *
+         * IDF_Key
+         *
+         * [description]
+         *
+         * This signal allows an application to perform special
+         * operations before a key is deleted.
+         *
+         * [parameters]
+         *
+         * array('key' => $key)
+         *
+         */
+        $params = array('key' => $this);
+        Pluf_Signal::send('IDF_Key::preDelete',
                           'IDF_Key', $params);
     }
 

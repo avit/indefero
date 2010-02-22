@@ -94,7 +94,7 @@ class IDF_Form_UserAccount  extends Pluf_Form
 
         $this->fields['ssh_key'] = new Pluf_Form_Field_Varchar(
                                       array('required' => false,
-                                            'label' => __('Your public SSH key'),
+                                            'label' => __('Add a public SSH key'),
                                             'initial' => '',
                                             'widget_attrs' => array('rows' => 3,
                                                                     'cols' => 40),
@@ -104,7 +104,6 @@ class IDF_Form_UserAccount  extends Pluf_Form
         
 
     }
-
 
     /**
      * Save the model in the database.
@@ -151,25 +150,17 @@ class IDF_Form_UserAccount  extends Pluf_Form
             $this->user->setMessage(sprintf(__('A validation email has been sent to "%s" to validate the email address change.'), Pluf_esc($new_email)));
         }
         $this->user->setFromFormData($this->cleaned_data);
-        // Get keys
-        $keys = $this->user->get_idf_key_list();
-        if ($keys->count() > 0) {
-            $key = $keys[0];
-            if ('' !== $this->cleaned_data['ssh_key']) {
-                $key->content = $this->cleaned_data['ssh_key'];
-            }
-        } else {
+        // Add key as needed.
+        if ('' !== $this->cleaned_data['ssh_key']) {
             $key = new IDF_Key();
             $key->user = $this->user;
             $key->content = $this->cleaned_data['ssh_key'];
+            if ($commit) {
+                $key->create();
+            }
         }
         if ($commit) {
             $this->user->update();
-            if ($key->id != '') {
-                $key->update();
-            } else {
-                $key->create();
-            }
             if ($update_pass) {
                 /**
                  * [signal]
@@ -196,6 +187,19 @@ class IDF_Form_UserAccount  extends Pluf_Form
             }
         }
         return $this->user;
+    }
+
+    function clean_ssh_key()
+    {
+        $key = trim($this->cleaned_data['ssh_key']);
+        if (strlen($key) == 0) {
+            return '';
+        }
+        $key = str_replace(array("\n", "\r"), '', $key);
+        if (!preg_match('#^ssh\-[a-z]{3}\s(\S+)\s\S+$#', $key, $matches)) {
+            throw new Pluf_Form_Invalid(__('The format of the key is not valid. It must start with ssh-dss or ssh-rsa, a long string on a single line and at the end a comment.'));
+        }
+        return $key;
     }
 
     function clean_last_name()

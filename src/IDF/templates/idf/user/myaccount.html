@@ -56,7 +56,6 @@
 <tr>
 <th>{$form.f.ssh_key.labelTag}:</th>
 <td>{if $form.f.ssh_key.errors}{$form.f.ssh_key.fieldErrors}{/if}
-{$ssh_key}<br />
 {$form.f.ssh_key|unsafe}<br />
 <span class="helptext">{$form.f.ssh_key.help_text}</span>
 </td>
@@ -80,6 +79,16 @@
 </tr>
 </table>
 </form>
+
+{if count($keys)}
+<table summary=" " class="recent-issues">
+<tr><th colspan="2">{trans 'Your Current SSH Keys'}</th></tr>
+{foreach $keys as $key}<tr><td>
+<span class="mono">{$key.showCompact()}</span></td><td> <form class="star" method="post" action="{url 'IDF_Views_User::deleteKey', array($key.id)}"><input type="image" src="{media '/idf/img/trash.png'}" name="submit" value="{trans 'Delete this key'}" /></form>
+</td>
+</tr>{/foreach}
+</table>
+{/if}
 {/block}
 {block context}
 <div class="issue-submit-info">

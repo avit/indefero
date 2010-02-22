@@ -124,18 +124,33 @@ class IDF_Views_User
             $form = new IDF_Form_UserAccount($data, $params);
         }
         $keys = $request->user->get_idf_key_list();
-        if ($keys->count() > 0 and strlen($keys[0]->content) > 30) {
-            $ssh_key = Pluf_Template::markSafe('<span class="mono">'.Pluf_esc(substr($keys[0]->content, 0, 30)).'...</span><br /><span class="helptext">'.__('Truncated for security reasons.').'</span>');
-        } else {
-            $ssh_key = __('You have not upload your public SSH key yet.');
-        }
         return Pluf_Shortcuts_RenderToResponse('idf/user/myaccount.html', 
                                                array('page_title' => __('Your Account'),
                                                      'api_key' => $api_key,
                                                      'ext_pass' => $ext_pass,
-                                                     'ssh_key' => $ssh_key,
+                                                     'keys' => $keys,
                                                      'form' => $form),
                                                $request);
+    }
+
+    /**
+     * Delete a SSH key.
+     *
+     * This is redirecting to the preferences
+     */
+    public $deleteKey_precond = array('Pluf_Precondition::loginRequired');
+    public function deleteKey($request, $match)
+    {
+        $url = Pluf_HTTP_URL_urlForView('IDF_Views_User::myAccount');
+        if ($request->method == 'POST') {
+            $key = Pluf_Shortcuts_GetObjectOr404('IDF_Key', $match[1]);
+            if ($key->user != $request->user->id) {
+                return new Pluf_HTTP_Response_Forbidden($request);
+            }
+            $key->delete();
+            $request->user->setMessage(__('The SSH key has been deleted.'));
+        }
+        return new Pluf_HTTP_Response_Redirect($url);
     }
 
     /**

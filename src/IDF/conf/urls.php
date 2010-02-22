@@ -422,4 +422,10 @@ $ctl[] = array('regex' => '#^/preferences/email/ak/(.*)/$#',
                'model' => 'IDF_Views_User',
                'method' => 'changeEmailDo');
 
+$ctl[] = array('regex' => '#^/preferences/key/(\d+)/delete/$#',
+               'base' => $base,
+               'model' => 'IDF_Views_User',
+               'method' => 'deleteKey');
+
+
 return $ctl;
