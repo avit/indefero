@@ -56,7 +56,7 @@ class IDF_Scm_Svn extends IDF_Scm
         if (strpos($this->repo, 'file://') !== 0) {
             return -1;
         }
-        $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -skD '
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -sk '
             .escapeshellarg(substr($this->repo, 7));
         $out = explode(' ', self::shell_exec('IDF_Scm_Svn::getRepositorySize', $cmd), 2);
         return (int) $out[0]*1024;
