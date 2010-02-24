@@ -1,0 +1,16 @@
+{blocktrans}Hello {$user},
+
+An account on the forge has been created for you by
+the administrator {$admin}.
+
+Please find here your details to access the forge:
+
+ Address: {$url}
+ Login: {$user.login}
+ Password: {$password}
+
+Yours faithfully,
+The development team.
+{/blocktrans}
+
+

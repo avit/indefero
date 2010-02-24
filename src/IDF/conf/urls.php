@@ -370,6 +370,11 @@ $ctl[] = array('regex' => '#^/admin/users/$#',
                'model' => 'IDF_Views_Admin',
                'method' => 'users');
 
+$ctl[] = array('regex' => '#^/admin/users/create/$#',
+               'base' => $base,
+               'model' => 'IDF_Views_Admin',
+               'method' => 'userCreate');
+
 $ctl[] = array('regex' => '#^/admin/users/notvalid/$#',
                'base' => $base,
                'model' => 'IDF_Views_Admin',

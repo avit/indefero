@@ -1,0 +1,68 @@
+{extends "idf/gadmin/users/base.html"}
+{block docclass}yui-t1{assign $inCreate=true}{/block}
+{block body}
+{if $form.errors}
+<div class="px-message-error">
+<p>{trans 'The form contains some errors. Please correct them to create the user.'}</p>
+{if $form.get_top_errors}
+{$form.render_top_errors|unsafe}
+{/if}
+</div>
+{/if}
+<form method="post" action=".">
+<table class="form" summary="">
+<tr>
+<th><strong>{$form.f.login.labelTag}:</strong></th>
+<td>{if $form.f.login.errors}{$form.f.login.fieldErrors}{/if}
+{$form.f.login|unsafe}
+</td>
+</tr>
+<tr>
+<th>{$form.f.first_name.labelTag}:</th>
+<td>{if $form.f.first_name.errors}{$form.f.first_name.fieldErrors}{/if}
+{$form.f.first_name|unsafe}
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.last_name.labelTag}:</strong></th>
+<td>{if $form.f.last_name.errors}{$form.f.last_name.fieldErrors}{/if}
+{$form.f.last_name|unsafe}
+</td>
+</tr>
+<tr>
+<th><strong>{$form.f.email.labelTag}:</strong></th>
+<td>{if $form.f.email.errors}{$form.f.email.fieldErrors}{/if}
+{$form.f.email|unsafe}<br />
+<span class="helptext">{$form.f.email.help_text}</span>
+</td>
+</tr>
+<tr>
+<th>{$form.f.language.labelTag}:</th>
+<td>{if $form.f.language.errors}{$form.f.language.fieldErrors}{/if}
+{$form.f.language|unsafe}
+</td>
+</tr>
+<tr>
+<th>{$form.f.ssh_key.labelTag}:</th>
+<td>{if $form.f.ssh_key.errors}{$form.f.ssh_key.fieldErrors}{/if}
+{$form.f.ssh_key|unsafe}<br />
+<span class="helptext">{$form.f.ssh_key.help_text}</span>
+</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td><input type="submit" value="{trans 'Create User'}" name="submit" /> | <a href="{url 'IDF_Views_Admin::users'}">{trans 'Cancel'}</a>
+</td>
+</tr>
+</table>
+</form>
+{/block}
+{block context}
+<div class="issue-submit-info">
+<p>{trans 'The user password will be sent by email to the user.'}</p>
+</div>{/block}
+
+{block javascript}<script type="text/javascript">
+document.getElementById('id_login').focus();
+</script>{/block}
+

@@ -192,13 +192,14 @@ class IDF_Views_Admin
         if ($not_validated) {
             $pag->forced_where = new Pluf_SQL('first_name = \'---\' AND active!='.$true);
             $title = __('Not Validated User List');
+            $pag->action = 'IDF_Views_Admin::usersNotValidated';
         } else {
             $pag->forced_where = new Pluf_SQL('first_name != \'---\'');
             $title = __('User List');
+            $pag->action = 'IDF_Views_Admin::users';
         }
         $pag->class = 'recent-issues';
         $pag->summary = __('This table shows the users in the forge.');
-        $pag->action = 'IDF_Views_Admin::users';
         $pag->edit_action = array('IDF_Views_Admin::userUpdate', 'id');
         $pag->sort_order = array('login', 'ASC');
         $list_display = array(
@@ -210,7 +211,9 @@ class IDF_Views_Admin
              array('last_login', 'Pluf_Paginator_DateYMDHM', __('Last Login')),
                               );
         $pag->extra_classes = array('', '', 'a-c', 'a-c', 'a-c', 'a-c');
-        $pag->configure($list_display, array(), array('login', 'last_login'));
+        $pag->configure($list_display, 
+                        array('login', 'last_name', 'email'), 
+                        array('login', 'last_login'));
         $pag->items_per_page = 50;
         $pag->no_results_text = __('No users were found.');
         $pag->setFromRequest($request);
@@ -275,6 +278,38 @@ class IDF_Views_Admin
                                                array(
                                                      'page_title' => $title,
                                                      'cuser' => $user,
+                                                     'form' => $form,
+                                                     ),
+                                               $request);
+    }
+
+    /**
+     * Create a new user.
+     *
+     * Only staff can add a user. The user can be added together with
+     * a public ssh key.
+     */
+    public $userCreate_precond = array('Pluf_Precondition::staffRequired');
+    public function userCreate($request, $match)
+    {
+        $params = array(
+                        'request' => $request,
+                        );
+        if ($request->method == 'POST') {
+            $form = new IDF_Form_Admin_UserCreate($request->POST, $params);
+            if ($form->isValid()) {
+                $cuser = $form->save();
+                $request->user->setMessage(sprintf(__('The user %s has been created.'), (string) $cuser));
+                $url = Pluf_HTTP_URL_urlForView('IDF_Views_Admin::users');
+                return new Pluf_HTTP_Response_Redirect($url);
+            }
+        } else {
+            $form = new IDF_Form_Admin_UserCreate(null, $params);
+        }
+        $title = __('Add User');
+        return Pluf_Shortcuts_RenderToResponse('idf/gadmin/users/create.html',
+                                               array(
+                                                     'page_title' => $title,
                                                      'form' => $form,
                                                      ),
                                                $request);

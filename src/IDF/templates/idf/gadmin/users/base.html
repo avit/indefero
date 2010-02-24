@@ -4,6 +4,7 @@
 <a {if $inIndex}class="active" {/if}href="{url 'IDF_Views_Admin::users'}">{trans 'User List'}</a> 
 {if $inUpdate} |
 <a class="active" href="{url 'IDF_Views_Admin::userUpdate', array($cuser.id)}">{trans 'Update User'}</a> 
-{/if}
+{/if} |
+<a {if $inCreate}class="active" {/if}href="{url 'IDF_Views_Admin::userCreate'}">{trans 'Create User'}</a> 
 
 {/block}
