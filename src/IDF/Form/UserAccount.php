@@ -220,6 +220,17 @@ class IDF_Form_UserAccount  extends Pluf_Form
                 throw new Pluf_Form_Invalid(__('Please check the key as it does not appears to be a valid key.'));
             }
         }
+        // If $user, then check if not the same key stored
+        if ($user) {
+            $ruser = Pluf::factory('Pluf_User', $user);
+            if ($ruser->id > 0) {
+                $sql = new Pluf_SQL('content=%s', array($key));
+                $keys = Pluf::factory('IDF_Key')->getList(array('filter' => $sql->gen()));
+                if (count($keys) > 0) {
+                    throw new Pluf_Form_Invalid(__('You already have uploaded this SSH key.'));
+                }
+            }
+        }
         return $key;
     }
 
