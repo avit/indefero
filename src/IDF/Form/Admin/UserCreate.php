@@ -164,15 +164,7 @@ class IDF_Form_Admin_UserCreate extends Pluf_Form
 
     function clean_ssh_key()
     {
-        $key = trim($this->cleaned_data['ssh_key']);
-        if (strlen($key) == 0) {
-            return '';
-        }
-        $key = str_replace(array("\n", "\r"), '', $key);
-        if (!preg_match('#^ssh\-[a-z]{3}\s(\S+)\s\S+$#', $key, $matches)) {
-            throw new Pluf_Form_Invalid(__('The format of the key is not valid. It must start with ssh-dss or ssh-rsa, a long string on a single line and at the end a comment.'));
-        }
-        return $key;
+        return IDF_Form_UserAccount::checkSshKey($this->cleaned_data['ssh_key']);
     }
 
     function clean_last_name()

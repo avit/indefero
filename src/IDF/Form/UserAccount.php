@@ -189,9 +189,19 @@ class IDF_Form_UserAccount  extends Pluf_Form
         return $this->user;
     }
 
-    function clean_ssh_key()
+    /**
+     * Check an ssh key.
+     *
+     * It will throw a Pluf_Form_Invalid exception if it cannot
+     * validate the key.
+     *
+     * @param $key string The key
+     * @param $user int The user id of the user of the key (0)
+     * @return string The clean key
+     */
+    public static function checkSshKey($key, $user=0)
     {
-        $key = trim($this->cleaned_data['ssh_key']);
+        $key = trim($key);
         if (strlen($key) == 0) {
             return '';
         }
@@ -199,7 +209,24 @@ class IDF_Form_UserAccount  extends Pluf_Form
         if (!preg_match('#^ssh\-[a-z]{3}\s(\S+)\s\S+$#', $key, $matches)) {
             throw new Pluf_Form_Invalid(__('The format of the key is not valid. It must start with ssh-dss or ssh-rsa, a long string on a single line and at the end a comment.'));
         }
+        if (Pluf::f('idf_strong_key_check', false)) {
+            $tmpfile = Pluf::f('tmp_folder', '/tmp').$user.'-key';
+            file_put_contents($tmpfile, $key, LOCK_EX);
+            $cmd = Pluf::f('idf_exec_cmd_prefix', '').
+                'ssh-keygen -l -f '.escapeshellarg($tmpfile);
+            exec($cmd, $out, $return);
+            unlink($tmpfile);
+            if ($return != 0) {
+                throw new Pluf_Form_Invalid(__('Please check the key as it does not appears to be a valid key.'));
+            }
+        }
         return $key;
+    }
+
+    function clean_ssh_key()
+    {
+        return self::checkSshKey($this->cleaned_data['ssh_key'], 
+                                 $this->user->id);
     }
 
     function clean_last_name()
