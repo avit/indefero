@@ -213,7 +213,7 @@ class IDF_Form_UserAccount  extends Pluf_Form
             $tmpfile = Pluf::f('tmp_folder', '/tmp').$user.'-key';
             file_put_contents($tmpfile, $key, LOCK_EX);
             $cmd = Pluf::f('idf_exec_cmd_prefix', '').
-                'ssh-keygen -l -f '.escapeshellarg($tmpfile);
+                'ssh-keygen -l -f '.escapeshellarg($tmpfile).' > /dev/null 2>&1';
             exec($cmd, $out, $return);
             unlink($tmpfile);
             if ($return != 0) {
