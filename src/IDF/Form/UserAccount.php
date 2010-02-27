@@ -210,7 +210,7 @@ class IDF_Form_UserAccount  extends Pluf_Form
             throw new Pluf_Form_Invalid(__('The format of the key is not valid. It must start with ssh-dss or ssh-rsa, a long string on a single line and at the end a comment.'));
         }
         if (Pluf::f('idf_strong_key_check', false)) {
-            $tmpfile = Pluf::f('tmp_folder', '/tmp').$user.'-key';
+            $tmpfile = Pluf::f('tmp_folder', '/tmp').'/'.$user.'-key';
             file_put_contents($tmpfile, $key, LOCK_EX);
             $cmd = Pluf::f('idf_exec_cmd_prefix', '').
                 'ssh-keygen -l -f '.escapeshellarg($tmpfile).' > /dev/null 2>&1';
