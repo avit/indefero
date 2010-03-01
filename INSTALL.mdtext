@@ -205,3 +205,11 @@ proposed by Mathias in ticket 369.
 3. Restart git-daemon-run
 
     sv restart git-daemon
+
+## If Subversion is not working
+
+If you access a Subversion server with a self-signed certificate, you
+may have problems as your certificate is not trusted, check the
+[procedure provided here][svnfix] to solve the problem.
+
+[svnfix]: http://projects.ceondo.com/p/indefero/issues/319/#ic1358
