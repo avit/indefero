@@ -249,8 +249,11 @@ class IDF_Issue extends Pluf_Model
 
         if ($create) {
             if (null != $this->get_owner() and $this->owner != $this->submitter) {                
-                $to_email[] = array($this->get_owner()->email, 
+                $email_lang = array($this->get_owner()->email, 
                                     $this->get_owner()->language);
+                if (!in_array($email_lang, $to_email)) {
+                    $to_email[] = $email_lang;
+                }
             }
             $comments = $this->get_comments_list(array('order' => 'id ASC'));
             $context = new Pluf_Template_Context(
