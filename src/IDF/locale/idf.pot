@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-06 20:31+0100\n"
+"POT-Creation-Date: 2010-03-16 15:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,9 +17,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: IDF/Commit.php:54 IDF/Conf.php:54 IDF/Issue.php:52 IDF/Review.php:65
-#: IDF/Tag.php:52 IDF/Upload.php:49 IDF/WikiPage.php:54 IDF/Search/Occ.php:69
-#: IDF/Issue.php:52
+#: IDF/Commit.php:54 IDF/Conf.php:54 IDF/Issue.php:52 IDF/Queue.php:92
+#: IDF/Review.php:65 IDF/Tag.php:52 IDF/Upload.php:49 IDF/WikiPage.php:54
+#: IDF/Search/Occ.php:69 IDF/Issue.php:52
 msgid "project"
 msgstr ""
 
@@ -143,6 +143,7 @@ msgstr ""
 #: IDF/gettexttemplates/idf/downloads/download-created-email.txt.php:7
 #: IDF/gettexttemplates/idf/downloads/view.html.php:16
 #: IDF/gettexttemplates/idf/downloads/delete.html.php:11
+#: IDF/gettexttemplates/idf/wiki/deletepage.html.php:10
 #: IDF/gettexttemplates/idf/wiki/wiki-updated-email.txt.php:9
 #: IDF/gettexttemplates/idf/wiki/wiki-updated-email.txt.php:12
 #: IDF/gettexttemplates/idf/wiki/view.html.php:15
@@ -222,12 +223,12 @@ msgstr ""
 msgid "%s: Issue %d created - %s"
 msgstr ""
 
-#: IDF/Issue.php:267 IDF/Issue.php:267
+#: IDF/Issue.php:270 IDF/Issue.php:270
 #, php-format
 msgid "Issue %s - %s (%s)"
 msgstr ""
 
-#: IDF/Issue.php:304 IDF/Issue.php:304
+#: IDF/Issue.php:316 IDF/Issue.php:316
 #, php-format
 msgid "Updated Issue %s - %s (%s)"
 msgstr ""
@@ -333,7 +334,6 @@ msgstr ""
 
 #: IDF/Views.php:44 IDF/gettexttemplates/idf/faq.html.php:35
 #: IDF/gettexttemplates/idf/faq-api.html.php:4
-#: IDF/gettexttemplates/idf/user/public.html.php:6
 #: IDF/gettexttemplates/idf/index.html.php:3
 #: IDF/gettexttemplates/idf/gadmin/base.html.php:9 IDF/Views/Admin.php:57
 msgid "Projects"
@@ -351,21 +351,21 @@ msgstr ""
 msgid "Welcome! You can now participate in the life of your project of choice."
 msgstr ""
 
-#: IDF/Views.php:189 IDF/Views.php:214 IDF/Views.php:255
+#: IDF/Views.php:191 IDF/Views.php:215 IDF/Views.php:256
 msgid "Password Recovery"
 msgstr ""
 
-#: IDF/Views.php:234
+#: IDF/Views.php:235
 msgid ""
 "Welcome back! Next time, you can use your broswer options to remember the "
 "password."
 msgstr ""
 
-#: IDF/Views.php:276
+#: IDF/Views.php:277
 msgid "Here to Help You!"
 msgstr ""
 
-#: IDF/Views.php:292
+#: IDF/Views.php:293
 msgid "InDefero API (Application Programming Interface)"
 msgstr ""
 
@@ -491,7 +491,7 @@ msgstr ""
 msgid "No, I am a new here."
 msgstr ""
 
-#: IDF/gettexttemplates/idf/login_form.html.php:7 IDF/Views/Admin.php:287
+#: IDF/gettexttemplates/idf/login_form.html.php:7 IDF/Views/Admin.php:322
 msgid "Yes"
 msgstr ""
 
@@ -516,6 +516,8 @@ msgstr ""
 #: IDF/gettexttemplates/idf/issues/view.html.php:7
 #: IDF/gettexttemplates/idf/downloads/view.html.php:4
 #: IDF/gettexttemplates/idf/downloads/delete.html.php:5
+#: IDF/gettexttemplates/idf/wiki/deletepage.html.php:4
+#: IDF/gettexttemplates/idf/wiki/deletepage.html.php:5
 #: IDF/gettexttemplates/idf/wiki/view.html.php:8
 #: IDF/gettexttemplates/idf/wiki/view.html.php:9
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:7
@@ -545,6 +547,7 @@ msgstr ""
 #: IDF/gettexttemplates/idf/issues/attachment.html.php:7
 #: IDF/gettexttemplates/idf/issues/view.html.php:18
 #: IDF/gettexttemplates/idf/review/view.html.php:25
+#: IDF/gettexttemplates/idf/wiki/deletepage.html.php:8
 #: IDF/gettexttemplates/idf/wiki/view.html.php:13
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:11
 msgid "Created:"
@@ -741,10 +744,12 @@ msgstr ""
 #: IDF/gettexttemplates/idf/user/passrecovery-inputkey.html.php:5
 #: IDF/gettexttemplates/idf/user/changeemail.html.php:5
 #: IDF/gettexttemplates/idf/user/passrecovery-ask.html.php:5
+#: IDF/gettexttemplates/idf/wiki/deletepage.html.php:7
 #: IDF/gettexttemplates/idf/wiki/update.html.php:7
 #: IDF/gettexttemplates/idf/wiki/create.html.php:7
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:10
 #: IDF/gettexttemplates/idf/gadmin/users/update.html.php:12
+#: IDF/gettexttemplates/idf/gadmin/users/create.html.php:5
 #: IDF/gettexttemplates/idf/gadmin/projects/update.html.php:16
 #: IDF/gettexttemplates/idf/gadmin/projects/delete.html.php:21
 #: IDF/gettexttemplates/idf/register/index.html.php:7
@@ -811,6 +816,7 @@ msgstr ""
 #: IDF/gettexttemplates/idf/review/view.html.php:26
 #: IDF/gettexttemplates/idf/downloads/view.html.php:14
 #: IDF/gettexttemplates/idf/downloads/delete.html.php:9
+#: IDF/gettexttemplates/idf/wiki/deletepage.html.php:9
 #: IDF/gettexttemplates/idf/wiki/view.html.php:14
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:12
 msgid "Updated:"
@@ -1193,6 +1199,7 @@ msgid "Remove this file"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/downloads/view.html.php:10
+#: IDF/gettexttemplates/idf/wiki/update.html.php:9
 #: IDF/gettexttemplates/idf/wiki/view.html.php:11
 #: IDF/gettexttemplates/idf/gadmin/projects/update.html.php:18
 msgid "Trash"
@@ -1643,18 +1650,26 @@ msgid "Update Your Account"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/user/myaccount.html.php:11
+msgid "Your Current SSH Keys"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/user/myaccount.html.php:12
+msgid "Delete this key"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/user/myaccount.html.php:13
 msgid ""
 "If possible, use your real name. By using your real name, people will have "
 "more trust in your comments and remarks."
 msgstr ""
 
-#: IDF/gettexttemplates/idf/user/myaccount.html.php:12
+#: IDF/gettexttemplates/idf/user/myaccount.html.php:14
 msgid ""
 "The extra password is used to access some of the external systems and the "
 "API key is used to interact with this website using a program."
 msgstr ""
 
-#: IDF/gettexttemplates/idf/user/myaccount.html.php:13
+#: IDF/gettexttemplates/idf/user/myaccount.html.php:15
 msgid "Show API key and extra password"
 msgstr ""
 
@@ -1779,6 +1794,23 @@ msgid ""
 "The development team.\n"
 msgstr ""
 
+#: IDF/gettexttemplates/idf/wiki/deletepage.html.php:3
+msgid ""
+"If you delete this documentation page, it will be removed from the database "
+"with all the associated revisions and <strong>you will not be able to "
+"recover it</strong>."
+msgstr ""
+
+#: IDF/gettexttemplates/idf/wiki/deletepage.html.php:6
+msgid "Delete Page"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/wiki/deletepage.html.php:11
+#: IDF/gettexttemplates/idf/wiki/view.html.php:16
+#: IDF/gettexttemplates/idf/wiki/delete.html.php:14
+msgid "Old Revisions"
+msgstr ""
+
 #: IDF/gettexttemplates/idf/wiki/wiki-updated-email.txt.php:3
 msgid "The following documentation page has been updated:"
 msgstr ""
@@ -1837,6 +1869,12 @@ msgstr ""
 msgid "Update Page"
 msgstr ""
 
+#: IDF/gettexttemplates/idf/wiki/update.html.php:8
+#: IDF/gettexttemplates/idf/wiki/update.html.php:10
+#: IDF/gettexttemplates/idf/wiki/update.html.php:11
+msgid "Delete this page"
+msgstr ""
+
 #: IDF/gettexttemplates/idf/wiki/create.html.php:4
 msgid "The form contains some errors. Please correct them to create the page."
 msgstr ""
@@ -1866,11 +1904,6 @@ msgstr ""
 #: IDF/gettexttemplates/idf/wiki/view.html.php:10
 #: IDF/gettexttemplates/idf/wiki/view.html.php:12
 msgid "Delete this revision"
-msgstr ""
-
-#: IDF/gettexttemplates/idf/wiki/view.html.php:16
-#: IDF/gettexttemplates/idf/wiki/delete.html.php:14
-msgid "Old Revisions"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/wiki/delete.html.php:3
@@ -2084,13 +2117,18 @@ msgid "Managed Projects:"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/gadmin/users/base.html.php:3
-#: IDF/Views/Admin.php:197
+#: IDF/Views/Admin.php:198
 msgid "User List"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/gadmin/users/base.html.php:4
 #: IDF/gettexttemplates/idf/gadmin/users/update.html.php:11
 msgid "Update User"
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/users/base.html.php:5
+#: IDF/gettexttemplates/idf/gadmin/users/create.html.php:4
+msgid "Create User"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/gadmin/users/index.html.php:3
@@ -2121,6 +2159,32 @@ msgstr ""
 
 #: IDF/gettexttemplates/idf/gadmin/users/update.html.php:9
 msgid "The form contains some errors. Please correct them to update the user."
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/users/create.html.php:3
+msgid "The form contains some errors. Please correct them to create the user."
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/users/create.html.php:6
+msgid "The user password will be sent by email to the user."
+msgstr ""
+
+#: IDF/gettexttemplates/idf/gadmin/users/createuser-email.txt.php:3
+#, php-format
+msgid ""
+"Hello %%user%%,\n"
+"\n"
+"An account on the forge has been created for you by\n"
+"the administrator %%admin%%.\n"
+"\n"
+"Please find here your details to access the forge:\n"
+"\n"
+" Address: %%url%%\n"
+" Login: %%user.login%%\n"
+" Password: %%password%%\n"
+"\n"
+"Yours faithfully,\n"
+"The development team.\n"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/gadmin/projects/base.html.php:5
@@ -2386,17 +2450,17 @@ msgstr ""
 msgid "Updated Code Review %s - %s (%s)"
 msgstr ""
 
-#: IDF/Scm/Git.php:170
+#: IDF/Scm/Git.php:172
 #, php-format
 msgid "Invalid value for the parameter %1$s: %2$s. Use %3$s."
 msgstr ""
 
-#: IDF/Scm/Git.php:221 IDF/Scm/Mercurial.php:132
+#: IDF/Scm/Git.php:223 IDF/Scm/Mercurial.php:135
 #, php-format
 msgid "Folder %1$s not found in commit %2$s."
 msgstr ""
 
-#: IDF/Scm/Git.php:328 IDF/Scm/Mercurial.php:149
+#: IDF/Scm/Git.php:331 IDF/Scm/Mercurial.php:152
 #, php-format
 msgid "Not a valid tree: %s."
 msgstr ""
@@ -2406,7 +2470,7 @@ msgstr ""
 msgid "The repository %s already exists."
 msgstr ""
 
-#: IDF/Plugin/SyncMercurial.php:138
+#: IDF/Plugin/SyncMercurial.php:139
 #, php-format
 msgid "%s does not exist or is not writable."
 msgstr ""
@@ -2454,11 +2518,12 @@ msgid "You provided an invalid label."
 msgstr ""
 
 #: IDF/Form/Upload.php:148 IDF/Form/UserChangeEmail.php:80
-#: IDF/Form/ReviewFileComment.php:125 IDF/Form/Password.php:61
+#: IDF/Form/ReviewFileComment.php:125 IDF/Form/Password.php:76
 #: IDF/Form/TabsConf.php:97 IDF/Form/UpdateUpload.php:126
-#: IDF/Form/Admin/ProjectUpdate.php:77 IDF/Form/Admin/ProjectCreate.php:215
-#: IDF/Form/Admin/UserUpdate.php:129 IDF/Form/Admin/ProjectDelete.php:78
-#: IDF/Form/UserAccount.php:119 IDF/Form/IssueUpdate.php:232
+#: IDF/Form/Admin/UserCreate.php:108 IDF/Form/Admin/ProjectUpdate.php:77
+#: IDF/Form/Admin/ProjectCreate.php:215 IDF/Form/Admin/UserUpdate.php:129
+#: IDF/Form/Admin/ProjectDelete.php:78 IDF/Form/WikiDelete.php:59
+#: IDF/Form/UserAccount.php:118 IDF/Form/IssueUpdate.php:232
 #: IDF/Form/ReviewCreate.php:187 IDF/Form/IssueCreate.php:233
 #: IDF/Form/WikiCreate.php:167 IDF/Form/MembersConf.php:64
 #: IDF/Form/WikiUpdate.php:178 IDF/Form/Register.php:114
@@ -2509,13 +2574,13 @@ msgstr ""
 msgid "Provide either your login or your email to recover your password."
 msgstr ""
 
-#: IDF/Form/Password.php:49
+#: IDF/Form/Password.php:49 IDF/Form/Password.php:64
 msgid ""
 "Sorry, we cannot find a user with this email address or login. Feel free to "
 "try again."
 msgstr ""
 
-#: IDF/Form/Password.php:80
+#: IDF/Form/Password.php:100
 msgid "Password Recovery - InDefero"
 msgstr ""
 
@@ -2523,13 +2588,13 @@ msgstr ""
 msgid "Your confirmation key"
 msgstr ""
 
-#: IDF/Form/RegisterConfirmation.php:50 IDF/Form/Admin/UserUpdate.php:36
-#: IDF/Form/UserAccount.php:38
+#: IDF/Form/RegisterConfirmation.php:50 IDF/Form/Admin/UserCreate.php:37
+#: IDF/Form/Admin/UserUpdate.php:36 IDF/Form/UserAccount.php:38
 msgid "First name"
 msgstr ""
 
-#: IDF/Form/RegisterConfirmation.php:59 IDF/Form/Admin/UserUpdate.php:45
-#: IDF/Form/UserAccount.php:47
+#: IDF/Form/RegisterConfirmation.php:59 IDF/Form/Admin/UserCreate.php:46
+#: IDF/Form/Admin/UserUpdate.php:45 IDF/Form/UserAccount.php:47
 msgid "Last name"
 msgstr ""
 
@@ -2567,7 +2632,7 @@ msgid "The two passwords must be the same."
 msgstr ""
 
 #: IDF/Form/RegisterConfirmation.php:137 IDF/Form/RegisterInputKey.php:72
-#: IDF/Form/PasswordReset.php:105 IDF/Form/PasswordInputKey.php:76
+#: IDF/Form/PasswordReset.php:108 IDF/Form/PasswordInputKey.php:76
 msgid "Cannot save an invalid form."
 msgstr ""
 
@@ -2613,8 +2678,59 @@ msgstr ""
 msgid "Each issue may have at most one label with each of these classes"
 msgstr ""
 
+#: IDF/Form/Admin/UserCreate.php:56
+msgid "Login"
+msgstr ""
+
+#: IDF/Form/Admin/UserCreate.php:60 IDF/Form/Register.php:45
+msgid ""
+"The login must be between 3 and 15 characters long and contains only letters "
+"and digits."
+msgstr ""
+
+#: IDF/Form/Admin/UserCreate.php:69 IDF/Form/Admin/UserUpdate.php:55
+msgid "Email"
+msgstr ""
+
+#: IDF/Form/Admin/UserCreate.php:71
+msgid ""
+"Double check the email address as the password is directly sent to the user."
+msgstr ""
+
+#: IDF/Form/Admin/UserCreate.php:76 IDF/Form/Admin/UserUpdate.php:65
+#: IDF/Form/UserAccount.php:64
+msgid "Language"
+msgstr ""
+
+#: IDF/Form/Admin/UserCreate.php:87 IDF/Form/UserAccount.php:97
+msgid "Add a public SSH key"
+msgstr ""
+
+#: IDF/Form/Admin/UserCreate.php:92
+msgid "Be careful to provide the public key and not the private key!"
+msgstr ""
+
+#: IDF/Form/Admin/UserCreate.php:159
+msgid "Your details to access your forge."
+msgstr ""
+
+#: IDF/Form/Admin/UserCreate.php:196 IDF/Form/UserAccount.php:270
+#, php-format
+msgid "The email \"%s\" is already used."
+msgstr ""
+
+#: IDF/Form/Admin/UserCreate.php:205 IDF/Form/Register.php:72
+#, php-format
+msgid "The login \"%s\" can only contain letters and digits."
+msgstr ""
+
+#: IDF/Form/Admin/UserCreate.php:210 IDF/Form/Register.php:77
+#, php-format
+msgid "The login \"%s\" is already used, please find another one."
+msgstr ""
+
 #: IDF/Form/Admin/ProjectUpdate.php:42 IDF/Form/Admin/ProjectCreate.php:48
-#: IDF/Views/Admin.php:66 IDF/Views/Admin.php:206
+#: IDF/Views/Admin.php:66 IDF/Views/Admin.php:207
 msgid "Name"
 msgstr ""
 
@@ -2685,14 +2801,6 @@ msgid ""
 "Click on the Project Management tab to set the description of your project."
 msgstr ""
 
-#: IDF/Form/Admin/UserUpdate.php:55
-msgid "Email"
-msgstr ""
-
-#: IDF/Form/Admin/UserUpdate.php:65 IDF/Form/UserAccount.php:64
-msgid "Language"
-msgstr ""
-
 #: IDF/Form/Admin/UserUpdate.php:76
 msgid "Password"
 msgstr ""
@@ -2711,7 +2819,7 @@ msgstr ""
 msgid "Confirm password"
 msgstr ""
 
-#: IDF/Form/Admin/UserUpdate.php:99 IDF/Views/Admin.php:207
+#: IDF/Form/Admin/UserUpdate.php:99 IDF/Views/Admin.php:208
 msgid "Staff"
 msgstr ""
 
@@ -2719,7 +2827,7 @@ msgstr ""
 msgid "If you give staff rights to a user, you really need to trust him."
 msgstr ""
 
-#: IDF/Form/Admin/UserUpdate.php:110 IDF/Views/Admin.php:209
+#: IDF/Form/Admin/UserUpdate.php:110 IDF/Views/Admin.php:210
 msgid "Active"
 msgstr ""
 
@@ -2738,7 +2846,7 @@ msgid ""
 "A user with this email already exists, please provide another email address."
 msgstr ""
 
-#: IDF/Form/Admin/UserUpdate.php:214 IDF/Form/UserAccount.php:243
+#: IDF/Form/Admin/UserUpdate.php:214 IDF/Form/UserAccount.php:285
 msgid "The passwords do not match. Please give them again."
 msgstr ""
 
@@ -2760,6 +2868,14 @@ msgstr ""
 msgid "Sorry, you really need to backup your data before deletion."
 msgstr ""
 
+#: IDF/Form/WikiDelete.php:39
+msgid "Yes, I understand that the page and all its revisions will be deleted."
+msgstr ""
+
+#: IDF/Form/WikiDelete.php:50
+msgid "You need to confirm the deletion."
+msgstr ""
+
 #: IDF/Form/UserAccount.php:57
 msgid "Your mail"
 msgstr ""
@@ -2774,28 +2890,33 @@ msgstr ""
 msgid "Leave blank if you do not want to change your password."
 msgstr ""
 
-#: IDF/Form/UserAccount.php:97
-msgid "Your public SSH key"
-msgstr ""
-
 #: IDF/Form/UserAccount.php:102
 msgid "Be careful to provide your public key and not your private key!"
 msgstr ""
 
-#: IDF/Form/UserAccount.php:148
+#: IDF/Form/UserAccount.php:147
 msgid "Confirm your new email address."
 msgstr ""
 
-#: IDF/Form/UserAccount.php:151
+#: IDF/Form/UserAccount.php:150
 #, php-format
 msgid ""
 "A validation email has been sent to \"%s\" to validate the email address "
 "change."
 msgstr ""
 
-#: IDF/Form/UserAccount.php:228
-#, php-format
-msgid "The email \"%s\" is already used."
+#: IDF/Form/UserAccount.php:210
+msgid ""
+"The format of the key is not valid. It must start with ssh-dss or ssh-rsa, a "
+"long string on a single line and at the end a comment."
+msgstr ""
+
+#: IDF/Form/UserAccount.php:220
+msgid "Please check the key as it does not appears to be a valid key."
+msgstr ""
+
+#: IDF/Form/UserAccount.php:230
+msgid "You already have uploaded this SSH key."
 msgstr ""
 
 #: IDF/Form/IssueUpdate.php:65 IDF/Form/ReviewCreate.php:83
@@ -2839,13 +2960,19 @@ msgstr ""
 msgid "Initial patch to be reviewed."
 msgstr ""
 
-#: IDF/Form/PasswordReset.php:86 IDF/Form/PasswordInputKey.php:50
+#: IDF/Form/PasswordReset.php:77
+msgid ""
+"This account is not active. Please contact the forge administrator to "
+"activate it."
+msgstr ""
+
+#: IDF/Form/PasswordReset.php:89 IDF/Form/PasswordInputKey.php:50
 msgid ""
 "We are sorry but this validation key is not valid. Maybe you should directly "
 "copy/paste it from your validation email."
 msgstr ""
 
-#: IDF/Form/PasswordReset.php:97 IDF/Form/PasswordInputKey.php:61
+#: IDF/Form/PasswordReset.php:100 IDF/Form/PasswordInputKey.php:61
 msgid ""
 "Sorry, but this verification key has expired, please restart the password "
 "recovery sequence. For security reasons, the verification key is only valid "
@@ -2942,12 +3069,6 @@ msgstr ""
 msgid "Your login"
 msgstr ""
 
-#: IDF/Form/Register.php:45
-msgid ""
-"The login must be between 3 and 15 characters long and contains only letters "
-"and digits."
-msgstr ""
-
 #: IDF/Form/Register.php:53
 msgid "Your email"
 msgstr ""
@@ -2958,16 +3079,6 @@ msgstr ""
 
 #: IDF/Form/Register.php:60
 msgid "I agree to the terms and conditions."
-msgstr ""
-
-#: IDF/Form/Register.php:72
-#, php-format
-msgid "The login \"%s\" can only contain letters and digits."
-msgstr ""
-
-#: IDF/Form/Register.php:77
-#, php-format
-msgid "The login \"%s\" is already used, please find another one."
 msgstr ""
 
 #: IDF/Form/Register.php:88
@@ -2982,7 +3093,7 @@ msgid ""
 "recover your password."
 msgstr ""
 
-#: IDF/Form/Register.php:144
+#: IDF/Form/Register.php:150
 msgid "Confirm the creation of your account."
 msgstr ""
 
@@ -3038,27 +3149,23 @@ msgstr ""
 msgid "All the issues you submitted are fixed, yeah!"
 msgstr ""
 
-#: IDF/Views/User.php:117
+#: IDF/Views/User.php:118
 msgid "Your personal information have been updated."
 msgstr ""
 
-#: IDF/Views/User.php:127
-msgid "Truncated for security reasons."
-msgstr ""
-
-#: IDF/Views/User.php:129
-msgid "You have not upload your public SSH key yet."
-msgstr ""
-
-#: IDF/Views/User.php:132
+#: IDF/Views/User.php:128
 msgid "Your Account"
 msgstr ""
 
-#: IDF/Views/User.php:158
+#: IDF/Views/User.php:151
+msgid "The SSH key has been deleted."
+msgstr ""
+
+#: IDF/Views/User.php:174
 msgid "Confirm The Email Change"
 msgstr ""
 
-#: IDF/Views/User.php:183
+#: IDF/Views/User.php:199
 #, php-format
 msgid "Your new email address \"%s\" has been validated. Thank you!"
 msgstr ""
@@ -3121,7 +3228,7 @@ msgstr ""
 msgid "Delete Old Revision of %s"
 msgstr ""
 
-#: IDF/Views/Wiki.php:314 IDF/Views/Admin.php:93 IDF/Views/Admin.php:245
+#: IDF/Views/Wiki.php:314 IDF/Views/Admin.php:93 IDF/Views/Admin.php:248
 #, php-format
 msgid "Update %s"
 msgstr ""
@@ -3129,6 +3236,15 @@ msgstr ""
 #: IDF/Views/Wiki.php:326
 #, php-format
 msgid "The page <a href=\"%s\">%s</a> has been updated."
+msgstr ""
+
+#: IDF/Views/Wiki.php:364
+msgid "The documentation page has been deleted."
+msgstr ""
+
+#: IDF/Views/Wiki.php:372
+#, php-format
+msgid "Delete Page %s"
 msgstr ""
 
 #: IDF/Views/Admin.php:60
@@ -3168,35 +3284,44 @@ msgstr ""
 msgid "Not Validated User List"
 msgstr ""
 
-#: IDF/Views/Admin.php:200
+#: IDF/Views/Admin.php:202
 msgid "This table shows the users in the forge."
 msgstr ""
 
-#: IDF/Views/Admin.php:205
+#: IDF/Views/Admin.php:206
 msgid "login"
 msgstr ""
 
-#: IDF/Views/Admin.php:208
+#: IDF/Views/Admin.php:209
 msgid "Admin"
 msgstr ""
 
-#: IDF/Views/Admin.php:210
+#: IDF/Views/Admin.php:211
 msgid "Last Login"
 msgstr ""
 
-#: IDF/Views/Admin.php:215
+#: IDF/Views/Admin.php:218
 msgid "No users were found."
 msgstr ""
 
-#: IDF/Views/Admin.php:252
+#: IDF/Views/Admin.php:255
 msgid "You do not have the rights to update this user."
 msgstr ""
 
-#: IDF/Views/Admin.php:268
+#: IDF/Views/Admin.php:271
 msgid "The user has been updated."
 msgstr ""
 
-#: IDF/Views/Admin.php:287
+#: IDF/Views/Admin.php:302
+#, php-format
+msgid "The user %s has been created."
+msgstr ""
+
+#: IDF/Views/Admin.php:309
+msgid "Add User"
+msgstr ""
+
+#: IDF/Views/Admin.php:322
 msgid "No"
 msgstr ""
 
