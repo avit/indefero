@@ -246,7 +246,7 @@ class IDF_Issue extends Pluf_Model
                                 $langs[0]);
         }
         $current_locale = Pluf_Translation::getLocale();
-
+        $id = '<'.md5($this->id.md5(Pluf::f('secret_key'))).'@'.Pluf::f('mail_host', 'localhost').'>';
         if ($create) {
             if (null != $this->get_owner() and $this->owner != $this->submitter) {                
                 $email_lang = array($this->get_owner()->email, 
@@ -271,6 +271,7 @@ class IDF_Issue extends Pluf_Model
                                                $this->id, $this->summary, $prj->shortname));
                 $tmpl = new Pluf_Template('idf/issues/issue-created-email.txt');
                 $email->addTextMessage($tmpl->render($context));
+                $email->addHeaders(array('Message-ID'=>$id));
                 $email->sendMail();
             }
         } else {
@@ -316,6 +317,7 @@ class IDF_Issue extends Pluf_Model
                                                $this->id, $this->summary, $prj->shortname));
                 $tmpl = new Pluf_Template('idf/issues/issue-updated-email.txt');
                 $email->addTextMessage($tmpl->render($context));
+                $email->addHeaders(array('References'=>$id));
                 $email->sendMail();
             }
         }
