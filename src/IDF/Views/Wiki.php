@@ -349,7 +349,7 @@ class IDF_Views_Wiki
     /**
      * Delete a Wiki page.
      */
-    public $delete_precond = array('IDF_Precondition::accessDownloads',
+    public $delete_precond = array('IDF_Precondition::accessWiki',
                                    'IDF_Precondition::projectMemberOrOwner');
     public function delete($request, $match)
     {
