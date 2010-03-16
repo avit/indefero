@@ -86,7 +86,7 @@ class IDF_Form_UpdateUpload extends Pluf_Form
         $conf = new IDF_Conf();
         $conf->setProject($this->project);
         $onemax = array();
-        foreach (split(',', $conf->getVal('labels_download_one_max', IDF_Form_UploadConf::init_one_max)) as $class) {
+        foreach (explode(',', $conf->getVal('labels_download_one_max', IDF_Form_UploadConf::init_one_max)) as $class) {
             if (trim($class) != '') {
                 $onemax[] = mb_strtolower(trim($class));
             }

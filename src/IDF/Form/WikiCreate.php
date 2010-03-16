@@ -127,7 +127,7 @@ Add your content here. Format your content with:
         $conf = new IDF_Conf();
         $conf->setProject($this->project);
         $onemax = array();
-        foreach (split(',', $conf->getVal('labels_wiki_one_max', IDF_Form_WikiConf::init_one_max)) as $class) {
+        foreach (explode(',', $conf->getVal('labels_wiki_one_max', IDF_Form_WikiConf::init_one_max)) as $class) {
             if (trim($class) != '') {
                 $onemax[] = mb_strtolower(trim($class));
             }
