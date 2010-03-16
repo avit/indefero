@@ -123,7 +123,11 @@ $(document).ready(function(){
         });
     var j=0;
     for (j=1;j<4;j=j+1) {
-        $("#form-attachment-"+j).hide();
+	if($("tr#form-attachment-"+j+" > td > ul.errorlist").length == 0){
+        	$("#form-attachment-"+j).hide();
+	}else{
+		$("#form-block-"+(j-1)).remove();
+	}
     }
     });
 </script>
