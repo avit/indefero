@@ -151,7 +151,8 @@ class IDF_Commit extends Pluf_Model
         $commit = new IDF_Commit();
         $commit->project = $project;
         $commit->scm_id = $change->commit;
-        list($commit->summary, $commit->fullmessage) = self::toUTF8(array($change->title, $change->full_message));
+        $commit->summary = self::toUTF8($change->title);
+        $commit->fullmessage = self::toUTF8($change->full_message);
         $commit->author = $scm->findAuthor($change->author);
         $commit->origauthor = $change->author;
         $commit->creation_dtime = $change->date;
@@ -167,17 +168,18 @@ class IDF_Commit extends Pluf_Model
      * first value and then used to convert all the strings.
      *
      * @param mixed String or array of string to be converted
-     * @return mixed String or array of string
+     * @param bool Returns the encoding together with the converted text (false)
+     * @return mixed String or array of string or array of res + encoding
      */
-    public static function toUTF8($text)
+    public static function toUTF8($text, $get_encoding=False)
     {
-        $enc = 'ASCII, UTF-8, ISO-8859-2, ISO-8859-1, JIS, EUC-JP, SJIS';
+        $enc = 'ASCII, UTF-8, ISO-8859-1, JIS, EUC-JP, SJIS';
         $ref = $text;
         if (is_array($text)) {
             $ref = $text[0];
         }
         if (Pluf_Text_UTF8::check($ref)) {
-            return $text;
+            return (!$get_encoding) ? $text : array($text, 'UTF-8');
         }
         $encoding = mb_detect_encoding($ref, $enc, true);
         if ($encoding == false) {
@@ -187,9 +189,10 @@ class IDF_Commit extends Pluf_Model
             foreach ($text as $t) {
                 $res[] = mb_convert_encoding($t, 'UTF-8', $encoding);
             }
-            return $res;
+            return (!$get_encoding) ? $res : array($res, $encoding);
         } else {
-            return mb_convert_encoding($text, 'UTF-8', $encoding);
+            $res = mb_convert_encoding($text, 'UTF-8', $encoding);
+            return (!$get_encoding) ? $res : array($res, $encoding);
         }
     }
 

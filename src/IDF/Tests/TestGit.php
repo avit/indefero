@@ -48,15 +48,16 @@ class IDF_Tests_TestGit extends UnitTestCase
         $log_lines = preg_split("/\015\012|\015|\012/", file_get_contents(dirname(__FILE__).'/data/git-log-iso-8859-1.txt'));
         $log = IDF_Scm_Git::parseLog($log_lines);
         $titles = array(
-                        'Quick Profiler entfernt',
-                        'Anwendungsmenu Divider eingefügt',
-                        'Anwendungen aufäumen'
+                        array('Quick Profiler entfernt', 'UTF-8'),
+                        array('Anwendungsmenu Divider eingefügt', 'ISO-8859-1'),
+                        array('Anwendungen aufäumen', 'ISO-8859-1'),
                         );
         foreach ($log as $change) {
-            $this->assertEqual(array_shift($titles),
-                               IDF_Commit::toUTF8($change->title));
+            list($title, $senc) = array_shift($titles);
+            list($conv, $encoding) = IDF_Commit::toUTF8($change->title, true);
+            $this->assertEqual($title, $conv);
+            $this->assertEqual($senc, $encoding);
         }
-
     }
 
     /**
@@ -67,13 +68,20 @@ class IDF_Tests_TestGit extends UnitTestCase
         $log_lines = preg_split("/\015\012|\015|\012/", file_get_contents(dirname(__FILE__).'/data/git-log-iso-8859-2.txt'));
         $log = IDF_Scm_Git::parseLog($log_lines);
         $titles = array(
-                        'Dodałem model',
-                        'Dodałem model',
+                        array('Doda³em model','ISO-8859-1'),
+                        array('Doda³em model','ISO-8859-1'),
+                        // The Good result is 'Dodałem model', the
+                        // problem is that in that case, one cannot
+                        // distinguish between latin1 and latin2. We
+                        // will need to add a way for the project
+                        // admin to set the priority between the
+                        // encodings.
                         );
         foreach ($log as $change) {
-            $this->assertEqual(array_shift($titles),
-                               IDF_Commit::toUTF8($change->title));
+            list($title, $senc) = array_shift($titles);
+            list($conv, $encoding) = IDF_Commit::toUTF8($change->title, true);
+            $this->assertEqual($title, $conv);
+            $this->assertEqual($senc, $encoding);
         }
-
     }
 }
