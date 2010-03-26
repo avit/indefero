@@ -501,6 +501,8 @@ class IDF_Scm_Git extends IDF_Scm
             if (preg_match('/^commit (\w{40})$/', $line)) {
                 if (count($c) > 0) {
                     $c['full_message'] = trim($c['full_message']);
+                    $c['full_message'] = IDF_Commit::toUTF8($c['full_message']);
+                    $c['title'] = IDF_Commit::toUTF8($c['title']);
                     $res[] = (object) $c;
                 }
                 $c = array();
@@ -534,6 +536,8 @@ class IDF_Scm_Git extends IDF_Scm
             }
         }
         $c['full_message'] = !empty($c['full_message']) ? trim($c['full_message']) : '';
+        $c['full_message'] = IDF_Commit::toUTF8($c['full_message']);
+        $c['title'] = IDF_Commit::toUTF8($c['title']);
         $res[] = (object) $c;
         return $res;
     }
