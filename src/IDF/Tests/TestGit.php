@@ -58,4 +58,22 @@ class IDF_Tests_TestGit extends UnitTestCase
         }
 
     }
+
+    /**
+     * parse a log encoded in iso 8859-2
+     */
+    public function testParseIsoLog2()
+    {
+        $log_lines = preg_split("/\015\012|\015|\012/", file_get_contents(dirname(__FILE__).'/data/git-log-iso-8859-2.txt'));
+        $log = IDF_Scm_Git::parseLog($log_lines);
+        $titles = array(
+                        'Dodałem model',
+                        'Dodałem model',
+                        );
+        foreach ($log as $change) {
+            $this->assertEqual(array_shift($titles),
+                               IDF_Commit::toUTF8($change->title));
+        }
+
+    }
 }

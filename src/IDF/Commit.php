@@ -171,7 +171,7 @@ class IDF_Commit extends Pluf_Model
      */
     public static function toUTF8($text)
     {
-        $enc = 'ASCII, UTF-8, ISO-8859-1, JIS, EUC-JP, SJIS';
+        $enc = 'ASCII, UTF-8, ISO-8859-2, ISO-8859-1, JIS, EUC-JP, SJIS';
         $ref = $text;
         if (is_array($text)) {
             $ref = $text[0];
