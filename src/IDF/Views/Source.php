@@ -34,12 +34,12 @@ class IDF_Views_Source
     /**
      * Extension supported by the syntax highlighter.
      */
-    public static $supportedExtenstions = array('c', 'cc', 'cpp', 'cs', 'css', 
-                                                'cyc', 'java', 'bsh', 'csh', 
-                                                'sh', 'cv', 'py', 'perl', 'php',
-                                                'pl', 'pm', 'rb', 'js', 'html',
-                                                'html', 'vala', 'xhtml', 'xml',
-                                                'xsl');
+    public static $supportedExtenstions = array(
+              'ascx', 'ashx', 'asmx', 'aspx', 'browser', 'bsh', 'c', 'cc', 
+              'config', 'cpp', 'cs', 'csh',	'csproj', 'css', 'cv', 'cyc', 
+              'html', 'html', 'java', 'js', 'master', 'perl', 'php', 'pl', 
+              'pm', 'py', 'rb', 'sh', 'sitemap', 'skin', 'sln', 'svc', 'vala', 
+              'vb', 'vbproj', 'wsdl', 'xhtml', 'xml', 'xsd', 'xsl', 'xslt');
 
     /**
      * Display help on how to checkout etc.
