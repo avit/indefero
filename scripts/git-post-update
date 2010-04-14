@@ -12,11 +12,13 @@
 # to enable it later, you need to symlink it as "post-update" in your 
 # $GIT_DIR/hooks folder.
 #
+# www$ chmod +x /home/www/indefero/scripts/git-post-update
 # git$ cd /home/git/repositories/project.git/hooks
 # git$ ln -s /home/www/indefero/scripts/git-post-update post-update
 #
 
 SCRIPTDIR=$(dirname $(readlink -f $0))
+FULL_GIT_DIR=$(readlink -f $GIT_DIR)
 PHP_POST_UPDATE=$SCRIPTDIR/gitpostupdate.php
 
-echo php $PHP_POST_UPDATE $GIT_DIR | at now
+echo php $PHP_POST_UPDATE $FULL_GIT_DIR | at now > /dev/null 2>&1

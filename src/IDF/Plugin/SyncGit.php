@@ -66,7 +66,7 @@ class IDF_Plugin_SyncGit
     {
         // Find the corresponding project.
         $git_dir = substr($params['git_dir'], 0, -4); // Chop the ".git"
-        $elts = explode('#/#', $git_dir, -1, PREG_SPLIT_NO_EMPTY);
+        $elts = preg_split('#/#', $git_dir, -1, PREG_SPLIT_NO_EMPTY);
         $pname = array_pop($elts);
         try {
             $project = IDF_Project::getOr404($pname);

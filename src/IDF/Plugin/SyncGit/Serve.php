@@ -203,7 +203,29 @@ class IDF_Plugin_SyncGit_Serve
             Pluf_Log::error(array('IDF_Plugin_Git_Serve::initRepository', $res, $fullpath));
             throw new Exception(sprintf('Init repository error, exit status %d.', $res));
         }
-        Pluf_Log::info(array('IDF_Plugin_Git_Serve::initRepository', 'success', $fullpath));
+        Pluf_Log::event(array('IDF_Plugin_Git_Serve::initRepository', 'success', $fullpath));
+        // Add the post-update hook by removing the original one and add the 
+        // Indefero's one.
+        $p = realpath(dirname(__FILE__).'/../../../../scripts/git-post-update');
+        $p = Pluf::f('idf_plugin_syncgit_post_update', $p);
+        if (!@unlink($fullpath.'/hooks/post-update')) {
+            Pluf_Log::warn(array('IDF_Plugin_Git_Serve::initRepository', 
+                                 'post-update hook removal error.', 
+                                 $fullpath.'/hooks/post-update'));
+            return;
+        }
+        exec(sprintf(Pluf::f('idf_exec_cmd_prefix', '').'ln -s %s %s', 
+                     escapeshellarg($p), 
+                     escapeshellarg($fullpath.'/hooks/post-update')),
+             $out, $res);
+        if ($res != 0) {
+            Pluf_Log::warn(array('IDF_Plugin_Git_Serve::initRepository', 
+                                 'post-update hook creation error.', 
+                                 $fullpath.'/hooks/post-update'));
+            return;
+        }
+        Pluf_Log::debug(array('IDF_Plugin_Git_Serve::initRepository', 
+                              'Added post-update hook.', $fullpath));
 
     }
 
