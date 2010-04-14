@@ -42,13 +42,14 @@ class IDF_Plugin_SyncGit
      */
     static public function entry($signal, &$params)
     {
-        Pluf_Log::event('IDF_Plugin_SyncGit called.');
         // First check for the single mandatory config variable.
         if (!Pluf::f('idf_plugin_syncgit_sync_file', false)) {
             Pluf_Log::debug('IDF_Plugin_SyncGit plugin not configured.');
             return;
         }
         if ($signal != 'gitpostupdate.php::run') {
+            Pluf_Log::event('IDF_Plugin_SyncGit', 'create', 
+                            Pluf::f('idf_plugin_syncgit_sync_file'));
             @touch(Pluf::f('idf_plugin_syncgit_sync_file'));
             @chmod(Pluf::f('idf_plugin_syncgit_sync_file'), 0777);
         } else {
