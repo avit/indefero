@@ -42,11 +42,41 @@ class IDF_Plugin_SyncGit
      */
     static public function entry($signal, &$params)
     {
+        Pluf_Log::event('IDF_Plugin_SyncGit called.');
         // First check for the single mandatory config variable.
         if (!Pluf::f('idf_plugin_syncgit_sync_file', false)) {
+            Pluf_Log::debug('IDF_Plugin_SyncGit plugin not configured.');
             return;
         }
-        @touch(Pluf::f('idf_plugin_syncgit_sync_file'));
-        @chmod(Pluf::f('idf_plugin_syncgit_sync_file'), 0777);
+        if ($signal != 'gitpostupdate.php::run') {
+            @touch(Pluf::f('idf_plugin_syncgit_sync_file'));
+            @chmod(Pluf::f('idf_plugin_syncgit_sync_file'), 0777);
+        } else {
+            self::postUpdate($signal, $params);
+        }
+    }
+
+    /**
+     * Entry point for the post-update signal.
+     *
+     * It tries to find the name of the project, when found it runs an
+     * update of the timeline.
+     */
+    static public function postUpdate($signal, &$params)
+    {
+        // Find the corresponding project.
+        $git_dir = substr($params['git_dir'], 0, -4); // Chop the ".git"
+        $elts = explode('#/#', $git_dir, -1, PREG_SPLIT_NO_EMPTY);
+        $pname = array_pop($elts);
+        try {
+            $project = IDF_Project::getOr404($pname);
+        } catch (Pluf_HTTP_Error404 $e) {
+            Pluf_Log::event(array('IDF_Plugin_SyncGit::postUpdate', 'Project not found.', array($pname, $params)));
+            return false; // Project not found
+        }
+        // Now we have the project and can update the timeline
+        Pluf_Log::debug(array('IDF_Plugin_SyncGit::postUpdate', 'Project found', $pname, $project->id));
+        IDF_Scm::syncTimeline($project, true);
+        Pluf_Log::event(array('IDF_Plugin_SyncGit::postUpdate', 'sync', array($pname, $project->id)));
     }
 }
