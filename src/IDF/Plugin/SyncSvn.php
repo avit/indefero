@@ -242,9 +242,7 @@ class IDF_Plugin_SyncSvn
      */
     public function processSvnUpdateTimeline($params)
     {
-        $repo_dir = $params['repo_dir'];
-        $elts = preg_split('#/#', $repo_dir, -1, PREG_SPLIT_NO_EMPTY);
-        $pname = array_pop($elts);
+        $pname = basename($params['repo_dir']);
         try {
             $project = IDF_Project::getOr404($pname);
         } catch (Pluf_HTTP_Error404 $e) {

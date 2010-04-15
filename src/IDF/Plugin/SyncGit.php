@@ -65,10 +65,8 @@ class IDF_Plugin_SyncGit
      */
     static public function postUpdate($signal, &$params)
     {
-        // Find the corresponding project.
-        $git_dir = substr($params['git_dir'], 0, -4); // Chop the ".git"
-        $elts = preg_split('#/#', $git_dir, -1, PREG_SPLIT_NO_EMPTY);
-        $pname = array_pop($elts);
+        // Chop the ".git" and get what is left
+        $pname = basename(substr($params['git_dir'], 0, -4));
         try {
             $project = IDF_Project::getOr404($pname);
         } catch (Pluf_HTTP_Error404 $e) {
