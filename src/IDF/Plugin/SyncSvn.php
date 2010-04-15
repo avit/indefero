@@ -37,7 +37,7 @@ class IDF_Plugin_SyncSvn
         // First check for the 3 mandatory config variables.
         if (!Pluf::f('idf_plugin_syncsvn_authz_file', false) or
             !Pluf::f('idf_plugin_syncsvn_passwd_file', false) or
-            !Pluf::f('idf_plugin_syncsvn_svn_path'. false)) {
+            !Pluf::f('idf_plugin_syncsvn_svn_path', false)) {
             return;
         }
         include_once 'File/Passwd/Authdigest.php'; // $ pear install File_Passwd
