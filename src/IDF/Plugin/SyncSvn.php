@@ -55,6 +55,9 @@ class IDF_Plugin_SyncSvn
         case 'IDF_Project::preDelete':
             $plug->processSvnDelete($params['project']);
             break;
+        case 'svnpostcommit.php::run':
+            $plug->processSvnUpdateTimeline($params);
+            break;
         }
     }
 
@@ -231,5 +234,28 @@ class IDF_Plugin_SyncSvn
         }
         file_put_contents($authz_file, $fcontent, LOCK_EX);
         return true;
+    }
+
+    /**
+     * Update the timeline in post commit.
+     *
+     */
+    public function processSvnUpdateTimeline($params)
+    {
+        $repo_dir = $params['repo_dir'];
+        $elts = preg_split('#/#', $repo_dir, -1, PREG_SPLIT_NO_EMPTY);
+        $pname = array_pop($elts);
+        try {
+            $project = IDF_Project::getOr404($pname);
+        } catch (Pluf_HTTP_Error404 $e) {
+            Pluf_Log::event(array('IDF_Plugin_SyncSvn::processSvnUpdateTimeline', 'Project not found.', array($pname, $params)));
+            return false; // Project not found
+        }
+        // Now we have the project and can update the timeline
+        Pluf_Log::debug(array('IDF_Plugin_SyncGit::processSvnUpdateTimeline', 'Project found', $pname, $project->id));
+        IDF_Scm::syncTimeline($project, true);
+        Pluf_Log::event(array('IDF_Plugin_SyncGit::processSvnUpdateTimeline', 'sync', array($pname, $project->id)));
+        
+
     }
 }

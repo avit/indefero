@@ -1,0 +1,24 @@
+#!/bin/sh
+#
+# This hook does only one thing:
+#
+# 1. It calls the svnpostcommit.php script with the current repository
+#    and revision as argument. The svnpostcommit.php script will then 
+#    trigger the 'svnpostcommit.php::run' event with the repository path
+#    and revision as arguments together with merged $_ENV and $_SERVER 
+#    array.
+#
+# This hook is normally installed automatically at the creation of your
+# repository if you have everything configured correctly. If you want
+# to enable it later, you need to symlink it as "post-commit" in your 
+# $REPOSITORY/hooks folder.
+#
+# www$ chmod +x /home/www/indefero/scripts/svn-post-commit
+# www$ cd /home/svn/repositories/project/hooks
+# www$ ln -s /home/www/indefero/scripts/svn-post-commit post-commit
+#
+
+SCRIPTDIR=$(dirname $(readlink -f $0))
+PHP_POST_COMMIT=$SCRIPTDIR/svnpostcommit.php
+
+echo php $PHP_POST_COMMIT "$1" "$2" | at now > /dev/null 2>&1
