@@ -84,3 +84,8 @@ Each time this file is modified, a temporary file is created.
     */5 * * * * /bin/sh /home/indefero/src/scripts/SyncMercurial.sh
 
 Edit this script and add correct values to `private_notify` and `reload_cmd`.
+
+## Hook configuratin
+
+    [hooks]
+    changegroup = /home/indefero/src/scripts/hgchangegroup.php

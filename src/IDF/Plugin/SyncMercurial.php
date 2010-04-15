@@ -51,6 +51,9 @@ class IDF_Plugin_SyncMercurial
         case 'Pluf_User::passwordUpdated':
             $plug->processSyncPasswd($params['user']);
             break;
+        case 'hgchangegroup.php::run':
+            $plug->processSyncTimeline($params);
+            break;
         }
     }
 
@@ -221,5 +224,28 @@ class IDF_Plugin_SyncMercurial
         file_put_contents($private_file, $fcontent, LOCK_EX);
         file_put_contents($notify_file, ' ', LOCK_EX);
         return true;
+    }
+
+    /**
+     * Update the timeline in post commit.
+     *
+     */
+    public function processSyncTimeline($params)
+    {
+        $repo_dir = $params['rel_dir'];
+        $elts = preg_split('#/#', $repo_dir, -1, PREG_SPLIT_NO_EMPTY);
+        $pname = array_pop($elts);
+        try {
+            $project = IDF_Project::getOr404($pname);
+        } catch (Pluf_HTTP_Error404 $e) {
+            Pluf_Log::event(array('IDF_Plugin_SyncMercurial::processSyncTimeline', 'Project not found.', array($pname, $params)));
+            return false; // Project not found
+        }
+        // Now we have the project and can update the timeline
+        Pluf_Log::debug(array('IDF_Plugin_SyncMercurial::processSyncTimeline', 'Project found', $pname, $project->id));
+        IDF_Scm::syncTimeline($project, true);
+        Pluf_Log::event(array('IDF_Plugin_SyncMercurial::processSyncTimeline', 'sync', array($pname, $project->id)));
+        
+
     }
 }
