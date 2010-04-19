@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-16 15:03+0100\n"
+"POT-Creation-Date: 2010-04-19 09:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,12 +46,12 @@ msgstr ""
 msgid "creation date"
 msgstr ""
 
-#: IDF/Commit.php:222
+#: IDF/Commit.php:225
 #, php-format
 msgid "Commit&nbsp;%s, by %s"
 msgstr ""
 
-#: IDF/Commit.php:282
+#: IDF/Commit.php:285
 #, php-format
 msgid "New Commit %s - %s (%s)"
 msgstr ""
@@ -2465,12 +2465,12 @@ msgstr ""
 msgid "Not a valid tree: %s."
 msgstr ""
 
-#: IDF/Plugin/SyncMercurial.php:75 IDF/Plugin/SyncSvn.php:78
+#: IDF/Plugin/SyncMercurial.php:78 IDF/Plugin/SyncSvn.php:81
 #, php-format
 msgid "The repository %s already exists."
 msgstr ""
 
-#: IDF/Plugin/SyncMercurial.php:139
+#: IDF/Plugin/SyncMercurial.php:142
 #, php-format
 msgid "%s does not exist or is not writable."
 msgstr ""
@@ -3150,7 +3150,7 @@ msgid "All the issues you submitted are fixed, yeah!"
 msgstr ""
 
 #: IDF/Views/User.php:118
-msgid "Your personal information have been updated."
+msgid "Your personal information has been updated."
 msgstr ""
 
 #: IDF/Views/User.php:128

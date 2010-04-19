@@ -226,7 +226,6 @@ class IDF_Plugin_SyncGit_Serve
         }
         Pluf_Log::debug(array('IDF_Plugin_Git_Serve::initRepository', 
                               'Added post-update hook.', $fullpath));
-
     }
 
     /**
