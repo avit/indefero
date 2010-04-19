@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: InDefero\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-16 15:03+0100\n"
-"PO-Revision-Date: 2010-03-16 15:18+0100\n"
+"POT-Creation-Date: 2010-04-19 09:26+0200\n"
+"PO-Revision-Date: 2010-04-19 09:28+0100\n"
 "Last-Translator: Loïc d'Anterroches <titoo@users.sourceforge.net>\n"
 "Language-Team: Translation team <titoo@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -68,12 +68,12 @@ msgstr "changements"
 msgid "creation date"
 msgstr "date de création"
 
-#: IDF/Commit.php:222
+#: IDF/Commit.php:225
 #, php-format
 msgid "Commit&nbsp;%s, by %s"
 msgstr "Commit&nbsp;%s, par %s"
 
-#: IDF/Commit.php:282
+#: IDF/Commit.php:285
 #, php-format
 msgid "New Commit %s - %s (%s)"
 msgstr "Nouveau commit %s - %s (%s)"
@@ -2530,13 +2530,13 @@ msgstr "Répertoire %1$s non trouvé dans le commit %2$s."
 msgid "Not a valid tree: %s."
 msgstr "Arbre non valide : %s."
 
-#: IDF/Plugin/SyncMercurial.php:75
-#: IDF/Plugin/SyncSvn.php:78
+#: IDF/Plugin/SyncMercurial.php:78
+#: IDF/Plugin/SyncSvn.php:81
 #, php-format
 msgid "The repository %s already exists."
 msgstr "Le dépôt %s existe déjà."
 
-#: IDF/Plugin/SyncMercurial.php:139
+#: IDF/Plugin/SyncMercurial.php:142
 #, php-format
 msgid "%s does not exist or is not writable."
 msgstr "%s n'existe pas ou vous ne disposez pas des droits pour écrire dedans."
@@ -3280,7 +3280,7 @@ msgid "All the issues you submitted are fixed, yeah!"
 msgstr "Tous les tickets que vous avez soumis ont été fixés, yeah !"
 
 #: IDF/Views/User.php:118
-msgid "Your personal information have been updated."
+msgid "Your personal information has been updated."
 msgstr "Vos informations personnelles ont été mises à jour."
 
 #: IDF/Views/User.php:128
@@ -3764,11 +3764,4 @@ msgstr "Anonyme"
 #: IDF/Template/ShowUser.php:54
 msgid "Me"
 msgstr "Moi"
-
-#~ msgid "Truncated for security reasons."
-#~ msgstr "Par sécurité affichage tronqué."
-#~ msgid "Administer"
-#~ msgstr "Administrer"
-#~ msgid "(No comments were given for this change.)"
-#~ msgstr "(Aucun commentaire n'a été donné pour ce changement.)"
 
