@@ -87,5 +87,10 @@ Edit this script and add correct values to `private_notify` and `reload_cmd`.
 
 ## Hook configuratin
 
+To get notifications sent directly when pushing in your repositories,
+you need to add the following in your `.hgrc` file. The script will be
+called onec per push and will automatically send the notifications and
+sync the timeline.
+
     [hooks]
     changegroup = /home/indefero/src/scripts/hgchangegroup.php
