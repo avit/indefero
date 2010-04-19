@@ -68,6 +68,8 @@ Pluf_Signal::connect('IDF_Project::created',
                      array('IDF_Plugin_SyncMercurial', 'entry'));
 Pluf_Signal::connect('Pluf_User::passwordUpdated', 
                      array('IDF_Plugin_SyncMercurial', 'entry'));
+Pluf_Signal::connect('hgchangegroup.php::run', 
+                     array('IDF_Plugin_SyncMercurial', 'entry'));
 
 #
 # Git synchronization
