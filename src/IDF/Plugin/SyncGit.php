@@ -66,7 +66,7 @@ class IDF_Plugin_SyncGit
     static public function postUpdate($signal, &$params)
     {
         // Chop the ".git" and get what is left
-        $pname = basename(substr($params['git_dir'], 0, -4));
+        $pname = basename($params['git_dir'], '.git');
         try {
             $project = IDF_Project::getOr404($pname);
         } catch (Pluf_HTTP_Error404 $e) {
