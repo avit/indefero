@@ -48,6 +48,7 @@ function IDF_Migrations_Install_setup($params=null)
                     'IDF_Review_FileComment',
                     'IDF_Key',
                     'IDF_Scm_Cache_Git',
+                    'IDF_Queue',
                     );
     $db = Pluf::db();
     $schema = new Pluf_DB_Schema($db);
@@ -85,6 +86,7 @@ function IDF_Migrations_Install_teardown($params=null)
     $perm = Pluf_Permission::getFromString('IDF.project-authorized-user');
     if ($perm) $perm->delete();
     $models = array(
+                    'IDF_Queue',
                     'IDF_Scm_Cache_Git',
                     'IDF_Key',
                     'IDF_Review_FileComment',
