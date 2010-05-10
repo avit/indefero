@@ -138,6 +138,8 @@ class IDF_Queue extends Pluf_Model
             $this->creation_dtime = gmdate('Y-m-d H:i:s');
             $this->lasttry_dtime = gmdate('Y-m-d H:i:s');
             $this->results = array();
+            $this->trials = 0;
+            $this->status = 0;
         }
     }
 
@@ -182,5 +184,39 @@ class IDF_Queue extends Pluf_Model
         $this->results = $params['res'];
         $this->lasttry_dtime = gmdate('Y-m-d H:i:s');
         $this->update();
+    }
+
+    /** 
+     * Parse the queue.
+     *
+     * It is a signal handler to just hook itself at the right time in
+     * the cron job performing the maintainance work.
+     *
+     * The processing relies on the fact that no other processing jobs
+     * must run at the same time. That is, your cron job must use a
+     * lock file or something like to not run in parallel.
+     *
+     * The processing is simple, first get 500 queue items, mark them
+     * as being processed and for each of them call the processItem()
+     * method which will trigger another event for processing.
+     *
+     * If you are processing more than 500 items per batch, you need
+     * to switch to a different solution.
+     *
+     */
+    public static function process($sender, &$params)
+    {
+        $where = 'status=0 OR status=2';
+        $items = Pluf::factory('IDF_Queue')->getList(array('filter'=>$where,
+                                                           'nb'=> 500));
+        Pluf_Log::event(array('IDF_Queue::process', $items->count()));
+        foreach ($items as $item) {
+            $item->status = 1;
+            $item->update();
+        }
+        foreach ($items as $item) {
+            $item->status = 1;
+            $item->processItem();
+        }
     }
 }

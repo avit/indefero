@@ -84,5 +84,16 @@ Pluf_Signal::connect('IDF_Key::preDelete',
 Pluf_Signal::connect('gitpostupdate.php::run', 
                      array('IDF_Plugin_SyncGit', 'entry'));
 
+#
+# -- Processing of the webhook queue --
+Pluf_Signal::connect('queuecron.php::run', 
+                     array('IDF_Queue', 'process'));
 
+#
+# Processing of a given webhook, the hook can be configured 
+# directly in the configuration file if a different solution 
+# is required.
+Pluf_Signal::connect('IDF_Queue::processItem', 
+                     Pluf::f('idf_hook_process_item', 
+                             array('IDF_Webhook', 'process')));
 return $m;

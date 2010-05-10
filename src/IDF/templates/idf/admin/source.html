@@ -1,7 +1,7 @@
 {extends "idf/admin/base.html"}
-{block docclass}yui-t1{assign $inSource = true}{/block}
+{block docclass}yui-t3{assign $inSource = true}{/block}
 {block body}
-{if $remote_svn and $form.errors}
+{if $form.errors}
 <div class="px-message-error">
 <p>{trans 'The form contains some errors. Please correct them to update the source configuration.'}</p>
 {if $form.get_top_errors}
@@ -37,13 +37,25 @@
 <td>{if $form.f.svn_password.errors}{$form.f.svn_password.fieldErrors}{/if}
 {$form.f.svn_password|unsafe}
 </td>
+</tr>{/if}
+<tr>
+<th>{$form.f.webhook_url.labelTag}:</th>
+<td>{if $form.f.webhook_url.errors}{$form.f.webhook_url.fieldErrors}{/if}
+{$form.f.webhook_url|unsafe}<br>
+
+</td>
+</tr>
+<tr>
+<th>{trans 'Post-commit authentication key:'}</th>
+<td>{$hookkey}
+</td>
 </tr>
 <tr>
 <td>&nbsp;</td>
 <td>
 <input type="submit" value="{trans 'Save Changes'}" name="submit" /> 
 </td>
-</tr>{/if}
+</tr>
 </table>
 </form>
 {/block}
@@ -51,4 +63,31 @@
 <div class="issue-submit-info">
 <p>{blocktrans}You can find here the current repository configuration of your project.{/blocktrans}</p>
 </div>
+
+
+<br>
+<div class="issue-submit-info">
+
+{blocktrans}<p>The webhook URL setting specifies a URL to which a HTTP POST
+request is sent after each repository commit. If this field is empty,
+notifications are disabled.</p>
+
+<p>Only properly-escaped <strong>HTTP</strong> URLs are supported, for example:</p>
+
+<ul>
+<li>http://domain.com/commit</li>
+<li>http://domain.com/commit?my%20param</li>
+</ul>
+
+<p>In addition, the URL may contain the following "%" notation, which
+will be replaced with specific project values for each commit:</p>
+
+<ul>
+<li>%p - project name</li>
+<li>%r - revision number</li>
+</ul>
+
+<p>For example, committing revision 123 to project 'my-project' with
+post-commit URL http://mydomain.com/%p/%r would send a request to
+http://mydomain.com/my-project/123.</p>{/blocktrans}</div>
 {/block}

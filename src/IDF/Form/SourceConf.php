@@ -34,7 +34,7 @@ class IDF_Form_SourceConf extends Pluf_Form
     public function initFields($extra=array())
     {
         $this->conf = $extra['conf'];
-        if ($this->conf->getVal('scm', 'git') == 'svn') {
+        if ($extra['remote_svn']) {
             $this->fields['svn_username'] = new Pluf_Form_Field_Varchar(
                     array('required' => false,
                           'label' => __('Repository username'),
@@ -49,6 +49,16 @@ class IDF_Form_SourceConf extends Pluf_Form
                           'widget' => 'Pluf_Form_Widget_PasswordInput',
                           ));
         }
+        Pluf::loadFunction('Pluf_HTTP_URL_urlForView');
+        $url = Pluf_HTTP_URL_urlForView('idf_faq').'#webhooks';
+        $this->fields['webhook_url'] = new Pluf_Form_Field_Url(
+                    array('required' => false,
+                          'label' => __('Webhook URL'),
+                          'initial' => $this->conf->getVal('webhook_url', ''),
+                          'help_text' => sprintf(__('Learn more about the <a href="%s">post-commit web hooks</a>.'), $url),
+                          'widget_attrs' => array('size' => 35),
+                          ));
+
     }
 }
 

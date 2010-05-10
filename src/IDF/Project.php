@@ -425,6 +425,17 @@ class IDF_Project extends Pluf_Model
     }
 
     /**
+     * Get the post commit hook key.
+     *
+     * The goal is to get something predictable but from which one
+     * cannot reverse find the secret key.
+     */
+    public function getPostCommitHookKey()
+    {
+        return md5($this->id.sha1(Pluf::f('secret_key')).$this->shortname);
+    }
+
+    /**
      * Get the root name of the project scm
      *
      * @return string SCM root

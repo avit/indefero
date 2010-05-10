@@ -66,7 +66,8 @@ $ctl[] = array('regex' => '#^/logout/$#',
 $ctl[] = array('regex' => '#^/help/$#',
                'base' => $base,
                'model' => 'IDF_Views',
-               'method' => 'faq');
+               'method' => 'faq',
+               'name' => 'idf_faq');
 
 $ctl[] = array('regex' => '#^/p/([\-\w]+)/$#',
                'base' => $base,
