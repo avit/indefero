@@ -46,7 +46,7 @@ class IDF_Webhook
                       'user_agent' => 'Indefero Hook Sender (http://www.indefero.net)',
                       'max_redirects' => 0, 
                       'timeout' => 15,
-                      'header'=> 'Indefero-Hook-Hmac: '.$sign."\r\n"
+                      'header'=> 'Post-Commit-Hook-Hmac: '.$sign."\r\n"
                                 .'Content-Type: application/json'."\r\n",
                                         )
                         );
