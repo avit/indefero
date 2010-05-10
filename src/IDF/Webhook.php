@@ -85,6 +85,10 @@ class IDF_Webhook
             // Already processed.
             return;
         }
+        if ($item->payload['url'] == '') {
+            // We do nothing.
+            return;
+        }
         // We have either to retry or to push for the first time.
         $res = self::postNotification($item->payload);
         if ($res) {
