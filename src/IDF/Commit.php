@@ -294,7 +294,7 @@ class IDF_Commit extends Pluf_Model
         // Even if the url is empty, we add to the queue as some
         // plugins may want to do something with this information in
         // an asynchronous way.
-
+        $project = $this->get_project();
         $url = str_replace(array('%p', '%r'),
                            array($project->shortname, $this->scm_id),
                            $conf->getVal('webhook_url', ''));
