@@ -2,7 +2,7 @@
 # Copyright (C) 2010 <THE PACKAGE'S COPYRIGHT HOLDER>
 # This file is distributed under the same license as the InDefero application.
 # FIRST AUTHOR <jv@koudynet.cz>, 2010.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
@@ -15,40 +15,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Czech\n"
-"X-Poedit-Country: CZECH REPUBLIC\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,-1,-1,75,-1\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
 
-#: IDF/Commit.php:54
-#: IDF/Conf.php:54
-#: IDF/Issue.php:52
-#: IDF/Queue.php:92
-#: IDF/Review.php:65
-#: IDF/Tag.php:52
-#: IDF/Upload.php:49
-#: IDF/WikiPage.php:54
+#: IDF/Commit.php:54 IDF/Conf.php:54 IDF/Issue.php:52 IDF/Queue.php:92
+#: IDF/Review.php:65 IDF/Tag.php:52 IDF/Upload.php:49 IDF/WikiPage.php:54
 #: IDF/Search/Occ.php:69
 msgid "project"
 msgstr "projekt"
 
-#: IDF/Commit.php:62
-#: IDF/IssueComment.php:65
-#: IDF/IssueFile.php:57
-#: IDF/Issue.php:67
-#: IDF/Review.php:80
-#: IDF/Upload.php:85
-#: IDF/WikiPage.php:78
-#: IDF/WikiRevision.php:79
-#: IDF/Review/Comment.php:69
+#: IDF/Commit.php:62 IDF/IssueComment.php:65 IDF/IssueFile.php:57
+#: IDF/Issue.php:67 IDF/Review.php:80 IDF/Upload.php:85 IDF/WikiPage.php:78
+#: IDF/WikiRevision.php:79 IDF/Review/Comment.php:69
 msgid "submitter"
 msgstr "odesílatel"
 
-#: IDF/Commit.php:86
-#: IDF/Issue.php:60
-#: IDF/Review.php:73
-#: IDF/Upload.php:57
-#: IDF/WikiPage.php:70
-#: IDF/WikiRevision.php:65
-#: IDF/Review/Patch.php:60
+#: IDF/Commit.php:86 IDF/Issue.php:60 IDF/Review.php:73 IDF/Upload.php:57
+#: IDF/WikiPage.php:70 IDF/WikiRevision.php:65 IDF/Review/Patch.php:60
 msgid "summary"
 msgstr "souhrn"
 
@@ -56,17 +39,10 @@ msgstr "souhrn"
 msgid "changelog"
 msgstr "seznam změn"
 
-#: IDF/Commit.php:99
-#: IDF/IssueComment.php:79
-#: IDF/IssueFile.php:96
-#: IDF/Issue.php:105
-#: IDF/Review.php:108
-#: IDF/Upload.php:106
-#: IDF/WikiPage.php:100
-#: IDF/WikiRevision.php:92
-#: IDF/Review/FileComment.php:75
-#: IDF/Review/Patch.php:87
-#: IDF/Review/Comment.php:90
+#: IDF/Commit.php:99 IDF/IssueComment.php:79 IDF/IssueFile.php:96
+#: IDF/Issue.php:105 IDF/Review.php:108 IDF/Upload.php:106
+#: IDF/WikiPage.php:100 IDF/WikiRevision.php:92 IDF/Review/FileComment.php:75
+#: IDF/Review/Patch.php:87 IDF/Review/Comment.php:90
 msgid "creation date"
 msgstr "datum vytvoření"
 
@@ -80,23 +56,19 @@ msgstr "Commit&nbsp;%s,  %s"
 msgid "New Commit %s - %s (%s)"
 msgstr "Nový commit %s - %s (%s)"
 
-#: IDF/Conf.php:61
-#: IDF/Gconf.php:68
+#: IDF/Conf.php:61 IDF/Gconf.php:68
 msgid "key"
 msgstr "klíč"
 
-#: IDF/Conf.php:67
-#: IDF/Gconf.php:74
+#: IDF/Conf.php:67 IDF/Gconf.php:74
 msgid "value"
 msgstr "hodnota"
 
-#: IDF/Gconf.php:55
-#: IDF/Search/Occ.php:56
+#: IDF/Gconf.php:55 IDF/Search/Occ.php:56
 msgid "model class"
 msgstr "třída modelu"
 
-#: IDF/Gconf.php:61
-#: IDF/Search/Occ.php:62
+#: IDF/Gconf.php:61 IDF/Search/Occ.php:62
 msgid "model id"
 msgstr "id modelu"
 
@@ -104,17 +76,12 @@ msgstr "id modelu"
 msgid "issue"
 msgstr "předmět k řešení"
 
-#: IDF/IssueComment.php:58
-#: IDF/IssueFile.php:49
-#: IDF/Review/FileComment.php:49
-#: IDF/Review/FileComment.php:69
-#: IDF/Review/Comment.php:62
+#: IDF/IssueComment.php:58 IDF/IssueFile.php:49 IDF/Review/FileComment.php:49
+#: IDF/Review/FileComment.php:69 IDF/Review/Comment.php:62
 msgid "comment"
 msgstr "komentář"
 
-#: IDF/IssueComment.php:72
-#: IDF/Upload.php:63
-#: IDF/WikiRevision.php:85
+#: IDF/IssueComment.php:72 IDF/Upload.php:63 IDF/WikiRevision.php:85
 #: IDF/Review/Comment.php:75
 msgid "changes"
 msgstr "změny"
@@ -123,8 +90,7 @@ msgstr "změny"
 msgid "Serialized array of the changes in the issue."
 msgstr "Serializované pole změn předmětů k řešení."
 
-#: IDF/IssueComment.php:143
-#: IDF/Issue.php:194
+#: IDF/IssueComment.php:143 IDF/Issue.php:194
 #, php-format
 msgid "<a href=\"%1$s\" class=\"%2$s\" title=\"View issue\">Issue %3$d</a>, %4$s"
 msgstr "<a href=\"%1$s\" class=\"%2$s\" title=\"Zobrazit předmět k řešení\">předmět k řešení %3$d</a>, %4$s"
@@ -163,8 +129,7 @@ msgstr "Status:"
 msgid "Owner:"
 msgstr "Vlastník:"
 
-#: IDF/IssueComment.php:157
-#: IDF/WikiRevision.php:175
+#: IDF/IssueComment.php:157 IDF/WikiRevision.php:175
 #: IDF/gettexttemplates/idf/issues/issue-created-email.txt.php:9
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:10
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:15
@@ -194,7 +159,7 @@ msgstr "Komentář k <a href=\"%s\" class=\"%s\">předmětu k řešení&nbsp;č.
 #: IDF/IssueComment.php:182
 #, php-format
 msgid "%s: Comment on issue %d - %s"
-msgstr ""
+msgstr "%s: komentář k předmětu %d - %s"
 
 #: IDF/IssueFile.php:64
 msgid "file name"
@@ -220,11 +185,8 @@ msgstr "obrázek"
 msgid "Other"
 msgstr "Ostatní"
 
-#: IDF/IssueFile.php:102
-#: IDF/Issue.php:111
-#: IDF/Review.php:114
-#: IDF/Upload.php:112
-#: IDF/WikiPage.php:106
+#: IDF/IssueFile.php:102 IDF/Issue.php:111 IDF/Review.php:114
+#: IDF/Upload.php:112 IDF/WikiPage.php:106
 msgid "modification date"
 msgstr "datum změny"
 
@@ -232,36 +194,31 @@ msgstr "datum změny"
 msgid "owner"
 msgstr "vlastník"
 
-#: IDF/Issue.php:84
-#: IDF/WikiPage.php:86
+#: IDF/Issue.php:84 IDF/WikiPage.php:86
 msgid "interested users"
 msgstr "zainteresovaní uživatelé"
 
 #: IDF/Issue.php:85
 msgid "Interested users will get an email notification when the issue is changed."
-msgstr ""
+msgstr "Zainteresovaní čtenáři dostanou e-mail, pokud se problematika změní."
 
-#: IDF/Issue.php:92
-#: IDF/Review.php:95
-#: IDF/Upload.php:93
-#: IDF/WikiPage.php:94
+#: IDF/Issue.php:92 IDF/Review.php:95 IDF/Upload.php:93 IDF/WikiPage.php:94
 msgid "labels"
 msgstr "nálepky"
 
-#: IDF/Issue.php:99
-#: IDF/Review.php:102
+#: IDF/Issue.php:99 IDF/Review.php:102
 msgid "status"
 msgstr "status"
 
 #: IDF/Issue.php:196
 #, php-format
 msgid "Creation of <a href=\"%s\" class=\"%s\">issue&nbsp;%d</a>, by %s"
-msgstr ""
+msgstr "Vytvoření <a href=\"%s\" class=\"%s\">předmět&nbsp;%d</a>, by %s"
 
 #: IDF/Issue.php:206
 #, php-format
 msgid "%s: Issue %d created - %s"
-msgstr ""
+msgstr "%s: Předmět %d vytvořen - %s"
 
 #: IDF/Issue.php:270
 #, php-format
@@ -271,7 +228,7 @@ msgstr "Předmět k řešení %s - %s (%s)"
 #: IDF/Issue.php:316
 #, php-format
 msgid "Updated Issue %s - %s (%s)"
-msgstr ""
+msgstr "Předmět aktualizován %s - %s (%s)"
 
 #: IDF/Key.php:49
 msgid "user"
@@ -281,8 +238,7 @@ msgstr "uživatel"
 msgid "ssh key"
 msgstr "ssh klíč"
 
-#: IDF/Project.php:62
-#: IDF/Tag.php:66
+#: IDF/Project.php:62 IDF/Tag.php:66
 msgid "name"
 msgstr "jméno"
 
@@ -292,7 +248,7 @@ msgstr "krátké jméno"
 
 #: IDF/Project.php:70
 msgid "Used in the url to access the project, must be short with only letters and numbers."
-msgstr ""
+msgstr "Používáné v url k projektu, musí být krátké a obsahovat pouze písmena a čísla."
 
 #: IDF/Project.php:78
 msgid "short description"
@@ -302,14 +258,13 @@ msgstr "krátký popis"
 msgid "A one line description of the project."
 msgstr "Jednořádkový popis projektu."
 
-#: IDF/Project.php:86
-#: IDF/Review/Patch.php:74
+#: IDF/Project.php:86 IDF/Review/Patch.php:74
 msgid "description"
 msgstr "popis"
 
 #: IDF/Project.php:87
 msgid "The description can be extended using the markdown syntax."
-msgstr ""
+msgstr "Popis může být rozšířen pomocí markdown syntaxe."
 
 #: IDF/Project.php:93
 msgid "private"
@@ -355,39 +310,35 @@ msgstr "počet stažení"
 #: IDF/Upload.php:189
 #, php-format
 msgid "<a href=\"%1$s\" title=\"View download\">Download %2$d</a>, %3$s"
-msgstr ""
+msgstr "<a href=\"%1$s\" title=\"Zobrazit soubor\">Stáhnout %2$d</a>, %3$s"
 
 #: IDF/Upload.php:192
 #, php-format
 msgid "Addition of <a href=\"%s\">download&nbsp;%d</a>, by %s"
-msgstr ""
+msgstr "<a href=\"%s\">Soubor&nbsp;%d</a> přidán, kým - %s"
 
 #: IDF/Upload.php:202
 #, php-format
 msgid "%s: Download %d added - %s"
-msgstr ""
+msgstr "%s: Soubor %d přidán - %s"
 
 #: IDF/Upload.php:242
 #, php-format
 msgid "New download - %s (%s)"
 msgstr "Nové stažení - %s (%s)"
 
-#: IDF/Views.php:44
-#: IDF/gettexttemplates/idf/faq.html.php:35
+#: IDF/Views.php:44 IDF/gettexttemplates/idf/faq.html.php:35
 #: IDF/gettexttemplates/idf/faq-api.html.php:4
 #: IDF/gettexttemplates/idf/index.html.php:3
-#: IDF/gettexttemplates/idf/gadmin/base.html.php:9
-#: IDF/Views/Admin.php:57
+#: IDF/gettexttemplates/idf/gadmin/base.html.php:9 IDF/Views/Admin.php:57
 msgid "Projects"
 msgstr "Projekty"
 
-#: IDF/Views.php:86
-#: IDF/gettexttemplates/idf/register/index.html.php:6
+#: IDF/Views.php:86 IDF/gettexttemplates/idf/register/index.html.php:6
 msgid "Create Your Account"
 msgstr "Vytvořte si účet"
 
-#: IDF/Views.php:119
-#: IDF/Views.php:145
+#: IDF/Views.php:119 IDF/Views.php:145
 msgid "Confirm Your Account Creation"
 msgstr "Potvrďte vytvoření Vašeho účtu"
 
@@ -395,9 +346,7 @@ msgstr "Potvrďte vytvoření Vašeho účtu"
 msgid "Welcome! You can now participate in the life of your project of choice."
 msgstr "Vítejte! Nyní se můžete účastnit života projektu dle vašeho výběru."
 
-#: IDF/Views.php:191
-#: IDF/Views.php:215
-#: IDF/Views.php:256
+#: IDF/Views.php:191 IDF/Views.php:215 IDF/Views.php:256
 msgid "Password Recovery"
 msgstr "Obnova hesla"
 
@@ -411,7 +360,7 @@ msgstr "Zde k Vaší pomoci!"
 
 #: IDF/Views.php:293
 msgid "InDefero API (Application Programming Interface)"
-msgstr ""
+msgstr "InDefero API (aplikační programátorský interface)"
 
 #: IDF/WikiPage.php:62
 msgid "title"
@@ -419,27 +368,26 @@ msgstr "nadpis"
 
 #: IDF/WikiPage.php:63
 msgid "The title of the page must only contain letters, digits or the dash character. For example: My-new-Wiki-Page."
-msgstr ""
+msgstr "Nadpis musí obsahovat pouze písmena, čísla nebo pomlčku. Např. Moje-nova-WiKi-Stranka."
 
 #: IDF/WikiPage.php:71
 msgid "A one line description of the page content."
-msgstr ""
+msgstr "Jednořádkový popis obsahu stránky."
 
-#: IDF/WikiPage.php:196
-#: IDF/WikiRevision.php:167
+#: IDF/WikiPage.php:196 IDF/WikiRevision.php:167
 #, php-format
 msgid "<a href=\"%1$s\" title=\"View page\">%2$s</a>, %3$s"
-msgstr ""
+msgstr "<a href=\"%1$s\" title=\"Zobrazit stránku\">%2$s</a>, %3$s"
 
 #: IDF/WikiPage.php:198
 #, php-format
 msgid "Creation of <a href=\"%s\">page&nbsp;%s</a>, by %s"
-msgstr ""
+msgstr "<a href=\"%s\">Stránka&nbsp;%s</a>, vytvořena %s"
 
 #: IDF/WikiPage.php:208
 #, php-format
 msgid "%s: Documentation page %s added - %s"
-msgstr ""
+msgstr "%s: Stránka dokumentace %s přidána - %s"
 
 #: IDF/WikiRevision.php:48
 msgid "page"
@@ -456,22 +404,22 @@ msgstr "obsah"
 #: IDF/WikiRevision.php:189
 #, php-format
 msgid "Change of <a href=\"%s\">%s</a>, by %s"
-msgstr ""
+msgstr "Změněno <a href=\"%s\">%s</a>, kým %s"
 
 #: IDF/WikiRevision.php:208
 #, php-format
 msgid "%s: Documentation page %s updated - %s"
-msgstr ""
+msgstr "%s: Dokumentační stránka %s aktualizována - %s"
 
 #: IDF/WikiRevision.php:262
 #, php-format
 msgid "New Documentation Page %s - %s (%s)"
-msgstr ""
+msgstr "Nová dokumentační stránka %s - %s (%s)"
 
 #: IDF/WikiRevision.php:268
 #, php-format
 msgid "Documentation Page Changed %s - %s (%s)"
-msgstr ""
+msgstr "Dokumentační stránka změněna %s - %s (%s)"
 
 #: IDF/gettexttemplates/idf/project/timeline.html.php:3
 msgid "Latest updates"
@@ -534,8 +482,7 @@ msgstr ""
 msgid "No, I am a new here."
 msgstr ""
 
-#: IDF/gettexttemplates/idf/login_form.html.php:7
-#: IDF/Views/Admin.php:322
+#: IDF/gettexttemplates/idf/login_form.html.php:7 IDF/Views/Admin.php:322
 msgid "Yes"
 msgstr ""
 
@@ -994,8 +941,7 @@ msgstr ""
 
 #: IDF/gettexttemplates/idf/review/base.html.php:4
 #: IDF/gettexttemplates/idf/review/index.html.php:3
-#: IDF/gettexttemplates/idf/review/create.html.php:11
-#: IDF/Views/Review.php:83
+#: IDF/gettexttemplates/idf/review/create.html.php:11 IDF/Views/Review.php:83
 msgid "Start Code Review"
 msgstr ""
 
@@ -1290,8 +1236,7 @@ msgstr ""
 
 #: IDF/gettexttemplates/idf/base.html.php:8
 #: IDF/gettexttemplates/idf/base-simple.html.php:7
-#: IDF/gettexttemplates/idf/gadmin/base.html.php:6
-#: IDF/Views/Admin.php:42
+#: IDF/gettexttemplates/idf/gadmin/base.html.php:6 IDF/Views/Admin.php:42
 msgid "Forge Management"
 msgstr ""
 
@@ -1319,8 +1264,7 @@ msgstr ""
 
 #: IDF/gettexttemplates/idf/base.html.php:13
 #: IDF/gettexttemplates/idf/admin/base.html.php:5
-#: IDF/gettexttemplates/idf/base-full.html.php:12
-#: IDF/Form/TabsConf.php:40
+#: IDF/gettexttemplates/idf/base-full.html.php:12 IDF/Form/TabsConf.php:40
 msgid "Documentation"
 msgstr ""
 
@@ -1333,14 +1277,12 @@ msgstr ""
 
 #: IDF/gettexttemplates/idf/base.html.php:15
 #: IDF/gettexttemplates/idf/admin/base.html.php:7
-#: IDF/gettexttemplates/idf/base-full.html.php:14
-#: IDF/Form/TabsConf.php:41
+#: IDF/gettexttemplates/idf/base-full.html.php:14 IDF/Form/TabsConf.php:41
 msgid "Source"
 msgstr ""
 
 #: IDF/gettexttemplates/idf/base.html.php:16
-#: IDF/gettexttemplates/idf/base-full.html.php:15
-#: IDF/Form/TabsConf.php:39
+#: IDF/gettexttemplates/idf/base-full.html.php:15 IDF/Form/TabsConf.php:39
 msgid "Code Review"
 msgstr ""
 
@@ -1439,10 +1381,8 @@ msgstr ""
 
 #: IDF/gettexttemplates/idf/source/mercurial/tree.html.php:6
 #: IDF/gettexttemplates/idf/source/svn/tree.html.php:6
-#: IDF/gettexttemplates/idf/source/git/tree.html.php:6
-#: IDF/Form/Upload.php:59
-#: IDF/Views/Download.php:64
-#: IDF/Views/Download.php:271
+#: IDF/gettexttemplates/idf/source/git/tree.html.php:6 IDF/Form/Upload.php:59
+#: IDF/Views/Download.php:64 IDF/Views/Download.php:271
 msgid "File"
 msgstr ""
 
@@ -1464,8 +1404,7 @@ msgstr ""
 #: IDF/gettexttemplates/idf/source/mercurial/tree.html.php:9
 #: IDF/gettexttemplates/idf/source/svn/tree.html.php:10
 #: IDF/gettexttemplates/idf/source/git/tree.html.php:9
-#: IDF/Views/Download.php:66
-#: IDF/Views/Download.php:273
+#: IDF/Views/Download.php:66 IDF/Views/Download.php:273
 msgid "Size"
 msgstr ""
 
@@ -1824,8 +1763,7 @@ msgstr ""
 
 #: IDF/gettexttemplates/idf/wiki/base.html.php:4
 #: IDF/gettexttemplates/idf/wiki/index.html.php:4
-#: IDF/gettexttemplates/idf/wiki/search.html.php:3
-#: IDF/Views/Wiki.php:177
+#: IDF/gettexttemplates/idf/wiki/search.html.php:3 IDF/Views/Wiki.php:177
 msgid "New Page"
 msgstr ""
 
@@ -2063,8 +2001,7 @@ msgstr ""
 msgid "Create Project"
 msgstr ""
 
-#: IDF/gettexttemplates/idf/index.html.php:6
-#: IDF/Form/TabsConf.php:76
+#: IDF/gettexttemplates/idf/index.html.php:6 IDF/Form/TabsConf.php:76
 #: IDF/Form/Admin/ProjectCreate.php:54
 msgid "Private project"
 msgstr ""
@@ -2341,13 +2278,11 @@ msgstr ""
 msgid "commit"
 msgstr ""
 
-#: IDF/Review/Patch.php:80
-#: IDF/Review/Comment.php:55
+#: IDF/Review/Patch.php:80 IDF/Review/Comment.php:55
 msgid "patch"
 msgstr ""
 
-#: IDF/Review/Patch.php:151
-#: IDF/Review/Comment.php:139
+#: IDF/Review/Patch.php:151 IDF/Review/Comment.php:139
 #, php-format
 msgid "<a href=\"%1$s\" class=\"%2$s\" title=\"View review\">Review %3$d</a>, %4$s"
 msgstr ""
@@ -2391,20 +2326,17 @@ msgstr ""
 msgid "Invalid value for the parameter %1$s: %2$s. Use %3$s."
 msgstr ""
 
-#: IDF/Scm/Git.php:223
-#: IDF/Scm/Mercurial.php:135
+#: IDF/Scm/Git.php:223 IDF/Scm/Mercurial.php:135
 #, php-format
 msgid "Folder %1$s not found in commit %2$s."
 msgstr ""
 
-#: IDF/Scm/Git.php:331
-#: IDF/Scm/Mercurial.php:152
+#: IDF/Scm/Git.php:331 IDF/Scm/Mercurial.php:152
 #, php-format
 msgid "Not a valid tree: %s."
 msgstr ""
 
-#: IDF/Plugin/SyncMercurial.php:78
-#: IDF/Plugin/SyncSvn.php:81
+#: IDF/Plugin/SyncMercurial.php:78 IDF/Plugin/SyncSvn.php:81
 #, php-format
 msgid "The repository %s already exists."
 msgstr ""
@@ -2418,42 +2350,25 @@ msgstr ""
 msgid "Today"
 msgstr ""
 
-#: IDF/Form/Upload.php:40
-#: IDF/Form/ReviewFileComment.php:71
-#: IDF/Form/UpdateUpload.php:42
-#: IDF/Form/IssueUpdate.php:45
-#: IDF/Form/ReviewCreate.php:45
-#: IDF/Form/IssueCreate.php:50
-#: IDF/Views/User.php:83
-#: IDF/Views/Wiki.php:62
-#: IDF/Views/Wiki.php:109
-#: IDF/Views/Wiki.php:150
-#: IDF/Views/Review.php:58
-#: IDF/Views/Download.php:65
-#: IDF/Views/Download.php:272
-#: IDF/Views/Issue.php:62
-#: IDF/Views/Issue.php:139
-#: IDF/Views/Issue.php:226
-#: IDF/Views/Issue.php:382
-#: IDF/Views/Issue.php:441
+#: IDF/Form/Upload.php:40 IDF/Form/ReviewFileComment.php:71
+#: IDF/Form/UpdateUpload.php:42 IDF/Form/IssueUpdate.php:45
+#: IDF/Form/ReviewCreate.php:45 IDF/Form/IssueCreate.php:50
+#: IDF/Views/User.php:83 IDF/Views/Wiki.php:62 IDF/Views/Wiki.php:109
+#: IDF/Views/Wiki.php:150 IDF/Views/Review.php:58 IDF/Views/Download.php:65
+#: IDF/Views/Download.php:272 IDF/Views/Issue.php:62 IDF/Views/Issue.php:139
+#: IDF/Views/Issue.php:226 IDF/Views/Issue.php:382 IDF/Views/Issue.php:441
 msgid "Summary"
 msgstr ""
 
-#: IDF/Form/Upload.php:49
-#: IDF/Form/UpdateUpload.php:51
-#: IDF/Form/ReviewCreate.php:54
-#: IDF/Form/IssueCreate.php:59
-#: IDF/Form/WikiCreate.php:70
-#: IDF/Form/WikiUpdate.php:60
+#: IDF/Form/Upload.php:49 IDF/Form/UpdateUpload.php:51
+#: IDF/Form/ReviewCreate.php:54 IDF/Form/IssueCreate.php:59
+#: IDF/Form/WikiCreate.php:70 IDF/Form/WikiUpdate.php:60
 msgid "Description"
 msgstr ""
 
-#: IDF/Form/Upload.php:70
-#: IDF/Form/UpdateUpload.php:71
-#: IDF/Form/IssueUpdate.php:117
-#: IDF/Form/IssueCreate.php:120
-#: IDF/Form/WikiCreate.php:93
-#: IDF/Form/WikiUpdate.php:104
+#: IDF/Form/Upload.php:70 IDF/Form/UpdateUpload.php:71
+#: IDF/Form/IssueUpdate.php:117 IDF/Form/IssueCreate.php:120
+#: IDF/Form/WikiCreate.php:93 IDF/Form/WikiUpdate.php:104
 msgid "Labels"
 msgstr ""
 
@@ -2461,47 +2376,32 @@ msgstr ""
 msgid "For security reason, you cannot upload a file with this extension."
 msgstr ""
 
-#: IDF/Form/Upload.php:119
-#: IDF/Form/UpdateUpload.php:109
+#: IDF/Form/Upload.php:119 IDF/Form/UpdateUpload.php:109
 #: IDF/Form/IssueCreate.php:169
 #, php-format
 msgid "You cannot provide more than label from the %s class to an issue."
 msgstr ""
 
-#: IDF/Form/Upload.php:120
-#: IDF/Form/UpdateUpload.php:110
-#: IDF/Form/IssueCreate.php:163
-#: IDF/Form/IssueCreate.php:170
-#: IDF/Form/WikiCreate.php:151
-#: IDF/Form/WikiUpdate.php:162
+#: IDF/Form/Upload.php:120 IDF/Form/UpdateUpload.php:110
+#: IDF/Form/IssueCreate.php:163 IDF/Form/IssueCreate.php:170
+#: IDF/Form/WikiCreate.php:151 IDF/Form/WikiUpdate.php:162
 msgid "You provided an invalid label."
 msgstr ""
 
-#: IDF/Form/Upload.php:148
-#: IDF/Form/UserChangeEmail.php:80
-#: IDF/Form/ReviewFileComment.php:125
-#: IDF/Form/Password.php:76
-#: IDF/Form/TabsConf.php:97
-#: IDF/Form/UpdateUpload.php:126
-#: IDF/Form/Admin/UserCreate.php:108
-#: IDF/Form/Admin/ProjectUpdate.php:77
-#: IDF/Form/Admin/ProjectCreate.php:215
-#: IDF/Form/Admin/UserUpdate.php:129
-#: IDF/Form/Admin/ProjectDelete.php:78
-#: IDF/Form/WikiDelete.php:59
-#: IDF/Form/UserAccount.php:118
-#: IDF/Form/IssueUpdate.php:232
-#: IDF/Form/ReviewCreate.php:187
-#: IDF/Form/IssueCreate.php:233
-#: IDF/Form/WikiCreate.php:167
-#: IDF/Form/MembersConf.php:64
-#: IDF/Form/WikiUpdate.php:178
-#: IDF/Form/Register.php:114
+#: IDF/Form/Upload.php:148 IDF/Form/UserChangeEmail.php:80
+#: IDF/Form/ReviewFileComment.php:125 IDF/Form/Password.php:76
+#: IDF/Form/TabsConf.php:97 IDF/Form/UpdateUpload.php:126
+#: IDF/Form/Admin/UserCreate.php:108 IDF/Form/Admin/ProjectUpdate.php:77
+#: IDF/Form/Admin/ProjectCreate.php:215 IDF/Form/Admin/UserUpdate.php:129
+#: IDF/Form/Admin/ProjectDelete.php:78 IDF/Form/WikiDelete.php:59
+#: IDF/Form/UserAccount.php:118 IDF/Form/IssueUpdate.php:232
+#: IDF/Form/ReviewCreate.php:187 IDF/Form/IssueCreate.php:233
+#: IDF/Form/WikiCreate.php:167 IDF/Form/MembersConf.php:64
+#: IDF/Form/WikiUpdate.php:178 IDF/Form/Register.php:114
 msgid "Cannot save the model from an invalid form."
 msgstr ""
 
-#: IDF/Form/UserChangeEmail.php:36
-#: IDF/Form/PasswordReset.php:39
+#: IDF/Form/UserChangeEmail.php:36 IDF/Form/PasswordReset.php:39
 #: IDF/Form/PasswordInputKey.php:36
 msgid "Your verification key"
 msgstr ""
@@ -2510,8 +2410,7 @@ msgstr ""
 msgid "The validation key is not valid. Please copy/paste it from your confirmation email."
 msgstr ""
 
-#: IDF/Form/ReviewFileComment.php:45
-#: IDF/Form/IssueUpdate.php:55
+#: IDF/Form/ReviewFileComment.php:45 IDF/Form/IssueUpdate.php:55
 #: IDF/Form/WikiUpdate.php:82
 msgid "Comment"
 msgstr ""
@@ -2520,16 +2419,10 @@ msgstr ""
 msgid "General comment"
 msgstr ""
 
-#: IDF/Form/ReviewFileComment.php:81
-#: IDF/Form/IssueUpdate.php:88
-#: IDF/Form/ReviewCreate.php:103
-#: IDF/Form/IssueCreate.php:92
-#: IDF/Views/User.php:84
-#: IDF/Views/Review.php:59
-#: IDF/Views/Issue.php:63
-#: IDF/Views/Issue.php:140
-#: IDF/Views/Issue.php:227
-#: IDF/Views/Issue.php:383
+#: IDF/Form/ReviewFileComment.php:81 IDF/Form/IssueUpdate.php:88
+#: IDF/Form/ReviewCreate.php:103 IDF/Form/IssueCreate.php:92
+#: IDF/Views/User.php:84 IDF/Views/Review.php:59 IDF/Views/Issue.php:63
+#: IDF/Views/Issue.php:140 IDF/Views/Issue.php:227 IDF/Views/Issue.php:383
 #: IDF/Views/Issue.php:442
 msgid "Status"
 msgstr ""
@@ -2550,8 +2443,7 @@ msgstr ""
 msgid "Provide either your login or your email to recover your password."
 msgstr ""
 
-#: IDF/Form/Password.php:49
-#: IDF/Form/Password.php:64
+#: IDF/Form/Password.php:49 IDF/Form/Password.php:64
 msgid "Sorry, we cannot find a user with this email address or login. Feel free to try again."
 msgstr ""
 
@@ -2559,45 +2451,36 @@ msgstr ""
 msgid "Password Recovery - InDefero"
 msgstr ""
 
-#: IDF/Form/RegisterConfirmation.php:40
-#: IDF/Form/RegisterInputKey.php:36
+#: IDF/Form/RegisterConfirmation.php:40 IDF/Form/RegisterInputKey.php:36
 msgid "Your confirmation key"
 msgstr ""
 
-#: IDF/Form/RegisterConfirmation.php:50
-#: IDF/Form/Admin/UserCreate.php:37
-#: IDF/Form/Admin/UserUpdate.php:36
-#: IDF/Form/UserAccount.php:38
+#: IDF/Form/RegisterConfirmation.php:50 IDF/Form/Admin/UserCreate.php:37
+#: IDF/Form/Admin/UserUpdate.php:36 IDF/Form/UserAccount.php:38
 msgid "First name"
 msgstr ""
 
-#: IDF/Form/RegisterConfirmation.php:59
-#: IDF/Form/Admin/UserCreate.php:46
-#: IDF/Form/Admin/UserUpdate.php:45
-#: IDF/Form/UserAccount.php:47
+#: IDF/Form/RegisterConfirmation.php:59 IDF/Form/Admin/UserCreate.php:46
+#: IDF/Form/Admin/UserUpdate.php:45 IDF/Form/UserAccount.php:47
 msgid "Last name"
 msgstr ""
 
-#: IDF/Form/RegisterConfirmation.php:69
-#: IDF/Form/UserAccount.php:75
+#: IDF/Form/RegisterConfirmation.php:69 IDF/Form/UserAccount.php:75
 #: IDF/Form/PasswordReset.php:45
 msgid "Your password"
 msgstr ""
 
-#: IDF/Form/RegisterConfirmation.php:72
-#: IDF/Form/UserAccount.php:78
+#: IDF/Form/RegisterConfirmation.php:72 IDF/Form/UserAccount.php:78
 #: IDF/Form/PasswordReset.php:48
 msgid "Your password must be hard for other people to find it, but easy for you to remember."
 msgstr ""
 
-#: IDF/Form/RegisterConfirmation.php:80
-#: IDF/Form/UserAccount.php:86
+#: IDF/Form/RegisterConfirmation.php:80 IDF/Form/UserAccount.php:86
 #: IDF/Form/PasswordReset.php:56
 msgid "Confirm your password"
 msgstr ""
 
-#: IDF/Form/RegisterConfirmation.php:99
-#: IDF/Form/RegisterInputKey.php:50
+#: IDF/Form/RegisterConfirmation.php:99 IDF/Form/RegisterInputKey.php:50
 msgid "We are sorry but this confirmation key is not valid. Maybe you should directly copy/paste it from your confirmation email."
 msgstr ""
 
@@ -2605,15 +2488,12 @@ msgstr ""
 msgid "This account has already been confirmed. Maybe should you try to recover your password using the help link."
 msgstr ""
 
-#: IDF/Form/RegisterConfirmation.php:122
-#: IDF/Form/PasswordReset.php:74
+#: IDF/Form/RegisterConfirmation.php:122 IDF/Form/PasswordReset.php:74
 msgid "The two passwords must be the same."
 msgstr ""
 
-#: IDF/Form/RegisterConfirmation.php:137
-#: IDF/Form/RegisterInputKey.php:72
-#: IDF/Form/PasswordReset.php:108
-#: IDF/Form/PasswordInputKey.php:76
+#: IDF/Form/RegisterConfirmation.php:137 IDF/Form/RegisterInputKey.php:72
+#: IDF/Form/PasswordReset.php:108 IDF/Form/PasswordInputKey.php:76
 msgid "Cannot save an invalid form."
 msgstr ""
 
@@ -2625,17 +2505,13 @@ msgstr ""
 msgid "Signed in users"
 msgstr ""
 
-#: IDF/Form/TabsConf.php:52
-#: IDF/Form/Admin/ProjectUpdate.php:56
-#: IDF/Form/Admin/ProjectCreate.php:106
-#: IDF/Form/MembersConf.php:54
+#: IDF/Form/TabsConf.php:52 IDF/Form/Admin/ProjectUpdate.php:56
+#: IDF/Form/Admin/ProjectCreate.php:106 IDF/Form/MembersConf.php:54
 msgid "Project members"
 msgstr ""
 
-#: IDF/Form/TabsConf.php:53
-#: IDF/Form/Admin/ProjectUpdate.php:48
-#: IDF/Form/Admin/ProjectCreate.php:97
-#: IDF/Form/MembersConf.php:46
+#: IDF/Form/TabsConf.php:53 IDF/Form/Admin/ProjectUpdate.php:48
+#: IDF/Form/Admin/ProjectCreate.php:97 IDF/Form/MembersConf.php:46
 msgid "Project owners"
 msgstr ""
 
@@ -2667,13 +2543,11 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: IDF/Form/Admin/UserCreate.php:60
-#: IDF/Form/Register.php:45
+#: IDF/Form/Admin/UserCreate.php:60 IDF/Form/Register.php:45
 msgid "The login must be between 3 and 15 characters long and contains only letters and digits."
 msgstr ""
 
-#: IDF/Form/Admin/UserCreate.php:69
-#: IDF/Form/Admin/UserUpdate.php:55
+#: IDF/Form/Admin/UserCreate.php:69 IDF/Form/Admin/UserUpdate.php:55
 msgid "Email"
 msgstr ""
 
@@ -2681,14 +2555,12 @@ msgstr ""
 msgid "Double check the email address as the password is directly sent to the user."
 msgstr ""
 
-#: IDF/Form/Admin/UserCreate.php:76
-#: IDF/Form/Admin/UserUpdate.php:65
+#: IDF/Form/Admin/UserCreate.php:76 IDF/Form/Admin/UserUpdate.php:65
 #: IDF/Form/UserAccount.php:64
 msgid "Language"
 msgstr ""
 
-#: IDF/Form/Admin/UserCreate.php:87
-#: IDF/Form/UserAccount.php:97
+#: IDF/Form/Admin/UserCreate.php:87 IDF/Form/UserAccount.php:97
 msgid "Add a public SSH key"
 msgstr ""
 
@@ -2700,43 +2572,35 @@ msgstr ""
 msgid "Your details to access your forge."
 msgstr ""
 
-#: IDF/Form/Admin/UserCreate.php:196
-#: IDF/Form/UserAccount.php:270
+#: IDF/Form/Admin/UserCreate.php:196 IDF/Form/UserAccount.php:270
 #, php-format
 msgid "The email \"%s\" is already used."
 msgstr ""
 
-#: IDF/Form/Admin/UserCreate.php:205
-#: IDF/Form/Register.php:72
+#: IDF/Form/Admin/UserCreate.php:205 IDF/Form/Register.php:72
 #, php-format
 msgid "The login \"%s\" can only contain letters and digits."
 msgstr ""
 
-#: IDF/Form/Admin/UserCreate.php:210
-#: IDF/Form/Register.php:77
+#: IDF/Form/Admin/UserCreate.php:210 IDF/Form/Register.php:77
 #, php-format
 msgid "The login \"%s\" is already used, please find another one."
 msgstr ""
 
-#: IDF/Form/Admin/ProjectUpdate.php:42
-#: IDF/Form/Admin/ProjectCreate.php:48
-#: IDF/Views/Admin.php:66
-#: IDF/Views/Admin.php:207
+#: IDF/Form/Admin/ProjectUpdate.php:42 IDF/Form/Admin/ProjectCreate.php:48
+#: IDF/Views/Admin.php:66 IDF/Views/Admin.php:207
 msgid "Name"
 msgstr ""
 
-#: IDF/Form/Admin/ProjectCreate.php:38
-#: IDF/Views/Project.php:519
+#: IDF/Form/Admin/ProjectCreate.php:38 IDF/Views/Project.php:519
 msgid "git"
 msgstr ""
 
-#: IDF/Form/Admin/ProjectCreate.php:39
-#: IDF/Views/Project.php:520
+#: IDF/Form/Admin/ProjectCreate.php:39 IDF/Views/Project.php:520
 msgid "Subversion"
 msgstr ""
 
-#: IDF/Form/Admin/ProjectCreate.php:40
-#: IDF/Views/Project.php:521
+#: IDF/Form/Admin/ProjectCreate.php:40 IDF/Views/Project.php:521
 msgid "mercurial"
 msgstr ""
 
@@ -2756,13 +2620,11 @@ msgstr ""
 msgid "Remote Subversion repository"
 msgstr ""
 
-#: IDF/Form/Admin/ProjectCreate.php:83
-#: IDF/Form/SourceConf.php:40
+#: IDF/Form/Admin/ProjectCreate.php:83 IDF/Form/SourceConf.php:40
 msgid "Repository username"
 msgstr ""
 
-#: IDF/Form/Admin/ProjectCreate.php:90
-#: IDF/Form/SourceConf.php:47
+#: IDF/Form/Admin/ProjectCreate.php:90 IDF/Form/SourceConf.php:47
 msgid "Repository password"
 msgstr ""
 
@@ -2806,8 +2668,7 @@ msgstr ""
 msgid "Confirm password"
 msgstr ""
 
-#: IDF/Form/Admin/UserUpdate.php:99
-#: IDF/Views/Admin.php:208
+#: IDF/Form/Admin/UserUpdate.php:99 IDF/Views/Admin.php:208
 msgid "Staff"
 msgstr ""
 
@@ -2815,8 +2676,7 @@ msgstr ""
 msgid "If you give staff rights to a user, you really need to trust him."
 msgstr ""
 
-#: IDF/Form/Admin/UserUpdate.php:110
-#: IDF/Views/Admin.php:210
+#: IDF/Form/Admin/UserUpdate.php:110 IDF/Views/Admin.php:210
 msgid "Active"
 msgstr ""
 
@@ -2832,8 +2692,7 @@ msgstr ""
 msgid "A user with this email already exists, please provide another email address."
 msgstr ""
 
-#: IDF/Form/Admin/UserUpdate.php:214
-#: IDF/Form/UserAccount.php:285
+#: IDF/Form/Admin/UserUpdate.php:214 IDF/Form/UserAccount.php:285
 msgid "The passwords do not match. Please give them again."
 msgstr ""
 
@@ -2898,24 +2757,20 @@ msgstr ""
 msgid "You already have uploaded this SSH key."
 msgstr ""
 
-#: IDF/Form/IssueUpdate.php:65
-#: IDF/Form/ReviewCreate.php:83
+#: IDF/Form/IssueUpdate.php:65 IDF/Form/ReviewCreate.php:83
 #: IDF/Form/IssueCreate.php:69
 msgid "The \"upload_issue_path\" configuration variable was not set."
 msgstr ""
 
-#: IDF/Form/IssueUpdate.php:75
-#: IDF/Form/IssueCreate.php:79
+#: IDF/Form/IssueUpdate.php:75 IDF/Form/IssueCreate.php:79
 msgid "Attach a file"
 msgstr ""
 
-#: IDF/Form/IssueUpdate.php:98
-#: IDF/Form/IssueCreate.php:101
+#: IDF/Form/IssueUpdate.php:98 IDF/Form/IssueCreate.php:101
 msgid "Owner"
 msgstr ""
 
-#: IDF/Form/IssueUpdate.php:147
-#: IDF/Form/IssueCreate.php:180
+#: IDF/Form/IssueUpdate.php:147 IDF/Form/IssueCreate.php:180
 msgid "You need to provide a description of the issue."
 msgstr ""
 
@@ -2935,8 +2790,7 @@ msgstr ""
 msgid "You provided an invalid commit."
 msgstr ""
 
-#: IDF/Form/ReviewCreate.php:159
-#: IDF/Form/IssueCreate.php:203
+#: IDF/Form/ReviewCreate.php:159 IDF/Form/IssueCreate.php:203
 msgid "You provided an invalid status."
 msgstr ""
 
@@ -2948,13 +2802,11 @@ msgstr ""
 msgid "This account is not active. Please contact the forge administrator to activate it."
 msgstr ""
 
-#: IDF/Form/PasswordReset.php:89
-#: IDF/Form/PasswordInputKey.php:50
+#: IDF/Form/PasswordReset.php:89 IDF/Form/PasswordInputKey.php:50
 msgid "We are sorry but this validation key is not valid. Maybe you should directly copy/paste it from your validation email."
 msgstr ""
 
-#: IDF/Form/PasswordReset.php:100
-#: IDF/Form/PasswordInputKey.php:61
+#: IDF/Form/PasswordReset.php:100 IDF/Form/PasswordInputKey.php:61
 msgid "Sorry, but this verification key has expired, please restart the password recovery sequence. For security reasons, the verification key is only valid 24h."
 msgstr ""
 
@@ -2982,38 +2834,31 @@ msgstr ""
 msgid "PageName"
 msgstr ""
 
-#: IDF/Form/WikiCreate.php:60
-#: IDF/Form/WikiUpdate.php:50
+#: IDF/Form/WikiCreate.php:60 IDF/Form/WikiUpdate.php:50
 msgid "Page title"
 msgstr ""
 
-#: IDF/Form/WikiCreate.php:66
-#: IDF/Form/WikiUpdate.php:56
+#: IDF/Form/WikiCreate.php:66 IDF/Form/WikiUpdate.php:56
 msgid "The page name must contains only letters, digits and the dash (-) character."
 msgstr ""
 
-#: IDF/Form/WikiCreate.php:71
-#: IDF/Form/WikiUpdate.php:61
+#: IDF/Form/WikiCreate.php:71 IDF/Form/WikiUpdate.php:61
 msgid "This one line description is displayed in the list of pages."
 msgstr ""
 
-#: IDF/Form/WikiCreate.php:80
-#: IDF/Form/WikiUpdate.php:72
+#: IDF/Form/WikiCreate.php:80 IDF/Form/WikiUpdate.php:72
 msgid "Content"
 msgstr ""
 
-#: IDF/Form/WikiCreate.php:108
-#: IDF/Form/WikiUpdate.php:119
+#: IDF/Form/WikiCreate.php:108 IDF/Form/WikiUpdate.php:119
 msgid "The title contains invalid characters."
 msgstr ""
 
-#: IDF/Form/WikiCreate.php:114
-#: IDF/Form/WikiUpdate.php:125
+#: IDF/Form/WikiCreate.php:114 IDF/Form/WikiUpdate.php:125
 msgid "A page with this title already exists."
 msgstr ""
 
-#: IDF/Form/WikiCreate.php:150
-#: IDF/Form/WikiUpdate.php:161
+#: IDF/Form/WikiCreate.php:150 IDF/Form/WikiUpdate.php:161
 #, php-format
 msgid "You cannot provide more than label from the %s class to a page."
 msgstr ""
@@ -3102,18 +2947,12 @@ msgstr ""
 msgid "Your Dashboard - Submitted Issues"
 msgstr ""
 
-#: IDF/Views/User.php:75
-#: IDF/Views/Issue.php:51
-#: IDF/Views/Issue.php:130
+#: IDF/Views/User.php:75 IDF/Views/Issue.php:51 IDF/Views/Issue.php:130
 msgid "This table shows the open issues."
 msgstr ""
 
-#: IDF/Views/User.php:81
-#: IDF/Views/Review.php:57
-#: IDF/Views/Issue.php:61
-#: IDF/Views/Issue.php:138
-#: IDF/Views/Issue.php:225
-#: IDF/Views/Issue.php:381
+#: IDF/Views/User.php:81 IDF/Views/Review.php:57 IDF/Views/Issue.php:61
+#: IDF/Views/Issue.php:138 IDF/Views/Issue.php:225 IDF/Views/Issue.php:381
 #: IDF/Views/Issue.php:440
 msgid "Id"
 msgstr ""
@@ -3122,12 +2961,8 @@ msgstr ""
 msgid "Project"
 msgstr ""
 
-#: IDF/Views/User.php:85
-#: IDF/Views/Review.php:60
-#: IDF/Views/Issue.php:64
-#: IDF/Views/Issue.php:141
-#: IDF/Views/Issue.php:228
-#: IDF/Views/Issue.php:384
+#: IDF/Views/User.php:85 IDF/Views/Review.php:60 IDF/Views/Issue.php:64
+#: IDF/Views/Issue.php:141 IDF/Views/Issue.php:228 IDF/Views/Issue.php:384
 #: IDF/Views/Issue.php:443
 msgid "Last Updated"
 msgstr ""
@@ -3170,20 +3005,15 @@ msgstr ""
 msgid "This table shows the documentation pages."
 msgstr ""
 
-#: IDF/Views/Wiki.php:61
-#: IDF/Views/Wiki.php:108
-#: IDF/Views/Wiki.php:149
+#: IDF/Views/Wiki.php:61 IDF/Views/Wiki.php:108 IDF/Views/Wiki.php:149
 msgid "Page Title"
 msgstr ""
 
-#: IDF/Views/Wiki.php:63
-#: IDF/Views/Wiki.php:110
-#: IDF/Views/Wiki.php:151
+#: IDF/Views/Wiki.php:63 IDF/Views/Wiki.php:110 IDF/Views/Wiki.php:151
 msgid "Updated"
 msgstr ""
 
-#: IDF/Views/Wiki.php:67
-#: IDF/Views/Wiki.php:155
+#: IDF/Views/Wiki.php:67 IDF/Views/Wiki.php:155
 msgid "No documentation pages were found."
 msgstr ""
 
@@ -3224,9 +3054,7 @@ msgstr ""
 msgid "Delete Old Revision of %s"
 msgstr ""
 
-#: IDF/Views/Wiki.php:314
-#: IDF/Views/Admin.php:93
-#: IDF/Views/Admin.php:248
+#: IDF/Views/Wiki.php:314 IDF/Views/Admin.php:93 IDF/Views/Admin.php:248
 #, php-format
 msgid "Update %s"
 msgstr ""
@@ -3261,8 +3089,7 @@ msgstr ""
 msgid "No projects were found."
 msgstr ""
 
-#: IDF/Views/Admin.php:101
-#: IDF/Views/Project.php:237
+#: IDF/Views/Admin.php:101 IDF/Views/Project.php:237
 msgid "The project has been updated."
 msgstr ""
 
@@ -3414,9 +3241,7 @@ msgstr ""
 msgid "%1$s %2$s Change Log"
 msgstr ""
 
-#: IDF/Views/Source.php:131
-#: IDF/Views/Source.php:217
-#: IDF/Views/Source.php:352
+#: IDF/Views/Source.php:131 IDF/Views/Source.php:217 IDF/Views/Source.php:352
 #, php-format
 msgid "%1$s %2$s Source Tree"
 msgstr ""
@@ -3468,13 +3293,11 @@ msgstr ""
 msgid "This table shows the files to download."
 msgstr ""
 
-#: IDF/Views/Download.php:67
-#: IDF/Views/Download.php:274
+#: IDF/Views/Download.php:67 IDF/Views/Download.php:274
 msgid "Uploaded"
 msgstr ""
 
-#: IDF/Views/Download.php:71
-#: IDF/Views/Download.php:278
+#: IDF/Views/Download.php:71 IDF/Views/Download.php:278
 msgid "No downloads were found."
 msgstr ""
 
@@ -3517,11 +3340,8 @@ msgstr "Tato tabulka ukazuje soubory ke stažení s nálepkou problémy k řeše
 msgid "%s Open Issues"
 msgstr "%s otevřené problémy k řešení"
 
-#: IDF/Views/Issue.php:68
-#: IDF/Views/Issue.php:145
-#: IDF/Views/Issue.php:232
-#: IDF/Views/Issue.php:388
-#: IDF/Views/Issue.php:447
+#: IDF/Views/Issue.php:68 IDF/Views/Issue.php:145 IDF/Views/Issue.php:232
+#: IDF/Views/Issue.php:388 IDF/Views/Issue.php:447
 msgid "No issues were found."
 msgstr "Nebyly nalezeny žádné problémy k řešení."
 
@@ -3625,4 +3445,3 @@ msgstr "Anonym"
 #: IDF/Template/ShowUser.php:54
 msgid "Me"
 msgstr "Já"
-
