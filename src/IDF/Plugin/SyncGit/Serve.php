@@ -196,6 +196,8 @@ class IDF_Plugin_SyncGit_Serve
         if (!file_exists($fullpath)) {
             mkdir($fullpath, 0750, true);
         }
+        $out = array();
+        $res = 0;
         exec(sprintf(Pluf::f('idf_exec_cmd_prefix', '').
                      Pluf::f('git_path', 'git').' --git-dir=%s init', escapeshellarg($fullpath)), 
              $out, $res);
@@ -214,6 +216,8 @@ class IDF_Plugin_SyncGit_Serve
                                  $fullpath.'/hooks/post-update'));
             return;
         }
+        $out = array();
+        $res = 0;
         exec(sprintf(Pluf::f('idf_exec_cmd_prefix', '').'ln -s %s %s', 
                      escapeshellarg($p), 
                      escapeshellarg($fullpath.'/hooks/post-update')),
