@@ -79,3 +79,12 @@ the following configuration variables:
 * **idf_plugin_syncsvn_access_public ('r')**: Anonymous access.
 * **idf_plugin_syncsvn_access_private ('')**: Anonymous access in the case of a private project.
 
+## svn: Can't open file '/root/.subversion/servers': Permission denied error
+
+If you get the error:
+
+    svn: Can't open file '/root/.subversion/servers': Permission denied
+
+Check the [fix available](http://projects.ceondo.com/p/indefero/issues/458/)
+
+
