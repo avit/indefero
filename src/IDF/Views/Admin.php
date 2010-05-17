@@ -344,25 +344,48 @@ function IDF_Views_Admin_projectSize($field, $project)
  *
  * @return array Associative array with the size of each element
  */
-function IDF_Views_Admin_getForgeSize()
+function IDF_Views_Admin_getForgeSize($force=false)
 {
+    $conf = new IDF_Gconf();
+    $conf->setModel((object) array('_model'=>'IDF_Forge', 'id'=> 1));
     $res = array();
     $res['repositories'] = 0;
     foreach (Pluf::factory('IDF_Project')->getList() as $prj) {
-        $size = $prj->getRepositorySize();
+        $size = $prj->getRepositorySize($force);
         if ($size != -1) {
             $res['repositories'] += $size;
         }
     }
-    $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -sk '
-        .escapeshellarg(Pluf::f('upload_path'));
-    $out = explode(' ', shell_exec($cmd), 2);
-    $res['downloads'] = $out[0]*1024;
-    $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -sk '
-        .escapeshellarg(Pluf::f('upload_issue_path'));
-    $out = explode(' ', shell_exec($cmd), 2);
-    $res['attachments'] = $out[0]*1024;
-    $res['database'] = IDF_Views_Admin_getForgeDbSize();
+    $last_eval = $conf->getVal('downloads_size_check_date', 0);
+    if (!$force and $last_eval > time()-172800) {
+        $res['downloads'] = $conf->getVal('downloads_size', 0);
+    } else {
+        $conf->setVal('downloads_size_check_date', time());
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -sk '
+            .escapeshellarg(Pluf::f('upload_path'));
+        $out = explode(' ', shell_exec($cmd), 2);
+        $res['downloads'] = $out[0]*1024;
+        $conf->setVal('downloads_size', $res['downloads']);
+    }
+    $last_eval = $conf->getVal('attachments_size_check_date', 0);
+    if (!$force and $last_eval > time()-172800) {
+        $res['attachments'] = $conf->getVal('attachments_size', 0);
+    } else {
+        $conf->setVal('attachments_size_check_date', time());
+        $cmd = Pluf::f('idf_exec_cmd_prefix', '').'du -sk '
+            .escapeshellarg(Pluf::f('upload_path'));
+        $out = explode(' ', shell_exec($cmd), 2);
+        $res['attachments'] = $out[0]*1024;
+        $conf->setVal('attachments_size', $res['attachments']);
+    }
+    $last_eval = $conf->getVal('database_size_check_date', 0);
+    if (!$force and $last_eval > time()-172800) {
+        $res['database'] = $conf->getVal('database_size', 0);
+    } else {
+        $conf->setVal('database_size_check_date', time());
+        $res['database'] = IDF_Views_Admin_getForgeDbSize();
+        $conf->setVal('database_size', $res['database']);
+    }
     $res['total'] = $res['repositories'] + $res['downloads'] + $res['attachments'] + $res['database'];
     return $res;
 }
