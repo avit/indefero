@@ -99,6 +99,7 @@ class IDF_Plugin_SyncGit_Cron
         if (count($orphans)) {
             $cmd = Pluf::f('idf_exec_cmd_prefix', '').'rm -rf '.implode(' ', $orphans);
             exec($cmd);
+            clearstatcache();
             while (list(, $project) = each($orphans)) {
                 if (is_dir($project)) {
                     throw new Exception(sprintf('Cannot remove %s directory.', $project));
