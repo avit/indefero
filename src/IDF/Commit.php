@@ -295,12 +295,14 @@ class IDF_Commit extends Pluf_Model
         // plugins may want to do something with this information in
         // an asynchronous way.
         $project = $this->get_project();
+        $scm = $project->getConf()->getVal('scm', 'git');
         $url = str_replace(array('%p', '%r'),
                            array($project->shortname, $this->scm_id),
                            $conf->getVal('webhook_url', ''));
         $payload = array('to_send' => array(
                                             'project' => $project->shortname,
                                             'rev' => $this->scm_id,
+                                            'scm' => $scm,
                                             'summary' => $this->summary,
                                             'fullmessage' => $this->fullmessage,
                                             'author' => $this->origauthor,
