@@ -357,7 +357,8 @@ function IDF_Views_Admin_getForgeSize($force=false)
         }
     }
     $last_eval = $conf->getVal('downloads_size_check_date', 0);
-    if (!$force and $last_eval > time()-172800) {
+    if (Pluf::f('idf_no_size_check', false) or
+              (!$force and $last_eval > time()-172800)) {
         $res['downloads'] = $conf->getVal('downloads_size', 0);
     } else {
         $conf->setVal('downloads_size_check_date', time());
@@ -368,7 +369,8 @@ function IDF_Views_Admin_getForgeSize($force=false)
         $conf->setVal('downloads_size', $res['downloads']);
     }
     $last_eval = $conf->getVal('attachments_size_check_date', 0);
-    if (!$force and $last_eval > time()-172800) {
+    if (Pluf::f('idf_no_size_check', false) or
+        (!$force and $last_eval > time()-172800)) {
         $res['attachments'] = $conf->getVal('attachments_size', 0);
     } else {
         $conf->setVal('attachments_size_check_date', time());
@@ -379,7 +381,8 @@ function IDF_Views_Admin_getForgeSize($force=false)
         $conf->setVal('attachments_size', $res['attachments']);
     }
     $last_eval = $conf->getVal('database_size_check_date', 0);
-    if (!$force and $last_eval > time()-172800) {
+    if (Pluf::f('idf_no_size_check', false) or
+        (!$force and $last_eval > time()-172800)) {
         $res['database'] = $conf->getVal('database_size', 0);
     } else {
         $conf->setVal('database_size_check_date', time());

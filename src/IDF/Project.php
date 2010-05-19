@@ -366,7 +366,8 @@ class IDF_Project extends Pluf_Model
     public function getRepositorySize($force=false)
     {
         $last_eval = $this->getConf()->getVal('repository_size_check_date', 0);
-        if (!$force and $last_eval > time()-172800) {
+        if (Pluf::f('idf_no_size_check', false) or
+            (!$force and $last_eval > time()-172800)) {
             return $this->getConf()->getVal('repository_size', -1);
         }
         $this->getConf()->setVal('repository_size_check_date', time());

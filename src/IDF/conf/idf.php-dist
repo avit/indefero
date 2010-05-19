@@ -235,4 +235,9 @@ $cfg['allowed_scm'] = array('git' => 'IDF_Scm_Git',
 # $cfg['hg_path'] = 'hg';
 # $cfg['git_path'] = 'git'; 
 
+# If you do not want to have calculations of the repositories, attachments
+# and downloads size, set it to true. You can set to false some
+# times to times to check the size.
+# $cfg['idf_no_size_check'] = false;
+
 return $cfg;
