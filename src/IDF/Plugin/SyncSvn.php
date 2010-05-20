@@ -87,6 +87,36 @@ class IDF_Plugin_SyncSvn
                        escapeshellarg($svn_path.'/'.$shortname));
         $cmd = Pluf::f('idf_exec_cmd_prefix', '').$cmd;
         $ll = exec($cmd, $output, $return);
+        if ($return != 0) {
+            Pluf_Log::error(array('IDF_Plugin_SyncSvn::processSvnCreate', 
+                                  'Error', 
+                                  array('path' => $svn_path.'/'.$shortname,
+                                        'output' => $output)));
+            return;
+        }
+        $p = realpath(dirname(__FILE__).'/../../../scripts/svn-post-commit');
+        exec(sprintf(Pluf::f('idf_exec_cmd_prefix', '').'ln -s %s %s', 
+                     escapeshellarg($p), 
+                     escapeshellarg($svn_path.'/'.$shortname.'/hooks/post-commit')),
+             $out, $res);
+        if ($res != 0) {
+            Pluf_Log::warn(array('IDF_Plugin_SyncSvn::processSvnCreate', 
+                                 'post-commit hook creation error.', 
+                                 $svn_path.'/'.$shortname.'/hooks/post-commit'));
+            return;
+        }
+        $p = realpath(dirname(__FILE__).'/../../../scripts/svn-post-revprop-change');
+        exec(sprintf(Pluf::f('idf_exec_cmd_prefix', '').'ln -s %s %s', 
+                     escapeshellarg($p), 
+                     escapeshellarg($svn_path.'/'.$shortname.'/hooks/post-revprop-change')),
+             $out, $res);
+        if ($res != 0) {
+            Pluf_Log::warn(array('IDF_Plugin_SyncSvn::processSvnCreate', 
+                                 'post-revprop-change hook creation error.', 
+                                 $svn_path.'/'.$shortname.'/hooks/post-revprop-change'));
+            return;
+        }
+
         return ($return == 0);
     }
 
