@@ -629,7 +629,7 @@ class IDF_Project extends Pluf_Model
         Pluf_Signal::send('IDF_Project::preDelete',
                           'IDF_Project', $params);
         $what = array('IDF_Upload', 'IDF_Review', 'IDF_Issue',
-                      'IDF_WikiPage', 'IDF_Commit',
+                      'IDF_WikiPage', 'IDF_Commit', 'IDF_Tag',
                       );
         foreach ($what as $m) {
             foreach (Pluf::factory($m)->getList(array('filter' => 'project='.(int)$this->id)) as $item) {
