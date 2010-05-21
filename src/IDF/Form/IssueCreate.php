@@ -276,6 +276,7 @@ class IDF_Form_IssueCreate extends Pluf_Form
         $comment->create();
         // If we have a file, create the IDF_IssueFile and attach
         // it to the comment.
+        $created_files = array();
         for ($i=1;$i<4;$i++) {
             if ($this->cleaned_data['attachment'.$i]) {
                 $file = new IDF_IssueFile();
@@ -283,8 +284,36 @@ class IDF_Form_IssueCreate extends Pluf_Form
                 $file->submitter = $this->user;
                 $file->comment = $comment;
                 $file->create();
+                $created_files[] = $file;
             }
         }
+        /**
+         * [signal]
+         *
+         * IDF_Issue::create
+         *
+         * [sender]
+         *
+         * IDF_Form_IssueCreate
+         *
+         * [description]
+         *
+         * This signal allows an application to perform a set of tasks
+         * just after the creation of an issue. The comment contains
+         * the description of the issue.
+         *
+         * [parameters]
+         *
+         * array('issue' => $issue,
+         *       'comment' => $comment,
+         *       'files' => $attached_files);
+         *
+         */
+        $params = array('issue' => $issue,
+                        'comment' => $comment,
+                        'files' => $created_files);
+        Pluf_Signal::send('IDF_Issue::create', 'IDF_Form_IssueCreate',
+                          $params);
         return $issue;
     }
 

@@ -176,6 +176,28 @@ class IDF_Form_Upload extends Pluf_Form
         }
         // Send the notification
         $upload->notify($this->project->getConf());
+        /**
+         * [signal]
+         *
+         * IDF_Upload::create
+         *
+         * [sender]
+         *
+         * IDF_Form_Upload
+         *
+         * [description]
+         *
+         * This signal allows an application to perform a set of tasks
+         * just after the upload of a file and after the notification run.
+         *
+         * [parameters]
+         *
+         * array('upload' => $upload);
+         *
+         */
+        $params = array('upload' => $upload);
+        Pluf_Signal::send('IDF_Upload::create', 'IDF_Form_Upload',
+                          $params);
         return $upload;
     }
 }

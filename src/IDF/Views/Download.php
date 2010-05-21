@@ -152,6 +152,29 @@ class IDF_Views_Download
         if ($request->method == 'POST') {
             $fname = $upload->file;
             @unlink(Pluf::f('upload_path').'/'.$prj->shortname.'/files/'.$fname);
+            /**
+             * [signal]
+             *
+             * IDF_Upload::delete
+             *
+             * [sender]
+             *
+             * IDF_Form_UpdateUpload
+             *
+             * [description]
+             *
+             * This signal allows an application to perform a set of tasks
+             * just before the deletion of the corresponding object in the 
+             * database but just after the deletion from the storage.
+             *
+             * [parameters]
+             *
+             * array('upload' => $upload);
+             *
+             */
+            $params = array('upload' => $upload);
+            Pluf_Signal::send('IDF_Upload::delete', 
+                              'IDF_Views_Download', $params);
             $upload->delete();
             $request->user->setMessage(__('The file has been deleted.'));
             $url = Pluf_HTTP_URL_urlForView('IDF_Views_Download::index', 

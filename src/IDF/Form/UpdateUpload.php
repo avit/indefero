@@ -146,6 +146,28 @@ class IDF_Form_UpdateUpload extends Pluf_Form
         $this->upload->modif_dtime = gmdate('Y-m-d H:i:s');
         $this->upload->update();
         $this->upload->batchAssoc('IDF_Tag', $tags);
+        /**
+         * [signal]
+         *
+         * IDF_Upload::update
+         *
+         * [sender]
+         *
+         * IDF_Form_UpdateUpload
+         *
+         * [description]
+         *
+         * This signal allows an application to perform a set of tasks
+         * just after the update of an uploaded file.
+         *
+         * [parameters]
+         *
+         * array('upload' => $upload);
+         *
+         */
+        $params = array('upload' => $this->upload);
+        Pluf_Signal::send('IDF_Upload::update', 
+                          'IDF_Form_UpdateUpload', $params);
         return $this->upload;
     }
 }

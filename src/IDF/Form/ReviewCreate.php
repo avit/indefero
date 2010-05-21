@@ -205,6 +205,30 @@ class IDF_Form_ReviewCreate extends Pluf_Form
         $patch->patch = $this->cleaned_data['patch'];
         $patch->create();
         $patch->notify($this->project->getConf());
+        /**
+         * [signal]
+         *
+         * IDF_Review::create
+         *
+         * [sender]
+         *
+         * IDF_Form_ReviewCreate
+         *
+         * [description]
+         *
+         * This signal allows an application to perform a set of tasks
+         * just after the creation of a review and the notification.
+         *
+         * [parameters]
+         *
+         * array('review' => $review,
+         *       'patch' => $patch);
+         *
+         */
+        $params = array('review' => $review,
+                        'patch' => $patch);
+        Pluf_Signal::send('IDF_Review::create', 'IDF_Form_ReviewCreate',
+                          $params);
         return $review;
     }
 

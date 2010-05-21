@@ -305,6 +305,7 @@ class IDF_Form_IssueUpdate  extends IDF_Form_IssueCreate
             $this->issue->submitter != $this->user->id) {
             $this->issue->setAssoc($this->user); // interested user.
         }
+        $attached_files = array();
         for ($i=1;$i<4;$i++) {
             if ($this->cleaned_data['attachment'.$i]) {
                 $file = new IDF_IssueFile();
@@ -312,8 +313,36 @@ class IDF_Form_IssueUpdate  extends IDF_Form_IssueCreate
                 $file->submitter = $this->user;
                 $file->comment = $comment;
                 $file->create();
+                $attached_files[] = $file;
             }
         }
+        /**
+         * [signal]
+         *
+         * IDF_Issue::update
+         *
+         * [sender]
+         *
+         * IDF_Form_IssueUpdate
+         *
+         * [description]
+         *
+         * This signal allows an application to perform a set of tasks
+         * just after the update of an issue.
+         *
+         * [parameters]
+         *
+         * array('issue' => $issue,
+         *       'comment' => $comment,
+         *       'files' => $attached_files);
+         *
+         */
+        $params = array('issue' => $this->issue,
+                        'comment' => $comment,
+                        'files' => $attached_files);
+        Pluf_Signal::send('IDF_Issue::update', 'IDF_Form_IssueUpdate',
+                          $params);
+
         return $this->issue;
     }
 }
