@@ -424,7 +424,7 @@ msgstr "Dokumentační stránka změněna %s - %s (%s)"
 
 #: IDF/gettexttemplates/idf/project/timeline.html.php:3
 msgid "Latest updates"
-msgstr "Poslední aktualizace"
+msgstr "Poslední změny"
 
 #: IDF/gettexttemplates/idf/project/timeline.html.php:4
 #: IDF/gettexttemplates/idf/project/home.html.php:3
@@ -435,7 +435,7 @@ msgstr "Vítejte"
 #: IDF/gettexttemplates/idf/project/timeline.html.php:5
 #: IDF/gettexttemplates/idf/project/home.html.php:4
 msgid "Latest Updates"
-msgstr "Poslední aktualizace"
+msgstr "Poslední změny"
 
 #: IDF/gettexttemplates/idf/project/timeline.html.php:6
 #: IDF/gettexttemplates/idf/project/home.html.php:5
@@ -451,7 +451,7 @@ msgstr "zobrazit více.."
 #: IDF/gettexttemplates/idf/project/timeline.html.php:8
 #: IDF/gettexttemplates/idf/project/home.html.php:9
 msgid "Development Team"
-msgstr "Vývojářský tým"
+msgstr "Vývojářksý team"
 
 #: IDF/gettexttemplates/idf/project/timeline.html.php:9
 #: IDF/gettexttemplates/idf/project/home.html.php:10
@@ -461,7 +461,7 @@ msgstr "Administrátoři"
 #: IDF/gettexttemplates/idf/project/timeline.html.php:10
 #: IDF/gettexttemplates/idf/project/home.html.php:11
 msgid "Happy Crew"
-msgstr "Šťastný tým"
+msgstr "Šťastný team"
 
 #: IDF/gettexttemplates/idf/project/home.html.php:7
 msgid "Featured Documentation"
@@ -481,7 +481,7 @@ msgstr "Máte heslo?"
 
 #: IDF/gettexttemplates/idf/login_form.html.php:6
 msgid "No, I am a new here."
-msgstr "Ne, jsem zde nový."
+msgstr "Ne, jsem tady nový."
 
 #: IDF/gettexttemplates/idf/login_form.html.php:7 IDF/Views/Admin.php:322
 msgid "Yes"
@@ -502,7 +502,7 @@ msgstr "Ztratil jsem heslo!"
 #: IDF/gettexttemplates/idf/issues/attachment.html.php:3
 #, php-format
 msgid "Attachment to issue <a href=\"%%url%%\">%%issue.id%%</a>"
-msgstr "Příloha k předmětu k řešení <a href=\"%%url%%\">%%issue.id%%</a>"
+msgstr "Příloha k předmětu <a href=\"%%url%%\">%%issue.id%%</a>"
 
 #: IDF/gettexttemplates/idf/issues/attachment.html.php:4
 #: IDF/gettexttemplates/idf/issues/view.html.php:7
@@ -527,7 +527,7 @@ msgstr "kým %%submitter%%"
 #: IDF/gettexttemplates/idf/source/git/file.html.php:6
 #: IDF/gettexttemplates/idf/source/commit.html.php:11
 msgid "Archive"
-msgstr "Archiv"
+msgstr "Archív"
 
 #: IDF/gettexttemplates/idf/issues/attachment.html.php:6
 #: IDF/gettexttemplates/idf/source/mercurial/file.html.php:7
@@ -549,7 +549,7 @@ msgstr "Vytvořeno:"
 msgid ""
 "A new issue has been created and assigned\n"
 "to you:"
-msgstr "Nová věc k řešení byla vytvořena a přiřazena vám:"
+msgstr "Nový předmět k řešení byl vytvořen a vám přiřazen:"
 
 #: IDF/gettexttemplates/idf/issues/issue-created-email.txt.php:5
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:5
@@ -560,7 +560,7 @@ msgstr "Nová věc k řešení byla vytvořena a přiřazena vám:"
 #: IDF/gettexttemplates/idf/wiki/wiki-updated-email.txt.php:4
 #: IDF/gettexttemplates/idf/wiki/wiki-created-email.txt.php:4
 msgid "Hello,"
-msgstr "Zdravíčko,"
+msgstr "Ahoj,"
 
 #: IDF/gettexttemplates/idf/issues/issue-created-email.txt.php:6
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:6
@@ -571,7 +571,7 @@ msgstr "Zdravíčko,"
 #: IDF/gettexttemplates/idf/wiki/wiki-updated-email.txt.php:5
 #: IDF/gettexttemplates/idf/wiki/wiki-created-email.txt.php:5
 msgid "Project:"
-msgstr "Projekt"
+msgstr "Projekt:"
 
 #: IDF/gettexttemplates/idf/issues/issue-created-email.txt.php:8
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:8
@@ -610,13 +610,12 @@ msgstr "Kým %%who%%, %%c.creation_dtime%%:"
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:9
 #: IDF/gettexttemplates/idf/review/review-updated-email.txt.php:12
 #: IDF/gettexttemplates/idf/review/review-created-email.txt.php:8
-#, fuzzy
 msgid "URL:"
 msgstr "URL:"
 
 #: IDF/gettexttemplates/idf/issues/issue-updated-email.txt.php:11
 msgid "Comments (last first):"
-msgstr "Komentáře (poslední jako první):"
+msgstr "Komentář (poslední jako první):"
 
 #: IDF/gettexttemplates/idf/issues/my-issues.html.php:3
 #, php-format
@@ -627,11 +626,11 @@ msgstr[1] "Zobrazit <a href=\"%%submit_closed_url%%\">%%nb_submit_closed%% zavř
 msgstr[2] "Zobrazit <a href=\"%%submit_closed_url%%\">%%nb_submit_closed%% zavřené</a>."
 
 #: IDF/gettexttemplates/idf/issues/my-issues.html.php:4
-#, php-format
+#, php-format, fuzzy
 msgid "See the <a href=\"%%owner_closed_url%%\">%%nb_owner_closed%% closed</a>."
 msgid_plural "See the <a href=\"%%owner_closed_url%%\">%%nb_owner_closed%% closed</a>."
-msgstr[0] "Zobrazit <a href=\"%%owner_closed_url%%\">%%nb_owner_closed%% zavřené</a>."
-msgstr[1] "Zobrazit <a href=\"%%owner_closed_url%%\">%%nb_owner_closed%% zavřené</a>."
+msgstr[0] "See the <a href=\"%%owner_closed_url%%\">%%nb_owner_closed%% closed</a>."
+msgstr[1] "See the <a href=\"%%owner_closed_url%%\">%%nb_owner_closed%% closed</a>."
 msgstr[2] "Zobrazit <a href=\"%%owner_closed_url%%\">%%nb_owner_closed%% zavřené</a>."
 
 #: IDF/gettexttemplates/idf/issues/my-issues.html.php:5
@@ -650,15 +649,15 @@ msgstr "Odeslané předměty k řešení:"
 #: IDF/gettexttemplates/idf/issues/my-issues.html.php:7
 #: IDF/gettexttemplates/idf/user/dashboard.html.php:5
 msgid "Working issues:"
-msgstr "Rozpracované předměty k řešení:"
+msgstr "Rozpracované předmět k řešení:"
 
 #: IDF/gettexttemplates/idf/issues/base.html.php:3
 msgid "Open Issues"
-msgstr "Otevřené předměty k řešení"
+msgstr "Otevřené předmět k řešení"
 
 #: IDF/gettexttemplates/idf/issues/base.html.php:5
 msgid "My Issues"
-msgstr "Moje předměty k řešení:"
+msgstr "Moje předmět k řešení"
 
 #: IDF/gettexttemplates/idf/issues/base.html.php:6
 #: IDF/gettexttemplates/idf/wiki/base.html.php:6
@@ -667,7 +666,7 @@ msgstr "Hledat"
 
 #: IDF/gettexttemplates/idf/issues/base.html.php:7
 msgid "Back to the issue"
-msgstr "Zpátky na předměty k řešení"
+msgstr "Zpátky k předmětu"
 
 #: IDF/gettexttemplates/idf/issues/by-label.html.php:3
 #, php-format
@@ -693,7 +692,7 @@ msgid ""
 "<p><strong>Closed issues:</strong> <a href=\"%%closed_url%%\">%%closed%%</a></p>"
 msgstr ""
 "<p><strong>Otevřené předměty k řešení:</strong> <a href=\"%%open_url%%\">%%open%%</a></p>\n"
-"<p><strong>Uzavřené předměty k řešení:</strong> <a href=\"%%closed_url%%\">%%closed%%</a></p>"
+"<p><strong>Zavřené předměty k řešení:</strong> <a href=\"%%closed_url%%\">%%closed%%</a></p>"
 
 #: IDF/gettexttemplates/idf/issues/create.html.php:3
 msgid ""
@@ -705,17 +704,17 @@ msgid ""
 "<li><strong>Do not provide any password or confidential information!</strong></li>\n"
 "</ul>"
 msgstr ""
-"<p>Když vytváříte předmět k řešení, tak nezapomeňte poskytnout následující informace:</p>\n"
+"<p>Před odesláním předmetu k řešení, nezapomeňte poskytnout následující informace:</p>\n"
 "<ul>\n"
-"<li>Kroky potřebné k reprodukci problému.</li>\n"
-"<li>Verze vašeho softwaru a typ vašeho operačního systému.</li>\n"
-"<li>Jakékoli další informace, které pomohou vývojářmu vyřešit problém.</li>\n"
-"<li><strong>Neposkytujte v žádném případě heslo či jakékoliv jiné citlivé informace!</strong></li>\n"
+"<li>Kroky potřebné pro zopakování problému.</li>\n"
+"<li>Verzi softwaru a typ operačního systému, který používate.</li>\n"
+"<li>Jakákoli informace, která může pomoci vývojářům vyřešit problém.</li>\n"
+"<li><strong>Neposkytujte žádná hesla ani jiné citlivé informace!</strong></li>\n"
 "</ul>"
 
 #: IDF/gettexttemplates/idf/issues/create.html.php:10
 msgid "The form contains some errors. Please correct them to submit the issue."
-msgstr "Formulář obsahuje několik chyb. Prosím opravte jej pro vytvoření předmětu k řešení"
+msgstr "Formulář obsahuje nějaké chyby. Prosím opravte je a poté odešlete předmět k řešení."
 
 #: IDF/gettexttemplates/idf/issues/create.html.php:11
 #: IDF/gettexttemplates/idf/issues/create.html.php:13
@@ -786,11 +785,11 @@ msgstr "Komentář <a href=\"%%url%%\">%%i%%</a> kým %%submitter%%, %%c.creatio
 #: IDF/gettexttemplates/idf/issues/view.html.php:5
 #, php-format
 msgid "<a href=\"%%url%%\">Sign in</a> to reply to this comment."
-msgstr "<a href=\"%%url%%\">Přihlásit se</a> pro reakci na tento komentář."
+msgstr "<a href=\"%%url%%\">Přihlásit se</a> pro odpověď na tento komentář."
 
 #: IDF/gettexttemplates/idf/issues/view.html.php:6
 msgid "This issue is marked as closed, add a comment only if you think this issue is still valid and more work is needed to fully fix it."
-msgstr "Předměty k řešení je označen jako zavřený, přidávejte komentáře pouze pokud si myslíte, že předmět k řešení není ještě vyřešený a potřebuje další práci."
+msgstr "Předmět je nahlášen jako uzavřený, přidejte komentář jen tehdy, pokud si myslíte, že problém nebyl vyřešen a potřebuje další práci k jeho opravě."
 
 #: IDF/gettexttemplates/idf/issues/view.html.php:8
 #, php-format
