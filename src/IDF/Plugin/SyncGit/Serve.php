@@ -116,7 +116,15 @@ class IDF_Plugin_SyncGit_Serve
             self::fatalError('Need SSH_ORIGINAL_COMMAND in environment.');
         }
         $cmd = $env['SSH_ORIGINAL_COMMAND'];
-        chdir(Pluf::f('idf_plugin_syncgit_git_home_dir', '/home/git'));
+        $home = (Pluf::f('idf_plugin_syncgit_git_home_dir', '/home/git'));
+        if (!is_dir($home) || is_link($home)) {
+          throw new Pluf_Exception_Setting_error(sprintf(
+              '%s does not exist! Did you set up your git user? '.
+              'Set "idf_plugin_syncgit_git_home_dir". to git\'s $HOME.',
+              $home)
+          );
+        }
+        chdir($home);
         $serve = new IDF_Plugin_SyncGit_Serve();
         try {
             $new_cmd = $serve->serve($username, $cmd);
